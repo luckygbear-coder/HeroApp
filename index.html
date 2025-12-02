@@ -8,110 +8,171 @@
   <!-- 社群分享用 -->
   <meta property="og:title" content="小勇者之旅大冒險 - Little Hero's Grand Adventure" />
   <meta property="og:description" content="透過剪刀、石頭、布，幫助被壞情緒影響的魔物恢復好心情！" />
-  <!-- 如未來有封面圖，可以改成自己的圖片網址 -->
-  <meta property="og:image" content="https://example.com/hero-cover.png" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="game-wrap">
-    <header class="title-card card">
-      <h1>小勇者之旅大冒險</h1>
-      <p class="subtitle">剪刀、石頭、布！用好心情安撫壞情緒魔物 🌟</p>
+  <div class="app-shell">
+    <!-- 固定頂部 -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div>
+          <h1>小勇者之旅大冒險</h1>
+          <p class="header-sub">剪刀、石頭、布！用好心情安撫壞情緒魔物 🌟</p>
+        </div>
+        <div class="hero-status" id="heroStatusMini">
+          <div class="status-name">目前勇者：<span id="heroMiniName">尚未選擇</span></div>
+          <div class="status-hp">
+            好心情 ❤️：<span id="heroMiniHp">0/6</span>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <!-- 勇者選擇區 -->
-    <section class="card hero-section">
-      <h2>選擇你的勇者</h2>
-      <div class="hero-list">
-        <button class="hero-card" data-hero="warrior">
-          <div class="hero-name">🛡️ 戰士</div>
-          <div class="hero-fist">✊ 天賦拳：石頭</div>
-          <div class="hero-line">「我一定會守護大家！」</div>
-        </button>
+    <!-- 主要內容 -->
+    <main class="game-wrap">
+      <!-- 勇者選擇區 -->
+      <section class="card hero-section" id="heroSection">
+        <h2>選擇你的勇者</h2>
+        <p class="section-tip">先選一位你想扮演的勇者，再前往與魔物對戰。</p>
 
-        <button class="hero-card" data-hero="mage">
-          <div class="hero-name">🔮 法師</div>
-          <div class="hero-fist">✌️ 天賦拳：剪刀</div>
-          <div class="hero-line">「嘿嘿～我有新點子！」</div>
-        </button>
+        <div class="hero-list">
+          <button class="hero-card" data-hero="warrior">
+            <div class="hero-icon">🛡️</div>
+            <div class="hero-text">
+              <div class="hero-name-row">
+                <span class="hero-name">戰士</span>
+                <span class="hero-tag">✊ 石頭</span>
+              </div>
+              <div class="hero-line">「我一定會守護大家！」</div>
+            </div>
+          </button>
 
-        <button class="hero-card" data-hero="priest">
-          <div class="hero-name">💖 牧師</div>
-          <div class="hero-fist">🖐 天賦拳：布</div>
-          <div class="hero-line">「別擔心，我來幫你～」</div>
-        </button>
+          <button class="hero-card" data-hero="mage">
+            <div class="hero-icon">🔮</div>
+            <div class="hero-text">
+              <div class="hero-name-row">
+                <span class="hero-name">法師</span>
+                <span class="hero-tag">✌️ 剪刀</span>
+              </div>
+              <div class="hero-line">「嘿嘿～我有新點子！」</div>
+            </div>
+          </button>
 
-        <button class="hero-card" data-hero="villager">
-          <div class="hero-name">🌾 勇敢的村民</div>
-          <div class="hero-fist">⭐ 任意拳</div>
-          <div class="hero-line">「我雖然平凡，但不放棄！」</div>
-        </button>
-      </div>
-      <p class="hint">點選一位勇者開始冒險～</p>
-      <p class="selected-hero" id="selectedHeroText">目前尚未選擇勇者</p>
-    </section>
+          <button class="hero-card" data-hero="priest">
+            <div class="hero-icon">💖</div>
+            <div class="hero-text">
+              <div class="hero-name-row">
+                <span class="hero-name">牧師</span>
+                <span class="hero-tag">🖐 布</span>
+              </div>
+              <div class="hero-line">「別擔心，我來幫你～」</div>
+            </div>
+          </button>
 
-    <!-- 魔物狀態區 -->
-    <section class="card monster-section">
-      <h2>對戰魔物</h2>
-      <div class="monster-info">
-        <div class="monster-name">魔王：壞情緒之影</div>
-        <p class="monster-desc">
-          他被六種壞情緒纏住了：😡 生氣、😭 難過、😱 害怕、😒 嫉妒、😔 孤單、😖 焦慮。<br />
-          小勇者需要用正面語句與猜拳，一次一次安撫他的心。
-        </p>
-        <div class="hp-row">
-          <span>勇者好心情 ❤️：<span id="heroHpText"></span></span>
-          <span>魔物壞情緒 💜：<span id="monsterHpText"></span></span>
+          <button class="hero-card" data-hero="villager">
+            <div class="hero-icon">🌾</div>
+            <div class="hero-text">
+              <div class="hero-name-row">
+                <span class="hero-name">勇敢的村民</span>
+                <span class="hero-tag">⭐ 任意拳</span>
+              </div>
+              <div class="hero-line">「我雖然平凡，但不放棄！」</div>
+            </div>
+          </button>
         </div>
+
+        <p class="hint">點選一位勇者後，畫面會自動捲動到「魔王戰」區域。</p>
+        <p class="selected-hero" id="selectedHeroText">目前尚未選擇勇者</p>
+      </section>
+
+      <!-- 魔物狀態區 -->
+      <section class="card monster-section" id="battleTop">
+        <div class="card-header-row">
+          <h2>魔王戰 · 壞情緒之影</h2>
+          <button class="ghost-btn" id="restartBtn">重新開始</button>
+        </div>
+
+        <p class="monster-desc">
+          魔王被六種壞情緒纏住了：😡 生氣、😭 難過、😱 害怕、😒 嫉妒、😔 孤單、😖 焦慮。<br />
+          小勇者需要用正面語句與剪刀石頭布，一次一次安撫他的心。
+        </p>
+
+        <div class="hp-row">
+          <div class="hp-box">
+            <div class="hp-title">勇者好心情 ❤️</div>
+            <div class="hp-value" id="heroHpText"></div>
+          </div>
+          <div class="hp-box">
+            <div class="hp-title">魔物壞情緒 💜</div>
+            <div class="hp-value" id="monsterHpText"></div>
+          </div>
+        </div>
+
         <div class="emotion-progress">
           <div class="emotion-bar" id="emotionBar"></div>
         </div>
         <p class="emotion-label" id="emotionLabel">壞情緒還很強烈……</p>
-      </div>
-    </section>
+      </section>
 
-    <!-- 戰鬥操作區 -->
-    <section class="card battle-section">
-      <h2>出拳 & 安撫語句</h2>
-      <p class="hint">先說一句溫暖的話，再出拳對決吧！</p>
+      <!-- 戰鬥操作區 -->
+      <section class="card battle-section">
+        <h2>出拳 & 安撫語句</h2>
+        <p class="hint">
+          每一回合建議先說一句溫暖的話，再出拳對決。說話可以幫助「穩定自己的心情」喔！
+        </p>
 
-      <div class="phrase-row">
-        <select id="phraseSelect">
-          <option value="">（選擇一句安撫語句）</option>
-          <option value="我在這裡陪你，你並不孤單。">
-            ⭐ 我在這裡陪你，你並不孤單。
-          </option>
-          <option value="生氣沒關係，我們一起慢慢說。">
-            💬 生氣沒關係，我們一起慢慢說。
-          </option>
-          <option value="你已經很努力了，可以先休息一下。">
-            🌈 你已經很努力了，可以先休息一下。
-          </option>
-          <option value="謝謝你願意告訴我你的感受。">
-            💖 謝謝你願意告訴我你的感受。
-          </option>
-        </select>
-        <button id="usePhraseBtn">說出口 👄</button>
-      </div>
+        <div class="phrase-row">
+          <select id="phraseSelect">
+            <option value="">（選擇一句安撫語句）</option>
+            <option value="我在這裡陪你，你並不孤單。">
+              ⭐ 我在這裡陪你，你並不孤單。
+            </option>
+            <option value="生氣沒關係，我們一起慢慢說。">
+              💬 生氣沒關係，我們一起慢慢說。
+            </option>
+            <option value="你已經很努力了，可以先休息一下。">
+              🌈 你已經很努力了，可以先休息一下。
+            </option>
+            <option value="謝謝你願意告訴我你的感受。">
+              💖 謝謝你願意告訴我你的感受。
+            </option>
+          </select>
+          <button id="usePhraseBtn">說出口 👄</button>
+        </div>
 
-      <div class="rps-row">
-        <button class="rps-btn" data-move="rock">✊ 石頭</button>
-        <button class="rps-btn" data-move="scissors">✌️ 剪刀</button>
-        <button class="rps-btn" data-move="paper">🖐 布</button>
-      </div>
+        <div class="rps-row">
+          <button class="rps-btn" data-move="rock">✊ 石頭</button>
+          <button class="rps-btn" data-move="scissors">✌️ 剪刀</button>
+          <button class="rps-btn" data-move="paper">🖐 布</button>
+        </div>
 
-      <p class="round-result" id="roundResult">請先選勇者，再說一句話，然後出拳。</p>
-    </section>
+        <p class="round-result" id="roundResult">
+          步驟：① 選擇勇者 → ② 說一句話 → ③ 出拳！
+        </p>
+      </section>
 
-    <!-- 對話 & 紀錄區 -->
-    <section class="card log-section">
-      <h2>戰鬥對話</h2>
-      <div class="dialog-box" id="dialogBox">
-        <p>🐻 村長熊熊：歡迎來到星星王國！選一位勇者，去安撫被壞情緒影響的魔物吧～</p>
-      </div>
-    </section>
+      <!-- 對話 & 紀錄區 -->
+      <section class="card log-section">
+        <h2>戰鬥對話紀錄</h2>
+        <div class="dialog-box" id="dialogBox">
+          <p>🐻 村長熊熊：歡迎來到星星王國！選一位勇者，一起安撫壞情緒魔王吧～</p>
+        </div>
+      </section>
+
+      <!-- 說明區（給家長 & 大人） -->
+      <section class="card about-section">
+        <h2>給家長的小提醒</h2>
+        <p class="about-text">
+          這個小遊戲練習孩子三件事：
+        </p>
+        <ul class="about-list">
+          <li>用「語句」表達感受與關心，而不是只用拳頭戰鬥。</li>
+          <li>理解壞情緒（生氣、害怕、孤單…）是可以被看見、被安撫的。</li>
+          <li>當自己好心情用完時，可以先休息、換人幫忙，不是失敗，而是自我照顧。</li>
+        </ul>
+      </section>
+    </main>
 
     <footer class="footer">
       <p>設計：村長熊熊 ｜ 小勇者之旅大冒險 · Demo 版</p>
