@@ -1,0 +1,281 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(#ffeec9, #ffe3ff);
+  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+  color: #4b3b2a;
+}
+
+.game-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* 卡片通用樣式 */
+.card {
+  background: #fff7e6;
+  border-radius: 18px;
+  border: 2px solid #e1b676;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+/* 標題區 */
+.title-card {
+  text-align: center;
+  background: radial-gradient(circle at top, #fffbe8, #ffe6c4);
+}
+
+.title-card h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #a06b2b;
+}
+
+/* 區塊標題 */
+h2 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #ffe4b5;
+  border: 1px solid #f0b869;
+}
+
+/* 勇者卡片 */
+.hero-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.hero-card {
+  border-radius: 14px;
+  border: 2px solid #e1b676;
+  background: #fffdf7;
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+}
+
+.hero-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.hero-card.active {
+  border-color: #ff9d3c;
+  box-shadow: 0 0 0 2px rgba(255, 157, 60, 0.4);
+  background: #fff3da;
+}
+
+.hero-name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.hero-fist {
+  font-size: 0.85rem;
+  color: #a06b2b;
+}
+
+.hero-line {
+  font-size: 0.8rem;
+  color: #6a5237;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #8b6e3c;
+  margin-top: 10px;
+}
+
+.selected-hero {
+  font-size: 0.9rem;
+  margin-top: 4px;
+  font-weight: 600;
+  color: #5a3b1a;
+}
+
+/* 魔物區 */
+.monster-info {
+  font-size: 0.9rem;
+}
+
+.monster-name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.monster-desc {
+  margin-top: 2px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.hp-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+/* 壞情緒進度條 */
+.emotion-progress {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: #ffe9f4;
+  overflow: hidden;
+  border: 1px solid #f3b4d0;
+  margin-bottom: 6px;
+}
+
+.emotion-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #d63f8d, #ff8e8e);
+  transition: width 0.25s ease;
+}
+
+.emotion-label {
+  font-size: 0.85rem;
+  color: #a03a63;
+}
+
+/* 戰鬥操作區 */
+.battle-section .hint {
+  margin-bottom: 8px;
+}
+
+/* 語句選擇 */
+.phrase-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+#phraseSelect {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid #e1b676;
+  font-size: 0.85rem;
+  background: #fffdf8;
+}
+
+#usePhraseBtn {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.85rem;
+  background: #ffb954;
+  color: #4b2d12;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+#usePhraseBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 猜拳按鈕 */
+.rps-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.rps-btn {
+  flex: 1;
+  border-radius: 999px;
+  border: none;
+  padding: 8px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #ffd78f;
+  color: #4b2d12;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.rps-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 回合結果 */
+.round-result {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6a3a1c;
+}
+
+/* 對話區 */
+.log-section {
+  max-height: 260px;
+}
+
+.dialog-box {
+  background: #fffdf8;
+  border-radius: 12px;
+  border: 1px dashed #e1b676;
+  padding: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+}
+
+.dialog-box p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+/* 頁尾 */
+.footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #8c6a40;
+  margin: 10px 0 20px;
+}
+
+/* 手機優化 */
+@media (max-width: 360px) {
+  .hero-list {
+    grid-template-columns: 1fr;
+  }
+
+  .hp-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .phrase-row {
+    flex-direction: column;
+  }
+
+  #usePhraseBtn {
+    width: 100%;
+    text-align: center;
+  }
+}
