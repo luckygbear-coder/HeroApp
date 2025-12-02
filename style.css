@@ -11,69 +11,10 @@ body {
   color: #4b3b2a;
 }
 
-/* 整體外殼 */
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 固定頂部 */
-.app-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(255, 240, 215, 0.95);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(225, 182, 118, 0.3);
-}
-
-.header-inner {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 10px 16px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.app-header h1 {
-  margin: 0;
-  font-size: 1.3rem;
-  letter-spacing: 2px;
-}
-
-.header-sub {
-  margin: 2px 0 0;
-  font-size: 0.8rem;
-  color: #a06b2b;
-}
-
-/* 頂部勇者狀態 */
-.hero-status {
-  font-size: 0.7rem;
-  text-align: right;
-  padding: 6px 10px;
-  border-radius: 12px;
-  background: #fff7e6;
-  border: 1px solid #f1c07a;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-}
-
-.hero-status .status-name {
-  font-weight: 600;
-}
-
-.hero-status .status-hp {
-  margin-top: 2px;
-}
-
-/* 主要內容 */
 .game-wrap {
   max-width: 480px;
   margin: 0 auto;
-  padding: 14px 16px 80px;
+  padding: 16px;
 }
 
 /* 卡片通用樣式 */
@@ -86,9 +27,28 @@ body {
   margin-bottom: 16px;
 }
 
+/* 標題區 */
+.title-card {
+  text-align: center;
+  background: radial-gradient(circle at top, #fffbe8, #ffe6c4);
+}
+
+.title-card h1 {
+  margin: 0;
+  font-size: 1.7rem;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #a06b2b;
+}
+
+/* 區塊標題 */
 h2 {
-  margin: 0 0 8px;
-  font-size: 1.1rem;
+  margin: 0 0 10px;
+  font-size: 1.15rem;
   display: inline-block;
   padding: 4px 10px;
   border-radius: 999px;
@@ -96,13 +56,13 @@ h2 {
   border: 1px solid #f0b869;
 }
 
-.section-tip {
-  margin: 2px 0 10px;
-  font-size: 0.8rem;
-  color: #8b6e3c;
+/* 故事文字 */
+.story-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
-/* 勇者列表 */
+/* 勇者卡片 */
 .hero-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -111,10 +71,7 @@ h2 {
 }
 
 .hero-card {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 2px solid #e1b676;
   background: #fffdf7;
   padding: 8px;
@@ -135,41 +92,23 @@ h2 {
   background: #fff3da;
 }
 
-.hero-icon {
-  font-size: 1.4rem;
-}
-
-.hero-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.hero-name-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 4px;
-  font-size: 0.9rem;
-}
-
 .hero-name {
   font-weight: 700;
+  margin-bottom: 4px;
 }
 
-.hero-tag {
-  padding: 2px 6px;
-  border-radius: 999px;
-  background: #ffe9c1;
-  font-size: 0.75rem;
+.hero-fist {
+  font-size: 0.85rem;
+  color: #a06b2b;
 }
 
 .hero-line {
-  margin-top: 2px;
   font-size: 0.8rem;
   color: #6a5237;
 }
 
 .hint {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: #8b6e3c;
   margin-top: 10px;
 }
@@ -181,62 +120,42 @@ h2 {
   color: #5a3b1a;
 }
 
-/* 魔物區 */
-.card-header-row {
+/* 狀態列 */
+.status-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  color: #7b5830;
 }
 
-.ghost-btn {
-  border-radius: 999px;
-  padding: 5px 10px;
-  border: 1px solid #e1b676;
-  background: rgba(255, 255, 255, 0.6);
-  font-size: 0.8rem;
-  cursor: pointer;
+/* 魔物區 */
+.monster-info {
+  font-size: 0.9rem;
 }
 
-.ghost-btn:active {
-  transform: translateY(1px);
+.monster-name {
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
 .monster-desc {
-  margin: 8px 0 10px;
-  font-size: 0.86rem;
+  margin-top: 2px;
+  margin-bottom: 10px;
   line-height: 1.4;
 }
 
 .hp-row {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  font-size: 0.9rem;
   margin-bottom: 8px;
-}
-
-.hp-box {
-  flex: 1;
-  background: #fffdf8;
-  border-radius: 12px;
-  border: 1px solid #f1c07a;
-  padding: 6px 8px;
-  font-size: 0.8rem;
-}
-
-.hp-title {
-  color: #8b6e3c;
-}
-
-.hp-value {
-  margin-top: 4px;
-  font-weight: 700;
 }
 
 /* 壞情緒進度條 */
 .emotion-progress {
   width: 100%;
-  height: 16px;
+  height: 14px;
   border-radius: 999px;
   background: #ffe9f4;
   overflow: hidden;
@@ -252,13 +171,37 @@ h2 {
 }
 
 .emotion-label {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: #a03a63;
+}
+
+/* 六種壞情緒清單 */
+.emotion-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+  font-size: 0.85rem;
+}
+
+.emotion-list li {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #fffaf4;
+  border: 1px dashed #f2c09b;
+}
+
+.emotion-list li.calm {
+  background: #e7ffe8;
+  border-color: #9ad89b;
+  color: #287235;
 }
 
 /* 戰鬥操作區 */
 .battle-section .hint {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 /* 語句選擇 */
@@ -273,7 +216,7 @@ h2 {
   padding: 6px 8px;
   border-radius: 999px;
   border: 1px solid #e1b676;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   background: #fffdf8;
 }
 
@@ -281,7 +224,7 @@ h2 {
   padding: 6px 10px;
   border-radius: 999px;
   border: none;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   background: #ffb954;
   color: #4b2d12;
   font-weight: 600;
@@ -326,6 +269,26 @@ h2 {
   font-size: 0.9rem;
   font-weight: 600;
   color: #6a3a1c;
+  margin-bottom: 10px;
+}
+
+/* 重新開始按鈕 */
+.reset-btn {
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  padding: 8px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #ffe4f2;
+  color: #74305b;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.reset-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
 }
 
 /* 對話區 */
@@ -348,32 +311,15 @@ h2 {
   line-height: 1.4;
 }
 
-/* 說明區 */
-.about-text {
-  font-size: 0.86rem;
-  margin: 4px 0 6px;
-}
-
-.about-list {
-  margin: 0;
-  padding-left: 20px;
-  font-size: 0.85rem;
-}
-
-.about-list li + li {
-  margin-top: 4px;
-}
-
 /* 頁尾 */
 .footer {
-  margin-top: auto;
   text-align: center;
   font-size: 0.75rem;
   color: #8c6a40;
-  padding: 8px 0 12px;
+  margin: 10px 0 20px;
 }
 
-/* 手機窄螢幕優化 */
+/* 手機優化 */
 @media (max-width: 360px) {
   .hero-list {
     grid-template-columns: 1fr;
@@ -381,6 +327,7 @@ h2 {
 
   .hp-row {
     flex-direction: column;
+    gap: 4px;
   }
 
   .phrase-row {
@@ -389,14 +336,10 @@ h2 {
 
   #usePhraseBtn {
     width: 100%;
+    text-align: center;
   }
 
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .hero-status {
-    width: 100%;
+  .emotion-list {
+    grid-template-columns: 1fr;
   }
 }
