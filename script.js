@@ -1,10 +1,11 @@
-// 簡單狀態
+// 遊戲狀態
 const state = {
   heroKey: null,
   heroName: "",
   heroHp: 6,
   monsterHp: 6,
   phraseUsedThisTurn: false,
+  round: 0
 };
 
 // 勇者資料
@@ -15,7 +16,10 @@ const HEROES = {
   villager: { name: "勇敢的村民", talent: null, line: "我雖然平凡，但不放棄！" }
 };
 
-// DOM
+// 六種壞情緒
+const EMOTIONS = ["😡 生氣", "😭 難過", "😱 害怕", "😒 嫉妒", "😔 孤單", "😖 焦慮"];
+
+// DOM 元素
 const heroCards = document.querySelectorAll(".hero-card");
 const selectedHeroText = document.getElementById("selectedHeroText");
 const heroHpText = document.getElementById("heroHpText");
@@ -27,9 +31,34 @@ const roundResult = document.getElementById("roundResult");
 const dialogBox = document.getElementById("dialogBox");
 const emotionBar = document.getElementById("emotionBar");
 const emotionLabel = document.getElementById("emotionLabel");
+const emotionList = document.getElementById("emotionList");
+const roundCount = document.getElementById("roundCount");
+const soothedCountText = document.getElementById("soothedCount");
+const resetBtn = document.getElementById("resetBtn");
 
-// 更新血量顯示
+// 初始化壞情緒列表
+function renderEmotionList() {
+  const items = emotionList.querySelectorAll("li");
+  items.forEach((li, index) => {
+    const soothedCount = 6 - state.monsterHp; // 已安撫的數量
+    if (index < soothedCount) {
+      li.classList.add("calm");
+      li.textContent = EMOTIONS[index].replace("😡", "😊").replace("😭", "😊").replace("😱", "😊").replace("😒", "😊").replace("😔", "😊").replace("😖", "😊");
+    } else {
+      li.classList.remove("calm");
+      li.textContent = EMOTIONS[index];
+    }
+  });
+
+  const soothedCount = 6 - state.monsterHp;
+  soothedCountText.textContent = soothedCount < 0 ? 0 : soothedCount;
+}
+
+// 更新血量顯示 & 進度條
 function renderHp() {
+  if (state.heroHp < 0) state.heroHp = 0;
+  if (state.monsterHp < 0) state.monsterHp = 0;
+
   heroHpText.textContent = `${state.heroHp}/6`;
   monsterHpText.textContent = `${state.monsterHp}/6`;
 
@@ -39,11 +68,13 @@ function renderHp() {
   if (state.monsterHp === 6) emotionLabel.textContent = "壞情緒還很強烈……";
   else if (state.monsterHp >= 4) emotionLabel.textContent = "壞情緒稍微被安撫了。";
   else if (state.monsterHp >= 2) emotionLabel.textContent = "魔物開始放心一些了。";
-  else if (state.monsterHp === 1) emotionLabel.textContent = "只剩最後一點壞情緒！";
+  else if (state.monsterHp === 1) emotionLabel.textContent = "只剩最後一點壞情緒，加油！";
   else emotionLabel.textContent = "魔物已經恢復好心情了 ✨";
+
+  renderEmotionList();
 }
 
-// 加一行文字到對話框
+// 對話框加一行
 function addDialog(text) {
   const p = document.createElement("p");
   p.textContent = text;
@@ -62,120 +93,181 @@ heroCards.forEach((btn) => {
     state.heroHp = 6;
     state.monsterHp = 6;
     state.phraseUsedThisTurn = false;
+    state.round = 0;
 
     heroCards.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
 
     selectedHeroText.textContent = `目前勇者：${hero.name}（${hero.line}）`;
-    dialogBox.innerHTML = "";
-    addDialog(`🐻 村長熊熊：${hero.name}，歡迎加入冒險！`);
+    roundResult.textContent = "先說一句溫暖的話，再出拳安撫魔物吧～";
 
+    dialogBox.innerHTML = "";
+    addDialog(`🐻 村長熊熊：${hero.name}，歡迎加入！一起去安撫壞情緒魔物吧～`);
+
+    roundCount.textContent = "0";
     renderHp();
   });
 });
 
-// 使用語句
+// 使用安撫語句
 usePhraseBtn.addEventListener("click", () => {
-  if (!state.heroKey) return (roundResult.textContent = "請先選擇勇者");
+  if (!state.heroKey) {
+    roundResult.textContent = "請先選擇一位勇者。";
+    return;
+  }
 
   const phrase = phraseSelect.value;
-  if (!phrase) return (roundResult.textContent = "請先選擇一句語句");
+  if (!phrase) {
+    roundResult.textContent = "請先從下拉選單選擇一句安撫語句。";
+    return;
+  }
 
   state.phraseUsedThisTurn = true;
   addDialog(`🧡 勇者：${phrase}`);
 
   if (state.heroHp < 6) {
-    state.heroHp++;
-    addDialog("💖 你的好心情恢復了一點！");
+    state.heroHp += 1;
+    addDialog("💖 勇者的好心情恢復了一點！");
+  } else {
+    addDialog("💖 你的心情已經滿滿的了，可以把這份溫暖分享給魔物～");
   }
 
   renderHp();
-  roundResult.textContent = "語句已說完，可以出拳囉！";
+  roundResult.textContent = "溫暖的話說完了，現在可以出拳囉！";
 });
 
-// 魔物出拳
+// 魔物隨機出拳
 function monsterMove() {
-  return ["rock", "scissors", "paper"][Math.floor(Math.random() * 3)];
+  const moves = ["rock", "scissors", "paper"];
+  const random = Math.floor(Math.random() * moves.length);
+  return moves[random];
 }
 
-// 結果判定
-function judge(p, m) {
-  if (p === m) return "draw";
+// 剪刀石頭布判定
+function judge(player, enemy) {
+  if (player === enemy) return "draw";
   if (
-    (p === "rock" && m === "scissors") ||
-    (p === "scissors" && m === "paper") ||
-    (p === "paper" && m === "rock")
-  ) return "win";
+    (player === "rock" && enemy === "scissors") ||
+    (player === "scissors" && enemy === "paper") ||
+    (player === "paper" && enemy === "rock")
+  ) {
+    return "win";
+  }
   return "lose";
 }
 
-// 轉換文字
-function moveText(m) {
-  return m === "rock" ? "✊ 石頭" : m === "scissors" ? "✌️ 剪刀" : "🖐 布";
+// 把 move 轉成圖示文字
+function moveToText(move) {
+  switch (move) {
+    case "rock":
+      return "✊ 石頭";
+    case "scissors":
+      return "✌️ 剪刀";
+    case "paper":
+      return "🖐 布";
+    default:
+      return move;
+  }
 }
 
-// 出拳邏輯
+// 出拳
 rpsButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
-    if (!state.heroKey) return (roundResult.textContent = "請先選擇勇者");
+    if (!state.heroKey) {
+      roundResult.textContent = "請先選擇一位勇者。";
+      return;
+    }
 
-    const p = btn.dataset.move;
-    const m = monsterMove();
+    if (state.monsterHp <= 0) {
+      roundResult.textContent = "魔物已經恢復好心情囉，可以重新開始冒險～";
+      return;
+    }
 
-    addDialog(`⚔️ 勇者出了 ${moveText(p)}，魔物出了 ${moveText(m)}。`);
+    if (state.heroHp <= 0) {
+      roundResult.textContent = "勇者的好心情用完了，可以換一位勇者再試試看～";
+      return;
+    }
 
-    const result = judge(p, m);
+    const playerMove = btn.dataset.move;
+    const enemyMove = monsterMove();
 
-    // 勝
-    if (result === "win") {
-      let dmg = 1;
+    state.round += 1;
+    roundCount.textContent = String(state.round);
+
+    let damageToMonster = 0;
+    let damageToHero = 0;
+
+    const result = judge(playerMove, enemyMove);
+
+    addDialog(
+      `⚔️ 勇者出了 ${moveToText(playerMove)}，魔物出了 ${moveToText(
+        enemyMove
+      )}。`
+    );
+
+    if (result === "draw") {
+      roundResult.textContent = "平手！大家先冷靜一下。";
+      addDialog("魔物：哼…我還是很不爽！");
+    } else if (result === "win") {
+      damageToMonster = 1;
 
       const hero = HEROES[state.heroKey];
-      if (hero.talent === p) {
-        dmg++;
-        addDialog("✨ 天賦拳加成！");
+      if (hero.talent && hero.talent === playerMove) {
+        damageToMonster += 1;
+        addDialog("✨ 天賦拳發動！你的好心情力量變強了！");
       }
 
       if (state.phraseUsedThisTurn) {
-        dmg++;
-        addDialog("🌈 安撫語句的力量加成！");
+        damageToMonster += 1;
+        addDialog("🌈 你的溫暖話語讓壞情緒更快消散！");
       }
 
-      state.monsterHp -= dmg;
-      if (state.monsterHp < 0) state.monsterHp = 0;
+      state.monsterHp -= damageToMonster;
 
-      roundResult.textContent = `成功安撫 ${dmg} 點壞情緒！`;
-      addDialog("魔物：咦…為什麼有點暖暖的？");
-    }
+      roundResult.textContent = `你贏了這回合！成功安撫了 ${damageToMonster} 點壞情緒。`;
+      addDialog("魔物：咦…為什麼心裡好像有一點暖暖的…？");
+    } else {
+      damageToHero = 1;
+      state.heroHp -= damageToHero;
 
-    // 負
-    else if (result === "lose") {
-      state.heroHp--;
-      if (state.heroHp < 0) state.heroHp = 0;
-
-      roundResult.textContent = "魔物的壞情緒爆發了！你被影響了一點。";
-      addDialog("魔物：都別靠近我！");
-    }
-
-    // 平手
-    else {
-      roundResult.textContent = "平手～大家先冷靜一下。";
+      roundResult.textContent = "這回合魔物情緒爆炸了！你的好心情被影響了一點。";
+      addDialog("魔物：你們都不懂我！都走開啦！");
     }
 
     state.phraseUsedThisTurn = false;
     renderHp();
 
-    if (state.monsterHp === 0) {
-      addDialog("😊 魔物：謝謝你…我覺得好多了！");
-      roundResult.textContent = "任務完成！魔物恢復好心情！";
-    }
-
-    if (state.heroHp === 0) {
-      addDialog("😢 勇者：我需要休息一下…");
-      roundResult.textContent = "勇者的好心情用完了，可以換一位勇者。";
+    if (state.monsterHp <= 0) {
+      addDialog("😊 魔物：謝謝你願意聽我說話…我覺得好多了。");
+      addDialog("🐻 村長熊熊：太棒了！你成功安撫了所有壞情緒！");
+      roundResult.textContent = "任務完成！魔物恢復成快樂的朋友了～";
+    } else if (state.heroHp <= 0) {
+      addDialog("😢 勇者：我好累…需要一點時間休息。");
+      addDialog("🐻 村長熊熊：沒關係，累了就休息一下，再出發也可以。");
+      roundResult.textContent =
+        "勇者的好心情暫時用完了～可以換一位勇者再試試看。";
     }
   });
 });
 
-// 初始
+// 重新開始冒險（回到未選擇狀態）
+resetBtn.addEventListener("click", () => {
+  state.heroKey = null;
+  state.heroName = "";
+  state.heroHp = 6;
+  state.monsterHp = 6;
+  state.phraseUsedThisTurn = false;
+  state.round = 0;
+
+  heroCards.forEach((b) => b.classList.remove("active"));
+  selectedHeroText.textContent = "目前尚未選擇勇者";
+  roundResult.textContent = "請先選勇者，再說一句話，然後出拳。";
+  dialogBox.innerHTML = "";
+  addDialog("🐻 村長熊熊：重新集合！再選一位勇者一起冒險吧～");
+
+  roundCount.textContent = "0";
+  renderHp();
+});
+
+// 一開始先顯示血量與情緒
 renderHp();
