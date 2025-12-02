@@ -1,6 +1,4 @@
-alert("JS 有在跑唷！");
-
- // 簡單狀態
+// 簡單狀態
 const state = {
   heroKey: null,
   heroName: "",
