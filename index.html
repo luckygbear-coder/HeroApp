@@ -6,6 +6,7 @@
   <title>小勇者之旅大冒險｜新手村</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body data-page="index">
   <div class="game-wrap">
 
@@ -15,28 +16,34 @@
       <p class="subtitle">剪刀、石頭、布！用好心情安撫壞情緒魔物 ✨</p>
     </section>
 
-    <!-- 分頁切換 -->
+    <!-- 分頁 -->
     <nav class="top-nav">
       <a class="nav-link active" href="index.html">新手村</a>
       <a class="nav-link" href="map.html">地圖</a>
       <a class="nav-link" href="battle.html">戰鬥</a>
       <a class="nav-link" href="tarot.html">占卜屋</a>
+      <a class="nav-link" href="shop.html">商店</a>
     </nav>
 
-    <!-- 新手村故事＋喵喵商人 -->
+    <!-- 故事介紹 -->
     <section class="card">
       <h2>故事介紹</h2>
       <p>
-        歡迎來到 <b>新手村</b>！🌈 在這裡，小勇者們準備出發冒險，挑戰各地被壞情緒纏住的魔物，
-        並一步一步收集勇氣星星 ⭐。
+        歡迎來到 <b>新手村</b>！🌈  
+        小勇者們準備出發冒險，挑戰各地被壞情緒纏住的魔物，並收集勇氣星星 ⭐。
       </p>
       <p>
-        旅程中你會遇見森林、湖畔、洞窟、墓地、地窖、遺跡……最後挑戰魔王城的惡龍。
-        記住：真正的力量不是拳頭，而是你的好心情 ❤️
+        冒險途中，你會探索森林、湖畔、洞窟、墓地、地窖、遺跡……  
+        最後前往魔王城面對惡龍。  
+        記住：真正最重要的力量，是你帶著的好心情與善良的心 ❤️
       </p>
 
       <div class="btn-row">
-        <a class="primary-btn full" href="https://www.instagram.com/luckygbear/" target="_blank">
+        <a
+          class="primary-btn full"
+          href="https://www.instagram.com/luckygbear/"
+          target="_blank"
+        >
           🐻 追蹤村長熊熊 IG
         </a>
       </div>
@@ -48,29 +55,36 @@
       </div>
     </section>
 
-    <!-- 選擇小勇者 -->
+    <!-- 選擇勇者 -->
     <section class="card">
-      <h2>選擇你的勇者</h2>
-      <p>請點選一位勇者開始冒險～</p>
+      <h2>選擇小勇者</h2>
+      <p>點選一位小勇者開始冒險：</p>
 
+      <!-- 勇者列表 -->
       <div id="heroList" class="hero-list"></div>
 
-      <!-- 點選勇者後出現的小故事與確認按鈕 -->
+      <!-- 故事＋語句＋能力 -->
       <div id="heroStoryBox" class="hero-story-box" style="display:none;">
         <p id="heroStoryText" class="hero-story-text"></p>
         <p id="heroLineText" class="hero-line-text"></p>
         <p id="heroAbilityText" class="hero-ability-text"></p>
-        <button id="confirmHeroBtn" class="primary-btn hero-confirm-btn" style="display:none;">
-          ✅ 確認這位勇者並前往地圖
+
+        <button
+          id="confirmHeroBtn"
+          class="primary-btn hero-confirm-btn"
+          style="display:none;"
+        >
+          ✅ 確認小勇者並前往地圖
         </button>
       </div>
     </section>
 
+    <!-- 頁尾 -->
     <footer class="footer">
       <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
     </footer>
-
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
