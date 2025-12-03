@@ -2,73 +2,81 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>小勇者之旅大冒險 - 熊熊占卜屋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小勇者之旅大冒險｜熊熊占卜屋</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body data-page="tarot">
   <div class="game-wrap">
-    <header class="title-card card">
-      <h1>小勇者之旅大冒險</h1>
-      <p class="subtitle">🔮 熊熊占卜屋 · 治療心情</p>
-    </header>
 
-    <nav class="top-nav">
-      <a href="index.html" class="nav-link" data-page-link="index">🏡 新手村</a>
-      <a href="battle.html" class="nav-link" data-page-link="battle">⚔️ 戰鬥</a>
-      <a href="map.html" class="nav-link" data-page-link="map">🗺️ 地圖</a>
-      <a href="tarot.html" class="nav-link" data-page-link="tarot">🔮 占卜屋</a>
-    </nav>
+    <!-- 標題 -->
+    <div class="card title-card">
+      <h1>🔮 熊熊占卜屋</h1>
+      <div class="subtitle">抽一張牌，聽聽熊熊的溫暖建議</div>
+    </div>
 
-    <section class="card summary-card">
-      <p class="progress-summary">
-        目前地圖等級：<span id="summaryLevel">LV.1</span> ｜ 🌟 勇氣星星：<span id="summaryStars">0</span>
-      </p>
-      <p class="summary-note">來到熊熊占卜屋，小勇者的好心情會自動恢復滿血。</p>
-    </section>
+    <!-- 導覽列 -->
+    <div class="top-nav">
+      <a class="nav-link" href="index.html" data-page-link="index">新手村</a>
+      <a class="nav-link" href="map.html" data-page-link="map">地圖</a>
+      <a class="nav-link" href="battle.html" data-page-link="battle">戰鬥</a>
+      <a class="nav-link active" href="tarot.html" data-page-link="tarot">占卜屋</a>
+    </div>
 
-    <section class="card tarot-section">
-      <h2>熊熊占卜屋</h2>
+    <!-- 占卜說明 -->
+    <div class="card tarot-section">
       <p class="tarot-intro">
-        想知道最近的心情旅程嗎？<br />
-        抽出「過去、現在、未來」三張牌，聽聽村長熊熊的溫馨提醒～🃏
+        深呼吸…放輕鬆。<br />
+        抽三張牌，讓村長熊熊告訴你：  
+        過去的你、現在的你、未來的你。
       </p>
 
-      <button class="tarot-btn" id="tarotDrawBtn">抽一組塔羅牌 ✨</button>
+      <button id="tarotDrawBtn" class="tarot-btn">✨ 抽牌</button>
 
+      <!-- 三張牌 -->
       <div class="tarot-row">
         <div class="tarot-card">
           <div class="tarot-position">過去</div>
-          <div class="tarot-name" id="tarotPastName">？？？</div>
+          <div class="tarot-name" id="tarotPastName">（等待抽牌）</div>
           <div class="tarot-orientation" id="tarotPastOrient"></div>
           <div class="tarot-meaning" id="tarotPastMeaning"></div>
         </div>
 
         <div class="tarot-card">
           <div class="tarot-position">現在</div>
-          <div class="tarot-name" id="tarotPresentName">？？？</div>
+          <div class="tarot-name" id="tarotPresentName">（等待抽牌）</div>
           <div class="tarot-orientation" id="tarotPresentOrient"></div>
           <div class="tarot-meaning" id="tarotPresentMeaning"></div>
         </div>
 
         <div class="tarot-card">
           <div class="tarot-position">未來</div>
-          <div class="tarot-name" id="tarotFutureName">？？？</div>
+          <div class="tarot-name" id="tarotFutureName">（等待抽牌）</div>
           <div class="tarot-orientation" id="tarotFutureOrient"></div>
           <div class="tarot-meaning" id="tarotFutureMeaning"></div>
         </div>
       </div>
 
-      <p class="tarot-bear" id="tarotBearMessage">
-        🐻 村長熊熊：我先幫你把好心情補滿，再一起來看看牌卡要跟你說什麼小祕密～
-      </p>
-    </section>
+      <!-- 熊熊解說 -->
+      <div class="card tarot-bear-box">
+        <p class="tarot-bear" id="tarotBearMessage">
+          抽完後，熊熊會在這裡給你溫暖的建議 ❤️
+        </p>
+      </div>
 
-    <footer class="footer">
-      <p>設計：村長熊熊 ｜ IG：
-        <a href="https://www.instagram.com/luckygbear" target="_blank">@luckygbear</a>
-      </p>
-    </footer>
+    </div>
+
+    <!-- 返回地圖 -->
+    <button class="primary-btn" onclick="window.location.href='map.html'" style="margin-top:12px;">
+      🗺️ 返回地圖
+    </button>
+
+    <!-- 頁尾 -->
+    <div class="footer">
+      © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
+    </div>
+
   </div>
 
   <script src="script.js"></script>
