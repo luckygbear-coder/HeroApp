@@ -388,4 +388,325 @@ h2 {
   border: 1px solid #d39ac8;
   background: #ffe4ff;
   padding: 4px 10px;
-  font-size: 0.78rem
+  font-size: 0.78rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14);
+}
+
+.map-intro {
+  font-size: 0.83rem;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.map-tile {
+  border-radius: 12px;
+  border: 1px solid #e1b676;
+  background: #fffdf7;
+  padding: 6px 4px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.map-tile:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+.map-tile.special {
+  background: #e9f7ff;
+  border-color: #8dc4ff;
+}
+
+.map-tile.boss {
+  background: #ffe8f0;
+  border-color: #f08bb0;
+}
+
+.map-tile.cleared {
+  border-color: #ffcf4a;
+  box-shadow: 0 0 0 2px rgba(255, 207, 74, 0.6);
+}
+
+.map-tile.cleared::after {
+  content: "★";
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: 0.7rem;
+  color: #ffb800;
+}
+
+.map-place {
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: #7b5830;
+}
+
+.map-monster {
+  font-size: 0.78rem;
+  color: #4b3b2a;
+}
+
+.map-hint {
+  font-size: 0.8rem;
+  color: #7b4c30;
+}
+
+/* ─── 好友名單 Modal ─── */
+.friends-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.friends-modal.show {
+  display: flex;
+}
+
+.friends-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.friends-card {
+  position: relative;
+  background: #fffdf8;
+  border-radius: 18px;
+  border: 2px solid #e1b676;
+  padding: 12px;
+  max-width: 440px;
+  width: calc(100% - 32px);
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  animation: modalPop 0.25s;
+}
+
+.friends-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.friends-header h2 {
+  margin-bottom: 0;
+}
+
+.friends-close-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  background: #ffe1e1;
+  cursor: pointer;
+}
+
+.friends-intro {
+  font-size: 0.8rem;
+  color: #7b4c30;
+  margin: 4px 0 8px;
+}
+
+.friends-section h3 {
+  font-size: 0.9rem;
+  margin: 6px 0 4px;
+}
+
+.friends-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+}
+
+.friends-list li {
+  padding: 3px 6px;
+  border-radius: 10px;
+  border: 1px dashed #e1b676;
+  background: #fff9ee;
+  margin-bottom: 3px;
+}
+
+.friends-note {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #7a4c6b;
+}
+
+/* ─── 熊熊塔羅 ─── */
+.tarot-section {
+  background: #fff9ff;
+}
+
+.tarot-intro {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.tarot-btn {
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  padding: 7px 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  background: #d9c3ff;
+  color: #3d2a63;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+  margin-bottom: 8px;
+}
+
+.tarot-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.tarot-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tarot-card {
+  background: #fffdfc;
+  border-radius: 12px;
+  border: 1px solid #e1b676;
+  padding: 6px;
+  font-size: 0.78rem;
+}
+
+.tarot-position {
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+  color: #8b5a2b;
+}
+
+.tarot-name {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.tarot-orientation {
+  font-size: 0.75rem;
+  color: #a0633a;
+  margin-bottom: 2px;
+}
+
+.tarot-meaning {
+  font-size: 0.75rem;
+  color: #5a4630;
+}
+
+.tarot-bear {
+  font-size: 0.82rem;
+  color: #70426c;
+  border-top: 1px dashed #e1b6e6;
+  padding-top: 5px;
+}
+
+/* 頁尾 */
+.footer {
+  text-align: center;
+  font-size: 0.73rem;
+  color: #8c6a40;
+  margin-top: 4px;
+}
+
+.footer a {
+  color: #c2577a;
+  text-decoration: none;
+}
+
+/* 手機優化 */
+@media (max-width: 360px) {
+  .hero-list {
+    grid-template-columns: 1fr;
+  }
+
+  .hp-row {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .emotion-list {
+    grid-template-columns: 1fr;
+  }
+
+  .tarot-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 動畫效果 */
+@keyframes btnFlash {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes monsterShake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes modalPop {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes mapGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 207, 74, 0.0);
+  }
+  30% {
+    box-shadow: 0 0 0 3px rgba(255, 207, 74, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 207, 74, 0.0);
+  }
+}
