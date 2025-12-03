@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,37 +11,42 @@
 <body data-page="battle">
   <div class="game-wrap">
 
-    <!-- 標題 -->
+    <!-- 標題卡 -->
     <div class="card title-card">
-      <h1>⚔️ 歡迎來到戰鬥</h1>
-      <div class="subtitle">用你的溫暖，安撫魔物的壞情緒</div>
+      <h1>⚔️ 戰鬥開始</h1>
+      <div class="subtitle">用好心情安撫魔物的壞情緒吧！</div>
     </div>
 
     <!-- 導覽列 -->
     <div class="top-nav">
-      <a class="nav-link" href="index.html" data-page-link="index">新手村</a>
-      <a class="nav-link" href="map.html" data-page-link="map">地圖</a>
-      <a class="nav-link active" href="battle.html" data-page-link="battle">戰鬥</a>
-      <a class="nav-link" href="tarot.html" data-page-link="tarot">占卜屋</a>
+      <a class="nav-link" href="index.html">新手村</a>
+      <a class="nav-link" href="map.html">地圖</a>
+      <a class="nav-link active" href="battle.html">戰鬥</a>
+      <a class="nav-link" href="tarot.html">占卜屋</a>
     </div>
 
-    <!-- 進度摘要 -->
+    <!-- 戰鬥狀態摘要 -->
     <div class="card summary-card">
       <p class="progress-summary">
-        勇者 HP：<span id="heroHpText">0</span> ｜ 魔物壞情緒：<span id="monsterHpText">0</span>
+        勇者 HP：<span id="heroHpText">0</span> ｜  
+        壞情緒：<span id="monsterHpText">0</span>
       </p>
       <p class="summary-note">
-        使用天賦拳擊敗魔物會有 2 倍安撫效果！勇敢的村民永不扣血 ✨
+        ⭐ 使用天賦拳勝利會有 2 倍好心情效果！  
+        ⭐ 勇敢的村民永不扣血
       </p>
     </div>
 
-    <!-- 對手資訊 + 對話 -->
+    <!-- 對手資訊 -->
     <div class="card monster-info" id="monsterInfoBox">
       <h2>對手資訊</h2>
+
       <p class="monster-stage">地點：<span id="monsterStageText"></span></p>
       <p class="monster-name">魔物：<span id="monsterNameText"></span></p>
+
       <p class="monster-fist">
-        天賦拳：<span id="monsterTalentText"></span> ｜ 禁出拳：<span id="monsterForbidText"></span>
+        天賦拳：<span id="monsterTalentText"></span> ｜  
+        禁出拳：<span id="monsterForbidText"></span>
       </p>
 
       <!-- 壞情緒 HP -->
@@ -60,18 +66,16 @@
         <li></li><li></li><li></li><li></li><li></li><li></li>
       </ul>
 
-      <!-- 對話訊息：放在對手資訊最底部，兩行高，可捲動 -->
-      <div class="battle-dialog-box" id="dialogBox">
-        <!-- script.js 會把對話 <p> 加進來 -->
-      </div>
+      <!-- 對話框（二行可滑動） -->
+      <div class="battle-dialog-box" id="dialogBox"></div>
     </div>
 
-    <!-- 戰鬥操作區 -->
+    <!-- 戰鬥操作 -->
     <div class="card battle-section">
       <h2>猜拳出招</h2>
-      <p class="hint">選一個拳，勇者會自動與魔物對話！</p>
+      <p class="hint">選一個拳，小勇者會自動與魔物對話～</p>
 
-      <!-- 出拳按鈕 + 回地圖在同一排 -->
+      <!-- 出拳 + 回地圖（同一排） -->
       <div class="action-row">
         <div class="rps-row">
           <button class="rps-btn" data-move="rock">✊ 石頭</button>
@@ -90,7 +94,6 @@
       <button class="reset-btn" id="resetBtn">重新整頓心情再來</button>
     </div>
 
-    <!-- 頁尾 -->
     <div class="footer">
       © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
     </div>
