@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,135 +11,61 @@
 <body data-page="map">
   <div class="game-wrap">
 
-    <!-- 標題 -->
+    <!-- 標題卡 -->
     <div class="card title-card">
       <h1>🗺️ 冒險地圖</h1>
-      <div class="subtitle">選擇要前往的地點與魔物</div>
+      <div class="subtitle">選擇一個地點開始冒險吧！</div>
     </div>
 
-    <!-- 導覽列：新手村｜地圖｜戰鬥｜占卜屋 -->
+    <!-- 導覽列 -->
     <div class="top-nav">
-      <a class="nav-link" data-page-link="index" href="index.html">新手村</a>
-      <a class="nav-link active" data-page-link="map" href="map.html">地圖</a>
-      <a class="nav-link" data-page-link="battle" href="battle.html">戰鬥</a>
-      <a class="nav-link" data-page-link="tarot" href="tarot.html">占卜屋</a>
+      <a class="nav-link" href="index.html">新手村</a>
+      <a class="nav-link active" href="map.html">地圖</a>
+      <a class="nav-link" href="battle.html">戰鬥</a>
+      <a class="nav-link" href="tarot.html">占卜屋</a>
     </div>
 
-    <!-- 進度摘要 -->
-    <div class="card summary-card">
-      <p class="progress-summary">
-        目前地圖等級：<span id="summaryLevel">LV.1</span> ｜ 🌟 勇氣星星：<span id="summaryStars">0</span>
-      </p>
-      <p class="summary-note">通關一隻魔物 +1 星星；通關魔王 +3 星星。</p>
-    </div>
-
-    <!-- 地圖本體 -->
-    <div class="card map-section" id="mapSection">
+    <!-- 地圖資訊 -->
+    <div class="card map-section">
 
       <div class="map-header-row">
+        <button id="friendsBtn" class="friends-btn">好友名單</button>
+
         <div class="map-header-center">
-          <p class="map-level" id="mapLevelText">地圖等級：LV.1</p>
-          <p class="map-stars">🌟 勇氣星星：<span id="mapStarsText">0</span></p>
+          <p id="mapLevel" class="map-level">LV.1</p>
+          <p id="mapStars" class="map-stars">0 顆</p>
         </div>
-        <button class="friends-btn" id="openFriendsBtn">👥 好友</button>
       </div>
 
       <p class="map-intro">
-        點選一個地圖格子，選擇要挑戰的場景與魔物。<br />
-        當所有魔物都被安撫後，魔王城才會開啟挑戰！
+        完成所有魔物後才能挑戰右上角的<strong>魔王城 🔥</strong>！
       </p>
 
-      <!-- 九宮格地圖 -->
-      <div class="map-grid">
+      <!-- 九宮格 -->
+      <div id="mapGrid" class="map-grid"></div>
 
-        <!-- 第一排：新手村 / 草原 / 魔王城 -->
-        <button class="map-tile special" data-action="start">
-          <div class="map-place">新手村</div>
-          <div class="map-monster">回村選勇者＆恢復好心情</div>
-        </button>
-
-        <button class="map-tile" data-monster="slime">
-          <div class="map-place">草原</div>
-          <div class="map-monster">史萊姆</div>
-        </button>
-
-        <button class="map-tile boss" data-monster="dragon">
-          <div class="map-place">魔王城</div>
-          <div class="map-monster">惡龍（魔王）</div>
-        </button>
-
-        <!-- 第二排：森林 / 熊熊占卜屋 / 火山平原 -->
-        <button class="map-tile" data-monster="crybat">
-          <div class="map-place">森林</div>
-          <div class="map-monster">哭哭蝙蝠</div>
-        </button>
-
-        <button class="map-tile special" data-action="tarot">
-          <div class="map-place">熊熊占卜屋</div>
-          <div class="map-monster">占卜＆治療好心情</div>
-        </button>
-
-        <button class="map-tile" data-monster="fireBull">
-          <div class="map-place">火山平原</div>
-          <div class="map-monster">火山牛</div>
-        </button>
-
-        <!-- 第三排：湖畔 / 洞窟 / 墓地 -->
-        <button class="map-tile" data-monster="mermaid">
-          <div class="map-place">湖畔</div>
-          <div class="map-monster">人魚</div>
-        </button>
-
-        <button class="map-tile" data-monster="goblin">
-          <div class="map-place">洞窟</div>
-          <div class="map-monster">怪手哥布林</div>
-        </button>
-
-        <button class="map-tile" data-monster="skeleton">
-          <div class="map-place">墓地</div>
-          <div class="map-monster">骷髏兵</div>
-        </button>
-
-      </div>
-
-      <p class="map-hint">
-        🐻 村長熊熊：已通關的格子會出現小星星標記。<br />
-        那些地方就先當作「已經安撫完成的區域」，不用再進去打擾他們休息囉～
-      </p>
     </div>
 
     <!-- 好友名單 Modal -->
     <div class="friends-modal" id="friendsModal">
-      <div class="friends-backdrop" id="friendsBackdrop"></div>
+      <div class="friends-backdrop"></div>
 
       <div class="friends-card">
         <div class="friends-header">
-          <h2>👥 好友名單</h2>
-          <button class="friends-close-btn" id="closeFriendsBtn">✕</button>
+          <h2>好友名單</h2>
+          <button id="friendsCloseBtn" class="friends-close-btn">關閉</button>
         </div>
 
-        <p class="friends-intro">
-          通關的魔物與魔王，會成為你的好友並留下足跡。<br />
-          一般魔物好友獲得 ⭐1，魔王好友獲得 ⭐3。
-        </p>
+        <p class="friends-intro">你安撫的魔物會成為你的好友 ⭐</p>
 
         <div class="friends-section">
-          <h3>一般魔物好友</h3>
-          <ul class="friends-list" id="friendsNormalList">
-            <!-- 由 script.js 注入 -->
+          <h3>好友列表</h3>
+          <ul id="friendsList" class="friends-list">
+            <!-- JS 注入 -->
           </ul>
         </div>
 
-        <div class="friends-section">
-          <h3>魔王好友</h3>
-          <ul class="friends-list" id="friendsBossList">
-            <!-- 由 script.js 注入 -->
-          </ul>
-        </div>
-
-        <p class="friends-note">
-          🐻 村長熊熊：有時候，曾經很暴躁的魔物，最後會變成你最懂事的好友呢。
-        </p>
+        <p class="friends-note">魔物 +1 星星｜魔王 +3 星星</p>
       </div>
     </div>
 
@@ -151,4 +78,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
