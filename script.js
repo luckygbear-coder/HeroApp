@@ -4,10 +4,14 @@ const state = {
   heroName: "",
   heroHp: 6,
   monsterHp: 6,
-  phraseUsedThisTurn: false,
   round: 0,
-  monsterKey: "shadow" // 目前選擇的魔物
+  monsterKey: "shadow"
 };
+
+// 要通關的普通魔物 + 魔王
+const PLAY_MONSTERS = ["slime", "crybat", "fireBull", "mermaid", "goblin", "skeleton"];
+const BOSS_KEY = "dragon";
+const clearedMonsters = {}; // key: true 代表已通關
 
 // === 勇者資料 ===
 const HEROES = {
@@ -17,22 +21,22 @@ const HEROES = {
   villager:{ name: "勇敢的村民", talent: null,   line: "我雖然平凡，但不放棄！" }
 };
 
-// === 魔物資料（參考你之前設計的魔物，加入天賦拳＋禁出拳） ===
+// === 魔物資料 ===
 const MONSTERS = {
   shadow: {
     key: "shadow",
     stage: "練習關卡",
     name: "壞情緒之影",
-    talent: null,      // 隨機
-    forbid: null,      // 無禁出
+    talent: null,
+    forbid: null,
     desc: "用來熟悉規則的練習魔物，出拳完全隨機。"
   },
   slime: {
     key: "slime",
     stage: "草原",
     name: "史萊姆",
-    talent: "scissors", // 很會出剪刀
-    forbid: "paper",    // 不會出布
+    talent: "scissors",
+    forbid: "paper",
     desc: "黏呼呼、心情常常一團糊。喜歡偷偷剪斷煩惱的小尾巴。"
   },
   crybat: {
@@ -43,14 +47,6 @@ const MONSTERS = {
     forbid: "rock",
     desc: "常常被自己的心情嚇到，只好把自己包起來。"
   },
-  lazyTreant: {
-    key: "lazyTreant",
-    stage: "女巫小屋",
-    name: "懶懶樹精",
-    talent: "paper",
-    forbid: "scissors",
-    desc: "什麼都想慢慢來，最怕被人突然要求「快一點」。"
-  },
   fireBull: {
     key: "fireBull",
     stage: "火山平原",
@@ -58,6 +54,14 @@ const MONSTERS = {
     talent: "rock",
     forbid: "paper",
     desc: "脾氣一上來就像火山爆發，但其實內心很柔軟。"
+  },
+  mermaid: {
+    key: "mermaid",
+    stage: "湖畔",
+    name: "人魚",
+    talent: "paper",
+    forbid: "rock",
+    desc: "心情像水一樣起伏，有時安靜、有時大浪。"
   },
   goblin: {
     key: "goblin",
@@ -75,22 +79,6 @@ const MONSTERS = {
     forbid: "scissors",
     desc: "看起來很可怕，其實只是怕被遺忘。"
   },
-  mermaid: {
-    key: "mermaid",
-    stage: "湖畔",
-    name: "人魚",
-    talent: "paper",
-    forbid: "rock",
-    desc: "心情像水一樣起伏，有時安靜、有時大浪。"
-  },
-  cultist: {
-    key: "cultist",
-    stage: "地窖",
-    name: "異教徒",
-    talent: "scissors",
-    forbid: "paper",
-    desc: "腦袋裡很多奇怪的想法，需要人好好聽他說。"
-  },
   dragon: {
     key: "dragon",
     stage: "魔王城",
@@ -101,7 +89,7 @@ const MONSTERS = {
   }
 };
 
-// === 塔羅牌資料（簡化小牌組） ===
+// === 塔羅牌資料 ===
 const TAROT_CARDS = [
   {
     name: "太陽 The Sun",
@@ -135,14 +123,11 @@ const TAROT_CARDS = [
   }
 ];
 
-// === DOM 元素 ===
+// === DOM 選取 ===
 const heroCards        = document.querySelectorAll(".hero-card");
 const selectedHeroText = document.getElementById("selectedHeroText");
 const heroHpText       = document.getElementById("heroHpText");
 const monsterHpText    = document.getElementById("monsterHpText");
-const phraseSelect     = document.getElementById("phraseSelect");
-const usePhraseBtn     = document.getElementById("usePhraseBtn");
-const rpsButtons       = document.querySelectorAll(".rps-btn");
 const roundResult      = document.getElementById("roundResult");
 const dialogBox        = document.getElementById("dialogBox");
 const emotionBar       = document.getElementById("emotionBar");
@@ -152,23 +137,24 @@ const roundCount       = document.getElementById("roundCount");
 const soothedCountText = document.getElementById("soothedCount");
 const resetBtn         = document.getElementById("resetBtn");
 
-// 魔物顯示相關 DOM
 const monsterStageText  = document.getElementById("monsterStageText");
 const monsterNameText   = document.getElementById("monsterNameText");
 const monsterTalentText = document.getElementById("monsterTalentText");
 const monsterForbidText = document.getElementById("monsterForbidText");
 
-// 分頁 DOM
 const tabButtons  = document.querySelectorAll(".tab-btn");
+const tabPages    = document.querySelectorAll(".tab-page");
 const battleArea  = document.getElementById("battleArea");
 const mapArea     = document.getElementById("mapArea");
 const tarotArea   = document.getElementById("tarotArea");
-const tabPages    = document.querySelectorAll(".tab-page");
 
-// 地圖 DOM
-const mapTiles = document.querySelectorAll(".map-tile");
+const mapTiles     = document.querySelectorAll(".map-tile");
+const mapSection   = document.getElementById("mapSection");
+const mapLevelText = document.getElementById("mapLevelText");
 
-// 塔羅相關 DOM
+const rpsButtons = document.querySelectorAll(".rps-btn");
+
+// 塔羅 DOM
 const tarotBtn            = document.getElementById("tarotDrawBtn");
 const tarotPastName       = document.getElementById("tarotPastName");
 const tarotPastOrient     = document.getElementById("tarotPastOrient");
@@ -181,7 +167,7 @@ const tarotFutureOrient   = document.getElementById("tarotFutureOrient");
 const tarotFutureMeaning  = document.getElementById("tarotFutureMeaning");
 const tarotBearMessage    = document.getElementById("tarotBearMessage");
 
-// === 工具函式 ===
+// === 小工具 ===
 function getCurrentMonster() {
   return MONSTERS[state.monsterKey] || MONSTERS.shadow;
 }
@@ -204,6 +190,14 @@ function moveToText(move) {
   }
 }
 
+function allBasicCleared() {
+  return PLAY_MONSTERS.every((k) => clearedMonsters[k]);
+}
+
+function allClearedWithBoss() {
+  return allBasicCleared() && clearedMonsters[BOSS_KEY];
+}
+
 // === 更新魔物顯示 ===
 function renderMonsterInfo() {
   const monster = getCurrentMonster();
@@ -218,10 +212,9 @@ function renderMonsterInfo() {
   }
 }
 
-// === 初始化壞情緒列表 ===
+// === 更新壞情緒清單 ===
 function renderEmotionList() {
   if (!emotionList) return;
-
   const items = emotionList.querySelectorAll("li");
   if (!items.length) return;
 
@@ -230,7 +223,7 @@ function renderEmotionList() {
   items.forEach((li, index) => {
     if (index < soothedCount) {
       li.classList.add("calm");
-      li.textContent = EMOTIONS[index]
+      li.textContent = ["😡 生氣","😭 難過","😱 害怕","😒 嫉妒","😔 孤單","😖 焦慮"][index]
         .replace("😡", "😊")
         .replace("😭", "😊")
         .replace("😱", "😊")
@@ -239,7 +232,7 @@ function renderEmotionList() {
         .replace("😖", "😊");
     } else {
       li.classList.remove("calm");
-      li.textContent = EMOTIONS[index];
+      li.textContent = ["😡 生氣","😭 難過","😱 害怕","😒 嫉妒","😔 孤單","😖 焦慮"][index];
     }
   });
 
@@ -248,7 +241,7 @@ function renderEmotionList() {
   }
 }
 
-// === 更新血量顯示 & 進度條 ===
+// === 血量 & 進度條 ===
 function renderHp() {
   if (state.heroHp < 0) state.heroHp = 0;
   if (state.monsterHp < 0) state.monsterHp = 0;
@@ -280,18 +273,65 @@ function addDialog(text) {
   dialogBox.scrollTop = dialogBox.scrollHeight;
 }
 
+// === 地圖進度顯示 ===
+function updateMapProgress() {
+  mapTiles.forEach((tile) => {
+    const key = tile.dataset.monster;
+    if (key && clearedMonsters[key]) {
+      tile.classList.add("cleared");
+    }
+  });
+
+  if (mapSection && mapLevelText) {
+    if (allClearedWithBoss()) {
+      mapSection.classList.add("upgraded");
+      mapLevelText.textContent = "地圖等級：Lv.2（全地圖通關！）";
+    } else if (allBasicCleared()) {
+      mapSection.classList.add("upgraded");
+      mapLevelText.textContent = "地圖等級：Lv.2（魔王待挑戰）";
+    } else {
+      mapSection.classList.remove("upgraded");
+      mapLevelText.textContent = "地圖等級：Lv.1";
+    }
+  }
+}
+
+// === 分頁切換 ===
+function switchTab(targetId) {
+  tabButtons.forEach((b) => {
+    if (b.dataset.target === targetId) {
+      b.classList.add("active");
+    } else {
+      b.classList.remove("active");
+    }
+  });
+
+  tabPages.forEach((page) => {
+    if (page.id === targetId) {
+      page.classList.remove("hidden");
+    } else {
+      page.classList.add("hidden");
+    }
+  });
+}
+
+tabButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    switchTab(btn.dataset.target);
+  });
+});
+
 // === 選擇勇者 ===
 heroCards.forEach((btn) => {
   btn.addEventListener("click", () => {
     const key  = btn.dataset.hero;
     const hero = HEROES[key];
 
-    state.heroKey            = key;
-    state.heroName           = hero.name;
-    state.heroHp             = 6;
-    state.monsterHp          = 6;
-    state.phraseUsedThisTurn = false;
-    state.round              = 0;
+    state.heroKey  = key;
+    state.heroName = hero.name;
+    state.heroHp   = 6;
+    state.monsterHp = 6;
+    state.round    = 0;
 
     heroCards.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
@@ -300,11 +340,11 @@ heroCards.forEach((btn) => {
       selectedHeroText.textContent = `目前勇者：${hero.name}（${hero.line}）`;
     }
     if (roundResult) {
-      roundResult.textContent = "先點地圖選關卡，再說一句溫暖的話，然後出拳安撫魔物吧～";
+      roundResult.textContent = "到地圖選一個關卡，再回來出拳安撫魔物吧～";
     }
 
     if (dialogBox) dialogBox.innerHTML = "";
-    addDialog(`🐻 村長熊熊：${hero.name}，歡迎加入！選一個地圖去探險吧～`);
+    addDialog(`🐻 村長熊熊：${hero.name}，歡迎加入！去新手村外的地圖看看要先挑戰哪裡吧～`);
 
     if (roundCount) roundCount.textContent = "0";
 
@@ -312,46 +352,14 @@ heroCards.forEach((btn) => {
   });
 });
 
-// === 使用安撫語句 ===
-if (usePhraseBtn) {
-  usePhraseBtn.addEventListener("click", () => {
-    if (!state.heroKey) {
-      if (roundResult) roundResult.textContent = "請先選擇一位勇者。";
-      return;
-    }
-
-    const phrase = phraseSelect ? phraseSelect.value : "";
-    if (!phrase) {
-      if (roundResult) roundResult.textContent = "請先從下拉選單選擇一句安撫語句。";
-      return;
-    }
-
-    state.phraseUsedThisTurn = true;
-    addDialog(`🧡 勇者：${phrase}`);
-
-    if (state.heroHp < 6) {
-      state.heroHp += 1;
-      addDialog("💖 勇者的好心情恢復了一點！");
-    } else {
-      addDialog("💖 你的心情已經滿滿的了，可以把這份溫暖分享給魔物～");
-    }
-
-    renderHp();
-    if (roundResult) roundResult.textContent = "溫暖的話說完了，現在可以出拳囉！";
-  });
-}
-
-// === 魔物隨機出拳（考慮天賦拳＋禁出拳） ===
+// === 魔物出拳（考慮天賦＋禁出拳） ===
 function monsterMove() {
   const monster = getCurrentMonster();
   const baseMoves = ["rock", "scissors", "paper"];
 
-  // 先排除禁出拳
   let moves = baseMoves.filter((m) => !monster.forbid || m !== monster.forbid);
-
-  // 有天賦拳的話，給一點權重（再加一次）
   if (monster.talent && moves.includes(monster.talent)) {
-    moves.push(monster.talent);
+    moves.push(monster.talent); // 增加權重
   }
 
   const randomIndex = Math.floor(Math.random() * moves.length);
@@ -375,17 +383,17 @@ function judge(player, enemy) {
 rpsButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     if (!state.heroKey) {
-      if (roundResult) roundResult.textContent = "請先選擇一位勇者。";
+      if (roundResult) roundResult.textContent = "請先在新手村選擇一位勇者。";
       return;
     }
 
     if (state.monsterHp <= 0) {
-      if (roundResult) roundResult.textContent = "魔物已經恢復好心情囉，可以重新開始或換一個地圖挑戰～";
+      if (roundResult) roundResult.textContent = "這隻魔物已經被你安撫好了，可以換其他地點或挑戰魔王城！";
       return;
     }
 
     if (state.heroHp <= 0) {
-      if (roundResult) roundResult.textContent = "勇者的好心情用完了，可以換一位勇者再試試看～";
+      if (roundResult) roundResult.textContent = "勇者的好心情用完了，回新手村換一位勇者吧～";
       return;
     }
 
@@ -401,119 +409,170 @@ rpsButtons.forEach((btn) => {
     const result = judge(playerMove, enemyMove);
 
     addDialog(
-      `⚔️ 勇者出了 ${moveToText(playerMove)}，${monster.name} 出了 ${moveToText(enemyMove)}。`
+      `⚔️ ${state.heroName || "勇者"} 出了 ${moveToText(playerMove)}，${monster.name} 出了 ${moveToText(enemyMove)}。`
     );
 
     if (result === "draw") {
-      if (roundResult) roundResult.textContent = "平手！大家先冷靜一下。";
-      addDialog(`${monster.name}：哼…我還是很不爽！`);
+      if (roundResult) roundResult.textContent = "平手！先觀察對方的心情變化。";
+      addDialog(`${state.heroName || "勇者"}：看起來我們還在找彼此的節奏。`);
+      addDialog(`${monster.name}：哼…我還在猶豫要不要相信你。`);
     } else if (result === "win") {
       damageToMonster = 1;
 
       const hero = HEROES[state.heroKey];
       if (hero.talent && hero.talent === playerMove) {
         damageToMonster += 1;
-        addDialog("✨ 天賦拳發動！你的好心情力量變強了！");
+        addDialog(`✨ ${hero.name} 的天賦拳發動！好心情力量加倍！`);
       }
 
-      if (state.phraseUsedThisTurn) {
-        damageToMonster += 1;
-        addDialog("🌈 你的溫暖話語讓壞情緒更快消散！");
-      }
-
-      state.monsterHp -= damageToMonster;
+      const remainHp = state.monsterHp - damageToMonster;
 
       if (roundResult) {
         roundResult.textContent = `你贏了這回合！成功安撫了 ${damageToMonster} 點壞情緒。`;
       }
-      addDialog(`${monster.name}：咦…為什麼心裡好像有一點暖暖的…？`);
+      addDialog(`${state.heroName || "勇者"}：我有在聽，你的感受很重要。`);
+
+      if (remainHp >= 3) {
+        addDialog(`${monster.name}：咦…為什麼心裡好像有一點點暖暖的…？`);
+      } else if (remainHp >= 1) {
+        addDialog(`${monster.name}：好像…沒那麼想發脾氣了。`);
+      } else {
+        addDialog(`${monster.name}：原來我可以被這樣好好對待…謝謝你。`);
+      }
+
+      state.monsterHp = remainHp;
     } else {
       state.heroHp -= 1;
 
       if (roundResult) {
         roundResult.textContent = "這回合魔物情緒爆炸了！你的好心情被影響了一點。";
       }
+      addDialog(`${state.heroName || "勇者"}：哎呀…剛剛被你的壞情緒嚇到了，不過我還是想陪你。`);
       addDialog(`${monster.name}：你們都不懂我！都走開啦！`);
     }
 
-    state.phraseUsedThisTurn = false;
     renderHp();
 
     if (state.monsterHp <= 0) {
+      clearedMonsters[monster.key] = true;
+      updateMapProgress();
+
       addDialog(`😊 ${monster.name}：謝謝你願意聽我說話…我覺得好多了。`);
-      addDialog("🐻 村長熊熊：太棒了！你成功安撫了所有壞情緒！");
+      if (monster.key === BOSS_KEY) {
+        addDialog("🐻 村長熊熊：恭喜你！連魔王都被你安撫了，星星王國的天空再次變得明亮～");
+      } else {
+        addDialog("🐻 村長熊熊：太棒了！這個地點的壞情緒已經被你安撫完成。");
+      }
+
       if (roundResult) {
-        roundResult.textContent = "任務完成！可以回地圖選下一個關卡。";
+        if (allClearedWithBoss()) {
+          roundResult.textContent = "全地圖通關！你是星星王國的傳說小勇者！";
+        } else {
+          roundResult.textContent = "任務完成！可以回地圖選下一個地點，或準備前往魔王城。";
+        }
       }
     } else if (state.heroHp <= 0) {
       addDialog("😢 勇者：我好累…需要一點時間休息。");
-      addDialog("🐻 村長熊熊：沒關係，累了就休息一下，再出發也可以。");
+      addDialog("🐻 村長熊熊：沒關係，累了就回新手村換個勇者，再出發也可以。");
       if (roundResult) {
         roundResult.textContent =
-          "勇者的好心情暫時用完了～可以換一位勇者或先去看看占卜。";
+          "勇者的好心情暫時用完了～可以回新手村換一位勇者，或先去占卜看看。";
       }
     }
   });
 });
 
-// === 重新開始冒險 ===
+// === 重新整理心情 ===
 if (resetBtn) {
   resetBtn.addEventListener("click", () => {
-    state.heroHp             = 6;
-    state.monsterHp          = 6;
-    state.phraseUsedThisTurn = false;
-    state.round              = 0;
-
-    if (selectedHeroText && !state.heroKey) {
-      selectedHeroText.textContent = "目前尚未選擇勇者";
-    }
-    if (roundResult) {
-      roundResult.textContent = "請先選勇者，再說一句話，然後出拳。";
-    }
-    if (dialogBox) dialogBox.innerHTML = "";
-    addDialog("🐻 村長熊熊：重新整理一下心情，再試一次吧～");
+    state.heroHp    = 6;
+    state.monsterHp = 6;
+    state.round     = 0;
 
     if (roundCount) roundCount.textContent = "0";
+    if (roundResult) {
+      roundResult.textContent = "重新整頓好心情，可以再試一次這個關卡。";
+    }
+    if (dialogBox) dialogBox.innerHTML = "";
+    addDialog("🐻 村長熊熊：深呼吸一下，我們再穩穩地出拳就好～");
 
     renderHp();
   });
 }
 
-// === 地圖：選擇魔物關卡 ===
+// === 地圖：點擊行為 ===
 mapTiles.forEach((tile) => {
   tile.addEventListener("click", () => {
-    const key = tile.dataset.monster;
-    const monster = MONSTERS[key];
-    if (!monster) return;
+    const action = tile.dataset.action;
+    const key    = tile.dataset.monster;
 
-    state.monsterKey = key;
-    state.monsterHp  = 6;
-    state.round      = 0;
-
-    if (roundCount) roundCount.textContent = "0";
-
-    renderHp();
-
-    if (dialogBox) dialogBox.innerHTML = "";
-    addDialog(`🐻 村長熊熊：你來到了「${monster.stage}」，這裡住著「${monster.name}」。`);
-    addDialog(`🐻 村長熊熊：記得觀察他的天賦拳和禁出拳，再決定要出什麼喔！`);
-
-    if (roundResult) {
-      roundResult.textContent = "回到戰鬥分頁，就可以開始猜拳囉～";
+    if (action === "start") {
+      // 新手村：切到戰鬥分頁，提示選勇者
+      switchTab("battleArea");
+      if (!state.heroKey && roundResult) {
+        roundResult.textContent = "請先在上方選擇一位勇者，再回地圖挑戰魔物。";
+      }
+      if (dialogBox) {
+        dialogBox.innerHTML = "";
+        addDialog("🐻 村長熊熊：歡迎回到新手村～慢慢選一位你想一起冒險的勇者吧！");
+      }
+      return;
     }
 
-    // 自動切回戰鬥分頁
-    const battleTab = document.querySelector('.tab-btn[data-target="battleArea"]');
-    if (battleTab) battleTab.click();
+    if (action === "witch") {
+      // 女巫小屋：切到占卜分頁
+      switchTab("tarotArea");
+      if (tarotBearMessage) {
+        tarotBearMessage.textContent =
+          "🐻 村長熊熊：這裡是女巫小屋，也是我開的占卜角落～抽三張牌，我們一起看看你的心情地圖。";
+      }
+      return;
+    }
+
+    if (key) {
+      // 魔王鎖定機制
+      if (key === BOSS_KEY && !allBasicCleared()) {
+        if (dialogBox) {
+          dialogBox.innerHTML = "";
+        }
+        addDialog("🐻 村長熊熊：還不能直接衝到魔王城喔！先把其他地點的魔物安撫好，再來挑戰惡龍吧～");
+        if (roundResult) {
+          roundResult.textContent = "先完成草原、森林、火山、湖畔、洞窟、墓地的挑戰，再回來吧。";
+        }
+        return;
+      }
+
+      const monster = MONSTERS[key];
+      if (!monster) return;
+
+      state.monsterKey = key;
+      state.monsterHp  = 6;
+      state.round      = 0;
+
+      if (roundCount) roundCount.textContent = "0";
+
+      renderHp();
+
+      if (dialogBox) dialogBox.innerHTML = "";
+      addDialog(`🐻 村長熊熊：你來到了「${monster.stage}」，這裡住著「${monster.name}」。`);
+      addDialog(`🐻 村長熊熊：他有自己的天賦拳，也有害怕出的拳，觀察一下再出拳吧！`);
+
+      if (roundResult) {
+        roundResult.textContent = "切回戰鬥分頁，讓勇者用剪刀石頭布安撫他的壞情緒吧～";
+      }
+
+      // 自動切回戰鬥
+      switchTab("battleArea");
+    }
   });
 });
 
-// === 熊熊塔羅占卜：抽牌 ===
+// === 熊熊塔羅占卜 ===
 function drawTarotCard() {
   const index = Math.floor(Math.random() * TAROT_CARDS.length);
   const card  = TAROT_CARDS[index];
 
-  const isUpright = Math.random() < 0.5; // true 正位 / false 逆位
+  const isUpright = Math.random() < 0.5;
 
   return {
     name: card.name,
@@ -559,23 +618,7 @@ if (tarotBtn) {
   });
 }
 
-// === 分頁切換：戰鬥 / 地圖 / 占卜 ===
-tabButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    tabButtons.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    const targetId = btn.dataset.target;
-
-    tabPages.forEach((page) => {
-      if (page.id === targetId) {
-        page.classList.remove("hidden");
-      } else {
-        page.classList.add("hidden");
-      }
-    });
-  });
-});
-
-// === 一開始先顯示血量與情緒 ===
+// === 初始化 ===
 renderHp();
+updateMapProgress();
+switchTab("battleArea");
