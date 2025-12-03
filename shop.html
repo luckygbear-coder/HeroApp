@@ -6,13 +6,14 @@
   <title>小勇者之旅大冒險｜喵喵商人の道具店</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body data-page="shop">
   <div class="game-wrap">
 
     <!-- 標題 -->
     <section class="card title-card">
       <h1>🐱 喵喵商人の道具店</h1>
-      <p class="subtitle">使用勇氣星星購買道具，讓冒險更順利 ✨</p>
+      <p class="subtitle">用勇氣星星購買道具，讓冒險更順利 ✨</p>
     </section>
 
     <!-- 分頁 -->
@@ -21,9 +22,10 @@
       <a class="nav-link" href="map.html">地圖</a>
       <a class="nav-link" href="battle.html">戰鬥</a>
       <a class="nav-link" href="tarot.html">占卜屋</a>
+      <a class="nav-link active" href="shop.html">商店</a>
     </nav>
 
-    <!-- 星星與持有道具數 -->
+    <!-- 星星與道具數量 -->
     <section class="card">
       <h2>目前資源</h2>
       <p>⭐ 勇氣星星：<span id="shopStars">0</span> 顆</p>
@@ -37,6 +39,7 @@
     <section class="card shop-card">
       <h2>商品列表</h2>
 
+      <!-- 小蘋果 -->
       <div class="shop-item">
         <div class="shop-item-info">
           <p class="shop-name">❤️ 小蘋果（+1 HP）</p>
@@ -47,9 +50,12 @@
           class="shop-buy-btn"
           data-item="appleSmall"
           data-label="小蘋果"
-        >購買</button>
+        >
+          購買
+        </button>
       </div>
 
+      <!-- 大蘋果 -->
       <div class="shop-item">
         <div class="shop-item-info">
           <p class="shop-name">💖 大蘋果（HP 全滿）</p>
@@ -60,9 +66,12 @@
           class="shop-buy-btn"
           data-item="appleBig"
           data-label="大蘋果"
-        >購買</button>
+        >
+          購買
+        </button>
       </div>
 
+      <!-- 復活星星 -->
       <div class="shop-item">
         <div class="shop-item-info">
           <p class="shop-name">⭐ 復活星星</p>
@@ -73,9 +82,12 @@
           class="shop-buy-btn"
           data-item="revive"
           data-label="復活星星"
-        >購買</button>
+        >
+          購買
+        </button>
       </div>
 
+      <!-- 嗡嗡蜂蜜 -->
       <div class="shop-item">
         <div class="shop-item-info">
           <p class="shop-name">🍯 嗡嗡蜂蜜</p>
@@ -86,12 +98,18 @@
           class="shop-buy-btn"
           data-item="honey"
           data-label="嗡嗡蜂蜜"
-        >購買</button>
+        >
+          購買
+        </button>
       </div>
     </section>
 
+    <!-- 返回地圖 -->
     <section class="card">
-      <button class="secondary-btn full" onclick="window.location.href='map.html'">
+      <button
+        class="secondary-btn full"
+        onclick="window.location.href='map.html'"
+      >
         ⬅️ 回冒險地圖
       </button>
     </section>
@@ -99,8 +117,8 @@
     <footer class="footer">
       <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
     </footer>
-
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
