@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小勇者之旅大冒險｜喵喵商人の道具店</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="shop">
+  <div class="game-wrap">
+
+    <!-- 標題 -->
+    <section class="card title-card">
+      <h1>🐱 喵喵商人の道具店</h1>
+      <p class="subtitle">使用勇氣星星購買道具，讓冒險更順利 ✨</p>
+    </section>
+
+    <!-- 分頁 -->
+    <nav class="top-nav">
+      <a class="nav-link" href="index.html">新手村</a>
+      <a class="nav-link" href="map.html">地圖</a>
+      <a class="nav-link" href="battle.html">戰鬥</a>
+      <a class="nav-link" href="tarot.html">占卜屋</a>
+    </nav>
+
+    <!-- 星星與持有道具數 -->
+    <section class="card">
+      <h2>目前資源</h2>
+      <p>⭐ 勇氣星星：<span id="shopStars">0</span> 顆</p>
+      <p>🍯 嗡嗡蜂蜜：<span id="shopHoneyCount">0</span> 罐</p>
+      <p>❤️ 小蘋果：<span id="shopAppleSmallCount">0</span> 顆</p>
+      <p>💖 大蘋果：<span id="shopAppleBigCount">0</span> 顆</p>
+      <p>⭐ 復活星星：<span id="shopReviveCount">0</span> 顆</p>
+    </section>
+
+    <!-- 商品列表 -->
+    <section class="card shop-card">
+      <h2>商品列表</h2>
+
+      <div class="shop-item">
+        <div class="shop-item-info">
+          <p class="shop-name">❤️ 小蘋果（+1 HP）</p>
+          <p class="shop-desc">補 1 點血量，適合小受傷時使用。</p>
+          <p class="shop-price">價格：⭐ 1 顆</p>
+        </div>
+        <button
+          class="shop-buy-btn"
+          data-item="appleSmall"
+          data-label="小蘋果"
+        >購買</button>
+      </div>
+
+      <div class="shop-item">
+        <div class="shop-item-info">
+          <p class="shop-name">💖 大蘋果（HP 全滿）</p>
+          <p class="shop-desc">一口咬下去，好心情與體力一次回滿！</p>
+          <p class="shop-price">價格：⭐ 5 顆</p>
+        </div>
+        <button
+          class="shop-buy-btn"
+          data-item="appleBig"
+          data-label="大蘋果"
+        >購買</button>
+      </div>
+
+      <div class="shop-item">
+        <div class="shop-item-info">
+          <p class="shop-name">⭐ 復活星星</p>
+          <p class="shop-desc">HP 歸零時可使用，讓小勇者重新站起來。</p>
+          <p class="shop-price">價格：⭐ 10 顆</p>
+        </div>
+        <button
+          class="shop-buy-btn"
+          data-item="revive"
+          data-label="復活星星"
+        >購買</button>
+      </div>
+
+      <div class="shop-item">
+        <div class="shop-item-info">
+          <p class="shop-name">🍯 嗡嗡蜂蜜</p>
+          <p class="shop-desc">熊熊村長占卜專用，每次占卜消耗 1 罐。</p>
+          <p class="shop-price">價格：⭐ 6 顆</p>
+        </div>
+        <button
+          class="shop-buy-btn"
+          data-item="honey"
+          data-label="嗡嗡蜂蜜"
+        >購買</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <button class="secondary-btn full" onclick="window.location.href='map.html'">
+        ⬅️ 回冒險地圖
+      </button>
+    </section>
+
+    <footer class="footer">
+      <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
+    </footer>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
