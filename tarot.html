@@ -11,42 +11,42 @@
   <div class="game-wrap">
 
     <!-- 標題 -->
-    <div class="card title-card">
+    <section class="card title-card">
       <h1>🔮 熊熊占卜屋</h1>
-      <div class="subtitle">使用嗡嗡蜂蜜請熊熊村長幫你抽塔羅牌 ✨</div>
-    </div>
+      <p class="subtitle">用嗡嗡蜂蜜換取塔羅牌的指引 ✨</p>
+    </section>
 
-    <!-- 分頁導覽 -->
-    <div class="top-nav">
+    <!-- 分頁 -->
+    <nav class="top-nav">
       <a class="nav-link" href="index.html">新手村</a>
       <a class="nav-link" href="map.html">地圖</a>
       <a class="nav-link" href="battle.html">戰鬥</a>
       <a class="nav-link active" href="tarot.html">占卜屋</a>
-    </div>
+      <a class="nav-link" href="shop.html">商店</a>
+    </nav>
 
-    <!-- 資源顯示：蜂蜜 & 星星 -->
+    <!-- 占卜資源 -->
     <section class="card">
-      <h2>資源概況</h2>
+      <h2>占卜資源</h2>
+
       <p>🍯 嗡嗡蜂蜜：<span id="honeyCount">0</span> 罐</p>
       <p>⭐ 勇氣星星：<span id="tarotStars">0</span> 顆</p>
+
       <p class="tarot-intro">
-        使用 <b>1 罐嗡嗡蜂蜜</b> 可以請熊熊村長幫你抽 <b>過去、現在、未來</b> 三張塔羅牌。<br />
-        若只是想休息、恢復好心情，可以按下「熊熊抱抱」，<b>不用消耗蜂蜜</b>喔 💖
+        消耗 1 罐嗡嗡蜂蜜，可以抽出三張塔羅牌：  
+        <br>👉 過去　👉 現在　👉 未來  
+        熊熊村長會用溫暖語氣給你提醒 💛
       </p>
 
       <div class="tarot-btn-row">
-        <button id="bearHugBtn" class="tarot-btn">
-          🐻 熊熊抱抱（恢復好心情）
-        </button>
-        <button id="tarotDrawBtn" class="tarot-btn">
-          🔮 消耗 1 罐蜂蜜進行塔羅占卜
-        </button>
+        <button id="bearHugBtn" class="secondary-btn full">🤗 熊熊抱抱（恢復體力）</button>
+        <button id="tarotDrawBtn" class="primary-btn full">🔮 使用 1 罐嗡嗡蜂蜜占卜</button>
       </div>
     </section>
 
-    <!-- 三張塔羅牌 -->
+    <!-- 占卜結果 -->
     <section class="card tarot-section">
-      <h2>三張塔羅牌</h2>
+      <h2>占卜結果</h2>
 
       <div class="tarot-row">
         <!-- 過去 -->
@@ -54,7 +54,9 @@
           <div class="tarot-position">過去</div>
           <div id="tarotPastName" class="tarot-name">—</div>
           <div id="tarotPastOrient" class="tarot-orientation">—</div>
-          <p id="tarotPastMeaning" class="tarot-meaning">按「塔羅占卜」後會顯示解讀。</p>
+          <p id="tarotPastMeaning" class="tarot-meaning">
+            占卜後會顯示塔羅牌解析內容。
+          </p>
         </div>
 
         <!-- 現在 -->
@@ -62,7 +64,9 @@
           <div class="tarot-position">現在</div>
           <div id="tarotPresentName" class="tarot-name">—</div>
           <div id="tarotPresentOrient" class="tarot-orientation">—</div>
-          <p id="tarotPresentMeaning" class="tarot-meaning">按「塔羅占卜」後會顯示解讀。</p>
+          <p id="tarotPresentMeaning" class="tarot-meaning">
+            占卜後會顯示塔羅牌解析內容。
+          </p>
         </div>
 
         <!-- 未來 -->
@@ -70,29 +74,21 @@
           <div class="tarot-position">未來</div>
           <div id="tarotFutureName" class="tarot-name">—</div>
           <div id="tarotFutureOrient" class="tarot-orientation">—</div>
-          <p id="tarotFutureMeaning" class="tarot-meaning">按「塔羅占卜」後會顯示解讀。</p>
+          <p id="tarotFutureMeaning" class="tarot-meaning">
+            占卜後會顯示塔羅牌解析內容。
+          </p>
         </div>
       </div>
 
-      <!-- 熊熊村長的提醒 -->
-      <div class="tarot-bear-box">
-        <p id="tarotBearMessage" class="tarot-bear">
-          熊熊村長：準備好了就按「塔羅占卜」，我會用溫柔的方式告訴你牌卡的故事 💛
-        </p>
+      <!-- 熊熊村長提醒 -->
+      <div id="tarotBearMessage" class="tarot-bear-box">
+        熊熊村長：準備好了嗎？我會陪著你一起面對每一張牌 💛
       </div>
-    </section>
-
-    <!-- 返回地圖 -->
-    <section class="card">
-      <button class="tarot-btn" onclick="window.location.href='map.html'">
-        🗺️ 回到冒險地圖
-      </button>
     </section>
 
     <footer class="footer">
       <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
     </footer>
-
   </div>
 
   <script src="script.js"></script>
