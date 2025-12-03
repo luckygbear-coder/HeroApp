@@ -2,80 +2,95 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>小勇者之旅大冒險 - 新手村</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小勇者之旅大冒險｜新手村</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body data-page="index">
   <div class="game-wrap">
+
     <!-- 標題 -->
-    <header class="title-card card">
-      <h1>小勇者之旅大冒險</h1>
-      <p class="subtitle">新手村 · 選擇你的勇者</p>
-    </header>
+    <div class="card title-card">
+      <h1>🌟 小勇者之旅大冒險</h1>
+      <div class="subtitle">新手村 · 故事開始的地方</div>
+    </div>
 
-    <!-- 導覽列 -->
-    <nav class="top-nav">
-      <a href="index.html" class="nav-link" data-page-link="index">🏡 新手村</a>
-      <a href="battle.html" class="nav-link" data-page-link="battle">⚔️ 戰鬥</a>
-      <a href="map.html" class="nav-link" data-page-link="map">🗺️ 地圖</a>
-      <a href="tarot.html" class="nav-link" data-page-link="tarot">🔮 占卜屋</a>
-    </nav>
+    <!-- 導覽列（新版：地圖第二、戰鬥第三） -->
+    <div class="top-nav">
+      <a class="nav-link active" data-page-link="index" href="index.html">新手村</a>
+      <a class="nav-link" data-page-link="map" href="map.html">地圖</a>
+      <a class="nav-link" data-page-link="battle" href="battle.html">戰鬥</a>
+      <a class="nav-link" data-page-link="tarot" href="tarot.html">占卜屋</a>
+    </div>
 
-    <!-- 進度摘要 -->
-    <section class="card summary-card">
-      <p class="progress-summary">
-        目前地圖等級：<span id="summaryLevel">LV.1</span> ｜ 🌟 勇氣星星：<span id="summaryStars">0</span>
-      </p>
-      <p class="summary-note">回到新手村時，小勇者的好心情會自動恢復滿血喔！</p>
-    </section>
-
-    <!-- 故事簡介 -->
-    <section class="card story-section">
-      <h2>故事簡介</h2>
+    <!-- 故事區 -->
+    <div class="card story-card">
+      <h2>🐻 村長熊熊的故事簡介</h2>
       <p class="story-text">
-        在星星王國裡，一隻魔王被六種壞情緒纏住了，他開始亂發脾氣、把天空弄得烏雲密布。<br />
-        村長熊熊召集了小勇者們，請大家用「溫暖的心」和「剪刀、石頭、布」，一步一步安撫他的心。
+        歡迎來到新手村！  
+        這裡是所有冒險開始的地方。  
+        星星王國被壞情緒影響，小勇者必須踏上旅途，讓魔物恢復好心情！
       </p>
-    </section>
 
-    <!-- 勇者選擇區 -->
-    <section class="card hero-section">
+      <!-- IG 按鈕 -->
+      <a href="https://www.instagram.com/luckygbear/" target="_blank" class="ig-btn">
+        🐻 追蹤村長熊熊 IG
+      </a>
+    </div>
+
+    <!-- 選擇勇者 -->
+    <div class="card">
       <h2>選擇你的勇者</h2>
+
       <div class="hero-list">
-        <button class="hero-card" data-hero="warrior">
-          <div class="hero-name">🛡️ 戰士 LV.1</div>
-          <div class="hero-fist">✊ 天賦拳：石頭</div>
-          <div class="hero-line">「我一定會守護大家！」</div>
-        </button>
 
-        <button class="hero-card" data-hero="mage">
-          <div class="hero-name">🔮 法師 LV.1</div>
-          <div class="hero-fist">✌️ 天賦拳：剪刀</div>
-          <div class="hero-line">「嘿嘿～我有新點子！」</div>
-        </button>
+        <!-- 戰士 -->
+        <div class="hero-card" data-hero="warrior">
+          <div class="hero-name">🛡️ 戰士</div>
+          <div class="hero-fist">天賦拳：✊ 石頭</div>
+          <div class="hero-line">特殊：使用石頭並勝利 → 效果 ×2</div>
+        </div>
 
-        <button class="hero-card" data-hero="priest">
-          <div class="hero-name">💖 牧師 LV.1</div>
-          <div class="hero-fist">🖐 天賦拳：布</div>
-          <div class="hero-line">「別擔心，我來幫你～」</div>
-        </button>
+        <!-- 法師 -->
+        <div class="hero-card" data-hero="mage">
+          <div class="hero-name">🔮 法師</div>
+          <div class="hero-fist">天賦拳：✌️ 剪刀</div>
+          <div class="hero-line">特殊：使用剪刀並勝利 → 效果 ×2</div>
+        </div>
 
-        <button class="hero-card" data-hero="villager">
-          <div class="hero-name">🌾 勇敢的村民 LV.1</div>
-          <div class="hero-fist">⭐ 無固定拳</div>
-          <div class="hero-line">「我雖然平凡，但不放棄！」</div>
+        <!-- 牧師 -->
+        <div class="hero-card" data-hero="priest">
+          <div class="hero-name">💖 牧師</div>
+          <div class="hero-fist">天賦拳：🖐 布</div>
+          <div class="hero-line">特殊：使用布並勝利 → 效果 ×2</div>
+        </div>
+
+        <!-- 勇敢的村民 -->
+        <div class="hero-card" data-hero="villager">
+          <div class="hero-name">🌾 勇敢的村民</div>
+          <div class="hero-fist">天賦拳：無</div>
+          <div class="hero-line">特殊：免疫壞情緒（永不扣血）</div>
+        </div>
+
+      </div>
+
+      <!-- 顯示勇者故事 -->
+      <div id="heroStoryBox" class="hero-story-box" style="display:none;">
+        <h3 id="heroStoryName"></h3>
+        <p id="heroStoryText"></p>
+
+        <button id="confirmHeroBtn" class="confirm-hero-btn" style="display:none;">
+          ✔ 確認選擇這位勇者並開始冒險
         </button>
       </div>
-      <p class="hint">點選一位勇者開始冒險，之後前往「地圖」選擇關卡，再去「戰鬥」與魔物對決！</p>
-      <p class="selected-hero" id="selectedHeroText">目前尚未選擇勇者</p>
-    </section>
+    </div>
 
-    <footer class="footer">
-      <p>設計：村長熊熊 ｜ IG：
-        <a href="https://www.instagram.com/luckygbear" target="_blank">@luckygbear</a>
-      </p>
-    </footer>
+    <!-- 頁尾 -->
+    <div class="footer">
+      © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
+    </div>
+
   </div>
 
   <script src="script.js"></script>
