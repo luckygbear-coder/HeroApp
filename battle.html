@@ -24,26 +24,23 @@
       <a class="nav-link" href="tarot.html" data-page-link="tarot">占卜屋</a>
     </div>
 
-    <!-- 進度 -->
+    <!-- 進度摘要 -->
     <div class="card summary-card">
       <p class="progress-summary">
-        勇者 HP：<span id="heroHpText">0</span> ｜  
-        魔物壞情緒：<span id="monsterHpText">0</span>
+        勇者 HP：<span id="heroHpText">0</span> ｜ 魔物壞情緒：<span id="monsterHpText">0</span>
       </p>
       <p class="summary-note">
-        使用天賦拳擊敗魔物會有 2 倍安撫效果！<br>
-        勇敢的村民永不扣血 ✨
+        使用天賦拳擊敗魔物會有 2 倍安撫效果！勇敢的村民永不扣血 ✨
       </p>
     </div>
 
-    <!-- 魔物資訊 -->
+    <!-- 對手資訊 + 對話 -->
     <div class="card monster-info" id="monsterInfoBox">
       <h2>對手資訊</h2>
       <p class="monster-stage">地點：<span id="monsterStageText"></span></p>
       <p class="monster-name">魔物：<span id="monsterNameText"></span></p>
       <p class="monster-fist">
-        天賦拳：<span id="monsterTalentText"></span> ｜  
-        禁出拳：<span id="monsterForbidText"></span>
+        天賦拳：<span id="monsterTalentText"></span> ｜ 禁出拳：<span id="monsterForbidText"></span>
       </p>
 
       <!-- 壞情緒 HP -->
@@ -52,7 +49,7 @@
         <div id="monsterHpText2"></div>
       </div>
 
-      <!-- 進度條 -->
+      <!-- 壞情緒進度條 -->
       <div class="emotion-progress">
         <div class="emotion-bar" id="emotionBar"></div>
       </div>
@@ -62,17 +59,29 @@
       <ul class="emotion-list" id="emotionList">
         <li></li><li></li><li></li><li></li><li></li><li></li>
       </ul>
+
+      <!-- 對話訊息：放在對手資訊最底部，兩行高，可捲動 -->
+      <div class="battle-dialog-box" id="dialogBox">
+        <!-- script.js 會把對話 <p> 加進來 -->
+      </div>
     </div>
 
-    <!-- 回合操作 -->
+    <!-- 戰鬥操作區 -->
     <div class="card battle-section">
       <h2>猜拳出招</h2>
       <p class="hint">選一個拳，勇者會自動與魔物對話！</p>
 
-      <div class="rps-row">
-        <button class="rps-btn" data-move="rock">✊ 石頭</button>
-        <button class="rps-btn" data-move="scissors">✌️ 剪刀</button>
-        <button class="rps-btn" data-move="paper">🖐 布</button>
+      <!-- 出拳按鈕 + 回地圖在同一排 -->
+      <div class="action-row">
+        <div class="rps-row">
+          <button class="rps-btn" data-move="rock">✊ 石頭</button>
+          <button class="rps-btn" data-move="scissors">✌️ 剪刀</button>
+          <button class="rps-btn" data-move="paper">🖐 布</button>
+        </div>
+
+        <button class="small-back-btn" onclick="window.location.href='map.html'">
+          🗺️ 回地圖
+        </button>
       </div>
 
       <p class="round-result" id="roundResult">請出拳！</p>
@@ -81,17 +90,7 @@
       <button class="reset-btn" id="resetBtn">重新整頓心情再來</button>
     </div>
 
-    <!-- 對話紀錄 -->
-    <div class="card log-section">
-      <h2>對話紀錄</h2>
-      <div class="dialog-box" id="dialogBox"></div>
-    </div>
-
-    <!-- 返回地圖 -->
-    <button class="primary-btn" onclick="window.location.href='map.html'" style="margin-top:12px;">
-      🗺️ 結束戰鬥，返回地圖
-    </button>
-
+    <!-- 頁尾 -->
     <div class="footer">
       © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
     </div>
