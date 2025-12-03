@@ -9,69 +9,68 @@
 <body data-page="index">
   <div class="game-wrap">
 
-    <!-- 標題卡 -->
-    <div class="card title-card">
+    <!-- 標題 -->
+    <section class="card title-card">
       <h1>🌱 小勇者之旅大冒險</h1>
-      <div class="subtitle">情緒與勇氣的奇幻之旅 ✨</div>
-    </div>
+      <p class="subtitle">剪刀、石頭、布！用好心情安撫壞情緒魔物 ✨</p>
+    </section>
 
-    <!-- 導覽列 -->
-    <div class="top-nav">
+    <!-- 分頁切換 -->
+    <nav class="top-nav">
       <a class="nav-link active" href="index.html">新手村</a>
       <a class="nav-link" href="map.html">地圖</a>
       <a class="nav-link" href="battle.html">戰鬥</a>
       <a class="nav-link" href="tarot.html">占卜屋</a>
-      <a class="nav-link" href="shop.html">商店</a>
-    </div>
+    </nav>
 
-    <!-- 故事介紹 -->
-    <section class="card story-card">
+    <!-- 新手村故事＋喵喵商人 -->
+    <section class="card">
       <h2>故事介紹</h2>
-      <p class="story-text">
-        歡迎來到 <b>新手村</b>！🌈<br />
-        在這裡，小勇者們準備出發冒險，挑戰被壞情緒纏住的魔物，並一步步收集勇氣星星 ⭐。
+      <p>
+        歡迎來到 <b>新手村</b>！🌈 在這裡，小勇者們準備出發冒險，挑戰各地被壞情緒纏住的魔物，
+        並一步一步收集勇氣星星 ⭐。
       </p>
-      <p class="story-text">
-        在旅程中，你會遇見森林、湖畔、洞窟、墓地、地窖、遺跡……直到挑戰最終的魔王城！<br />
+      <p>
+        旅程中你會遇見森林、湖畔、洞窟、墓地、地窖、遺跡……最後挑戰魔王城的惡龍。
         記住：真正的力量不是拳頭，而是你的好心情 ❤️
       </p>
 
-      <a href="https://www.instagram.com/luckygbear/" target="_blank" class="ig-btn">
-        🐻 追蹤村長熊熊 IG
-      </a>
-
-      <button class="shop-btn" onclick="window.location.href='shop.html'">
-        🐱 喵喵商人の道具店
-      </button>
-    </section>
-
-    <!-- 選擇勇者 -->
-    <section class="card hero-card-section">
-      <h2>選擇你的勇者</h2>
-
-      <div class="hero-list" id="heroList">
-        <!-- JS 生成勇者卡 -->
+      <div class="btn-row">
+        <a class="primary-btn full" href="https://www.instagram.com/luckygbear/" target="_blank">
+          🐻 追蹤村長熊熊 IG
+        </a>
       </div>
 
-      <div class="hero-story-box" id="heroStoryBox" style="display:none;">
-        <h3>勇者故事</h3>
-        <p id="heroStoryText"></p>
-        <p id="heroLineText"></p>
-        <p id="heroAbilityText"></p>
+      <div class="btn-row">
+        <a class="secondary-btn full" href="shop.html">
+          🐱 喵喵商人の道具店
+        </a>
+      </div>
+    </section>
 
-        <button id="confirmHeroBtn" class="confirm-hero-btn" style="display:none;">
-          ✔ 確認勇者並前往地圖
+    <!-- 選擇小勇者 -->
+    <section class="card">
+      <h2>選擇你的勇者</h2>
+      <p>請點選一位勇者開始冒險～</p>
+
+      <div id="heroList" class="hero-list"></div>
+
+      <!-- 點選勇者後出現的小故事與確認按鈕 -->
+      <div id="heroStoryBox" class="hero-story-box" style="display:none;">
+        <p id="heroStoryText" class="hero-story-text"></p>
+        <p id="heroLineText" class="hero-line-text"></p>
+        <p id="heroAbilityText" class="hero-ability-text"></p>
+        <button id="confirmHeroBtn" class="primary-btn hero-confirm-btn" style="display:none;">
+          ✅ 確認這位勇者並前往地圖
         </button>
       </div>
-
-      <p class="hero-hint">請點選一位勇者開始冒險～</p>
     </section>
 
-    <div class="footer">
-      © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
-    </div>
-  </div>
+    <footer class="footer">
+      <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
+    </footer>
 
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
