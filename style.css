@@ -147,6 +147,12 @@ body {
   margin-bottom: 6px;
 }
 
+.hero-hint {
+  font-size: 0.8rem;
+  margin-top: 6px;
+  color: #7b5830;
+}
+
 /* 確認勇者按鈕 */
 .confirm-hero-btn {
   width: 100%;
@@ -182,6 +188,11 @@ body {
   margin: 0;
 }
 
+.map-intro {
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+}
+
 /* 好友按鈕 */
 .friends-btn {
   padding: 4px 10px;
@@ -210,11 +221,6 @@ body {
 }
 
 .map-tile:active { transform: translateY(1px); }
-
-.map-tile.special {
-  background: #e9f7ff;
-  border-color: #8dc4ff;
-}
 
 .map-tile.boss {
   background: #ffe8f0;
@@ -266,6 +272,11 @@ body {
   padding: 12px;
 }
 
+.friends-list {
+  padding-left: 0;
+  margin: 8px 0;
+}
+
 .friends-list li {
   list-style: none;
   padding: 6px;
@@ -275,7 +286,25 @@ body {
   border: 1px solid #e1b676;
 }
 
+.friends-note {
+  font-size: 0.78rem;
+  color: #7b5830;
+}
+
 /* ===== 戰鬥畫面 ===== */
+
+.summary-card { background: #fff9f0; }
+
+.progress-summary {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+}
+
+.summary-note {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #7b5830;
+}
 
 .monster-info { font-size: 0.83rem; }
 
@@ -317,6 +346,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 4px 8px;
   font-size: 0.78rem;
+  margin-top: 6px;
 }
 
 .emotion-list li {
@@ -390,6 +420,16 @@ body {
   font-weight: 600;
 }
 
+.round-result {
+  margin: 8px 0 0;
+  font-size: 0.86rem;
+}
+
+.round-count {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+}
+
 /* ===== 占卜屋 ===== */
 
 .tarot-section { background: #fff9ff; }
@@ -432,6 +472,7 @@ body {
   background: #fff7ff;
   border: 1px dashed #e1b6e6;
   padding: 8px;
+  margin-top: 8px;
 }
 
 .tarot-bear {
