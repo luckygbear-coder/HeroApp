@@ -4,20 +4,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>小勇者之旅大冒險｜占卜屋</title>
+  <title>小勇者之旅大冒險｜熊熊占卜屋</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body data-page="tarot">
   <div class="game-wrap">
 
-    <!-- 標題卡 -->
     <div class="card title-card">
       <h1>🔮 熊熊占卜屋</h1>
-      <div class="subtitle">熊熊村長為你抽三張塔羅牌</div>
+      <div class="subtitle">熊熊村長幫你抽三張塔羅牌</div>
     </div>
 
-    <!-- 導覽列 -->
     <div class="top-nav">
       <a class="nav-link" href="index.html">新手村</a>
       <a class="nav-link" href="map.html">地圖</a>
@@ -25,22 +23,14 @@
       <a class="nav-link active" href="tarot.html">占卜屋</a>
     </div>
 
-    <!-- 占卜介紹 -->
     <div class="card tarot-section">
       <p class="tarot-intro">
-        歡迎來到 <b>熊熊占卜屋</b> ✨<br>
-        熊熊村長會抽出 <b>過去、現在、未來</b> 三張塔羅牌，
-        並給你溫暖的指引與鼓勵。<br>
-        占卜結束後，小勇者會恢復體力 ❤️
+        熊熊村長會抽出 <b>過去、現在、未來</b> 三張塔羅牌，給你暖心提醒。占卜後，小勇者會恢復體力 ❤️
       </p>
 
-      <!-- 抽牌按鈕 -->
       <button id="tarotDrawBtn" class="tarot-btn">🔮 抽塔羅牌</button>
 
-      <!-- 三張塔羅 -->
       <div class="tarot-row">
-
-        <!-- 過去 -->
         <div class="tarot-card">
           <div class="tarot-position">過去</div>
           <div id="tarotPastName" class="tarot-name">—</div>
@@ -48,7 +38,6 @@
           <p id="tarotPastMeaning" class="tarot-meaning">—</p>
         </div>
 
-        <!-- 現在 -->
         <div class="tarot-card">
           <div class="tarot-position">現在</div>
           <div id="tarotPresentName" class="tarot-name">—</div>
@@ -56,31 +45,25 @@
           <p id="tarotPresentMeaning" class="tarot-meaning">—</p>
         </div>
 
-        <!-- 未來 -->
         <div class="tarot-card">
           <div class="tarot-position">未來</div>
           <div id="tarotFutureName" class="tarot-name">—</div>
           <div id="tarotFutureOrient" class="tarot-orientation">—</div>
           <p id="tarotFutureMeaning" class="tarot-meaning">—</p>
         </div>
-
       </div>
 
-      <!-- 熊熊的解說 -->
       <div class="tarot-bear-box">
         <p id="tarotBearMessage" class="tarot-bear">
-          按下「抽塔羅牌」開始占卜喔～
+          按下「抽塔羅牌」開始占卜吧～
         </p>
       </div>
 
-      <!-- 返回地圖 -->
       <button class="tarot-btn" onclick="window.location.href='map.html'">
         🗺️ 回到地圖
       </button>
-
     </div>
 
-    <!-- 頁尾 -->
     <div class="footer">
       © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
     </div>
