@@ -242,7 +242,7 @@ function initMapPage() {
   const grid = document.getElementById("mapGrid");
   if (!grid) return;
 
-  /* --- 如果以前版本留下「全部打勾但沒升級」的狀態，這裡自動補一次升級 --- */
+  // 判斷是否完整打完一輪魔物＋魔王（舊版本保護用）
   const allMonstersCleared = MONSTER_STAGES.every(id => clearedStages[id]);
   const bossCleared = !!clearedStages.boss;
   if (allMonstersCleared && bossCleared) {
@@ -256,19 +256,12 @@ function initMapPage() {
   document.getElementById("mapLevel").textContent = "LV." + level;
   document.getElementById("mapStars").textContent = stars;
 
-  const cells = [
-    { id: "start", label: "🏡 新手村", kind: "start" },
-    { id: "forest", label: "🌲 森林（獸人）", kind: "monster" },
-    { id: "boss", label: "🔥 魔王城（惡龍）", kind: "boss" },
-
-    { id: "lake", label: "🌊 湖畔（人魚）", kind: "monster" },
-    { id: "tarot", label: "🔮 占卜屋", kind: "tarot" },
-    { id: "cave", label: "🕳 洞窟（哥布林）", kind: "monster" },
-
-    { id: "grave", label: "💀 墓地（骷髏兵）", kind: "monster" },
-    { id: "dungeon", label: "🕸 地窖（異教徒）", kind: "monster" },
-    { id: "ruins", label: "🏛 遺跡（魔像）", kind: "monster" }
-  ];
+  // ① 九宮格：全部都放魔物
+  const cells = MONSTER_STAGES.map(id => ({
+    id,
+    label: MONSTER_DATA[id].label,
+    kind: "monster"
+  }));
 
   grid.innerHTML = "";
 
@@ -277,47 +270,42 @@ function initMapPage() {
     tile.className = "map-tile";
     tile.textContent = cell.label;
 
-    if (cell.kind === "boss") tile.classList.add("boss");
-    if (cell.kind === "start" || cell.kind === "tarot") tile.classList.add("special");
-
     const isCleared = !!clearedStages[cell.id];
-    if ((cell.kind === "monster" || cell.kind === "boss") && isCleared) {
+    if (isCleared) {
       tile.classList.add("cleared");
     }
 
     tile.addEventListener("click", () => {
-      // 已通關的魔物／魔王，在這一輪內不能再進入
-      if ((cell.kind === "monster" || cell.kind === "boss") && isCleared) {
+      // 已通關的魔物，在這一輪內不能再進入
+      if (isCleared) {
         alert("這個地點已完成，要等打倒魔王、地圖升級後才能重新挑戰喔！");
         return;
       }
-
-      switch (cell.kind) {
-        case "start":
-          window.location.href = "index.html";
-          break;
-        case "tarot":
-          window.location.href = "tarot.html";
-          break;
-        case "boss": {
-          const ready = MONSTER_STAGES.every(id => clearedStages[id]);
-          if (!ready) {
-            alert("請先安撫所有魔物，再來挑戰魔王城！");
-            return;
-          }
-          save("currentStage", "boss");
-          window.location.href = "battle.html";
-          break;
-        }
-        case "monster":
-          save("currentStage", cell.id);
-          window.location.href = "battle.html";
-          break;
-      }
+      save("currentStage", cell.id);
+      window.location.href = "battle.html";
     });
 
     grid.appendChild(tile);
   });
+
+  // ② 魔王城：清完全部魔物才會出現的按鈕
+  const bossBtn = document.getElementById("bossBtn");
+  if (bossBtn) {
+    const readyForBoss = MONSTER_STAGES.every(id => clearedStages[id]);
+    if (!readyForBoss) {
+      bossBtn.style.display = "none";
+    } else {
+      bossBtn.style.display = "inline-block";
+      bossBtn.onclick = () => {
+        if (clearedStages.boss) {
+          alert("惡龍已經被你安撫過了，等地圖升級後再來挑戰新一輪吧！");
+          return;
+        }
+        save("currentStage", "boss");
+        window.location.href = "battle.html";
+      };
+    }
+  }
 
   /* --- 好友名單 Modal --- */
   const fbBtn = document.getElementById("friendsBtn");
