@@ -1,5 +1,5 @@
 /* ==========================================================
-   小勇者之旅大冒險 ｜ script.js（修正版）
+   小勇者之旅大冒險 ｜ script.js（最新版）
    ========================================================== */
 
 /* ---------- LocalStorage 工具 ---------- */
@@ -131,9 +131,10 @@ const MOVE_ICON = {
 let battleState = {
   heroHp: 0,
   heroMax: 0,
+  heroAtk: 1,
   monsterHp: 0,
   monsterMax: 0,
-  emotions: [],
+  monsterAtk: 1,
   round: 0
 };
 
@@ -160,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
       break;
   }
 });
-
 /* ==========================================================
    新手村 index.html
    ========================================================== */
@@ -306,7 +306,6 @@ function initMapPage() {
     fbClose.addEventListener("click", () => fbModal.classList.remove("show"));
   }
 }
-
 /* ==========================================================
    戰鬥 battle.html
    ========================================================== */
@@ -326,14 +325,23 @@ function initBattlePage() {
   const m = MONSTER_DATA[stageId];
   const h = hero;
 
-  // 設定勇者 HP（隨 LV 成長）
-  battleState.heroMax = h.baseHp + (level - 1);
+  // 勇者最大 HP：基礎 HP + 好朋友數量
+  battleState.heroMax = h.baseHp + friends.length;
   battleState.heroHp = battleState.heroMax;
 
-  // 設定魔物壞情緒條（目前先不跟 LV 成長，只顯示 LV 在UI）
-  battleState.monsterMax = m.emotions;
-  battleState.monsterHp = m.emotions;
-  battleState.emotions = Array(m.emotions).fill(false);
+  // 勇者攻擊力：1 + (level - 1)
+  battleState.heroAtk = 1 + (level - 1);
+
+  // 魔物 / 魔王壞情緒 HP & 攻擊（隨 LV 成長）
+  if (stageId === "boss") {
+    battleState.monsterMax = m.emotions + (level - 1) * 2;
+    battleState.monsterAtk = 2 + (level - 1);
+  } else {
+    battleState.monsterMax = m.emotions + (level - 1);
+    battleState.monsterAtk = 1 + Math.floor((level - 1) / 2);
+  }
+  battleState.monsterHp = battleState.monsterMax;
+
   battleState.round = 0;
 
   updateBattleUI(h, m, stageId);
@@ -389,37 +397,37 @@ function updateBattleUI(h, m, stageId) {
     monsterForbidText.textContent = m.forbidEmoji || "—";
   }
 
+  // 壞情緒指數：>3 顯示數字；<=3 顯示 💢
   if (emotionList) {
     emotionList.innerHTML = "";
-    battleState.emotions.forEach(ok => {
-      const li = document.createElement("li");
-      if (ok) li.classList.add("calm");
-      li.textContent = ok ? "💚" : "💢";
-      emotionList.appendChild(li);
-    });
+    const li = document.createElement("li");
+    const emo = battleState.monsterHp;
+
+    if (emo > 3) {
+      li.textContent = `壞情緒：${emo}`;
+    } else {
+      li.textContent = "壞情緒：" + "💢".repeat(Math.max(0, emo));
+    }
+    emotionList.appendChild(li);
   }
 }
 
-/* --- 魔物出拳 AI（emoji） --- */
+/* --- 魔物出拳（55% 天賦拳、45% 另一個可用拳） --- */
 function monsterMove(m) {
-  // 魔王：三種隨機出
+  // 魔王：三種隨機出，無弱點拳
   if (m.name === "惡龍") {
     const icons = ["✊", "✌️", "🖐"];
     return icons[Math.floor(Math.random() * icons.length)];
   }
 
-  const talent = m.talentEmoji;   // 一定會出
-  const forbid = m.forbidEmoji;   // 永遠不出
+  const talent = m.talentEmoji;   // 天賦拳
+  const forbid = m.forbidEmoji;   // 弱點拳（不會出）
   const all = ["✊", "✌️", "🖐"];
-  const other = all.filter(e => e !== talent && e !== forbid)[0];
+  const other = all.find(e => e !== talent && e !== forbid);
 
-  const pool = [];
-  for (let i = 0; i < 75; i++) pool.push(talent);
-  for (let i = 0; i < 25; i++) pool.push(other);
-
-  return pool[Math.floor(Math.random() * pool.length)];
+  const r = Math.random();
+  return r < 0.55 ? talent : other;
 }
-
 /* --- 判定勝負（全部用 emoji） --- */
 function judge(playerEmoji, monsterEmoji) {
   if (playerEmoji === monsterEmoji) return "tie";
@@ -469,13 +477,13 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
   }
 
   if (result === "win") {
-    // ✅ 勝利：只會安撫魔物，不扣勇者血
-    let dmg = 1;
+    // ✅ 勝利：安撫魔物，會扣壞情緒 HP
+    let dmg = battleState.heroAtk; // 勇者基礎攻擊
 
     if (h.talentEmoji && h.talentEmoji === playerEmoji) {
-      dmg = 2;
+      dmg *= 2;
       if (dialogBox) {
-        dialogBox.innerHTML += `<p>天賦拳發動！安撫效果 x2 ✨</p>`;
+        dialogBox.innerHTML += `<p>天賦拳發動！安撫效果 x2 ✨（傷害 ${dmg}）</p>`;
       }
     }
 
@@ -483,13 +491,9 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
     save("stars", stars);
 
     battleState.monsterHp = Math.max(0, battleState.monsterHp - dmg);
-    for (let i = 0; i < dmg; i++) {
-      const idx = battleState.emotions.indexOf(false);
-      if (idx !== -1) battleState.emotions[idx] = true;
-    }
 
     if (roundResult) {
-      roundResult.textContent = `安撫成功！壞情緒減少 ${dmg} 格 💚`;
+      roundResult.textContent = `安撫成功！壞情緒減少 ${dmg} 點 💚`;
     }
   } else if (result === "lose") {
     // ❌ 只有輸的時候才會扣勇者血
@@ -501,9 +505,10 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
         roundResult.textContent = "雖然這回合沒贏，但你的心情很穩定。";
       }
     } else {
-      battleState.heroHp = Math.max(0, battleState.heroHp - 1);
+      const dmg = battleState.monsterAtk;
+      battleState.heroHp = Math.max(0, battleState.heroHp - dmg);
       if (roundResult) {
-        roundResult.textContent = "這回合被壞情緒影響了，HP -1。";
+        roundResult.textContent = `這回合被壞情緒影響了，HP -${dmg}。`;
       }
     }
   }
@@ -599,7 +604,6 @@ function useItem(type, h, m, stageId) {
   updateBattleUI(h, m, stageId);
   closeItemBag();
 }
-
 /* ==========================================================
    占卜 tarot.html
    ========================================================== */
