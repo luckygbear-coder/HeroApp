@@ -19,22 +19,21 @@
 
     <!-- 導覽列 -->
     <div class="top-nav">
-      <a class="nav-link active" data-page-link="index" href="index.html">新手村</a>
-      <a class="nav-link" data-page-link="map" href="map.html">地圖</a>
-      <a class="nav-link" data-page-link="battle" href="battle.html">戰鬥</a>
-      <a class="nav-link" data-page-link="tarot" href="tarot.html">占卜屋</a>
+      <a class="nav-link active" href="index.html">新手村</a>
+      <a class="nav-link" href="map.html">地圖</a>
+      <a class="nav-link" href="battle.html">戰鬥</a>
+      <a class="nav-link" href="tarot.html">占卜屋</a>
     </div>
 
     <!-- 故事介紹 -->
     <section class="card story-card">
       <h2>故事介紹</h2>
       <p class="story-text">
-        歡迎來到 <b>新手村</b>！🌈 <br>
+        歡迎來到 <b>新手村</b>！🌈<br />
         在這裡，小勇者們準備出發冒險，挑戰各地被壞情緒纏住的魔物，並一步步收集勇氣星星 ⭐。
       </p>
-
       <p class="story-text">
-        在旅程中，你會遇見森林、湖畔、洞窟、墓地……直到挑戰最終的魔王！  
+        在旅程中，你會遇見森林、湖畔、洞窟、墓地……直到挑戰最終的魔王！<br />
         記住：真正的力量不是拳頭，而是你的好心情 ❤️
       </p>
 
@@ -48,18 +47,15 @@
       <h2>選擇你的勇者</h2>
 
       <div class="hero-list" id="heroList">
-        <!-- JS 動態生成勇者卡 -->
+        <!-- JS 生成勇者卡 -->
       </div>
 
-      <!-- 勇者故事區 -->
       <div class="hero-story-box" id="heroStoryBox" style="display:none;">
-        <h3 id="heroStoryTitle">勇者故事</h3>
-
+        <h3>勇者故事</h3>
         <p id="heroStoryText"></p>
         <p id="heroLineText"></p>
         <p id="heroAbilityText"></p>
 
-        <!-- 確認勇者按鈕 -->
         <button id="confirmHeroBtn" class="confirm-hero-btn" style="display:none;">
           ✔ 確認勇者並前往地圖
         </button>
@@ -68,7 +64,6 @@
       <p class="hero-hint">請點選一位勇者開始冒險～</p>
     </section>
 
-    <!-- 頁尾 -->
     <div class="footer">
       © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
     </div>
@@ -77,5 +72,4 @@
 
   <script src="script.js"></script>
 </body>
-
 </html>
