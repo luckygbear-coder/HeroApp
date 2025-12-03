@@ -69,6 +69,7 @@ const MONSTER_DATA = {
   forest: {
     stageName: "森林",
     name: "獸人",
+    label: "🌲 森林（獸人）",
     talentEmoji: "✊",
     forbidEmoji: "🖐",
     emotions: 3
@@ -76,6 +77,7 @@ const MONSTER_DATA = {
   lake: {
     stageName: "湖畔",
     name: "人魚",
+    label: "🌊 湖畔（人魚）",
     talentEmoji: "🖐",
     forbidEmoji: "✊",
     emotions: 3
@@ -83,6 +85,7 @@ const MONSTER_DATA = {
   cave: {
     stageName: "洞窟",
     name: "哥布林",
+    label: "🕳 洞窟（哥布林）",
     talentEmoji: "✌️",
     forbidEmoji: "🖐",
     emotions: 3
@@ -90,6 +93,7 @@ const MONSTER_DATA = {
   grave: {
     stageName: "墓地",
     name: "骷髏兵",
+    label: "💀 墓地（骷髏兵）",
     talentEmoji: "✊",
     forbidEmoji: "✌️",
     emotions: 3
@@ -97,6 +101,7 @@ const MONSTER_DATA = {
   dungeon: {
     stageName: "地窖",
     name: "異教徒",
+    label: "🕸 地窖（異教徒）",
     talentEmoji: "🖐",
     forbidEmoji: "✌️",
     emotions: 3
@@ -104,13 +109,39 @@ const MONSTER_DATA = {
   ruins: {
     stageName: "遺跡",
     name: "石像魔像",
+    label: "🏛 遺跡（魔像）",
     talentEmoji: "✌️",
     forbidEmoji: "✊",
+    emotions: 3
+  },
+  plains: {
+    stageName: "草原",
+    name: "史萊姆",
+    label: "🌾 草原（史萊姆）",
+    talentEmoji: "✊",
+    forbidEmoji: "✌️",
+    emotions: 3
+  },
+  swamp: {
+    stageName: "沼澤",
+    name: "泥巴怪",
+    label: "🦠 沼澤（泥巴怪）",
+    talentEmoji: "🖐",
+    forbidEmoji: "✊",
+    emotions: 3
+  },
+  mountain: {
+    stageName: "山道",
+    name: "岩石巨人",
+    label: "⛰ 山道（岩石巨人）",
+    talentEmoji: "✌️",
+    forbidEmoji: "🖐",
     emotions: 3
   },
   boss: {
     stageName: "魔王城",
     name: "惡龍",
+    label: "🔥 魔王城（惡龍）",
     talentEmoji: null, // 不固定拳
     forbidEmoji: null,
     emotions: 6
@@ -118,15 +149,17 @@ const MONSTER_DATA = {
 };
 
 /* 所有普通魔物關卡（不含魔王） */
-const MONSTER_STAGES = ["forest", "lake", "cave", "grave", "dungeon", "ruins"];
-
-/* ---------- 出拳 key ↔ emoji ---------- */
-const MOVE_ICON = {
-  rock: "✊",
-  scissors: "✌️",
-  paper: "🖐"
-};
-
+const MONSTER_STAGES = [
+  "forest",
+  "lake",
+  "cave",
+  "grave",
+  "dungeon",
+  "ruins",
+  "plains",
+  "swamp",
+  "mountain"
+];
 /* ---------- 戰鬥狀態 ---------- */
 let battleState = {
   heroHp: 0,
