@@ -6,100 +6,116 @@
   <title>小勇者之旅大冒險｜戰鬥</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body data-page="battle">
   <div class="game-wrap">
 
-    <div class="card title-card">
-      <h1>⚔️ 歡迎來到戰鬥</h1>
-      <div class="subtitle">用你的溫暖，安撫魔物的壞情緒</div>
-    </div>
+    <!-- 標題 -->
+    <section class="card title-card">
+      <h1>⚔ 戰鬥時間</h1>
+      <p class="subtitle">用好心情安撫魔物的壞情緒 ✨</p>
+    </section>
 
-    <div class="top-nav">
+    <!-- 分頁 -->
+    <nav class="top-nav">
       <a class="nav-link" href="index.html">新手村</a>
       <a class="nav-link" href="map.html">地圖</a>
-      <a class="nav-link active"
-          <a class="nav-link" href="tarot.html">占卜屋</a>
-</div>
+      <a class="nav-link active" href="battle.html">戰鬥</a>
+      <a class="nav-link" href="tarot.html">占卜屋</a>
+      <a class="nav-link" href="shop.html">商店</a>
+    </nav>
 
-<!-- 勇者 & 魔物狀態區 -->
-<section class="card status-card">
-  <h2>🔎 戰鬥資訊</h2>
+    <!-- 戰鬥頭像與狀態 -->
+    <section class="card status-card">
+      <h2>🔍 戰鬥資訊</h2>
 
-  <div class="status-row">
-    <div class="status-box">
-      <p class="status-title">🧑‍🚀 小勇者</p>
-      <p>HP：<span id="heroHpText">3</span> / 3</p>
-      <p>天賦拳：<span id="heroTalentText"></span></p>
+      <div class="status-row">
+        <!-- 勇者 -->
+        <div class="status-box">
+          <div class="status-title">🧑 小勇者</div>
+          <p>HP：<span id="heroHpText">0 / 0</span></p>
+          <p>天賦拳：<span id="heroTalentText"></span></p>
+        </div>
+
+        <!-- 魔物 -->
+        <div class="status-box">
+          <div class="status-title">👾 魔物資訊</div>
+          <p>地點：<span id="monsterStageText"></span></p>
+          <p>
+            魔物：
+            <span id="monsterNameText"></span>
+            LV.<span id="monsterLevelText"></span>
+          </p>
+          <p>
+            天賦拳：<span id="monsterTalentText"></span>｜
+            弱點拳：<span id="monsterForbidText"></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 壞情緒條 -->
+      <div class="emotion-bar">
+        <ul id="emotionList">
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 對話框 -->
+    <section class="card dialog-card">
+      <h2>💬 對話紀錄（第 <span id="roundCount">0</span> 回合）</h2>
+
+      <div id="dialogBox" class="dialog-box">
+        <p>熊熊村長：記得用好心情來安撫魔物喔～</p>
+      </div>
+    </section>
+
+    <!-- 出拳區 -->
+    <section class="card battle-card">
+      <h2>✊✌🖐 出拳</h2>
+
+      <div class="battle-row">
+        <button class="rps-btn circle" data-move="rock">✊</button>
+        <button class="rps-btn circle" data-move="scissors">✌️</button>
+        <button class="rps-btn circle" data-move="paper">🖐</button>
+
+        <!-- 道具籃 -->
+        <button id="itemBagBtn" class="item-bag-btn">🧸</button>
+      </div>
+
+      <p id="roundResult" class="round-result">
+        選一個拳，小勇者會自動與魔物對話！
+      </p>
+
+      <button id="backToMapBtn" class="secondary-btn full">
+        ⬅️ 回到地圖
+      </button>
+    </section>
+
+    <footer class="footer">
+      <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
+    </footer>
+  </div>
+
+  <!-- 道具籃 Modal -->
+  <div id="itemModal" class="modal">
+    <div class="modal-content">
+      <h3>🧸 道具籃</h3>
+      <p>可在戰鬥中使用的道具：</p>
+
+      <p>❤️ 小蘋果（+1 HP）｜持有：<span id="appleSmallCount">0</span></p>
+      <button class="item-use-btn" data-item="appleSmall">使用</button>
+
+      <p>💖 大蘋果（HP 全滿）｜持有：<span id="appleBigCount">0</span></p>
+      <button class="item-use-btn" data-item="appleBig">使用</button>
+
+      <p>⭐ 復活星星｜持有：<span id="reviveCount">0</span></p>
+      <button class="item-use-btn" data-item="revive">使用</button>
+
+      <button id="closeItemModal" class="close-btn">關閉</button>
     </div>
-
-    <div class="status-box">
-      <p class="status-title">👾 魔物</p>
-      <p>地點：<span id="monsterStageText"></span></p>
-      <p>魔物：<span id="monsterNameText"></span> LV.<span id="monsterLevelText"></span></p>
-      <p>天賦拳：<span id="monsterTalentText"></span></p>
-      <p>弱點拳：<span id="monsterForbidText"></span></p>
-    </div>
   </div>
 
-  <!-- 壞情緒條 -->
-  <div class="emotion-bar">
-    <ul id="emotionList">
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-  </div>
-</section>
-
-<!-- 戰鬥對話框 -->
-<section class="card dialog-card">
-  <h2>🗨️ 對話紀錄</h2>
-  <div id="dialogBox" class="dialog-box"></div>
-</section>
-
-<!-- 出拳區域（圓形按鈕＋道具籃🧸） -->
-<section class="card battle-card">
-  <h2>✊✌️🖐️ 出拳</h2>
-
-  <div class="battle-row">
-    <button class="rps-btn circle" data-move="rock">✊</button>
-    <button class="rps-btn circle" data-move="scissors">✌️</button>
-    <button class="rps-btn circle" data-move="paper">🖐️</button>
-
-    <!-- 道具籃（右側小熊） -->
-    <button id="itemBagBtn" class="item-bag-btn">🧸</button>
-  </div>
-
-  <p id="roundResult" class="round-result"></p>
-  <p>回合數：<span id="roundCount">0</span></p>
-
-  <button id="backToMapBtn" class="primary-btn">⬅️ 回地圖選下一關</button>
-</section>
-
-<!-- 道具籃 Modal -->
-<div id="itemModal" class="modal">
-  <div class="modal-content">
-    <h3>🧸 小熊道具籃</h3>
-
-    <p>❤️ 小蘋果（+1 HP）x <span id="appleSmallCount">0</span></p>
-    <button class="item-use-btn" data-item="appleSmall">使用</button>
-
-    <p>💖 大蘋果（HP 全滿）x <span id="appleBigCount">0</span></p>
-    <button class="item-use-btn" data-item="appleBig">使用</button>
-
-    <p>⭐ 復活星星（HP 歸零可用）x <span id="reviveCount">0</span></p>
-    <button class="item-use-btn" data-item="revive">使用</button>
-
-    <button id="closeItemModal" class="close-btn">關閉</button>
-  </div>
-</div>
-
-<footer class="footer">
-  <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
-</footer>
-
-</div><!-- game-wrap 結束 -->
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
