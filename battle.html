@@ -11,13 +11,11 @@
 <body data-page="battle">
   <div class="game-wrap">
 
-    <!-- 標題卡 -->
     <div class="card title-card">
-      <h1>⚔️ 戰鬥開始</h1>
-      <div class="subtitle">用好心情安撫魔物的壞情緒吧！</div>
+      <h1>⚔️ 歡迎來到戰鬥</h1>
+      <div class="subtitle">用你的溫暖，安撫魔物的壞情緒</div>
     </div>
 
-    <!-- 導覽列 -->
     <div class="top-nav">
       <a class="nav-link" href="index.html">新手村</a>
       <a class="nav-link" href="map.html">地圖</a>
@@ -25,73 +23,60 @@
       <a class="nav-link" href="tarot.html">占卜屋</a>
     </div>
 
-    <!-- 戰鬥狀態摘要 -->
+    <!-- 狀態摘要 -->
     <div class="card summary-card">
       <p class="progress-summary">
-        勇者 HP：<span id="heroHpText">0</span> ｜  
-        壞情緒：<span id="monsterHpText">0</span>
+        勇者 HP：<span id="heroHpText">0</span> ｜ 壞情緒：<span id="monsterHpText">0</span>
       </p>
       <p class="summary-note">
-        ⭐ 使用天賦拳勝利會有 2 倍好心情效果！  
-        ⭐ 勇敢的村民永不扣血
+        ⭐ 使用天賦拳勝利會有 2 倍安撫效果！勇敢的村民永不扣血。
       </p>
     </div>
 
     <!-- 對手資訊 -->
-    <div class="card monster-info" id="monsterInfoBox">
+    <div class="card monster-info">
       <h2>對手資訊</h2>
+      <p>地點：<span id="monsterStageText"></span></p>
+      <p>魔物：<span id="monsterNameText"></span></p>
+      <p>天賦拳：<span id="monsterTalentText"></span> ｜ 禁出拳：<span id="monsterForbidText"></span></p>
 
-      <p class="monster-stage">地點：<span id="monsterStageText"></span></p>
-      <p class="monster-name">魔物：<span id="monsterNameText"></span></p>
-
-      <p class="monster-fist">
-        天賦拳：<span id="monsterTalentText"></span> ｜  
-        禁出拳：<span id="monsterForbidText"></span>
-      </p>
-
-      <!-- 壞情緒 HP -->
       <div class="hp-row">
         <div>壞情緒剩餘：</div>
-        <div id="monsterHpText2"></div>
+        <div id="monsterHpText2">0</div>
       </div>
 
-      <!-- 壞情緒進度條 -->
       <div class="emotion-progress">
         <div class="emotion-bar" id="emotionBar"></div>
       </div>
       <p class="emotion-label" id="emotionLabel">壞情緒狀態…</p>
 
-      <!-- 壞情緒列表 -->
       <ul class="emotion-list" id="emotionList">
         <li></li><li></li><li></li><li></li><li></li><li></li>
       </ul>
 
-      <!-- 對話框（二行可滑動） -->
+      <!-- 對話區（2 行，可捲動） -->
       <div class="battle-dialog-box" id="dialogBox"></div>
     </div>
 
-    <!-- 戰鬥操作 -->
+    <!-- 出拳操作 -->
     <div class="card battle-section">
       <h2>猜拳出招</h2>
-      <p class="hint">選一個拳，小勇者會自動與魔物對話～</p>
+      <p class="hint">選一個拳，小勇者會自動跟魔物對話！</p>
 
-      <!-- 出拳 + 回地圖（同一排） -->
       <div class="action-row">
         <div class="rps-row">
           <button class="rps-btn" data-move="rock">✊ 石頭</button>
           <button class="rps-btn" data-move="scissors">✌️ 剪刀</button>
           <button class="rps-btn" data-move="paper">🖐 布</button>
         </div>
-
         <button class="small-back-btn" onclick="window.location.href='map.html'">
           🗺️ 回地圖
         </button>
       </div>
 
-      <p class="round-result" id="roundResult">請出拳！</p>
+      <p class="round-result" id="roundResult">請先出拳試試看！</p>
       <p class="round-count">回合：<span id="roundCount">0</span></p>
-
-      <button class="reset-btn" id="resetBtn">重新整頓心情再來</button>
+      <button class="reset-btn" id="resetBtn">重新調整心情再挑戰</button>
     </div>
 
     <div class="footer">
