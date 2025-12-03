@@ -53,6 +53,51 @@ body {
   color: #a06b2b;
 }
 
+/* 頂部導覽列 */
+.top-nav {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0 8px;
+}
+
+.nav-link {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid #e1b676;
+  padding: 4px 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #fff5dc;
+  color: #7b5830;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.nav-link.active {
+  background: #ffb954;
+  color: #4b2d12;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* 摘要區 */
+.summary-card {
+  background: #fff9ee;
+}
+
+.progress-summary {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #7b4c30;
+}
+
+.summary-note {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: #8b6e3c;
+}
+
 /* 區塊標題 */
 h2 {
   margin: 0 0 8px;
@@ -64,47 +109,9 @@ h2 {
   border: 1px solid #f0b869;
 }
 
-/* 分頁切換按鈕 */
-.tab-nav {
-  display: flex;
-  gap: 6px;
-  margin: 10px 0 8px;
-}
-
-.tab-btn {
-  flex: 1;
-  border-radius: 999px;
-  border: 1px solid #e1b676;
-  padding: 4px 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  background: #fff5dc;
-  color: #7b5830;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-}
-
-.tab-btn.active {
-  background: #ffb954;
-  color: #4b2d12;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
-}
-
-/* 主內容區 & 分頁高度配置 */
+/* 主內容區 */
 .main-area {
   flex: 1;
-  overflow: hidden;
-}
-
-.tab-page {
-  height: 100%;
-  overflow-y: auto;
-  padding-bottom: 4px;
-}
-
-/* 通用隱藏用 */
-.hidden {
-  display: none;
 }
 
 /* 故事文字 */
@@ -230,7 +237,7 @@ h2 {
   color: #a03a63;
 }
 
-/* 六種壞情緒清單 */
+/* 壞情緒清單 */
 .emotion-list {
   list-style: none;
   padding-left: 0;
@@ -285,6 +292,10 @@ h2 {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
+.rps-btn.flash {
+  animation: btnFlash 0.25s;
+}
+
 /* 回合結果 */
 .round-result {
   font-size: 0.85rem;
@@ -332,196 +343,49 @@ h2 {
   line-height: 1.35;
 }
 
+/* 對戰時魔物被打擊動畫 */
+.monster-hit {
+  animation: monsterShake 0.25s;
+}
+
 /* ─── 九宮格地圖 ─── */
 .map-section {
   background: #fff9f0;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
-.map-section.upgraded {
-  background: #fffbe0;
-  box-shadow: 0 0 0 2px #ffcf4a, 0 4px 10px rgba(0, 0, 0, 0.18);
+.map-section.level-up-glow {
+  animation: mapGlow 0.6s;
+}
+
+.map-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.map-header-center {
+  flex: 1;
+  text-align: center;
 }
 
 .map-level {
-  font-size: 0.8rem;
-  color: #a06b2b;
-  margin: 2px 0 6px;
-}
-
-.map-intro {
   font-size: 0.83rem;
-  line-height: 1.4;
-  margin-bottom: 8px;
+  color: #a06b2b;
+  margin: 0;
 }
 
-.map-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-bottom: 8px;
+.map-stars {
+  font-size: 0.83rem;
+  color: #7b5932;
+  margin: 2px 0 0;
 }
 
-.map-tile {
-  border-radius: 12px;
-  border: 1px solid #e1b676;
-  background: #fffdf7;
-  padding: 6px 4px;
-  font-size: 0.78rem;
-  cursor: pointer;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-  position: relative;
-}
-
-.map-tile:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
-}
-
-.map-tile.special {
-  background: #e9f7ff;
-  border-color: #8dc4ff;
-}
-
-.map-tile.boss {
-  background: #ffe8f0;
-  border-color: #f08bb0;
-}
-
-.map-tile.cleared {
-  border-color: #ffcf4a;
-  box-shadow: 0 0 0 2px rgba(255, 207, 74, 0.6);
-}
-
-.map-tile.cleared::after {
-  content: "★";
-  position: absolute;
-  top: 3px;
-  right: 5px;
-  font-size: 0.7rem;
-  color: #ffb800;
-}
-
-.map-place {
-  font-weight: 700;
-  margin-bottom: 2px;
-  color: #7b5830;
-}
-
-.map-monster {
-  font-size: 0.78rem;
-  color: #4b3b2a;
-}
-
-.map-hint {
-  font-size: 0.8rem;
-  color: #7b4c30;
-}
-
-/* ─── 熊熊塔羅占卜 ─── */
-.tarot-section {
-  background: #fff9ff;
-}
-
-.tarot-intro {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  margin-bottom: 8px;
-}
-
-.tarot-btn {
-  width: 100%;
+.friends-btn {
   border-radius: 999px;
-  border: none;
-  padding: 7px 0;
-  font-size: 0.86rem;
-  font-weight: 600;
-  background: #d9c3ff;
-  color: #3d2a63;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
-  margin-bottom: 8px;
-}
-
-.tarot-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.tarot-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.tarot-card {
-  background: #fffdfc;
-  border-radius: 12px;
-  border: 1px solid #e1b676;
-  padding: 6px;
-  font-size: 0.78rem;
-}
-
-.tarot-position {
-  font-weight: 700;
-  font-size: 0.8rem;
-  margin-bottom: 2px;
-  color: #8b5a2b;
-}
-
-.tarot-name {
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.tarot-orientation {
-  font-size: 0.75rem;
-  color: #a0633a;
-  margin-bottom: 2px;
-}
-
-.tarot-meaning {
-  font-size: 0.75rem;
-  color: #5a4630;
-}
-
-.tarot-bear {
-  font-size: 0.82rem;
-  color: #70426c;
-  border-top: 1px dashed #e1b6e6;
-  padding-top: 5px;
-}
-
-/* 頁尾 */
-.footer {
-  text-align: center;
-  font-size: 0.73rem;
-  color: #8c6a40;
-  margin-top: 4px;
-}
-
-.footer a {
-  color: #c2577a;
-  text-decoration: none;
-}
-
-/* 手機優化 */
-@media (max-width: 360px) {
-  .hero-list {
-    grid-template-columns: 1fr;
-  }
-
-  .hp-row {
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .emotion-list {
-    grid-template-columns: 1fr;
-  }
-
-  .tarot-row {
-    grid-template-columns: 1fr;
-  }
-}
+  border: 1px solid #d39ac8;
+  background: #ffe4ff;
+  padding: 4px 10px;
+  font-size: 0.78rem
