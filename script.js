@@ -3,14 +3,14 @@
    全功能整合版（勇者選擇 / 地圖 / 戰鬥 / 占卜 / 好友）
 =========================================== */
 
-/* ---------- 基礎資料 ---------- */
+/* ---------- 基礎資料：勇者 ---------- */
 
 const heroes = [
   {
     key: "warrior",
     name: "戰士 🛡️",
-    fist: "✊ 石頭",
     move: "rock",
+    fist: "✊ 石頭",
     line: "我一定會守護大家！",
     ability: "若出石頭並勝利 → 傳達 2 倍好心情",
     story:
@@ -19,8 +19,8 @@ const heroes = [
   {
     key: "mage",
     name: "法師 🔮",
-    fist: "✌️ 剪刀",
     move: "scissors",
+    fist: "✌️ 剪刀",
     line: "嘿嘿～我有新點子！",
     ability: "若出剪刀並勝利 → 傳達 2 倍好心情",
     story:
@@ -29,8 +29,8 @@ const heroes = [
   {
     key: "priest",
     name: "牧師 💖",
-    fist: "🖐 布",
     move: "paper",
+    fist: "🖐 布",
     line: "別擔心，我來幫你～",
     ability: "若出布並勝利 → 傳達 2 倍好心情",
     story:
@@ -39,8 +39,8 @@ const heroes = [
   {
     key: "villager",
     name: "勇敢的村民 🌾",
-    fist: "自由出拳",
     move: "none",
+    fist: "自由出拳",
     line: "我雖然平凡，但不放棄！",
     ability: "魔王戰永不扣血",
     story:
@@ -48,7 +48,8 @@ const heroes = [
   }
 ];
 
-/* ---------------- 魔物資料 ---------------- */
+/* ---------- 魔物資料 ---------- */
+
 const monsterData = {
   forest: {
     name: "獸人",
@@ -78,8 +79,6 @@ const monsterData = {
     hp: 3,
     emotions: ["憤怒", "焦慮", "失落"]
   },
-
-  /* 魔王 */
   boss: {
     name: "惡龍魔王",
     talent: "任意",
@@ -87,22 +86,17 @@ const monsterData = {
     hp: 6,
     emotions: ["憤怒", "恐懼", "嫉妒", "孤單", "不安", "自責"]
   }
-};
+];
 
 /* ---------- LocalStorage ---------- */
 
-function load(key, def) {
-  return JSON.parse(localStorage.getItem(key)) ?? def;
-}
-
-function save(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
+function load(key, def) { return JSON.parse(localStorage.getItem(key)) ?? def; }
+function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
 let hero = load("hero", null);
 let level = load("level", 1);
 let stars = load("stars", 0);
-let clearedStages = load("clearedStages", {}); // ex: { forest: true }
+let clearedStages = load("clearedStages", {});
 let friends = load("friends", []);
 
 /* ===========================================
@@ -110,16 +104,16 @@ let friends = load("friends", []);
 =========================================== */
 
 function initIndexPage() {
-  const heroList = document.getElementById("heroList");
-  if (!heroList) return;
+  const list = document.getElementById("heroList");
+  if (!list) return;
 
   const storyBox = document.getElementById("heroStoryBox");
-  const storyText = document.getElementById("heroStoryText");
-  const lineText = document.getElementById("heroLineText");
-  const abilityText = document.getElementById("heroAbilityText");
+  const story = document.getElementById("heroStoryText");
+  const line = document.getElementById("heroLineText");
+  const ability = document.getElementById("heroAbilityText");
   const confirmBtn = document.getElementById("confirmHeroBtn");
 
-  heroList.innerHTML = "";
+  list.innerHTML = "";
 
   heroes.forEach((h) => {
     const div = document.createElement("div");
@@ -130,23 +124,20 @@ function initIndexPage() {
     `;
 
     div.addEventListener("click", () => {
-      document.querySelectorAll(".hero-card").forEach((c) => {
-        c.classList.remove("active");
-      });
+      document.querySelectorAll(".hero-card").forEach((c) => c.classList.remove("active"));
       div.classList.add("active");
 
-      // 顯示故事區
       storyBox.style.display = "block";
-      storyText.textContent = h.story;
-      lineText.textContent = `💬 個性語句：${h.line}`;
-      abilityText.textContent = `⭐ 特殊能力：${h.ability}`;
-      confirmBtn.style.display = "block";
+      story.textContent = h.story;
+      line.textContent = "💬 個性語句：" + h.line;
+      ability.textContent = "⭐ 特殊能力：" + h.ability;
 
+      confirmBtn.style.display = "block";
       hero = h;
       save("hero", hero);
     });
 
-    heroList.appendChild(div);
+    list.appendChild(div);
   });
 
   confirmBtn.addEventListener("click", () => {
@@ -159,26 +150,11 @@ function initIndexPage() {
 =========================================== */
 
 function initMapPage() {
-  const grid = document.getElementById("mapGrid");
-  if (!grid) return;
+  const g = document.getElementById("mapGrid");
+  if (!g) return;
 
-  document.getElementById("mapLevel").textContent = `LV.${level}`;
-  document.getElementById("mapStars").textContent = `${stars} 顆`;
-
-  function openStage(stage) {
-    if (stage === "boss") {
-      const allCleared = ["forest", "lake", "cave", "grave"].every(
-        (s) => clearedStages[s]
-      );
-      if (!allCleared) {
-        alert("還不能挑戰魔王喔！先把其他魔物安撫吧！");
-        return;
-      }
-    }
-
-    save("currentStage", stage);
-    window.location.href = "battle.html";
-  }
+  document.getElementById("mapLevel").textContent = "LV." + level;
+  document.getElementById("mapStars").textContent = stars + " 顆";
 
   const tiles = {
     forest: "🌲 森林（獸人）",
@@ -189,124 +165,124 @@ function initMapPage() {
   };
 
   Object.keys(tiles).forEach((stage) => {
-    const div = document.createElement("div");
-    div.className = "map-tile";
-    if (stage === "boss") div.classList.add("boss");
+    const t = document.createElement("div");
+    t.className = "map-tile";
+    if (stage === "boss") t.classList.add("boss");
+    if (clearedStages[stage]) t.classList.add("cleared");
 
-    if (clearedStages[stage]) div.classList.add("cleared");
+    t.textContent = tiles[stage];
 
-    div.textContent = tiles[stage];
+    t.addEventListener("click", () => {
+      if (stage === "boss") {
+        const allClear = ["forest", "lake", "cave", "grave"].every((s) => clearedStages[s]);
+        if (!allClear) {
+          alert("還不能挑戰魔王喔！請先安撫所有魔物！");
+          return;
+        }
+      }
+      save("currentStage", stage);
+      window.location.href = "battle.html";
+    });
 
-    div.addEventListener("click", () => openStage(stage));
-    grid.appendChild(div);
+    g.appendChild(t);
   });
 
   // 好友名單
-  document.getElementById("friendsBtn")?.addEventListener("click", () => {
-    const modal = document.getElementById("friendsModal");
-    modal.classList.add("show");
+  const btn = document.getElementById("friendsBtn");
+  btn.addEventListener("click", () => {
+    document.getElementById("friendsModal").classList.add("show");
     renderFriendsList();
   });
 
-  document.getElementById("friendsCloseBtn")?.addEventListener("click", () => {
-    document.getElementById("friendsModal").classList.remove("show");
-  });
+  document.getElementById("friendsCloseBtn")
+    .addEventListener("click", () => {
+      document.getElementById("friendsModal").classList.remove("show");
+    });
 }
 
 function renderFriendsList() {
-  const list = document.getElementById("friendsList");
-  list.innerHTML = friends
-    .map((f) => `<li>${f.name}（⭐ ${f.stars}）</li>`)
-    .join("");
+  const ul = document.getElementById("friendsList");
+  ul.innerHTML = friends.map(f => `<li>${f.name}（⭐ ${f.stars}）</li>`).join("");
 }
 
 /* ===========================================
-   戰鬥系統
+   戰鬥
 =========================================== */
 
 function initBattlePage() {
   const stage = load("currentStage", null);
   if (!stage) return;
 
-  const data = monsterData[stage];
+  const m = monsterData[stage];
 
   let heroHp = 3;
-  let monsterHp = data.hp;
+  let monsterHp = m.hp;
   let emotionIndex = 0;
 
-  const dialogBox = document.getElementById("dialogBox");
-
-  function addTalk(text) {
-    const p = document.createElement("p");
-    p.textContent = text;
-    dialogBox.appendChild(p);
-    dialogBox.scrollTop = dialogBox.scrollHeight;
+  const items = Array.from(document.querySelectorAll("#emotionList li"));
+  for (let i = 0; i < items.length; i++) {
+    items[i].textContent = m.emotions[i] ?? "";
   }
 
-  // 填入基本資料
-  document.getElementById("monsterNameText").textContent = data.name;
-  document.getElementById("monsterTalentText").textContent = data.talent;
-  document.getElementById("monsterForbidText").textContent = data.forbid;
+  const dialog = document.getElementById("dialogBox");
+
+  function talk(msg) {
+    const p = document.createElement("p");
+    p.textContent = msg;
+    dialog.appendChild(p);
+    dialog.scrollTop = dialog.scrollHeight;
+  }
+
+  // 填入魔物資訊
+  document.getElementById("monsterNameText").textContent = m.name;
+  document.getElementById("monsterTalentText").textContent = m.talent;
+  document.getElementById("monsterForbidText").textContent = m.forbid;
   document.getElementById("monsterStageText").textContent = stage;
-  document.getElementById("heroHpText").textContent = heroHp;
+
   document.getElementById("monsterHpText").textContent = monsterHp;
   document.getElementById("monsterHpText2").textContent = monsterHp;
+  document.getElementById("heroHpText").textContent = heroHp;
 
-  // 壞情緒清單
-  const emotionList = document.getElementById("emotionList");
-  const emotionItems = Array.from(emotionList.children);
+  const beats = {
+    rock: "scissors",
+    scissors: "paper",
+    paper: "rock"
+  };
 
-  emotionItems.forEach((li, i) => {
-    li.textContent = data.emotions[i] ?? "";
-  });
-
-  function monsterAttackMove() {
+  function monsterMove() {
     if (stage === "boss") {
-      // 魔王會隨機出拳
       return ["rock", "paper", "scissors"][Math.floor(Math.random() * 3)];
     }
     return {
       "✊": "rock",
       "✌️": "scissors",
       "🖐": "paper"
-    }[data.talent];
+    }[m.talent];
   }
 
-  function playRound(playerMove) {
-    const enemyMove = monsterAttackMove();
-
+  function play(move) {
+    const enemy = monsterMove();
     let result = "";
 
-    const beats = {
-      rock: "scissors",
-      scissors: "paper",
-      paper: "rock"
-    };
+    if (move === enemy) result = "tie";
+    else if (beats[move] === enemy) result = "win";
+    else result = "lose";
 
-    if (playerMove === enemyMove) {
-      result = "tie";
-    } else if (beats[playerMove] === enemyMove) {
-      result = "win";
-    } else {
-      result = "lose";
-    }
-
-    handleBattleResult(result, playerMove);
+    resolve(result, move);
   }
 
-  function handleBattleResult(result, playerMove) {
-    const roundText = document.getElementById("roundResult");
-    let countText = document.getElementById("roundCount");
+  function resolve(result, move) {
+    const round = document.getElementById("roundResult");
+    const cnt = document.getElementById("roundCount");
 
-    countText.textContent = Number(countText.textContent) + 1;
+    cnt.textContent = Number(cnt.textContent) + 1;
 
-    // 勝利處理
     if (result === "win") {
-      addTalk(`勇者：我相信你能冷靜下來！`);
-      addTalk(`${data.name}：嗯……好像真的沒那麼糟……`);
+      talk("勇者：我相信你能冷靜下來！");
+      talk(`${m.name}：嗯……好像沒有那麼糟了……`);
 
       let dmg = 1;
-      if (hero && hero.move === playerMove) dmg = 2;
+      if (hero.move === move) dmg = 2;
 
       monsterHp -= dmg;
       if (monsterHp < 0) monsterHp = 0;
@@ -314,67 +290,55 @@ function initBattlePage() {
       document.getElementById("monsterHpText").textContent = monsterHp;
       document.getElementById("monsterHpText2").textContent = monsterHp;
 
-      // 情緒被安撫
-      if (emotionIndex < data.emotions.length) {
-        emotionItems[emotionIndex].classList.add("calm");
+      if (emotionIndex < m.emotions.length) {
+        items[emotionIndex].classList.add("calm");
         emotionIndex++;
       }
 
-      // 通關
-      if (monsterHp <= 0) return battleClear(stage);
+      if (monsterHp <= 0) return clearBattle(stage);
 
-      roundText.textContent = "你安撫了魔物！";
+      round.textContent = "你安撫了魔物！";
 
     } else if (result === "lose") {
-      addTalk(`${data.name}：走開啦！我現在心情不好！`);
+      talk(`${m.name}：走開啦！我現在心情不好！`);
 
-      if (hero.key !== "villager") {
-        heroHp -= 1;
-        if (heroHp < 0) heroHp = 0;
-      }
+      if (hero.key !== "villager") heroHp--;
 
+      if (heroHp < 0) heroHp = 0;
       document.getElementById("heroHpText").textContent = heroHp;
 
       if (heroHp <= 0) {
-        roundText.textContent = "你累倒了，但沒關係，再試一次吧！";
+        round.textContent = "你累倒了！再調整好心情回來挑戰吧！";
       } else {
-        roundText.textContent = "魔物的壞情緒太強了！";
+        round.textContent = "魔物的壞情緒太強烈了！";
       }
 
     } else {
-      roundText.textContent = "平手～再試一次！";
+      round.textContent = "平手～再來一次！";
     }
   }
 
-  document.querySelectorAll(".rps-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const move = btn.dataset.move;
-      playRound(move);
-    });
-  });
+  document.querySelectorAll(".rps-btn").forEach((b) =>
+    b.addEventListener("click", () => play(b.dataset.move))
+  );
 
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    window.location.reload();
-  });
+  document.getElementById("resetBtn")
+    .addEventListener("click", () => window.location.reload());
 }
 
-function battleClear(stage) {
+function clearBattle(stage) {
   alert("成功安撫魔物！");
 
   clearedStages[stage] = true;
   save("clearedStages", clearedStages);
 
-  let gained = stage === "boss" ? 3 : 1;
-  stars += gained;
+  let gain = stage === "boss" ? 3 : 1;
+  stars += gain;
   save("stars", stars);
 
-  friends.push({
-    name: monsterData[stage].name,
-    stars: gained
-  });
+  friends.push({ name: monsterData[stage].name, stars: gain });
   save("friends", friends);
 
-  // 升級
   level++;
   save("level", level);
 
@@ -390,34 +354,26 @@ function initTarotPage() {
   if (!btn) return;
 
   btn.addEventListener("click", () => {
-    const cards = [
-      "愚者",
-      "魔術師",
-      "皇后",
-      "力量",
-      "隱者",
-      "命運之輪",
-      "太陽",
-      "月亮",
-      "審判"
+    const deck = [
+      "愚者", "魔術師", "皇后", "力量",
+      "隱者", "命運之輪", "太陽", "月亮", "審判"
     ];
 
     function draw() {
-      const name = cards[Math.floor(Math.random() * cards.length)];
-      const isReversed = Math.random() < 0.5;
-      return { name, reversed: isReversed };
+      const name = deck[Math.floor(Math.random() * deck.length)];
+      const reversed = Math.random() < 0.5;
+      return { name, reversed };
     }
 
     const past = draw();
     const present = draw();
     const future = draw();
 
-    function fill(id, card) {
-      document.getElementById(id + "Name").textContent = card.name;
-      document.getElementById(id + "Orient").textContent = card.reversed
-        ? "逆位"
-        : "正位";
-      document.getElementById(id + "Meaning").textContent =
+    function fill(prefix, card) {
+      document.getElementById(prefix + "Name").textContent = card.name;
+      document.getElementById(prefix + "Orient").textContent =
+        card.reversed ? "逆位" : "正位";
+      document.getElementById(prefix + "Meaning").textContent =
         card.reversed ? "需要重新調整方向" : "能量順利流動中";
     }
 
@@ -425,17 +381,15 @@ function initTarotPage() {
     fill("tarotPresent", present);
     fill("tarotFuture", future);
 
-    document.getElementById(
-      "tarotBearMessage"
-    ).textContent = `熊熊村長：不論過去與未來，你現在的努力最閃亮！記得保持好心情喔～`;
+    document.getElementById("tarotBearMessage").textContent =
+      "熊熊村長：不論過去或未來，你現在的努力最閃亮！保持好心情喔～";
 
-    // 回血
     save("heroHp", 3);
   });
 }
 
 /* ===========================================
-   網頁初始化
+   初始化
 =========================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
