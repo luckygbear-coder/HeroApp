@@ -1,10 +1,7 @@
 /* === 全域設定 === */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -12,12 +9,11 @@ body {
 
 body {
   background: linear-gradient(#ffeec9, #ffe3ff);
-  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, system-ui,
-    sans-serif;
+  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   color: #4b3b2a;
 }
 
-/* 外框：手機畫面風格 */
+/* 手機主畫面外框 */
 .game-wrap {
   max-width: 480px;
   margin: 0 auto;
@@ -27,14 +23,14 @@ body {
   flex-direction: column;
 }
 
-/* 卡片通用樣式 */
+/* 卡片 */
 .card {
   background: #fff7e6;
   border-radius: 18px;
   border: 2px solid #e1b676;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   padding: 12px 14px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
 
 /* 標題卡 */
@@ -45,17 +41,16 @@ body {
 
 .title-card h1 {
   margin: 0;
-  font-size: 1.4rem;
-  letter-spacing: 2px;
+  font-size: 1.45rem;
 }
 
 .subtitle {
+  font-size: 0.78rem;
   margin-top: 4px;
-  font-size: 0.8rem;
   color: #a06b2b;
 }
 
-/* 上方導覽列 */
+/* 導覽列 */
 .top-nav {
   display: flex;
   gap: 6px;
@@ -65,153 +60,75 @@ body {
 .nav-link {
   flex: 1;
   text-align: center;
+  padding: 5px 0;
   text-decoration: none;
   border-radius: 999px;
   border: 1px solid #e1b676;
-  padding: 4px 0;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
   background: #fff5dc;
   color: #7b5830;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }
 
 .nav-link.active {
   background: #ffb954;
   color: #4b2d12;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
 }
 
-/* 故事卡（新手村） */
-.story-card {
-  background: #fff9ee;
-}
+/* ===== 新手村：故事卡 ===== */
+.story-card { background: #fff9ee; }
 
 .story-text {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  margin: 4px 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
 }
 
 /* IG 按鈕 */
 .ig-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8px;
+  display: inline-block;
   padding: 6px 12px;
+  margin-top: 8px;
   border-radius: 999px;
-  border: none;
   background: #ffd1e8;
   color: #7b3058;
-  font-size: 0.85rem;
   font-weight: 600;
+  font-size: 0.85rem;
   text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
-.ig-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
-}
-
-/* 共用主按鈕（返回地圖等） */
-.primary-btn {
-  width: 100%;
-  border-radius: 999px;
-  border: none;
-  padding: 8px 0;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: #ffe0ff;
-  color: #6a3360;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.primary-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* 區塊標題 */
-h2 {
-  margin: 0 0 8px;
-  font-size: 1rem;
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: #ffe4b5;
-  border: 1px solid #f0b869;
-}
-
-/* 進度摘要（map / battle 用） */
-.summary-card {
-  background: #fffaf2;
-}
-
-.progress-summary {
-  margin: 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #7b4c30;
-}
-
-.summary-note {
-  margin: 4px 0 0;
-  font-size: 0.8rem;
-  color: #8b6e3c;
-}
-
-/* === 勇者選擇區（index） === */
+/* ===== 勇者選擇區 ===== */
 
 .hero-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 6px;
 }
 
 .hero-card {
-  border-radius: 14px;
-  border: 2px solid #e1b676;
-  background: #fffdf7;
   padding: 6px;
-  text-align: left;
+  border-radius: 14px;
+  background: #fffdf7;
+  border: 2px solid #e1b676;
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease,
-    border-color 0.12s ease, background 0.12s ease;
   font-size: 0.82rem;
+  transition: 0.15s ease;
 }
 
 .hero-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
 
 .hero-card.active {
-  border-color: #ff9d3c;
-  box-shadow: 0 0 0 2px rgba(255, 157, 60, 0.4);
   background: #fff3da;
+  border-color: #ff9d3c;
+  box-shadow: 0 0 0 2px rgba(255,157,60,0.4);
 }
 
-.hero-name {
-  font-weight: 700;
-  margin-bottom: 2px;
-}
+.hero-name { font-weight: 700; margin-bottom: 3px; }
+.hero-fist { font-size: 0.78rem; color: #a06b2b; }
 
-.hero-fist {
-  font-size: 0.78rem;
-  color: #a06b2b;
-}
-
-.hero-line {
-  font-size: 0.78rem;
-  color: #6a5237;
-}
-
-/* 勇者故事區 */
 .hero-story-box {
   margin-top: 10px;
   padding-top: 6px;
@@ -219,54 +136,38 @@ h2 {
 }
 
 .hero-story-box h3 {
-  margin: 0 0 4px;
-  font-size: 0.95rem;
-  color: #5a3b1a;
+  margin: 0 0 6px;
 }
 
-#heroStoryText {
-  font-size: 0.83rem;
-  line-height: 1.5;
-  margin: 0 0 6px;
+#heroStoryText,
+#heroLineText,
+#heroAbilityText {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin-bottom: 6px;
 }
 
 /* 確認勇者按鈕 */
 .confirm-hero-btn {
   width: 100%;
-  border-radius: 999px;
+  padding: 8px 0;
   border: none;
-  padding: 7px 0;
-  font-size: 0.88rem;
-  font-weight: 600;
+  border-radius: 999px;
   background: #ffd88f;
   color: #4b2d12;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
 }
 
-.confirm-hero-btn:disabled {
-  opacity: 0.55;
-  cursor: default;
-  box-shadow: none;
-}
+/* ===== 地圖（九宮格） ===== */
 
-.confirm-hero-btn:active:not(:disabled) {
-  transform: translateY(1px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
-}
-
-/* === 地圖畫面（map） === */
-
-.map-section {
-  background: #fff9f0;
-  transition: box-shadow 0.2s ease;
-}
+.map-section { background: #fff9f0; }
 
 .map-header-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 6px;
   margin-bottom: 6px;
 }
 
@@ -275,62 +176,40 @@ h2 {
   text-align: center;
 }
 
-.map-level {
-  font-size: 0.83rem;
-  color: #a06b2b;
-  margin: 0;
-}
-
+.map-level,
 .map-stars {
-  font-size: 0.83rem;
-  color: #7b5932;
-  margin: 2px 0 0;
+  font-size: 0.82rem;
+  margin: 0;
 }
 
 /* 好友按鈕 */
 .friends-btn {
+  padding: 4px 10px;
+  font-size: 0.78rem;
   border-radius: 999px;
   border: 1px solid #d39ac8;
   background: #ffe4ff;
-  padding: 4px 10px;
-  font-size: 0.78rem;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14);
 }
 
-.friends-btn:active {
-  transform: translateY(1px);
-}
-
-.map-intro {
-  font-size: 0.83rem;
-  line-height: 1.4;
-  margin-bottom: 8px;
-}
-
+/* 九宮格 */
 .map-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 6px;
-  margin-bottom: 8px;
 }
 
 .map-tile {
+  padding: 6px 4px;
   border-radius: 12px;
   border: 1px solid #e1b676;
   background: #fffdf7;
-  padding: 6px 4px;
-  font-size: 0.78rem;
-  cursor: pointer;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-size: 0.78rem;
   position: relative;
 }
 
-.map-tile:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
-}
+.map-tile:active { transform: translateY(1px); }
 
 .map-tile.special {
   background: #e9f7ff;
@@ -344,40 +223,19 @@ h2 {
 
 .map-tile.cleared {
   border-color: #ffcf4a;
-  box-shadow: 0 0 0 2px rgba(255, 207, 74, 0.6);
+  box-shadow: 0 0 0 2px rgba(255,207,74,0.6);
 }
 
 .map-tile.cleared::after {
   content: "★";
   position: absolute;
   top: 3px;
-  right: 5px;
-  font-size: 0.7rem;
+  right: 6px;
   color: #ffb800;
+  font-size: 0.75rem;
 }
 
-.map-place {
-  font-weight: 700;
-  margin-bottom: 2px;
-  color: #7b5830;
-}
-
-.map-monster {
-  font-size: 0.78rem;
-  color: #4b3b2a;
-}
-
-.map-hint {
-  font-size: 0.8rem;
-  color: #7b4c30;
-}
-
-/* 地圖升級特效 */
-.map-section.level-up-glow {
-  animation: mapGlow 0.6s;
-}
-
-/* === 好友名單 Modal === */
+/* ===== 好友名單 Modal ===== */
 
 .friends-modal {
   position: fixed;
@@ -385,148 +243,78 @@ h2 {
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 20;
+  z-index: 50;
 }
 
-.friends-modal.show {
-  display: flex;
-}
+.friends-modal.show { display: flex; }
 
 .friends-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0,0,0,0.35);
 }
 
 .friends-card {
   position: relative;
-  background: #fffdf8;
+  width: calc(100% - 40px);
+  max-width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
   border-radius: 18px;
   border: 2px solid #e1b676;
+  background: #fffdf8;
   padding: 12px;
-  max-width: 440px;
-  width: calc(100% - 32px);
-  max-height: calc(100% - 40px);
-  overflow-y: auto;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-  animation: modalPop 0.25s;
 }
 
-.friends-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
-}
+/* ===== 戰鬥畫面 ===== */
 
-.friends-header h2 {
-  margin-bottom: 0;
-}
+.monster-info { font-size: 0.83rem; }
 
-.friends-close-btn {
-  border-radius: 999px;
-  border: none;
-  padding: 2px 8px;
-  font-size: 0.85rem;
-  background: #ffe1e1;
-  cursor: pointer;
-}
-
-.friends-intro {
-  font-size: 0.8rem;
-  color: #7b4c30;
-  margin: 4px 0 8px;
-}
-
-.friends-section h3 {
-  font-size: 0.9rem;
-  margin: 6px 0 4px;
-}
-
-.friends-list {
-  list-style: none;
-  padding-left: 0;
-  margin: 0 0 4px;
-  font-size: 0.8rem;
-}
-
-.friends-list li {
-  padding: 3px 6px;
-  border-radius: 10px;
-  border: 1px dashed #e1b676;
-  background: #fff9ee;
-  margin-bottom: 3px;
-}
-
-.friends-note {
-  margin-top: 6px;
-  font-size: 0.78rem;
-  color: #7a4c6b;
-}
-
-/* === 戰鬥畫面（battle） === */
-
-.monster-info {
-  font-size: 0.85rem;
-}
-
-.monster-stage,
-.monster-name {
-  margin: 2px 0;
-}
-
-.monster-fist {
-  margin: 4px 0 6px;
-  font-size: 0.8rem;
-  color: #7b4c30;
-}
-
-/* HP & 壞情緒條 */
 .hp-row {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 6px;
   font-size: 0.8rem;
-  margin: 4px 0;
 }
 
+/* 壞情緒條 */
 .emotion-progress {
   width: 100%;
   height: 12px;
   border-radius: 999px;
   background: #ffe9f4;
-  overflow: hidden;
   border: 1px solid #f3b4d0;
-  margin-bottom: 4px;
+  overflow: hidden;
 }
 
 .emotion-bar {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #d63f8d, #ff8e8e);
-  transition: width 0.25s ease;
+  background: linear-gradient(90deg,#d63f8d,#ff8e8e);
+  transition: width 0.2s;
 }
 
 .emotion-label {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #a03a63;
+  margin-top: 4px;
 }
 
 /* 壞情緒列表 */
 .emotion-list {
   list-style: none;
-  padding-left: 0;
-  margin: 6px 0 0;
+  padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3px 8px;
-  font-size: 0.8rem;
+  gap: 4px 8px;
+  font-size: 0.78rem;
 }
 
 .emotion-list li {
   padding: 3px 6px;
-  border-radius: 999px;
   background: #fffaf4;
-  border: 1px dashed #f2c09b;
+  border-radius: 999px;
+  border: 1px dashed #e1b676;
 }
 
 .emotion-list li.calm {
@@ -535,136 +323,76 @@ h2 {
   color: #287235;
 }
 
-/* 猜拳操作區 */
-.battle-section .hint {
+/* ===== 對話兩行區 ===== */
+.battle-dialog-box {
+  max-height: 40px;      /* 約兩行 */
+  overflow-y: auto;
+  padding: 4px 6px;
+  background: #fffdf8;
+  border: 1px dashed #e1b676;
+  border-radius: 10px;
+  margin-top: 8px;
   font-size: 0.8rem;
-  color: #8b6e3c;
-  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+/* ===== 出拳＋回地圖：同一排 ===== */
+.action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
 }
 
 .rps-row {
   display: flex;
-  justify-content: space-between;
   gap: 6px;
-  margin-bottom: 8px;
+  flex: 1;
 }
 
 .rps-btn {
   flex: 1;
-  border-radius: 999px;
-  border: none;
   padding: 6px 0;
-  font-size: 0.9rem;
-  font-weight: 600;
+  border: none;
+  border-radius: 999px;
   background: #ffd78f;
   color: #4b2d12;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-}
-
-.rps-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.rps-btn.flash {
-  animation: btnFlash 0.25s;
-}
-
-.round-result {
-  font-size: 0.85rem;
   font-weight: 600;
-  color: #6a3a1c;
-  margin-bottom: 4px;
+  font-size: 0.88rem;
 }
 
-.round-count {
-  font-size: 0.8rem;
-  color: #7b5830;
-  margin-bottom: 8px;
+.small-back-btn {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 10px;
+  background: #fff4d2;
+  border: 1px solid #d0a970;
 }
 
-/* 重整戰鬥 */
-.reset-btn {
-  width: 100%;
-  border-radius: 999px;
-  border: none;
-  padding: 6px 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  background: #ffe4f2;
-  color: #74305b;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-}
+/* ===== 占卜屋 ===== */
 
-.reset-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
-}
-
-/* 對話區 */
-.log-section {
-  max-height: 210px;
-}
-
-.dialog-box {
-  background: #fffdf8;
-  border-radius: 12px;
-  border: 1px dashed #e1b676;
-  padding: 6px;
-  max-height: 160px;
-  overflow-y: auto;
-  font-size: 0.85rem;
-}
-
-.dialog-box p {
-  margin: 3px 0;
-  line-height: 1.35;
-}
-
-/* 被打擊抖動動畫 */
-.monster-hit {
-  animation: monsterShake 0.25s;
-}
-
-/* === 占卜屋（tarot） === */
-
-.tarot-section {
-  background: #fff9ff;
-}
+.tarot-section { background: #fff9ff; }
 
 .tarot-intro {
   font-size: 0.85rem;
-  line-height: 1.5;
-  margin-bottom: 8px;
+  line-height: 1.45;
 }
 
-/* 抽牌按鈕 */
 .tarot-btn {
   width: 100%;
-  border-radius: 999px;
-  border: none;
   padding: 7px 0;
-  font-size: 0.86rem;
-  font-weight: 600;
+  border: none;
+  border-radius: 999px;
   background: #d9c3ff;
   color: #3d2a63;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
-  margin-bottom: 8px;
-}
-
-.tarot-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 0.85rem;
+  margin-bottom: 10px;
 }
 
 .tarot-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 6px;
-  margin-bottom: 8px;
 }
 
 .tarot-card {
@@ -675,34 +403,15 @@ h2 {
   font-size: 0.78rem;
 }
 
-.tarot-position {
-  font-weight: 700;
-  font-size: 0.8rem;
-  margin-bottom: 2px;
-  color: #8b5a2b;
-}
+.tarot-position { font-weight: 700; color: #8b5a2b; }
+.tarot-name { font-weight: 700; margin-top: 2px; }
+.tarot-orientation { font-size: 0.75rem; color: #a0633a; }
 
-.tarot-name {
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.tarot-orientation {
-  font-size: 0.75rem;
-  color: #a0633a;
-  margin-bottom: 2px;
-}
-
-.tarot-meaning {
-  font-size: 0.75rem;
-  color: #5a4630;
-}
-
-/* 熊熊解說框 */
+/* 熊熊解說 */
 .tarot-bear-box {
   background: #fff7ff;
   border: 1px dashed #e1b6e6;
-  margin-top: 4px;
+  padding: 8px;
 }
 
 .tarot-bear {
@@ -710,90 +419,17 @@ h2 {
   color: #70426c;
 }
 
-/* 頁尾 */
+/* ===== 頁尾 ===== */
 .footer {
   text-align: center;
-  font-size: 0.73rem;
+  font-size: 0.72rem;
+  margin-top: 6px;
   color: #8c6a40;
-  margin-top: 4px;
 }
 
-.footer a {
-  color: #c2577a;
-  text-decoration: none;
-}
-
-/* === 手機小螢幕優化 === */
+/* ===== 手機小螢幕優化 ===== */
 @media (max-width: 360px) {
-  .hero-list {
-    grid-template-columns: 1fr;
-  }
-
-  .emotion-list {
-    grid-template-columns: 1fr;
-  }
-
-  .tarot-row {
-    grid-template-columns: 1fr;
-  }
-
-  .hp-row {
-    flex-direction: column;
-    gap: 3px;
-  }
-}
-
-/* === 動畫效果 === */
-
-@keyframes btnFlash {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes monsterShake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-3px);
-  }
-  50% {
-    transform: translateX(3px);
-  }
-  75% {
-    transform: translateX(-2px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes modalPop {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes mapGlow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 207, 74, 0);
-  }
-  30% {
-    box-shadow: 0 0 0 3px rgba(255, 207, 74, 0.7);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 207, 74, 0);
-  }
+  .hero-list { grid-template-columns: 1fr; }
+  .tarot-row { grid-template-columns: 1fr; }
+  .emotion-list { grid-template-columns: 1fr; }
 }
