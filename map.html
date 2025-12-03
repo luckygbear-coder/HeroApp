@@ -3,58 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>小勇者之旅大冒險｜地圖</title>
+  <title>小勇者之旅大冒險｜冒險地圖</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body data-page="map">
   <div class="game-wrap">
 
-    <div class="card title-card">
-      <h1>🗺️ 冒險地圖</h1>
-      <div class="subtitle">選擇一個地點開始冒險吧！</div>
-    </div>
+    <!-- 標題 -->
+    <section class="card title-card">
+      <h1>🗺 冒險地圖</h1>
+      <p class="subtitle">選擇地點進入冒險！</p>
+    </section>
 
-    <div class="top-nav">
+    <!-- 分頁 -->
+    <nav class="top-nav">
       <a class="nav-link" href="index.html">新手村</a>
       <a class="nav-link active" href="map.html">地圖</a>
       <a class="nav-link" href="battle.html">戰鬥</a>
       <a class="nav-link" href="tarot.html">占卜屋</a>
       <a class="nav-link" href="shop.html">商店</a>
-    </div>
+    </nav>
 
-    <div class="card map-section">
+    <!-- 地圖資訊區 -->
+    <section class="card">
       <div class="map-header-row">
         <button id="friendsBtn" class="friends-btn">好友名單</button>
 
-        <div class="map-header-center">
-          <p id="mapLevel" class="map-level">LV.1</p>
-          <p id="mapStars" class="map-stars">0 顆勇氣星星</p>
+        <div class="map-level-info">
+          <div id="mapLevel" class="map-level-text">LV.1</div>
+          <div class="map-stars-text">
+            ⭐ <span id="mapStars">0</span> 顆
+          </div>
         </div>
       </div>
 
-      <p class="map-intro">
-        完成所有魔物後才能挑戰 <b>魔王城 🔥</b>！每打倒一次魔王，地圖會升級，可以再挑戰一輪魔物！
+      <p>
+        每次完成所有魔物後，可挑戰右上角的 <b>魔王城</b> 🔥！  
+        打倒魔王後地圖會升級，所有地點可再次探索✨
       </p>
 
+      <!-- 九宮格 -->
       <div id="mapGrid" class="map-grid"></div>
-    </div>
+    </section>
 
-    <!-- 好友名單 Modal -->
-    <div class="friends-modal" id="friendsModal">
-      <div class="friends-backdrop"></div>
-      <div class="friends-card">
-        <div class="friends-header">
-          <h2>好友名單</h2>
-          <button id="friendsCloseBtn" class="small-back-btn">關閉</button>
-        </div>
-        <p class="friends-intro">你安撫的魔物會成為你的好友 ⭐</p>
-        <ul id="friendsList" class="friends-list"></ul>
-        <p class="friends-note">魔物 +1 星星｜魔王 +3 星星</p>
-      </div>
-    </div>
+    <footer class="footer">
+      <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
+    </footer>
+  </div>
 
-    <div class="footer">
-      © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
+  <!-- 好友名單視窗 -->
+  <div id="friendsModal" class="modal">
+    <div class="modal-content">
+      <h3>好友名單 ⭐</h3>
+      <p>安撫成功的魔物會變成你的朋友！</p>
+      <p>魔物 +1 星星｜魔王 +3 星星</p>
+
+      <ul id="friendsList"></ul>
+
+      <button id="friendsCloseBtn" class="close-btn">關閉</button>
     </div>
   </div>
 
