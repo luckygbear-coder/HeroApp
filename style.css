@@ -266,6 +266,15 @@ body {
   padding: 12px;
 }
 
+.friends-list li {
+  list-style: none;
+  padding: 6px;
+  background: #fffaf5;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  border: 1px solid #e1b676;
+}
+
 /* ===== 戰鬥畫面 ===== */
 
 .monster-info { font-size: 0.83rem; }
@@ -369,6 +378,18 @@ body {
   border: 1px solid #d0a970;
 }
 
+/* 重整按鈕 */
+.reset-btn {
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px 0;
+  border-radius: 999px;
+  border: none;
+  background: #ffe4cc;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 /* ===== 占卜屋 ===== */
 
 .tarot-section { background: #fff9ff; }
@@ -407,7 +428,6 @@ body {
 .tarot-name { font-weight: 700; margin-top: 2px; }
 .tarot-orientation { font-size: 0.75rem; color: #a0633a; }
 
-/* 熊熊解說 */
 .tarot-bear-box {
   background: #fff7ff;
   border: 1px dashed #e1b6e6;
