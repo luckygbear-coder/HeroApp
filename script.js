@@ -1,4 +1,4 @@
-/* 小勇者之旅大冒險：穩定完整版 script.js */
+/* 小勇者之旅大冒險：穩定完整版 script.js（多兩個魔物＆九宮格地圖） */
 
 /* ---------- 共用工具 ---------- */
 function load(key, def) {
@@ -88,6 +88,20 @@ const MONSTERS = {
     hp: 3,
     emotions: ["憤怒", "焦慮", "失落"]
   },
+  dungeon: {
+    name: "異教徒",
+    talent: "✌️",
+    forbid: "✊",
+    hp: 3,
+    emotions: ["迷惘", "孤單", "不安"]
+  },
+  ruins: {
+    name: "石像魔像",
+    talent: "🖐",
+    forbid: "✌️",
+    hp: 3,
+    emotions: ["僵硬", "害怕改變", "疑惑"]
+  },
   boss: {
     name: "惡龍魔王",
     talent: "任意",
@@ -156,7 +170,7 @@ function initIndexPage() {
 }
 
 /* =========================================
-   地圖頁
+   地圖頁（九宮格版）
 ========================================= */
 function initMapPage() {
   const grid = document.getElementById("mapGrid");
@@ -165,31 +179,61 @@ function initMapPage() {
   document.getElementById("mapLevel").textContent = "LV." + level;
   document.getElementById("mapStars").textContent = stars + " 顆";
 
-  const tiles = {
-    forest: "🌲 森林（獸人）",
-    lake: "🌊 湖畔（人魚）",
-    cave: "🕳 洞窟（哥布林）",
-    grave: "💀 墓地（骷髏兵）",
-    boss: "🔥 魔王城（惡龍）"
-  };
+  // 九宮格配置（不再有草地）
+  const cells = [
+    { id: "start",   label: "🏡 新手村",           kind: "start"   },
+    { id: "forest",  label: "🌲 森林（獸人）",     kind: "monster" },
+    { id: "boss",    label: "🔥 魔王城（惡龍）",  kind: "boss"    },
 
-  Object.keys(tiles).forEach((stage) => {
+    { id: "lake",    label: "🌊 湖畔（人魚）",     kind: "monster" },
+    { id: "tarot",   label: "🔮 占卜屋",           kind: "tarot"   },
+    { id: "cave",    label: "🕳 洞窟（哥布林）",   kind: "monster" },
+
+    { id: "grave",   label: "💀 墓地（骷髏兵）",   kind: "monster" },
+    { id: "dungeon", label: "🕸 地窖（異教徒）",   kind: "monster" },
+    { id: "ruins",   label: "🏛 遺跡（石像魔像）", kind: "monster" }
+  ];
+
+  grid.innerHTML = "";
+
+  cells.forEach(cell => {
     const t = document.createElement("div");
     t.className = "map-tile";
-    if (stage === "boss") t.classList.add("boss");
-    if (clearedStages[stage]) t.classList.add("cleared");
-    t.textContent = tiles[stage];
+    t.textContent = cell.label;
+
+    if (cell.kind === "boss") t.classList.add("boss");
+    if (cell.kind === "start" || cell.kind === "tarot") t.classList.add("special");
+
+    // 怪物與魔王顯示通關星星
+    if ((cell.kind === "monster" || cell.kind === "boss") && clearedStages[cell.id]) {
+      t.classList.add("cleared");
+    }
 
     t.addEventListener("click", () => {
-      if (stage === "boss") {
-        const allClear = ["forest", "lake", "cave", "grave"].every(s => clearedStages[s]);
-        if (!allClear) {
-          alert("還不能挑戰魔王喔！請先安撫所有魔物！");
-          return;
+      switch (cell.kind) {
+        case "start":
+          window.location.href = "index.html";
+          break;
+        case "tarot":
+          window.location.href = "tarot.html";
+          break;
+        case "boss": {
+          // 需要先通關六個魔物才能挑戰魔王
+          const allClear = ["forest","lake","cave","grave","dungeon","ruins"]
+            .every(s => clearedStages[s]);
+          if (!allClear) {
+            alert("還不能挑戰魔王喔！請先安撫所有魔物！");
+            return;
+          }
+          save("currentStage", "boss");
+          window.location.href = "battle.html";
+          break;
         }
+        case "monster":
+          save("currentStage", cell.id);
+          window.location.href = "battle.html";
+          break;
       }
-      save("currentStage", stage);
-      window.location.href = "battle.html";
     });
 
     grid.appendChild(t);
