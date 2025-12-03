@@ -11,13 +11,11 @@
 <body data-page="map">
   <div class="game-wrap">
 
-    <!-- 標題卡 -->
     <div class="card title-card">
       <h1>🗺️ 冒險地圖</h1>
       <div class="subtitle">選擇一個地點開始冒險吧！</div>
     </div>
 
-    <!-- 導覽列 -->
     <div class="top-nav">
       <a class="nav-link" href="index.html">新手村</a>
       <a class="nav-link active" href="map.html">地圖</a>
@@ -25,9 +23,7 @@
       <a class="nav-link" href="tarot.html">占卜屋</a>
     </div>
 
-    <!-- 地圖資訊 -->
     <div class="card map-section">
-
       <div class="map-header-row">
         <button id="friendsBtn" class="friends-btn">好友名單</button>
 
@@ -38,45 +34,31 @@
       </div>
 
       <p class="map-intro">
-        完成所有魔物後才能挑戰右上角的<strong>魔王城 🔥</strong>！
+        完成所有魔物後才能挑戰右上角的 <b>魔王城 🔥</b>！
       </p>
 
-      <!-- 九宮格 -->
       <div id="mapGrid" class="map-grid"></div>
-
     </div>
 
     <!-- 好友名單 Modal -->
     <div class="friends-modal" id="friendsModal">
       <div class="friends-backdrop"></div>
-
       <div class="friends-card">
         <div class="friends-header">
           <h2>好友名單</h2>
-          <button id="friendsCloseBtn" class="friends-close-btn">關閉</button>
+          <button id="friendsCloseBtn" class="small-back-btn">關閉</button>
         </div>
-
         <p class="friends-intro">你安撫的魔物會成為你的好友 ⭐</p>
-
-        <div class="friends-section">
-          <h3>好友列表</h3>
-          <ul id="friendsList" class="friends-list">
-            <!-- JS 注入 -->
-          </ul>
-        </div>
-
+        <ul id="friendsList" class="friends-list"></ul>
         <p class="friends-note">魔物 +1 星星｜魔王 +3 星星</p>
       </div>
     </div>
 
-    <!-- 頁尾 -->
     <div class="footer">
       © 小勇者之旅大冒險 ｜ Designed by 熊熊村長
     </div>
-
   </div>
 
   <script src="script.js"></script>
 </body>
-
 </html>
