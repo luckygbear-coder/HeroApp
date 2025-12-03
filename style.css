@@ -247,51 +247,110 @@ body {
   cursor: pointer;
 }
 
-/* ========= 戰鬥頁：壓縮高度 ========= */
+/* ========= 戰鬥頁：壓縮高度＋放大拳頭 ========= */
 
 body[data-page="battle"] .game-wrap {
-  padding-top: 8px;
+  padding-top: 6px;
 }
 
+/* 整體卡片再薄一點，讓畫面塞進一頁 */
 body[data-page="battle"] .card {
-  margin-bottom: 8px;
-  padding: 10px 12px;
+  margin-bottom: 6px;
+  padding: 8px 10px;
 }
 
 body[data-page="battle"] .title-card h1 {
   font-size: 18px;
 }
 
+/* 標題 + 內文字體縮小一點 */
 .status-card h2,
 .dialog-card h2,
 .battle-card h2 {
-  font-size: 15px;
-  margin: 0 0 6px;
+  font-size: 14px;
+  margin: 0 0 4px;
 }
 
 .status-card p {
-  margin: 2px 0;
-  font-size: 12px;
+  margin: 1px 0;
+  font-size: 11px;
 }
 
+/* 兩欄狀態卡更緊湊 */
 .status-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .status-box {
   flex: 1;
   background: #fffdf8;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid #f2c9a4;
-  padding: 6px 8px;
+  padding: 5px 6px;
 }
 
 .status-title {
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
+  font-size: 11px;
 }
 
+/* 壞情緒條維持原本樣式即可 */
+
+/* 對話紀錄框：高度再縮一點，內部捲動 */
+.dialog-card {
+  padding-bottom: 6px;
+}
+
+.dialog-box {
+  max-height: 70px;        /* 原本 90，縮短節省高度 */
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid #f4d0b3;
+  background: #fffdf8;
+  padding: 5px 6px;
+  font-size: 11px;
+}
+
+/* 出拳列 ＋ 道具籃：拳頭變大、整行更緊湊 */
+.battle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* 🔴 放大拳頭按鈕 */
+.rps-btn.circle {
+  width: 64px;      /* 原本 56 */
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  font-size: 26px;  /* 原本 24 */
+  background: #ffe8cc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+/* 🧸 道具籃：也稍微放大 */
+.item-bag-btn {
+  margin-left: auto;
+  width: 52px;      /* 原本 48 */
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  font-size: 26px;
+  background: #ffe1f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.round-result {
+  font-size: 11px;
+  margin: 2px 0 3px;
+  color: #a0674a;
+}
 /* 壞情緒條 */
 .emotion-bar {
   margin-top: 6px;
