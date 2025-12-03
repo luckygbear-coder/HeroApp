@@ -259,40 +259,6 @@ h2 {
   margin-bottom: 6px;
 }
 
-/* 語句選擇 */
-.phrase-row {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-#phraseSelect {
-  flex: 1;
-  padding: 5px 8px;
-  border-radius: 999px;
-  border: 1px solid #e1b676;
-  font-size: 0.8rem;
-  background: #fffdf8;
-}
-
-#usePhraseBtn {
-  padding: 5px 8px;
-  border-radius: 999px;
-  border: none;
-  font-size: 0.8rem;
-  background: #ffb954;
-  color: #4b2d12;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-}
-
-#usePhraseBtn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
 /* 猜拳按鈕 */
 .rps-row {
   display: flex;
@@ -371,6 +337,17 @@ h2 {
   background: #fff9f0;
 }
 
+.map-section.upgraded {
+  background: #fffbe0;
+  box-shadow: 0 0 0 2px #ffcf4a, 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.map-level {
+  font-size: 0.8rem;
+  color: #a06b2b;
+  margin: 2px 0 6px;
+}
+
 .map-intro {
   font-size: 0.83rem;
   line-height: 1.4;
@@ -393,11 +370,36 @@ h2 {
   cursor: pointer;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  position: relative;
 }
 
 .map-tile:active {
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+.map-tile.special {
+  background: #e9f7ff;
+  border-color: #8dc4ff;
+}
+
+.map-tile.boss {
+  background: #ffe8f0;
+  border-color: #f08bb0;
+}
+
+.map-tile.cleared {
+  border-color: #ffcf4a;
+  box-shadow: 0 0 0 2px rgba(255, 207, 74, 0.6);
+}
+
+.map-tile.cleared::after {
+  content: "★";
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: 0.7rem;
+  color: #ffb800;
 }
 
 .map-place {
@@ -513,15 +515,6 @@ h2 {
   .hp-row {
     flex-direction: column;
     gap: 3px;
-  }
-
-  .phrase-row {
-    flex-direction: column;
-  }
-
-  #usePhraseBtn {
-    width: 100%;
-    text-align: center;
   }
 
   .emotion-list {
