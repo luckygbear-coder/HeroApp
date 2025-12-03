@@ -1,16 +1,44 @@
 // === 全域設定 ===
-const STORAGE_KEY = "HeroAppStateV3";
+const STORAGE_KEY = "HeroAppStateV4";
 
-// 六隻普通魔物 + 魔王 Key
+// 六隻普通魔物 + 魔王
 const PLAY_MONSTERS = ["slime", "crybat", "fireBull", "mermaid", "goblin", "skeleton"];
 const BOSS_KEY = "dragon";
 
-// === 基本資料 ===
+// === 勇者資料 ===
 const HEROES = {
-  warrior: { name: "戰士", talent: "rock", line: "我一定會守護大家！" },
-  mage: { name: "法師", talent: "scissors", line: "嘿嘿～我有新點子！" },
-  priest: { name: "牧師", talent: "paper", line: "別擔心，我來幫你～" },
-  villager: { name: "勇敢的村民", talent: null, line: "我雖然平凡，但不放棄！" }
+  warrior: {
+    key: "warrior",
+    name: "戰士",
+    talent: "rock",
+    line: "我一定會守護大家！",
+    story:
+      "戰士肩負保護大家的使命。即使心裡有點害怕，他還是會站到最前面，因為他希望大家都能安全。"
+  },
+  mage: {
+    key: "mage",
+    name: "法師",
+    talent: "scissors",
+    line: "嘿嘿～我有新點子！",
+    story:
+      "法師腦袋裡有超多奇怪又好玩的點子。雖然有時候會失敗，但他相信：只要一直嘗試，總會找到最好玩的解法。"
+  },
+  priest: {
+    key: "priest",
+    name: "牧師",
+    talent: "paper",
+    line: "別擔心，我來幫你～",
+    story:
+      "牧師很擅長傾聽，當有人心情不好時，他會安靜地陪在身邊。雖然力量不大，但他的溫柔是隊伍裡最重要的力量。"
+  },
+  villager: {
+    key: "villager",
+    name: "勇敢的村民",
+    talent: null,
+    line: "我雖然平凡，但不放棄！",
+    story:
+      "勇敢的村民一開始什麼技能都沒有，只是默默努力地生活。後來，他用不放棄的心，練成超強的「不被壞情緒打倒」的能力。"
+  }
 };
 
 const HERO_LABELS = {
@@ -20,14 +48,8 @@ const HERO_LABELS = {
   villager: "🌾 勇敢的村民"
 };
 
+// === 魔物資料 ===
 const MONSTERS = {
-  shadow: {
-    key: "shadow",
-    stage: "練習關卡",
-    name: "壞情緒之影",
-    talent: null,
-    forbid: null
-  },
   slime: {
     key: "slime",
     stage: "草原",
@@ -79,7 +101,7 @@ const MONSTERS = {
   }
 };
 
-// 壞情緒列表
+// 壞情緒列表：一般魔物 3 種、魔王 6 種
 const EMOTIONS3 = ["😡 生氣", "😭 難過", "😱 害怕"];
 const EMOTIONS6 = ["😡 生氣", "😭 難過", "😱 害怕", "😒 嫉妒", "😔 孤單", "😖 焦慮"];
 
@@ -98,7 +120,7 @@ const TAROT_CARDS = [
   {
     name: "星星 The Star",
     upright: "你有溫柔的光，哪怕很小，也正在默默鼓勵著身邊的人。",
-    reversed: "暫時看不太到希望，但並不是沒有光，只是雲層有點厚，請再多給自己一點時間。"
+    reversed: "暫時看不太到希望，但不是沒有光，只是雲層有點厚，請再多給自己一點時間。"
   },
   {
     name: "力量 Strength",
@@ -108,7 +130,7 @@ const TAROT_CARDS = [
   {
     name: "戀人 The Lovers",
     upright: "身邊有在乎你的人，你也正在學習如何好好在關係裡表達自己。",
-    reversed: "也許有一點小摩擦，其實只是彼此需要更多理解與好好說話的時間。"
+    reversed: "也許有一些小摩擦，其實只是彼此需要更多理解與好好說話的時間。"
   },
   {
     name: "命運之輪 Wheel of Fortune",
@@ -117,7 +139,7 @@ const TAROT_CARDS = [
   }
 ];
 
-// === 遊戲狀態 ===
+// === 狀態 ===
 function getDefaultState() {
   return {
     level: 1,
@@ -125,8 +147,8 @@ function getDefaultState() {
     heroKey: null,
     heroName: "",
     heroHp: 6,
-    monsterKey: "shadow",
-    monsterHp: 3, // 練習關卡 3 點壞情緒
+    monsterKey: null,
+    monsterHp: 0,
     round: 0,
     clearedMonsters: {}, // { key: true }
     friends: [] // [monsterKey]
@@ -142,11 +164,14 @@ function loadState() {
     if (!raw) return getDefaultState();
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") return getDefaultState();
-    if (!parsed.level) parsed.level = 1;
-    if (parsed.stars == null) parsed.stars = 0;
+
+    if (typeof parsed.level !== "number") parsed.level = 1;
+    if (typeof parsed.stars !== "number") parsed.stars = 0;
     if (!parsed.clearedMonsters) parsed.clearedMonsters = {};
     if (!Array.isArray(parsed.friends)) parsed.friends = [];
-    if (!parsed.monsterKey) parsed.monsterKey = "shadow";
+    if (parsed.heroHp == null) parsed.heroHp = 6;
+    if (parsed.monsterHp == null) parsed.monsterHp = 0;
+
     return parsed;
   } catch (e) {
     return getDefaultState();
@@ -161,10 +186,12 @@ function saveState() {
 
 // === 小工具 ===
 function getCurrentMonster() {
-  return MONSTERS[state.monsterKey] || MONSTERS.shadow;
+  if (!state.monsterKey) return null;
+  return MONSTERS[state.monsterKey] || null;
 }
 
 function getMonsterMaxHp(monsterKey) {
+  if (!monsterKey) return 0;
   if (monsterKey === BOSS_KEY) return 6;
   return 3;
 }
@@ -195,7 +222,7 @@ function moveToText(move) {
     case "paper":
       return "🖐 布";
     default:
-      return move;
+      return move || "—";
   }
 }
 
@@ -212,16 +239,16 @@ function isFriend(key) {
 }
 
 function addFriend(key) {
-  if (!key || key === "shadow") return;
+  if (!key) return;
   if (!state.friends.includes(key)) {
     state.friends.push(key);
   }
 }
 
-// === 共用 UI：導覽與進度摘要 ===
+// === 共用 UI（導覽＋摘要） ===
 function initCommonUI() {
-  const navLinks = document.querySelectorAll(".nav-link");
   const bodyPage = document.body.dataset.page;
+  const navLinks = document.querySelectorAll(".nav-link");
   navLinks.forEach((link) => {
     const page = link.dataset.pageLink;
     if (page === bodyPage) {
@@ -240,17 +267,17 @@ function initCommonUI() {
 // === Emotion 列表與 HP ===
 function renderEmotionList() {
   const listEl = document.getElementById("emotionList");
-  const soothedEl = document.getElementById("soothedCount");
-  const totalEl = document.getElementById("totalEmotionCount");
-  if (!listEl || !soothedEl || !totalEl) return;
+  const emotionLabel = document.getElementById("emotionLabel");
+  const monster = getCurrentMonster();
+  if (!listEl || !monster) {
+    if (emotionLabel) emotionLabel.textContent = "請先到地圖選擇要挑戰的魔物。";
+    return;
+  }
 
   const lis = listEl.querySelectorAll("li");
-  const maxHp = getMonsterMaxHp(state.monsterKey);
+  const maxHp = getMonsterMaxHp(monster.key);
   const emotionSet = maxHp === 6 ? EMOTIONS6 : EMOTIONS3;
   const soothedCount = Math.max(0, maxHp - state.monsterHp);
-
-  totalEl.textContent = String(maxHp);
-  soothedEl.textContent = String(soothedCount);
 
   lis.forEach((li, index) => {
     if (index < emotionSet.length) {
@@ -280,16 +307,30 @@ function renderMonsterInfo() {
   const monsterNameText = document.getElementById("monsterNameText");
   const monsterTalentText = document.getElementById("monsterTalentText");
   const monsterForbidText = document.getElementById("monsterForbidText");
+  const monsterHpText2 = document.getElementById("monsterHpText2");
 
   const monster = getCurrentMonster();
+  if (!monster) {
+    if (monsterStageText) monsterStageText.textContent = "尚未選擇";
+    if (monsterNameText) monsterNameText.textContent = "請回地圖選擇魔物";
+    if (monsterTalentText) monsterTalentText.textContent = "—";
+    if (monsterForbidText) monsterForbidText.textContent = "—";
+    if (monsterHpText2) monsterHpText2.textContent = "0/0";
+    return;
+  }
 
-  if (monsterStageText) monsterStageText.textContent = monster.stage || "練習關卡";
+  const maxHp = getMonsterMaxHp(monster.key);
+
+  if (monsterStageText) monsterStageText.textContent = monster.stage || "";
   if (monsterNameText) monsterNameText.textContent = `${monster.name} LV.${state.level}`;
   if (monsterTalentText) {
     monsterTalentText.textContent = monster.talent ? moveIcon(monster.talent) : "（隨機）";
   }
   if (monsterForbidText) {
     monsterForbidText.textContent = monster.forbid ? moveIcon(monster.forbid) : "（無）";
+  }
+  if (monsterHpText2) {
+    monsterHpText2.textContent = `${state.monsterHp}/${maxHp}`;
   }
 }
 
@@ -300,21 +341,26 @@ function renderHp() {
   const emotionLabel = document.getElementById("emotionLabel");
 
   const heroMax = getHeroMaxHp();
-  const maxHp = getMonsterMaxHp(state.monsterKey);
+  const monster = getCurrentMonster();
+  const maxHp = monster ? getMonsterMaxHp(monster.key) : 0;
 
   if (state.heroHp < 0) state.heroHp = 0;
   if (state.heroHp > heroMax) state.heroHp = heroMax;
   if (state.monsterHp < 0) state.monsterHp = 0;
-  if (state.monsterHp > maxHp) state.monsterHp = maxHp;
+  if (monster && state.monsterHp > maxHp) state.monsterHp = maxHp;
 
   if (heroHpText) heroHpText.textContent = `${state.heroHp}/${heroMax}`;
-  if (monsterHpText) monsterHpText.textContent = `${state.monsterHp}/${maxHp}`;
+  if (monsterHpText) monsterHpText.textContent = monster ? `${state.monsterHp}/${maxHp}` : "0/0";
 
-  const percent = (state.monsterHp / maxHp) * 100;
-  if (emotionBar) emotionBar.style.width = percent + "%";
+  if (emotionBar) {
+    const percent = monster && maxHp > 0 ? (state.monsterHp / maxHp) * 100 : 0;
+    emotionBar.style.width = percent + "%";
+  }
 
   if (emotionLabel) {
-    if (state.monsterHp === maxHp) {
+    if (!monster) {
+      emotionLabel.textContent = "請先回地圖選擇要挑戰的魔物。";
+    } else if (state.monsterHp === maxHp) {
       emotionLabel.textContent = "壞情緒還很強烈……";
     } else if (state.monsterHp >= Math.ceil(maxHp * 0.66)) {
       emotionLabel.textContent = "壞情緒稍微被安撫了。";
@@ -380,14 +426,14 @@ function tryLevelUp(monsterJustClearedKey) {
 
     if (dialogBox) {
       addDialog(
-        `🐻 村長熊熊：太厲害了！你完成了第 ${prevLv} 輪冒險，整個地圖和所有魔物都升級到 LV.${state.level}！`
+        `🐻 村長熊熊：太厲害了！你完成了第 ${prevLv} 輪冒險，整張地圖和所有魔物都升級到 LV.${state.level}！`
       );
       addDialog("🐻 村長熊熊：星星王國開啟新一輪挑戰，你可以再走一遍所有地點喔～");
     }
 
     state.clearedMonsters = {};
-    state.monsterKey = "shadow";
-    state.monsterHp = getMonsterMaxHp("shadow");
+    state.monsterKey = null;
+    state.monsterHp = 0;
     state.round = 0;
 
     saveState();
@@ -401,6 +447,7 @@ function tryLevelUp(monsterJustClearedKey) {
 // === 魔物出拳 ===
 function monsterMove() {
   const monster = getCurrentMonster();
+  if (!monster) return "rock";
   const baseMoves = ["rock", "scissors", "paper"];
 
   let moves = baseMoves.filter((m) => !monster.forbid || m !== monster.forbid);
@@ -412,7 +459,7 @@ function monsterMove() {
   return moves[randomIndex];
 }
 
-// === 剪刀石頭布判定 ===
+// === 猜拳判定 ===
 function judge(player, enemy) {
   if (player === enemy) return "draw";
   if (
@@ -427,29 +474,46 @@ function judge(player, enemy) {
 
 // === 頁面初始化：index（新手村） ===
 function initIndexPage() {
+  // 回村自動回滿血
   state.heroHp = getHeroMaxHp();
   saveState();
 
   const heroCards = document.querySelectorAll(".hero-card");
-  const selectedHeroText = document.getElementById("selectedHeroText");
+  const storyBox = document.getElementById("heroStoryBox");
+  const storyName = document.getElementById("heroStoryName");
+  const storyText = document.getElementById("heroStoryText");
+  const confirmBtn = document.getElementById("confirmHeroBtn");
 
+  // 更新勇者卡上的 LV 顯示
   heroCards.forEach((card) => {
     const key = card.dataset.hero;
     if (!key) return;
     const nameEl = card.querySelector(".hero-name");
     if (nameEl && HERO_LABELS[key]) {
-      nameEl.textContent = `${HERO_LABELS[key]} LV.${state.level}`;
+      nameEl.textContent = `${HERO_LABELS[key]}`;
     }
   });
 
-  if (state.heroKey && selectedHeroText) {
+  // 若已有選過的勇者，顯示其故事
+  if (state.heroKey && storyBox && storyName && storyText && confirmBtn) {
     const hero = HEROES[state.heroKey];
-    selectedHeroText.textContent = `目前勇者：${hero.name} LV.${state.level}（${hero.line}）`;
+    storyBox.style.display = "block";
+    storyName.textContent = `${hero.name}的小故事`;
+    storyText.textContent = hero.story;
+    confirmBtn.style.display = "block";
+    confirmBtn.disabled = false;
+
+    heroCards.forEach((c) => c.classList.remove("active"));
+    heroCards.forEach((c) => {
+      if (c.dataset.hero === state.heroKey) {
+        c.classList.add("active");
+      }
+    });
   }
 
-  heroCards.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const key = btn.dataset.hero;
+  heroCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const key = card.dataset.hero;
       const hero = HEROES[key];
       state.heroKey = key;
       state.heroName = hero.name;
@@ -457,14 +521,27 @@ function initIndexPage() {
       state.round = 0;
       saveState();
 
-      heroCards.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
+      heroCards.forEach((c) => c.classList.remove("active"));
+      card.classList.add("active");
 
-      if (selectedHeroText) {
-        selectedHeroText.textContent = `目前勇者：${hero.name} LV.${state.level}（${hero.line}）`;
+      if (storyBox && storyName && storyText && confirmBtn) {
+        storyBox.style.display = "block";
+        storyName.textContent = `${hero.name}的小故事`;
+        storyText.textContent = hero.story;
+        confirmBtn.style.display = "block";
+        confirmBtn.disabled = false;
       }
     });
   });
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", () => {
+      if (!state.heroKey) return;
+      state.heroHp = getHeroMaxHp();
+      saveState();
+      window.location.href = "map.html";
+    });
+  }
 }
 
 // === 頁面初始化：battle（戰鬥） ===
@@ -474,51 +551,68 @@ function initBattlePage() {
   const resetBtn = document.getElementById("resetBtn");
   const monsterInfoBox = document.getElementById("monsterInfoBox");
 
-  const maxHp = getMonsterMaxHp(state.monsterKey);
-  if (state.monsterHp == null || state.monsterHp <= 0 || state.monsterHp > maxHp) {
-    state.monsterHp = maxHp;
-  }
-  if (state.heroHp == null || state.heroHp <= 0 || state.heroHp > getHeroMaxHp()) {
-    state.heroHp = getHeroMaxHp();
-  }
-  if (!state.round) state.round = 0;
-  saveState();
+  const monster = getCurrentMonster();
 
-  if (roundCount) roundCount.textContent = String(state.round);
-  renderHp();
+  if (!state.heroKey) {
+    if (roundResult) {
+      roundResult.textContent = "請先回新手村選擇一位勇者，再從地圖選擇魔物。";
+    }
+  }
 
-  if (!state.heroKey && roundResult) {
-    roundResult.textContent = "請先回「新手村」選擇一位勇者，再到地圖挑戰魔物。";
+  if (!monster) {
+    if (roundResult) {
+      roundResult.textContent = "請先回地圖選擇要挑戰的魔物。";
+    }
+    renderHp();
+  } else {
+    const maxHp = getMonsterMaxHp(monster.key);
+    if (state.monsterHp <= 0 || state.monsterHp > maxHp) {
+      state.monsterHp = maxHp;
+    }
+    if (state.heroHp <= 0 || state.heroHp > getHeroMaxHp()) {
+      state.heroHp = getHeroMaxHp();
+    }
+    if (!state.round) state.round = 0;
+    saveState();
+    if (roundCount) roundCount.textContent = String(state.round);
+    renderHp();
   }
 
   const rpsButtons = document.querySelectorAll(".rps-btn");
 
   rpsButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
+      const monsterNow = getCurrentMonster();
       if (!state.heroKey) {
         if (roundResult) {
-          roundResult.textContent = "請先回「新手村」選擇一位勇者，再到地圖挑戰魔物。";
+          roundResult.textContent = "請先回新手村選擇一位勇者，再從地圖進入戰鬥。";
+        }
+        return;
+      }
+      if (!monsterNow) {
+        if (roundResult) {
+          roundResult.textContent = "請先回地圖選擇要挑戰的魔物。";
         }
         return;
       }
 
       if (state.monsterHp <= 0) {
         if (roundResult) {
-          roundResult.textContent = "這隻魔物已經被你安撫好了，可以回地圖挑選其他地點或挑戰魔王城。";
+          roundResult.textContent = "這隻魔物已經被你安撫好了，可以回地圖看看其他地點。";
         }
         return;
       }
 
       if (state.heroHp <= 0) {
         if (roundResult) {
-          roundResult.textContent = "勇者的好心情暫時用完了，先回新手村或占卜屋恢復一下吧～";
+          roundResult.textContent =
+            "勇者的好心情暫時用完了，先回新手村或占卜屋恢復一下吧～";
         }
         return;
       }
 
       const playerMove = btn.dataset.move;
       const enemyMove = monsterMove();
-      const monster = getCurrentMonster();
       const hero = HEROES[state.heroKey];
 
       state.round += 1;
@@ -533,19 +627,19 @@ function initBattlePage() {
       addDialog(
         `⚔️ LV.${state.level} 的 ${state.heroName || "勇者"} 出了 ${moveToText(
           playerMove
-        )}，LV.${state.level} 的 ${monster.name} 出了 ${moveToText(enemyMove)}。`
+        )}，LV.${state.level} 的 ${monsterNow.name} 出了 ${moveToText(enemyMove)}。`
       );
 
       if (result === "draw") {
         if (roundResult) roundResult.textContent = "平手！先觀察對方的心情變化。";
         addDialog(`${state.heroName || "勇者"}：看起來我們還在找彼此的節奏。`);
-        addDialog(`${monster.name}：哼…我還在猶豫要不要相信你。`);
+        addDialog(`${monsterNow.name}：哼…我還在猶豫要不要相信你。`);
       } else if (result === "win") {
         damageToMonster = 1;
 
         if (hero.talent && hero.talent === playerMove) {
           damageToMonster += 1;
-          addDialog(`✨ LV.${state.level} 的 ${hero.name} 天賦拳發動！好心情力量加倍！`);
+          addDialog(`✨ ${hero.name} 的天賦拳發動！好心情力量加倍！`);
         }
 
         const remainHp = state.monsterHp - damageToMonster;
@@ -556,7 +650,7 @@ function initBattlePage() {
         addDialog(`${state.heroName || "勇者"}：我有在聽，你的感受很重要。`);
 
         if (remainHp >= 1) {
-          addDialog(`${monster.name}：好像…沒那麼想發脾氣了。`);
+          addDialog(`${monsterNow.name}：好像…沒那麼想發脾氣了。`);
         }
 
         state.monsterHp = remainHp;
@@ -571,7 +665,7 @@ function initBattlePage() {
             roundResult.textContent = "魔物有點暴走，但你的心非常強韌，沒有受到傷害。";
           }
           addDialog(`${state.heroName || "勇者"}：我有點嚇到，但我知道你只是心情很亂。`);
-          addDialog(`${monster.name}：你居然還站在這裡…？`);
+          addDialog(`${monsterNow.name}：你居然還站在這裡…？`);
         } else {
           state.heroHp -= 1;
           if (roundResult) {
@@ -581,42 +675,38 @@ function initBattlePage() {
           addDialog(
             `${state.heroName || "勇者"}：哎呀…剛剛被你的壞情緒嚇到了，不過我還是想陪你。`
           );
-          addDialog(`${monster.name}：你們都不懂我！都走開啦！`);
+          addDialog(`${monsterNow.name}：你們都不懂我！都走開啦！`);
         }
       }
 
       renderHp();
       saveState();
 
-      const maxHpNow = getMonsterMaxHp(state.monsterKey);
+      const maxHpNow = getMonsterMaxHp(monsterNow.key);
 
       if (state.monsterHp <= 0) {
-        if (state.monsterKey !== "shadow") {
-          addFriend(monster.key);
-          state.clearedMonsters[monster.key] = true;
+        addFriend(monsterNow.key);
+        state.clearedMonsters[monsterNow.key] = true;
 
-          let gainStars = 0;
-          if (monster.key === BOSS_KEY) {
-            gainStars = 3;
-          } else {
-            gainStars = 1;
-          }
-          state.stars += gainStars;
-
-          addDialog(
-            `😊 ${monster.name}：謝謝你，我覺得好多了。從現在起，我想當你的好朋友！`
-          );
-          addDialog(
-            `🐻 村長熊熊：恭喜你和「${monster.name}」成為好友，並獲得 🌟 勇氣星星 x${gainStars}！`
-          );
-
-          if (monster.key === BOSS_KEY) {
-            addDialog(
-              "🐻 村長熊熊：連魔王都被你安撫了！星星王國的天空再次變得明亮～"
-            );
-          }
+        let gainStars = 0;
+        if (monsterNow.key === BOSS_KEY) {
+          gainStars = 3;
         } else {
-          addDialog("😊 壞情緒之影：原來我也可以被好好對待…謝謝你陪我練習。");
+          gainStars = 1;
+        }
+        state.stars += gainStars;
+
+        addDialog(
+          `😊 ${monsterNow.name}：謝謝你，我覺得好多了。從現在起，我想當你的好朋友！`
+        );
+        addDialog(
+          `🐻 村長熊熊：恭喜你和「${monsterNow.name}」成為好友，並獲得 🌟 勇氣星星 x${gainStars}！`
+        );
+
+        if (monsterNow.key === BOSS_KEY) {
+          addDialog(
+            "🐻 村長熊熊：連魔王都被你安撫了！星星王國的天空再次變得明亮～"
+          );
         }
 
         saveState();
@@ -624,14 +714,14 @@ function initBattlePage() {
         if (roundResult) {
           if (allClearedWithBoss()) {
             roundResult.textContent =
-              "本輪全部通關！準備升級到下一個 LV～可以回地圖看看。";
+              "本輪全部通關！準備升級到下一個等級～可以回地圖看看。";
           } else {
             roundResult.textContent =
-              "任務完成！可以回地圖選下一個地點，或等待全部完成再挑戰魔王城。";
+              "任務完成！可以回地圖選下一個地點，或等全部完成再挑戰魔王城。";
           }
         }
 
-        tryLevelUp(monster.key);
+        tryLevelUp(monsterNow.key);
       } else if (state.heroHp <= 0) {
         addDialog("😢 勇者：我好累…需要一點時間休息。");
         addDialog("🐻 村長熊熊：沒關係，累了就回新手村或占卜屋恢復好心情，再出發也可以。");
@@ -645,8 +735,10 @@ function initBattlePage() {
 
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
+      const monsterNow = getCurrentMonster();
+      if (!monsterNow) return;
       state.heroHp = getHeroMaxHp();
-      state.monsterHp = getMonsterMaxHp(state.monsterKey);
+      state.monsterHp = getMonsterMaxHp(monsterNow.key);
       state.round = 0;
       saveState();
 
@@ -663,7 +755,7 @@ function initBattlePage() {
   }
 }
 
-// === 頁面初始化：map（地圖 + 好友） ===
+// === 頁面初始化：map（地圖） ===
 function initMapPage() {
   updateMapUI();
 
@@ -695,6 +787,12 @@ function initMapPage() {
       }
 
       if (key) {
+        // 已通關不再進入
+        if (state.clearedMonsters[key]) {
+          alert("這個地點的魔物已經被你安撫好了，讓他們好好休息吧～可以去別的地方看看！");
+          return;
+        }
+
         if (key === BOSS_KEY && !allBasicCleared()) {
           alert("還不能直接衝到魔王城喔！先把其他地點的魔物安撫好，再來挑戰惡龍吧～");
           return;
@@ -766,6 +864,7 @@ function initMapPage() {
 
 // === 頁面初始化：tarot（占卜屋） ===
 function initTarotPage() {
+  // 進入占卜屋自動回滿血
   state.heroHp = getHeroMaxHp();
   saveState();
 
