@@ -1,496 +1,503 @@
-/* === 全域設定 === */
-* { box-sizing: border-box; }
+/* ========= 全站基礎 ========= */
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+  background: linear-gradient(180deg, #ffeef5 0%, #fff7e3 100%);
+  color: #5b4634;
 }
 
 body {
-  background: linear-gradient(#ffeec9, #ffe3ff);
-  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  color: #4b3b2a;
+  min-height: 100vh;
 }
 
-/* 手機主畫面外框 */
 .game-wrap {
   max-width: 480px;
   margin: 0 auto;
-  padding: 12px 16px 8px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  padding: 12px 12px 16px;
 }
 
-/* 卡片 */
+/* ========= 卡片 ========= */
 .card {
-  background: #fff7e6;
+  background: #fff7ef;
   border-radius: 18px;
-  border: 2px solid #e1b676;
-  padding: 12px 14px;
+  border: 1px solid #f1ccb0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  padding: 14px 16px;
   margin-bottom: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
 
-/* 標題卡 */
 .title-card {
   text-align: center;
-  background: radial-gradient(circle at top, #fffbe8, #ffe6c4);
+  background: linear-gradient(135deg, #ffe9cf, #ffeef7);
 }
 
 .title-card h1 {
-  margin: 0;
-  font-size: 1.45rem;
+  margin: 0 0 6px;
+  font-size: 20px;
+  letter-spacing: 0.08em;
 }
 
 .subtitle {
-  font-size: 0.78rem;
-  margin-top: 4px;
-  color: #a06b2b;
+  margin: 0;
+  font-size: 13px;
+  color: #a67b5b;
 }
 
-/* 導覽列 */
+/* ========= 分頁導覽 ========= */
 .top-nav {
   display: flex;
+  justify-content: space-between;
   gap: 6px;
-  margin: 10px 0 8px;
+  margin: 10px 0 14px;
 }
 
 .nav-link {
   flex: 1;
   text-align: center;
-  padding: 5px 0;
-  text-decoration: none;
+  font-size: 13px;
+  padding: 8px 4px;
   border-radius: 999px;
-  border: 1px solid #e1b676;
-  font-size: 0.82rem;
-  font-weight: 600;
-  background: #fff5dc;
-  color: #7b5830;
+  border: 1px solid #f2c9a4;
+  text-decoration: none;
+  color: #865239;
+  background: #fff7ef;
 }
 
 .nav-link.active {
-  background: #ffb954;
-  color: #4b2d12;
+  background: #ffcf9f;
+  border-color: #ffb574;
 }
 
-/* ===== 新手村：故事卡 ===== */
-.story-card { background: #fff9ee; }
-
-.story-text {
-  font-size: 0.86rem;
-  line-height: 1.45;
-}
-
-/* IG 按鈕 */
-.ig-btn {
+/* ========= 按鈕 ========= */
+.primary-btn,
+.secondary-btn {
   display: inline-block;
-  padding: 6px 12px;
-  margin-top: 8px;
+  padding: 8px 16px;
   border-radius: 999px;
-  background: #ffd1e8;
-  color: #7b3058;
-  font-weight: 600;
-  font-size: 0.85rem;
-  text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
 }
 
-/* ===== 勇者選擇區 ===== */
+.primary-btn {
+  background: #ffa95a;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
 
+.secondary-btn {
+  background: #ffe9cf;
+  color: #865239;
+  border: 1px solid #f2c9a4;
+}
+
+.primary-btn.full,
+.secondary-btn.full {
+  width: 100%;
+}
+
+.btn-row {
+  margin-top: 8px;
+}
+
+/* ========= Footer ========= */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: #a8886a;
+  margin-top: 8px;
+}
+
+/* ========= 新手村：勇者列表 ========= */
 .hero-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+  margin-top: 8px;
 }
 
 .hero-card {
-  padding: 6px;
+  background: #fffdf8;
   border-radius: 14px;
-  background: #fffdf7;
-  border: 2px solid #e1b676;
+  border: 1px solid #f2c9a4;
+  padding: 8px 10px;
+  font-size: 13px;
   cursor: pointer;
-  font-size: 0.82rem;
-  transition: 0.15s ease;
-}
-
-.hero-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
 
 .hero-card.active {
-  background: #fff3da;
-  border-color: #ff9d3c;
-  box-shadow: 0 0 0 2px rgba(255,157,60,0.4);
+  border-color: #ffa95a;
+  box-shadow: 0 0 0 2px rgba(255, 169, 90, 0.3);
 }
 
-.hero-name { font-weight: 700; margin-bottom: 3px; }
-.hero-fist { font-size: 0.78rem; color: #a06b2b; }
+.hero-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hero-fist {
+  font-size: 12px;
+  color: #a67b5b;
+}
 
 .hero-story-box {
   margin-top: 10px;
-  padding-top: 6px;
-  border-top: 1px dashed #e1b676;
+  padding-top: 8px;
+  border-top: 1px dashed #f2c9a4;
+  font-size: 13px;
 }
 
-.hero-story-box h3 {
-  margin: 0 0 6px;
+.hero-story-text {
+  margin: 0 0 4px;
 }
 
-#heroStoryText,
-#heroLineText,
-#heroAbilityText {
-  font-size: 0.82rem;
-  line-height: 1.45;
-  margin-bottom: 6px;
+.hero-line-text,
+.hero-ability-text {
+  margin: 0 0 4px;
+  color: #a0674a;
 }
 
-.hero-hint {
-  font-size: 0.8rem;
+.hero-confirm-btn {
   margin-top: 6px;
-  color: #7b5830;
-}
-
-/* 確認勇者按鈕 */
-.confirm-hero-btn {
   width: 100%;
-  padding: 8px 0;
-  border: none;
-  border-radius: 999px;
-  background: #ffd88f;
-  color: #4b2d12;
-  font-weight: 700;
-  font-size: 0.88rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
 }
 
-/* ===== 地圖（九宮格） ===== */
-
-.map-section { background: #fff9f0; }
-
-.map-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 6px;
-}
-
-.map-header-center {
-  flex: 1;
-  text-align: center;
-}
-
-.map-level,
-.map-stars {
-  font-size: 0.82rem;
-  margin: 0;
-}
-
-.map-intro {
-  font-size: 0.82rem;
-  margin-bottom: 8px;
-}
-
-/* 好友按鈕 */
-.friends-btn {
-  padding: 4px 10px;
-  font-size: 0.78rem;
-  border-radius: 999px;
-  border: 1px solid #d39ac8;
-  background: #ffe4ff;
-}
-
-/* 九宮格 */
+/* ========= 地圖 ========= */
 .map-grid {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 6px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .map-tile {
-  padding: 6px 4px;
-  border-radius: 12px;
-  border: 1px solid #e1b676;
-  background: #fffdf7;
+  background: #fffdf8;
+  border-radius: 14px;
+  border: 1px solid #f2c9a4;
+  padding: 8px 6px;
   text-align: center;
-  cursor: pointer;
-  font-size: 0.78rem;
-  position: relative;
+  font-size: 13px;
 }
 
-.map-tile:active { transform: translateY(1px); }
+.map-tile.special {
+  background: #fff2e3;
+}
 
 .map-tile.boss {
-  background: #ffe8f0;
-  border-color: #f08bb0;
+  background: #ffe0e0;
+  border-color: #ff9d9d;
 }
 
 .map-tile.cleared {
-  border-color: #ffcf4a;
-  box-shadow: 0 0 0 2px rgba(255,207,74,0.6);
+  position: relative;
+  color: #9a8a6a;
 }
-
 .map-tile.cleared::after {
-  content: "★";
+  content: "✔";
   position: absolute;
-  top: 3px;
+  top: 4px;
   right: 6px;
-  color: #ffb800;
-  font-size: 0.75rem;
+  font-size: 12px;
+  color: #4caf50;
 }
 
-/* ===== 好友名單 Modal ===== */
-
-.friends-modal {
+/* ========= 好友名單 Modal ========= */
+.modal {
   position: fixed;
   inset: 0;
+  background: rgba(0, 0, 0, 0.35);
   display: none;
-  align-items: center;
   justify-content: center;
-  z-index: 50;
+  align-items: center;
+  z-index: 30;
 }
 
-.friends-modal.show { display: flex; }
-
-.friends-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-}
-
-.friends-card {
-  position: relative;
-  width: calc(100% - 40px);
-  max-width: 420px;
-  max-height: 80vh;
-  overflow-y: auto;
-  border-radius: 18px;
-  border: 2px solid #e1b676;
-  background: #fffdf8;
-  padding: 12px;
-}
-
-.friends-list {
-  padding-left: 0;
-  margin: 8px 0;
-}
-
-.friends-list li {
-  list-style: none;
-  padding: 6px;
-  background: #fffaf5;
-  border-radius: 10px;
-  margin-bottom: 4px;
-  border: 1px solid #e1b676;
-}
-
-.friends-note {
-  font-size: 0.78rem;
-  color: #7b5830;
-}
-
-/* ===== 戰鬥畫面 ===== */
-
-.summary-card { background: #fff9f0; }
-
-.progress-summary {
-  margin: 0 0 4px;
-  font-size: 0.9rem;
-}
-
-.summary-note {
-  margin: 0;
-  font-size: 0.78rem;
-  color: #7b5830;
-}
-
-.monster-info { font-size: 0.83rem; }
-
-.hp-row {
+.modal.show {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-  font-size: 0.8rem;
+}
+
+.modal-content {
+  background: #fffaf4;
+  border-radius: 16px;
+  padding: 14px 16px;
+  width: 90%;
+  max-width: 360px;
+  font-size: 13px;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+}
+
+.close-btn {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: none;
+  background: #ffe3c8;
+  color: #7a5742;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ========= 戰鬥頁：壓縮高度 ========= */
+
+body[data-page="battle"] .game-wrap {
+  padding-top: 8px;
+}
+
+body[data-page="battle"] .card {
+  margin-bottom: 8px;
+  padding: 10px 12px;
+}
+
+body[data-page="battle"] .title-card h1 {
+  font-size: 18px;
+}
+
+.status-card h2,
+.dialog-card h2,
+.battle-card h2 {
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+
+.status-card p {
+  margin: 2px 0;
+  font-size: 12px;
+}
+
+.status-row {
+  display: flex;
+  gap: 8px;
+}
+
+.status-box {
+  flex: 1;
+  background: #fffdf8;
+  border-radius: 12px;
+  border: 1px solid #f2c9a4;
+  padding: 6px 8px;
+}
+
+.status-title {
+  font-weight: 600;
+  margin-bottom: 2px;
 }
 
 /* 壞情緒條 */
-.emotion-progress {
-  width: 100%;
-  height: 12px;
-  border-radius: 999px;
-  background: #ffe9f4;
-  border: 1px solid #f3b4d0;
-  overflow: hidden;
-}
-
 .emotion-bar {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg,#d63f8d,#ff8e8e);
-  transition: width 0.2s;
+  margin-top: 6px;
 }
-
-.emotion-label {
-  font-size: 0.78rem;
-  color: #a03a63;
-  margin-top: 4px;
-}
-
-/* 壞情緒列表 */
-.emotion-list {
+#emotionList {
+  display: flex;
   list-style: none;
   padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 8px;
-  font-size: 0.78rem;
-  margin-top: 6px;
+  margin: 0;
+  gap: 4px;
 }
-
-.emotion-list li {
-  padding: 3px 6px;
-  background: #fffaf4;
+#emotionList li {
+  flex: 1;
+  font-size: 11px;
+  text-align: center;
+  padding: 3px 2px;
   border-radius: 999px;
-  border: 1px dashed #e1b676;
+  background: #ffd7dd;
+  color: #944;
+}
+#emotionList li.calm {
+  background: #e3f6d5;
+  color: #4a7b33;
 }
 
-.emotion-list li.calm {
-  background: #e7ffe8;
-  border-color: #9ad89b;
-  color: #287235;
+/* 對話紀錄框：固定高度 + 內部捲動 */
+.dialog-card {
+  padding-bottom: 8px;
 }
-
-/* ===== 對話兩行區 ===== */
-.battle-dialog-box {
-  max-height: 40px;      /* 約兩行 */
+.dialog-box {
+  max-height: 90px;
   overflow-y: auto;
-  padding: 4px 6px;
+  border-radius: 12px;
+  border: 1px solid #f4d0b3;
   background: #fffdf8;
-  border: 1px dashed #e1b676;
-  border-radius: 10px;
-  margin-top: 8px;
-  font-size: 0.8rem;
-  line-height: 1.2;
+  padding: 6px 8px;
+  font-size: 12px;
 }
 
-/* ===== 出拳＋回地圖：同一排 ===== */
-.action-row {
+/* 出拳區 ＋ 道具籃 */
+.battle-row {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
-.rps-row {
-  display: flex;
-  gap: 6px;
-  flex: 1;
-}
-
-.rps-btn {
-  flex: 1;
-  padding: 6px 0;
+.rps-btn.circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
   border: none;
-  border-radius: 999px;
-  background: #ffd78f;
-  color: #4b2d12;
-  font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 24px;
+  background: #ffe8cc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
-.small-back-btn {
-  padding: 4px 10px;
-  font-size: 0.75rem;
-  border-radius: 10px;
-  background: #fff4d2;
-  border: 1px solid #d0a970;
-}
-
-/* 重整按鈕 */
-.reset-btn {
-  width: 100%;
-  margin-top: 6px;
-  padding: 6px 0;
-  border-radius: 999px;
+.item-bag-btn {
+  margin-left: auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   border: none;
-  background: #ffe4cc;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 24px;
+  background: #ffe1f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 .round-result {
-  margin: 8px 0 0;
-  font-size: 0.86rem;
+  font-size: 12px;
+  margin: 2px 0 4px;
+  color: #a0674a;
 }
 
-.round-count {
-  margin: 2px 0 0;
-  font-size: 0.78rem;
+/* ========= 道具籃 Modal ========= */
+#itemModal .modal-content {
+  font-size: 13px;
 }
 
-/* ===== 占卜屋 ===== */
+#itemModal p {
+  margin: 4px 0;
+}
 
-.tarot-section { background: #fff9ff; }
+.item-use-btn {
+  margin-bottom: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: none;
+  background: #ffdccc;
+  color: #7a4630;
+  font-size: 12px;
+  cursor: pointer;
+}
 
+/* ========= 占卜屋 ========= */
 .tarot-intro {
-  font-size: 0.85rem;
-  line-height: 1.45;
+  font-size: 12px;
+  color: #8a6a4c;
+}
+
+.tarot-btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .tarot-btn {
   width: 100%;
-  padding: 7px 0;
-  border: none;
+  padding: 8px 10px;
   border-radius: 999px;
-  background: #d9c3ff;
-  color: #3d2a63;
-  font-size: 0.85rem;
-  margin-bottom: 10px;
+  border: none;
+  background: #ffdeb9;
+  color: #7a4630;
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.tarot-row {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
+.tarot-section .tarot-row {
+  display: flex;
   gap: 6px;
-}
-
-.tarot-card {
-  background: #fffdfc;
-  border-radius: 12px;
-  border: 1px solid #e1b676;
-  padding: 6px;
-  font-size: 0.78rem;
-}
-
-.tarot-position { font-weight: 700; color: #8b5a2b; }
-.tarot-name { font-weight: 700; margin-top: 2px; }
-.tarot-orientation { font-size: 0.75rem; color: #a0633a; }
-
-.tarot-bear-box {
-  background: #fff7ff;
-  border: 1px dashed #e1b6e6;
-  padding: 8px;
   margin-top: 8px;
 }
 
-.tarot-bear {
-  font-size: 0.82rem;
-  color: #70426c;
+.tarot-card {
+  flex: 1;
+  background: #fffdf8;
+  border-radius: 12px;
+  border: 1px solid #f2c9a4;
+  padding: 6px 8px;
+  font-size: 11px;
 }
 
-/* ===== 頁尾 ===== */
-.footer {
-  text-align: center;
-  font-size: 0.72rem;
+.tarot-position {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.tarot-name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.tarot-orientation {
+  color: #a0674a;
+  margin-bottom: 4px;
+}
+
+.tarot-meaning {
+  margin: 0;
+  font-size: 11px;
+}
+
+.tarot-bear-box {
   margin-top: 6px;
-  color: #8c6a40;
+  padding: 6px 8px;
+  border-radius: 12px;
+  background: #fff2d9;
+  font-size: 12px;
 }
 
-/* ===== 手機小螢幕優化 ===== */
-@media (max-width: 360px) {
-  .hero-list { grid-template-columns: 1fr; }
-  .tarot-row { grid-template-columns: 1fr; }
-  .emotion-list { grid-template-columns: 1fr; }
+/* ========= 商店 ========= */
+.shop-card {
+  font-size: 13px;
+}
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px dashed #f2c9a4;
+}
+
+.shop-item:last-child {
+  border-bottom: none;
+}
+
+.shop-item-info {
+  flex: 1;
+}
+
+.shop-name {
+  margin: 0 0 2px;
+  font-weight: 600;
+}
+
+.shop-desc {
+  margin: 0 0 2px;
+  font-size: 12px;
+  color: #8a6a4c;
+}
+
+.shop-price {
+  margin: 0;
+  font-size: 12px;
+}
+
+.shop-buy-btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: none;
+  background: #ffdccc;
+  color: #7a4630;
+  font-size: 12px;
+  cursor: pointer;
 }
