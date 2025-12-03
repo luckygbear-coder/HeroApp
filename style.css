@@ -226,6 +226,15 @@ body {
   background: #ffe0e0;
   border-color: #ff9d9d;
 }
+.map-boss-btn {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #ffb3b3;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
 
 /* 通關樣式：顏色 + ✔ */
 .map-tile.cleared {
