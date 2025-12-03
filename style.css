@@ -3,7 +3,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, system-ui,
@@ -170,6 +171,37 @@ body {
 }
 
 /* ========= 地圖 ========= */
+.map-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.friends-btn {
+  border-radius: 999px;
+  border: none;
+  background: #e6ecf9;
+  color: #4e5a84;
+  font-size: 12px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.map-level-info {
+  text-align: right;
+  font-size: 13px;
+}
+
+.map-level-text {
+  font-weight: 600;
+}
+
+.map-stars-text {
+  font-size: 12px;
+  color: #a67b5b;
+}
+
 .map-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -187,7 +219,7 @@ body {
 }
 
 .map-tile.special {
-  background: #fff2e3;
+  background: #fff3df;
 }
 
 .map-tile.boss {
@@ -195,9 +227,12 @@ body {
   border-color: #ff9d9d;
 }
 
+/* 通關樣式：顏色 + ✔ */
 .map-tile.cleared {
   position: relative;
-  color: #9a8a6a;
+  background: #e9f6d9;
+  border-color: #9ad36b;
+  color: #5b6b3a;
 }
 .map-tile.cleared::after {
   content: "✔";
@@ -208,7 +243,7 @@ body {
   color: #4caf50;
 }
 
-/* ========= 好友名單 Modal ========= */
+/* ========= Modal 共用 ========= */
 .modal {
   position: fixed;
   inset: 0;
@@ -247,23 +282,18 @@ body {
   cursor: pointer;
 }
 
-/* ========= 戰鬥頁：壓縮高度＋放大拳頭 ========= */
+/* ========= 戰鬥頁：嚴格固定一屏 ========= */
 
 body[data-page="battle"] .game-wrap {
   padding-top: 6px;
 }
 
-/* 整體卡片再薄一點，讓畫面塞進一頁 */
 body[data-page="battle"] .card {
   margin-bottom: 6px;
   padding: 8px 10px;
 }
 
-body[data-page="battle"] .title-card h1 {
-  font-size: 18px;
-}
-
-/* 標題 + 內文字體縮小一點 */
+/* 戰鬥資訊 */
 .status-card h2,
 .dialog-card h2,
 .battle-card h2 {
@@ -271,12 +301,6 @@ body[data-page="battle"] .title-card h1 {
   margin: 0 0 4px;
 }
 
-.status-card p {
-  margin: 1px 0;
-  font-size: 11px;
-}
-
-/* 兩欄狀態卡更緊湊 */
 .status-row {
   display: flex;
   gap: 6px;
@@ -296,61 +320,11 @@ body[data-page="battle"] .title-card h1 {
   font-size: 11px;
 }
 
-/* 壞情緒條維持原本樣式即可 */
-
-/* 對話紀錄框：高度再縮一點，內部捲動 */
-.dialog-card {
-  padding-bottom: 6px;
-}
-
-.dialog-box {
-  max-height: 70px;        /* 原本 90，縮短節省高度 */
-  overflow-y: auto;
-  border-radius: 10px;
-  border: 1px solid #f4d0b3;
-  background: #fffdf8;
-  padding: 5px 6px;
+.status-box p {
+  margin: 2px 0;
   font-size: 11px;
 }
 
-/* 出拳列 ＋ 道具籃：拳頭變大、整行更緊湊 */
-.battle-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-/* 🔴 放大拳頭按鈕 */
-.rps-btn.circle {
-  width: 64px;      /* 原本 56 */
-  height: 64px;
-  border-radius: 50%;
-  border: none;
-  font-size: 26px;  /* 原本 24 */
-  background: #ffe8cc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-}
-
-/* 🧸 道具籃：也稍微放大 */
-.item-bag-btn {
-  margin-left: auto;
-  width: 52px;      /* 原本 48 */
-  height: 52px;
-  border-radius: 50%;
-  border: none;
-  font-size: 26px;
-  background: #ffe1f2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-}
-
-.round-result {
-  font-size: 11px;
-  margin: 2px 0 3px;
-  color: #a0674a;
-}
 /* 壞情緒條 */
 .emotion-bar {
   margin-top: 6px;
@@ -376,63 +350,52 @@ body[data-page="battle"] .title-card h1 {
   color: #4a7b33;
 }
 
-/* 對話紀錄框：固定高度 + 內部捲動 */
-.dialog-card {
-  padding-bottom: 8px;
-}
+/* 對話紀錄（可捲動） */
 .dialog-box {
-  max-height: 90px;
+  max-height: 70px;
   overflow-y: auto;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid #f4d0b3;
   background: #fffdf8;
-  padding: 6px 8px;
-  font-size: 12px;
+  padding: 5px 6px;
+  font-size: 11px;
 }
 
-/* 出拳區 ＋ 道具籃 */
+/* 出拳區 */
 .battle-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin-bottom: 6px;
 }
 
+/* 大型圓形拳頭按鈕 */
 .rps-btn.circle {
-  width: 56px;
-  height: 56px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   border: none;
-  font-size: 24px;
+  font-size: 32px;
   background: #ffe8cc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   cursor: pointer;
 }
 
+/* 道具籃 */
 .item-bag-btn {
   margin-left: auto;
-  width: 48px;
-  height: 48px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   border: none;
-  font-size: 24px;
+  font-size: 28px;
   background: #ffe1f2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   cursor: pointer;
 }
 
-.round-result {
-  font-size: 12px;
-  margin: 2px 0 4px;
-  color: #a0674a;
-}
-
-/* ========= 道具籃 Modal ========= */
-#itemModal .modal-content {
-  font-size: 13px;
-}
-
-#itemModal p {
+/* 道具籃 Modal */
+#itemModal .modal-content p {
   margin: 4px 0;
 }
 
@@ -458,17 +421,6 @@ body[data-page="battle"] .title-card h1 {
   flex-direction: column;
   gap: 6px;
   margin-top: 8px;
-}
-
-.tarot-btn {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: none;
-  background: #ffdeb9;
-  color: #7a4630;
-  font-size: 13px;
-  cursor: pointer;
 }
 
 .tarot-section .tarot-row {
