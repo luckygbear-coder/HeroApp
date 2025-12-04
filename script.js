@@ -938,15 +938,27 @@ function renderEquipList(slot, containerId) {
   if (!box) return;
 
   box.innerHTML = EQUIP_ITEMS[slot].map(item => {
-    let lv = equipLevels[item.id] || 0; // 目前等級，0 = 未購買
+    const lv = equipLevels[item.id] || 0;   // 0 = 尚未購買
     const nextLv = lv + 1;
-    const price  = item.price * nextLv;
+    const price = item.price * nextLv;      // 升級價格
 
     const isEquipped = equips[slot] === item.id;
-    const lvText = lv > 0 ? `（目前 Lv.${lv}）` : "（尚未購買）";
-    const btnLabel = lv === 0
-      ? `用 ${price}⭐ 購買`
-      : `升級到 Lv.${nextLv}（需 ${price}⭐）`;
+    const owned = lv > 0;
+
+    const lvText = owned ? `（目前 Lv.${lv}）` : "（尚未購買）";
+
+    // 按鈕模式：未購買 = buy；已購買未使用 = switch；已購買且使用中 = upgrade
+    let mode, btnLabel;
+    if (!owned) {
+      mode = "buy";
+      btnLabel = `用 ${price}⭐ 購買並裝備`;
+    } else if (isEquipped) {
+      mode = "upgrade";
+      btnLabel = `升級到 Lv.${nextLv}（需 ${price}⭐）`;
+    } else {
+      mode = "switch";
+      btnLabel = "切換為使用中（不需星星）";
+    }
 
     return `
       <div class="equip-item">
@@ -959,6 +971,7 @@ function renderEquipList(slot, containerId) {
           data-slot="${slot}"
           data-id="${item.id}"
           data-price="${price}"
+          data-mode="${mode}"
         >
           ${btnLabel}
         </button>
@@ -966,40 +979,63 @@ function renderEquipList(slot, containerId) {
     `;
   }).join("");
 
+  // 綁定按鈕事件（購買／升級／切換）
   box.querySelectorAll(".equip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const slotName = btn.dataset.slot;
-      const id       = btn.dataset.id;
-      const price    = Number(btn.dataset.price);
+      const id = btn.dataset.id;
+      const price = Number(btn.dataset.price);
+      const mode = btn.dataset.mode;
 
-      if (stars < price) {
-        alert("勇氣星星不足，先多安撫幾隻魔物吧！");
-        return;
+      if (mode === "buy") {
+        // 第一次購買
+        if (stars < price) {
+          alert("勇氣星星不足，先多安撫幾隻魔物吧！");
+          return;
+        }
+        stars -= price;
+        save("stars", stars);
+
+        equipLevels[id] = 1;       // Lv.1
+        equips[slotName] = id;     // 直接裝上
+
+        save("equipLevels", equipLevels);
+        save("equips", equips);
+
+        alert(`兔兔工匠：幫你穿上「${id}」，現在是 Lv.1！`);
+
+      } else if (mode === "upgrade") {
+        // 已穿著 → 升級
+        if (stars < price) {
+          alert("勇氣星星不足，先多安撫幾隻魔物吧！");
+          return;
+        }
+        stars -= price;
+        save("stars", stars);
+
+        const currentLv = equipLevels[id] || 1;
+        const newLv = currentLv + 1;
+        equipLevels[id] = newLv;
+
+        save("equipLevels", equipLevels);
+
+        alert(`兔兔工匠：裝備升級到 Lv.${newLv}，效果更棒了！`);
+
+      } else if (mode === "switch") {
+        // 已購買、未使用 → 免費切換
+        equips[slotName] = id;
+        save("equips", equips);
+        alert(`兔兔工匠：已切換為「${id}」！`);
+
       }
 
-      stars -= price;
-      save("stars", stars);
-
-      const currentLv = equipLevels[id] || 0;
-      const newLv     = currentLv + 1;
-      equipLevels[id] = newLv;
-
-      equips[slotName] = id;
-
-      save("equipLevels", equipLevels);
-      save("equips", equips);
-
-      alert(
-        newLv === 1
-          ? `兔兔工匠：幫你穿上「${itemNameFromId(id)}」，現在是 Lv.1！`
-          : `兔兔工匠：裝備升級到 Lv.${newLv}，效果更棒了！`
-      );
-
+      // 重新刷新列表 & 星星數字
       initEquipPage();
       const starText = document.getElementById("equipStars");
       if (starText) starText.textContent = stars;
     });
   });
+}
 }
 
 // 小工具：透過 ID 找中文名稱（只用在提示文字）
