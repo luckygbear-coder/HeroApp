@@ -16,26 +16,38 @@
       <p class="subtitle">先選出屬於你的「小勇者」，再出發冒險吧！</p>
     </section>
 
-    <!-- 選擇勇者（主畫面重點：盡量一頁看完） -->
-    <section class="card hero-select-card">
+    <!-- 上方分頁 -->
+    <nav class="top-nav">
+      <a class="nav-link active" href="index.html">新手村</a>
+      <a class="nav-link" href="map.html">地圖</a>
+      <a class="nav-link" href="equip.html">裝備坊</a>
+      <a class="nav-link" href="tarot.html">占卜屋</a>
+      <a class="nav-link" href="shop.html">商店</a>
+    </nav>
+
+    <!-- 選擇小勇者：這一塊一定要有這些 id -->
+    <section class="card">
       <h2>選擇小勇者</h2>
+      <p>點下面的勇者卡，可以看到個性與故事。</p>
+
+      <!-- 勇者卡列表（JS 會自動塞內容進來） -->
       <div id="heroList" class="hero-list"></div>
 
-      <div id="heroStoryBox" class="hero-story-box">
-        <p id="heroStoryText">點上面的勇者卡，可以看到個性與故事。</p>
+      <!-- 勇者故事盒 -->
+      <div id="heroStoryBox" class="hero-story" style="display:none;">
+        <p id="heroStoryText"></p>
         <p id="heroLineText"></p>
         <p id="heroAbilityText"></p>
+        <button id="confirmHeroBtn" class="primary-btn full" style="display:none;">
+          ✅ 就選這位小勇者，出發冒險！
+        </button>
       </div>
-
-      <button id="confirmHeroBtn" class="primary-btn full" style="display:none;">
-        ✅ 確認這位小勇者，出發冒險！
-      </button>
     </section>
 
-    <!-- 簡易玩法說明 -->
-    <section class="card help-card">
+    <!-- 怎麼玩？超簡版說明 -->
+    <section class="card">
       <h2>怎麼玩？（超簡版）</h2>
-      <ul class="help-list">
+      <ul class="dot-list">
         <li>在地圖上選一個地點，進入與魔物的戰鬥。</li>
         <li>出 ✊✌🖐 跟魔物猜拳，比大小決定這回合的結果。</li>
         <li>贏的時候：安撫魔物，壞情緒 💢 會慢慢變成 💚。</li>
@@ -43,16 +55,13 @@
       </ul>
 
       <h3>天賦拳是什麼？</h3>
-      <p class="help-text">
+      <p>
         每位小勇者都有一個最拿手的「天賦拳」：<br>
-        戰士 ✊、法師 ✌️、牧師 🖐，勇敢的村民則是「任意拳」。<br>
-        <strong>當你出天賦拳而且這回合勝利時 → 安撫效果 x2</strong>，更快讓魔物冷靜下來。
+        戰士 ✊、法師 ✌、牧師 🖐，勇敢的村民則是「任意拳」。
       </p>
-
-      <h3>弱點拳是什麼？</h3>
-      <p class="help-text">
-        每隻魔物都有一個最怕的「弱點拳」，那個拳牠完全不會出。<br>
-        例如：如果魔物的弱點拳是 ✌️，代表牠只會出 ✊ 或 🖐，你就可以利用這個情報來思考要出什麼拳。
+      <p>
+        <strong>當你出天賦拳而且這回合勝利時 → 安撫效果 x2</strong>，<br>
+        更快讓魔物冷靜下來。
       </p>
     </section>
 
