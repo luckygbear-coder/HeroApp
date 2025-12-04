@@ -1,5 +1,5 @@
 /* ==========================================================
-   小勇者之旅大冒險 ｜ script.js（最新版）
+   小勇者之旅大冒險 ｜ script.js（穩定版）
    ========================================================== */
 
 /* ---------- LocalStorage 工具 ---------- */
@@ -23,12 +23,7 @@ let items = load("items", {
 });
 let clearedStages = load("clearedStages", {}); // { forest:true, boss:true ... }
 let friends = load("friends", []);
-let equips = load("equips", {
-  weapon: null,
-  armor: null,
-  accessory: null,
-  boots: null
-});
+
 /* ---------- 勇者資料 ---------- */
 const HERO_DATA = {
   warrior: {
@@ -69,12 +64,11 @@ const HERO_DATA = {
   }
 };
 
-/* ---------- 魔物資料 ---------- */
+/* ---------- 魔物資料（維持原本 6 隻 + 魔王） ---------- */
 const MONSTER_DATA = {
   forest: {
     stageName: "森林",
     name: "獸人",
-    label: "🌲 森林（獸人）",
     talentEmoji: "✊",
     forbidEmoji: "🖐",
     emotions: 3
@@ -82,7 +76,6 @@ const MONSTER_DATA = {
   lake: {
     stageName: "湖畔",
     name: "人魚",
-    label: "🌊 湖畔（人魚）",
     talentEmoji: "🖐",
     forbidEmoji: "✊",
     emotions: 3
@@ -90,7 +83,6 @@ const MONSTER_DATA = {
   cave: {
     stageName: "洞窟",
     name: "哥布林",
-    label: "🕳 洞窟（哥布林）",
     talentEmoji: "✌️",
     forbidEmoji: "🖐",
     emotions: 3
@@ -98,7 +90,6 @@ const MONSTER_DATA = {
   grave: {
     stageName: "墓地",
     name: "骷髏兵",
-    label: "💀 墓地（骷髏兵）",
     talentEmoji: "✊",
     forbidEmoji: "✌️",
     emotions: 3
@@ -106,7 +97,6 @@ const MONSTER_DATA = {
   dungeon: {
     stageName: "地窖",
     name: "異教徒",
-    label: "🕸 地窖（異教徒）",
     talentEmoji: "🖐",
     forbidEmoji: "✌️",
     emotions: 3
@@ -114,39 +104,13 @@ const MONSTER_DATA = {
   ruins: {
     stageName: "遺跡",
     name: "石像魔像",
-    label: "🏛 遺跡（魔像）",
     talentEmoji: "✌️",
     forbidEmoji: "✊",
-    emotions: 3
-  },
-  plains: {
-    stageName: "草原",
-    name: "史萊姆",
-    label: "🌾 草原（史萊姆）",
-    talentEmoji: "✊",
-    forbidEmoji: "✌️",
-    emotions: 3
-  },
-  swamp: {
-    stageName: "沼澤",
-    name: "泥巴怪",
-    label: "🦠 沼澤（泥巴怪）",
-    talentEmoji: "🖐",
-    forbidEmoji: "✊",
-    emotions: 3
-  },
-  mountain: {
-    stageName: "山道",
-    name: "岩石巨人",
-    label: "⛰ 山道（岩石巨人）",
-    talentEmoji: "✌️",
-    forbidEmoji: "🖐",
     emotions: 3
   },
   boss: {
     stageName: "魔王城",
     name: "惡龍",
-    label: "🔥 魔王城（惡龍）",
     talentEmoji: null, // 不固定拳
     forbidEmoji: null,
     emotions: 6
@@ -154,33 +118,15 @@ const MONSTER_DATA = {
 };
 
 /* 所有普通魔物關卡（不含魔王） */
-const MONSTER_STAGES = [
-  "forest",
-  "lake",
-  "cave",
-  "grave",
-  "dungeon",
-  "ruins",
-  "plains",
-  "swamp",
-  "mountain"
-];
+const MONSTER_STAGES = ["forest", "lake", "cave", "grave", "dungeon", "ruins"];
 
-function getEquipStats() {
-  // 每一件裝備只記 id，實際數值從 EQUIP_ITEMS 查
-  let atk = 0, def = 0, luck = 0, agi = 0;
-  ["weapon", "armor", "accessory", "boots"].forEach(slot => {
-    const id = equips[slot];
-    if (!id) return;
-    const item = EQUIP_ITEMS[slot].find(it => it.id === id);
-    if (!item) return;
-    atk  += item.atk  || 0;
-    def  += item.def  || 0;
-    luck += item.luck || 0;
-    agi  += item.agi  || 0;
-  });
-  return { atk, def, luck, agi };
-}
+/* ---------- 出拳 key ↔ emoji ---------- */
+const MOVE_ICON = {
+  rock: "✊",
+  scissors: "✌️",
+  paper: "🖐"
+};
+
 /* ---------- 戰鬥狀態 ---------- */
 let battleState = {
   heroHp: 0,
@@ -192,73 +138,6 @@ let battleState = {
   round: 0
 };
 
-/* ---------- 兔兔工匠裝備資料 ---------- */
-const EQUIP_ITEMS = {
-  weapon: [
-    {
-      id: "wood_sword",
-      name: "木製勇氣劍",
-      price: 8,
-      atk: 1,
-      desc: "攻擊力 +1，適合剛出發的小勇者。"
-    },
-    {
-      id: "star_sword",
-      name: "星光騎士劍",
-      price: 18,
-      atk: 2,
-      desc: "攻擊力 +2，天賦拳發動時傷害會更驚人。"
-    }
-  ],
-  armor: [
-    {
-      id: "cotton_armor",
-      name: "棉花保暖披風",
-      price: 8,
-      def: 1,
-      desc: "防禦力 +1，壞情緒打到你時會比較不痛。"
-    },
-    {
-      id: "star_armor",
-      name: "星星守護鎧",
-      price: 18,
-      def: 2,
-      desc: "防禦力 +2，適合挑戰魔王前準備。"
-    }
-  ],
-  accessory: [
-    {
-      id: "clover_charm",
-      name: "四葉幸運草吊飾",
-      price: 10,
-      luck: 1,
-      desc: "幸運 +1，有一點點機率把輸的回合變成平手。"
-    },
-    {
-      id: "star_necklace",
-      name: "流星願望項鍊",
-      price: 20,
-      luck: 2,
-      desc: "幸運 +2，更容易把壞情緒回合翻盤。"
-    }
-  ],
-  boots: [
-    {
-      id: "soft_boots",
-      name: "毛茸茸靈巧靴",
-      price: 10,
-      agi: 1,
-      desc: "敏捷 +1，有機會在輸的時候閃過一次傷害。"
-    },
-    {
-      id: "wind_boots",
-      name: "疾風勇者靴",
-      price: 20,
-      agi: 2,
-      desc: "敏捷 +2，更容易在輸的時候跳起來躲掉攻擊。"
-    }
-  ]
-};
 /* ==========================================================
    入口：依頁面啟動
    ========================================================== */
@@ -280,12 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
     case "shop":
       initShopPage();
       break;
-          case "equip":
-      initEquipPage();
-      break;
   }
-});
-/* ==========================================================
+});/* ==========================================================
    新手村 index.html
    ========================================================== */
 function initIndexPage() {
@@ -295,6 +170,8 @@ function initIndexPage() {
   const lineText = document.getElementById("heroLineText");
   const abilityText = document.getElementById("heroAbilityText");
   const confirmBtn = document.getElementById("confirmHeroBtn");
+
+  if (!heroListDiv) return;
 
   heroListDiv.innerHTML = "";
 
@@ -327,13 +204,13 @@ function initIndexPage() {
 }
 
 /* ==========================================================
-   地圖 map.html
+   地圖 map.html（維持原本 3x3 佈局）
    ========================================================== */
 function initMapPage() {
   const grid = document.getElementById("mapGrid");
   if (!grid) return;
 
-  // 判斷是否完整打完一輪魔物＋魔王（舊版本保護用）
+  // 舊版本保護：若魔物+魔王都打完卻沒升級，補一次
   const allMonstersCleared = MONSTER_STAGES.every(id => clearedStages[id]);
   const bossCleared = !!clearedStages.boss;
   if (allMonstersCleared && bossCleared) {
@@ -347,12 +224,19 @@ function initMapPage() {
   document.getElementById("mapLevel").textContent = "LV." + level;
   document.getElementById("mapStars").textContent = stars;
 
-  // ① 九宮格：全部都放魔物
-  const cells = MONSTER_STAGES.map(id => ({
-    id,
-    label: MONSTER_DATA[id].label,
-    kind: "monster"
-  }));
+  const cells = [
+    { id: "start", label: "🏡 新手村", kind: "start" },
+    { id: "forest", label: "🌲 森林（獸人）", kind: "monster" },
+    { id: "boss", label: "🔥 魔王城（惡龍）", kind: "boss" },
+
+    { id: "lake", label: "🌊 湖畔（人魚）", kind: "monster" },
+    { id: "tarot", label: "🔮 占卜屋", kind: "tarot" },
+    { id: "cave", label: "🕳 洞窟（哥布林）", kind: "monster" },
+
+    { id: "grave", label: "💀 墓地（骷髏兵）", kind: "monster" },
+    { id: "dungeon", label: "🕸 地窖（異教徒）", kind: "monster" },
+    { id: "ruins", label: "🏛 遺跡（魔像）", kind: "monster" }
+  ];
 
   grid.innerHTML = "";
 
@@ -361,42 +245,47 @@ function initMapPage() {
     tile.className = "map-tile";
     tile.textContent = cell.label;
 
+    if (cell.kind === "boss") tile.classList.add("boss");
+    if (cell.kind === "start" || cell.kind === "tarot") tile.classList.add("special");
+
     const isCleared = !!clearedStages[cell.id];
-    if (isCleared) {
+    if ((cell.kind === "monster" || cell.kind === "boss") && isCleared) {
       tile.classList.add("cleared");
     }
 
     tile.addEventListener("click", () => {
-      // 已通關的魔物，在這一輪內不能再進入
-      if (isCleared) {
+      // 已通關的魔物／魔王，在這一輪內不能再進入
+      if ((cell.kind === "monster" || cell.kind === "boss") && isCleared) {
         alert("這個地點已完成，要等打倒魔王、地圖升級後才能重新挑戰喔！");
         return;
       }
-      save("currentStage", cell.id);
-      window.location.href = "battle.html";
+
+      switch (cell.kind) {
+        case "start":
+          window.location.href = "index.html";
+          break;
+        case "tarot":
+          window.location.href = "tarot.html";
+          break;
+        case "boss": {
+          const ready = MONSTER_STAGES.every(id => clearedStages[id]);
+          if (!ready) {
+            alert("請先安撫所有魔物，再來挑戰魔王城！");
+            return;
+          }
+          save("currentStage", "boss");
+          window.location.href = "battle.html";
+          break;
+        }
+        case "monster":
+          save("currentStage", cell.id);
+          window.location.href = "battle.html";
+          break;
+      }
     });
 
     grid.appendChild(tile);
   });
-
-  // ② 魔王城：清完全部魔物才會出現的按鈕
-  const bossBtn = document.getElementById("bossBtn");
-  if (bossBtn) {
-    const readyForBoss = MONSTER_STAGES.every(id => clearedStages[id]);
-    if (!readyForBoss) {
-      bossBtn.style.display = "none";
-    } else {
-      bossBtn.style.display = "inline-block";
-      bossBtn.onclick = () => {
-        if (clearedStages.boss) {
-          alert("惡龍已經被你安撫過了，等地圖升級後再來挑戰新一輪吧！");
-          return;
-        }
-        save("currentStage", "boss");
-        window.location.href = "battle.html";
-      };
-    }
-  }
 
   /* --- 好友名單 Modal --- */
   const fbBtn = document.getElementById("friendsBtn");
@@ -418,6 +307,7 @@ function initMapPage() {
     fbClose.addEventListener("click", () => fbModal.classList.remove("show"));
   }
 }
+
 /* ==========================================================
    戰鬥 battle.html
    ========================================================== */
@@ -437,20 +327,13 @@ function initBattlePage() {
   const m = MONSTER_DATA[stageId];
   const h = hero;
 
-  // 勇者最大 HP：基礎 HP + 好朋友數量
+  // 勇者最大 HP：基礎 HP + 好朋友數（你指定的公式）
   battleState.heroMax = h.baseHp + friends.length;
   battleState.heroHp = battleState.heroMax;
 
-  // 裝備加成
-  const es = getEquipStats();
+  // 勇者攻擊力：1 + (level - 1)
+  battleState.heroAtk = 1 + (level - 1);
 
-  // 勇者攻擊力：1 + (level - 1) + 武器加成
-  battleState.heroAtk = 1 + (level - 1) + es.atk;
-
-  // 防禦、幸運、敏捷 也記在 battleState 裡
-  battleState.heroDef  = es.def  || 0;
-  battleState.heroLuck = es.luck || 0;
-  battleState.heroAgi  = es.agi  || 0;
   // 魔物 / 魔王壞情緒 HP & 攻擊（隨 LV 成長）
   if (stageId === "boss") {
     battleState.monsterMax = m.emotions + (level - 1) * 2;
@@ -516,22 +399,21 @@ function updateBattleUI(h, m, stageId) {
     monsterForbidText.textContent = m.forbidEmoji || "—";
   }
 
-  // 壞情緒指數：>3 顯示數字；<=3 顯示 💢
+  // 壞情緒指數：HP > 3 用數字，<=3 用 💢
   if (emotionList) {
     emotionList.innerHTML = "";
     const li = document.createElement("li");
-    const emo = battleState.monsterHp;
-
-    if (emo > 3) {
-      li.textContent = `壞情緒：${emo}`;
+    const hp = battleState.monsterHp;
+    if (hp > 3) {
+      li.textContent = `壞情緒：${hp}`;
     } else {
-      li.textContent = "壞情緒：" + "💢".repeat(Math.max(0, emo));
+      li.textContent = "壞情緒：" + "💢".repeat(Math.max(0, hp));
     }
     emotionList.appendChild(li);
   }
 }
 
-/* --- 魔物出拳（55% 天賦拳、45% 另一個可用拳） --- */
+/* --- 魔物出拳（55% 天賦拳 / 45% 另一個可用拳） --- */
 function monsterMove(m) {
   // 魔王：三種隨機出，無弱點拳
   if (m.name === "惡龍") {
@@ -546,8 +428,7 @@ function monsterMove(m) {
 
   const r = Math.random();
   return r < 0.55 ? talent : other;
-}
-/* --- 判定勝負（全部用 emoji） --- */
+}/* --- 判定勝負（全部用 emoji） --- */
 function judge(playerEmoji, monsterEmoji) {
   if (playerEmoji === monsterEmoji) return "tie";
 
@@ -614,46 +495,9 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
     if (roundResult) {
       roundResult.textContent = `安撫成功！壞情緒減少 ${dmg} 點 💚`;
     }
-    } else if (result === "lose") {
-    // ❌ 只有輸的時候才會扣勇者血（但會先檢查幸運／敏捷）
-    // 1. 幸運：有機率把「輸」改成「平手」
-    const luckChance = (battleState.heroLuck || 0) * 0.05; // 每點 +5%
-    if (Math.random() < luckChance) {
-      if (roundResult) {
-        roundResult.textContent = "幸運發動！原本要輸的回合被你巧妙化解成平手～";
-      }
-      return;
-    }
-
-    // 2. 敏捷：有機率在輸的時候「完全閃避傷害」
-    const agiChance = (battleState.heroAgi || 0) * 0.05; // 每點 +5%
-    if (Math.random() < agiChance) {
-      if (dialogBox) {
-        dialogBox.innerHTML += `<p>小勇者迅速一跳，成功閃過攻擊！</p>`;
-      }
-      if (roundResult) {
-        roundResult.textContent = "敏捷發動！這回合雖然沒贏，但也沒有受傷！";
-      }
-      return;
-    }
-
-    // 3. 防禦：減少實際受到的傷害（至少扣 1）
+  } else if (result === "lose") {
+    // ❌ 只有輸的時候才會扣勇者血
     if (h.key === "villager" && stageId === "boss") {
-      if (dialogBox) {
-        dialogBox.innerHTML += `<p>勇敢的村民心超強！壞情緒無法傷害他！</p>`;
-      }
-      if (roundResult) {
-        roundResult.textContent = "雖然這回合沒贏，但你的心情很穩定。";
-      }
-    } else {
-      const rawDmg = battleState.monsterAtk;
-      const dmg = Math.max(1, rawDmg - (battleState.heroDef || 0));
-      battleState.heroHp = Math.max(0, battleState.heroHp - dmg);
-      if (roundResult) {
-        roundResult.textContent = `這回合被壞情緒影響了，HP -${dmg}。`;
-      }
-    }
-  }    if (h.key === "villager" && stageId === "boss") {
       if (dialogBox) {
         dialogBox.innerHTML += `<p>勇敢的村民心超強！壞情緒無法傷害他！</p>`;
       }
@@ -760,6 +604,7 @@ function useItem(type, h, m, stageId) {
   updateBattleUI(h, m, stageId);
   closeItemBag();
 }
+
 /* ==========================================================
    占卜 tarot.html
    ========================================================== */
@@ -893,54 +738,4 @@ function buyItem(type, label) {
   alert(`成功購買 ${label}！`);
 
   initShopPage();
-  function initEquipPage() {
-  const starText = document.getElementById("equipStars");
-  if (starText) starText.textContent = stars;
-
-  renderEquipList("weapon", "equipWeaponList");
-  renderEquipList("armor", "equipArmorList");
-  renderEquipList("accessory", "equipAccessoryList");
-  renderEquipList("boots", "equipBootsList");
-}
-
-function renderEquipList(slot, containerId) {
-  const box = document.getElementById(containerId);
-  if (!box) return;
-  const currentId = equips[slot];
-  box.innerHTML = EQUIP_ITEMS[slot].map(item => {
-    const owned = currentId === item.id;
-    const btnLabel = owned ? "已裝備" : `用 ${item.price}⭐ 裝備`;
-    const disabled = owned ? "disabled" : "";
-    return `
-      <div class="equip-item">
-        <div class="equip-name">${item.name}</div>
-        <div class="equip-desc">${item.desc}</div>
-        <button class="equip-btn" data-slot="${slot}" data-id="${item.id}" data-price="${item.price}" ${disabled}>
-          ${btnLabel}
-        </button>
-      </div>
-    `;
-  }).join("");
-
-  box.querySelectorAll(".equip-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const price = Number(btn.dataset.price);
-      const slotName = btn.dataset.slot;
-      const id = btn.dataset.id;
-
-      if (equips[slotName] === id) return; // 已裝備
-      if (stars < price) {
-        alert("勇氣星星不足，先多安撫幾隻魔物吧！");
-        return;
-      }
-
-      stars -= price;
-      equips[slotName] = id;
-      save("stars", stars);
-      save("equips", equips);
-      alert("兔兔工匠：裝備安裝完成，試試看力量有沒有變強吧！");
-      initEquipPage(); // 重新整理畫面
-    });
-  });
-}
 }
