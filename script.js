@@ -1,5 +1,5 @@
 /* ==========================================================
-   小勇者之旅大冒險 ｜ script.js（九宮格＋裝備升級版）
+   小勇者之旅大冒險 ｜ script.js（九宮格＋裝備升級＋可切換版）
    ========================================================== */
 
 /* ---------- LocalStorage 工具 ---------- */
@@ -920,8 +920,8 @@ function buyItem(type, label) {
   initShopPage();
 }
 
-/* /* ==========================================================
-   兔兔工匠的裝備坊 equip.html（可升級版）
+/* ==========================================================
+   兔兔工匠的裝備坊 equip.html（可升級版＋可切換）
    ========================================================== */
 function initEquipPage() {
   const starText = document.getElementById("equipStars");
@@ -945,7 +945,7 @@ function renderEquipList(slot, containerId) {
     const isEquipped = equips[slot] === item.id;
     const owned = lv > 0;
 
-    const lvText = owned ? `（目前 Lv.${lv}）` : "（尚未購買）`;
+    const lvText = owned ? `（目前 Lv.${lv}）` : "（尚未購買）";
 
     // 按鈕模式：未購買 = buy；已購買未使用 = switch；已購買且使用中 = upgrade
     let mode, btnLabel;
