@@ -611,9 +611,46 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
     if (roundResult) {
       roundResult.textContent = `安撫成功！壞情緒減少 ${dmg} 點 💚`;
     }
-  } else if (result === "lose") {
-    // ❌ 只有輸的時候才會扣勇者血
+    } else if (result === "lose") {
+    // ❌ 只有輸的時候才會扣勇者血（但會先檢查幸運／敏捷）
+    // 1. 幸運：有機率把「輸」改成「平手」
+    const luckChance = (battleState.heroLuck || 0) * 0.05; // 每點 +5%
+    if (Math.random() < luckChance) {
+      if (roundResult) {
+        roundResult.textContent = "幸運發動！原本要輸的回合被你巧妙化解成平手～";
+      }
+      return;
+    }
+
+    // 2. 敏捷：有機率在輸的時候「完全閃避傷害」
+    const agiChance = (battleState.heroAgi || 0) * 0.05; // 每點 +5%
+    if (Math.random() < agiChance) {
+      if (dialogBox) {
+        dialogBox.innerHTML += `<p>小勇者迅速一跳，成功閃過攻擊！</p>`;
+      }
+      if (roundResult) {
+        roundResult.textContent = "敏捷發動！這回合雖然沒贏，但也沒有受傷！";
+      }
+      return;
+    }
+
+    // 3. 防禦：減少實際受到的傷害（至少扣 1）
     if (h.key === "villager" && stageId === "boss") {
+      if (dialogBox) {
+        dialogBox.innerHTML += `<p>勇敢的村民心超強！壞情緒無法傷害他！</p>`;
+      }
+      if (roundResult) {
+        roundResult.textContent = "雖然這回合沒贏，但你的心情很穩定。";
+      }
+    } else {
+      const rawDmg = battleState.monsterAtk;
+      const dmg = Math.max(1, rawDmg - (battleState.heroDef || 0));
+      battleState.heroHp = Math.max(0, battleState.heroHp - dmg);
+      if (roundResult) {
+        roundResult.textContent = `這回合被壞情緒影響了，HP -${dmg}。`;
+      }
+    }
+  }    if (h.key === "villager" && stageId === "boss") {
       if (dialogBox) {
         dialogBox.innerHTML += `<p>勇敢的村民心超強！壞情緒無法傷害他！</p>`;
       }
