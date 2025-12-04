@@ -124,7 +124,68 @@ const MONSTER_DATA = {
 
 /* 所有普通魔物關卡（不含魔王） */
 const MONSTER_STAGES = ["forest", "lake", "cave", "grave", "dungeon", "ruins"];
+/* ---------- 兔兔工匠裝備資料 ---------- */
+const EQUIP_ITEMS = {
+  weapon: [
+    {
+      id: "wood_sword",
+      name: "木製勇氣劍",
+      price: 5,
+      atk: 1,
+      desc: "攻擊力 +1，適合剛出發的小勇者。"
+    },
+    {
+      id: "star_sword",
+      name: "星光騎士劍",
+      price: 12,
+      atk: 2,
+      desc: "攻擊力 +2，天賦拳發動時會更有感。"
+    }
+  ],
+  armor: [
+    {
+      id: "cotton_armor",
+      name: "棉花保暖披風",
+      price: 5,
+      def: 1,
+      desc: "防禦力 +1，被壞情緒打到也比較不痛。"
+    }
+  ],
+  accessory: [
+    {
+      id: "clover_charm",
+      name: "四葉幸運草吊飾",
+      price: 8,
+      luck: 1,
+      desc: "幸運 +1，以後可以用來影響戰鬥機率（預留）。"
+    }
+  ],
+  boots: [
+    {
+      id: "soft_boots",
+      name: "毛茸茸靈巧靴",
+      price: 8,
+      agi: 1,
+      desc: "敏捷 +1，以後可以用來閃避傷害（預留）。"
+    }
+  ]
+};
 
+// 之後要算戰鬥加成會用到的工具（目前只用在攻擊力）
+function getEquipStats() {
+  let atk = 0, def = 0, luck = 0, agi = 0;
+  ["weapon", "armor", "accessory", "boots"].forEach(slot => {
+    const id = equips[slot];
+    if (!id) return;
+    const item = EQUIP_ITEMS[slot].find(it => it.id === id);
+    if (!item) return;
+    atk  += item.atk  || 0;
+    def  += item.def  || 0;
+    luck += item.luck || 0;
+    agi  += item.agi  || 0;
+  });
+  return { atk, def, luck, agi };
+}
 /* ---------- 出拳 key ↔ emoji ---------- */
 const MOVE_ICON = {
   rock: "✊",
@@ -164,6 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
     case "shop":
       initShopPage();
       break;
+        case "equip":
+    initEquipPage();
+    break;
   }
 });/* ==========================================================
    新手村 index.html
