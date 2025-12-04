@@ -494,15 +494,22 @@ function updateBattleUI(h, m, stageId) {
     monsterForbidText.textContent = m.forbidEmoji || "—";
   }
 
-  // 壞情緒條
+    // 壞情緒條：改用 monsterMax / monsterHp 來畫，不再用 battleState.emotions
   if (emotionList) {
     emotionList.innerHTML = "";
-    battleState.emotions.forEach(ok => {
+
+    const max = battleState.monsterMax; // 總壞情緒量
+    const cur = battleState.monsterHp;  // 剩餘壞情緒
+
+    for (let i = 0; i < max; i++) {
       const li = document.createElement("li");
-      if (ok) li.classList.add("calm");
-      li.textContent = ok ? "💚" : "💢";
+      const isCalm = i >= cur; // 已被安撫 = 💚
+
+      if (isCalm) li.classList.add("calm");
+      li.textContent = isCalm ? "💚" : "💢";
+
       emotionList.appendChild(li);
-    });
+    }
   }
 
   // ===== 裝備名稱顯示 =====
