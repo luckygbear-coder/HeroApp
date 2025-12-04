@@ -23,6 +23,8 @@ let items = load("items", {
 });
 let clearedStages = load("clearedStages", {}); // { forest:true, boss:true ... }
 let friends = load("friends", []);
+
+// 目前穿著的裝備（只記 ID）
 let equips = load("equips", {
   weapon: null,
   armor: null,
@@ -32,25 +34,6 @@ let equips = load("equips", {
 
 // 每一件裝備自己的等級（可升級）
 let equipLevels = load("equipLevels", {}); // 例如 { wood_sword: 2, cotton_armor: 1 }
-// 裝備狀態：目前穿什麼＋加成總數
-let equipment = load("equipment", {
-  weapon: null,    // { name, atk, def, luck, dodge }
-  armor: null,
-  accessory: null,
-  shoes: null,
-  bonus: {
-    atk: 0,
-    def: 0,
-    luck: 0,
-    dodge: 0      // 0.2 = 20% 閃避率
-  }
-});
-let equips = load("equips", {
-  weapon: null,
-  armor: null,
-  accessory: null,
-  boots: null
-});
 /* ---------- 勇者資料 ---------- */
 const HERO_DATA = {
   warrior: {
