@@ -527,35 +527,32 @@ function updateBattleUI(h, m, stageId) {
     }
   }
 
-  // ===== 裝備名稱顯示 =====
+  // ===== 裝備名稱顯示（會顯示等級）=====
   if (heroEquipText) {
     const names = [];
-    if (equipment.weapon && equipment.weapon.name) {
-      names.push(equipment.weapon.name);
-    }
-    if (equipment.armor && equipment.armor.name) {
-      names.push(equipment.armor.name);
-    }
-    if (equipment.accessory && equipment.accessory.name) {
-      names.push(equipment.accessory.name);
-    }
-    if (equipment.shoes && equipment.shoes.name) {
-      names.push(equipment.shoes.name);
-    }
+    ["weapon", "armor", "accessory", "boots"].forEach(slot => {
+      const id = equips[slot];
+      if (!id) return;
+      const item = EQUIP_ITEMS[slot].find(it => it.id === id);
+      if (!item) return;
+
+      let lv = equipLevels[id];
+      if (lv == null) lv = 1; // 舊存檔預設 Lv.1
+
+      names.push(`${item.name} Lv.${lv}`);
+    });
+
     heroEquipText.textContent = names.length ? names.join("／") : "尚未裝備";
   }
 
-  // ===== 裝備效果說明（數值加成）=====
+  // ===== 裝備效果說明（累計數值加成）=====
   if (heroBuffText) {
-    const b = equipment.bonus || {};
+    const s = getEquipStats();
     const buffs = [];
-    if (b.atk) buffs.push(`攻擊 +${b.atk}`);
-    if (b.def) buffs.push(`防禦 +${b.def}`);
-    if (b.luck) buffs.push(`幸運 +${b.luck}`);
-    if (b.dodge) {
-      const percent = Math.round(b.dodge * 100);
-      buffs.push(`閃避 ${percent}%`);
-    }
+    if (s.atk)  buffs.push(`攻擊 +${s.atk}`);
+    if (s.def)  buffs.push(`防禦 +${s.def}`);
+    if (s.luck) buffs.push(`幸運 +${s.luck}`);
+    if (s.agi)  buffs.push(`敏捷 +${s.agi}`);
     heroBuffText.textContent = buffs.length
       ? buffs.join("、")
       : "目前沒有額外加成";
