@@ -23,7 +23,15 @@ let items = load("items", {
 });
 let clearedStages = load("clearedStages", {}); // { forest:true, boss:true ... }
 let friends = load("friends", []);
+let equips = load("equips", {
+  weapon: null,
+  armor: null,
+  accessory: null,
+  boots: null
+});
 
+// 每一件裝備自己的等級（可升級）
+let equipLevels = load("equipLevels", {}); // 例如 { wood_sword: 2, cotton_armor: 1 }
 // 裝備狀態：目前穿什麼＋加成總數
 let equipment = load("equipment", {
   weapon: null,    // { name, atk, def, luck, dodge }
@@ -185,7 +193,7 @@ const EQUIP_ITEMS = {
   ]
 };
 
-// 之後要算戰鬥加成會用到的工具（目前只用在攻擊力）
+// 之後要算戰鬥加成會用到的工具（含等級）
 function getEquipStats() {
   let atk = 0, def = 0, luck = 0, agi = 0;
   ["weapon", "armor", "accessory", "boots"].forEach(slot => {
@@ -193,10 +201,17 @@ function getEquipStats() {
     if (!id) return;
     const item = EQUIP_ITEMS[slot].find(it => it.id === id);
     if (!item) return;
-    atk  += item.atk  || 0;
-    def  += item.def  || 0;
-    luck += item.luck || 0;
-    agi  += item.agi  || 0;
+
+    // 舊存檔補償：如果有裝、但等級還沒存過，就當 Lv.1
+    let lv = equipLevels[id];
+    if (lv == null) {
+      lv = 1;
+    }
+
+    atk  += (item.atk  || 0) * lv;
+    def  += (item.def  || 0) * lv;
+    luck += (item.luck || 0) * lv;
+    agi  += (item.agi  || 0) * lv;
   });
   return { atk, def, luck, agi };
 }
@@ -489,8 +504,7 @@ function updateBattleUI(h, m, stageId) {
   // 魔物相關
   if (monsterStageText) monsterStageText.textContent = m.stageName;
   if (monsterNameText) monsterNameText.textContent = m.name;
-  if (monsterLevelText) monsterLevelText.textContent = "LV." + level;
-  if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
+  if (monsterLevelText) monsterLevelText.textContent = level; // HTML 已經有 LV. 前綴  if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
   if (monsterForbidText) {
     monsterForbidText.textContent = m.forbidEmoji || "—";
   }
