@@ -477,18 +477,15 @@ function updateBattleUI(h, m, stageId) {
 
   // 勇者相關
   if (heroNameText) heroNameText.textContent = h.name;
-  if (heroHpText) {
-    heroHpText.textContent = `${battleState.heroHp} / ${battleState.heroMax}`;
-  }
+  if (heroHpText) {heroHpText.textContent = `${battleState.heroHp} / ${battleState.heroMax}`;}
   if (heroTalentText) heroTalentText.textContent = h.talentEmoji || "任意拳";
 
   // 魔物相關
   if (monsterStageText) monsterStageText.textContent = m.stageName;
   if (monsterNameText) monsterNameText.textContent = m.name;
-  if (monsterLevelText) monsterLevelText.textContent = level; // HTML 已經有 LV. 前綴  if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
-  if (monsterForbidText) {
-    monsterForbidText.textContent = m.forbidEmoji || "—";
-  }
+  if (monsterLevelText) monsterLevelText.textContent = level; // HTML 已經有 "LV."
+  if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
+  if (monsterForbidText) {monsterForbidText.textContent = m.forbidEmoji || "—";}
 
     // 壞情緒條：改用 monsterMax / monsterHp 來畫，不再用 battleState.emotions
   if (emotionList) {
