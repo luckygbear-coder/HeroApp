@@ -470,7 +470,9 @@ function updateBattleUI(h, m, stageId) {
   const monsterTalentText = document.getElementById("monsterTalentText");
   const monsterForbidText = document.getElementById("monsterForbidText");
   const emotionList = document.getElementById("emotionList");
-
+  const heroNameText = document.getElementById("heroNameText");
+  const heroEquipText = document.getElementById("heroEquipText");
+  const heroBuffText = document.getElementById("heroBuffText");
   if (heroHpText) {
     heroHpText.textContent = `${battleState.heroHp} / ${battleState.heroMax}`;
   }
