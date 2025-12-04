@@ -805,6 +805,8 @@ function buyItem(type, label) {
   save("items", items);
 
   alert(`成功購買 ${label}！`);
+  }
+  initShopPage();
 /* ==========================================================
    兔兔工匠的裝備坊 equip.html
    ========================================================== */
@@ -860,6 +862,5 @@ function renderEquipList(slot, containerId) {
       initEquipPage(); // 重新刷新畫面（按鈕會變成「已裝備」）
     });
   });
-}
-  initShopPage();
+
 }
