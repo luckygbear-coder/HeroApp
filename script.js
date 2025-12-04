@@ -280,6 +280,9 @@ document.addEventListener("DOMContentLoaded", () => {
     case "shop":
       initShopPage();
       break;
+          case "equip":
+      initEquipPage();
+      break;
   }
 });
 /* ==========================================================
@@ -890,4 +893,54 @@ function buyItem(type, label) {
   alert(`成功購買 ${label}！`);
 
   initShopPage();
+  function initEquipPage() {
+  const starText = document.getElementById("equipStars");
+  if (starText) starText.textContent = stars;
+
+  renderEquipList("weapon", "equipWeaponList");
+  renderEquipList("armor", "equipArmorList");
+  renderEquipList("accessory", "equipAccessoryList");
+  renderEquipList("boots", "equipBootsList");
+}
+
+function renderEquipList(slot, containerId) {
+  const box = document.getElementById(containerId);
+  if (!box) return;
+  const currentId = equips[slot];
+  box.innerHTML = EQUIP_ITEMS[slot].map(item => {
+    const owned = currentId === item.id;
+    const btnLabel = owned ? "已裝備" : `用 ${item.price}⭐ 裝備`;
+    const disabled = owned ? "disabled" : "";
+    return `
+      <div class="equip-item">
+        <div class="equip-name">${item.name}</div>
+        <div class="equip-desc">${item.desc}</div>
+        <button class="equip-btn" data-slot="${slot}" data-id="${item.id}" data-price="${item.price}" ${disabled}>
+          ${btnLabel}
+        </button>
+      </div>
+    `;
+  }).join("");
+
+  box.querySelectorAll(".equip-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const price = Number(btn.dataset.price);
+      const slotName = btn.dataset.slot;
+      const id = btn.dataset.id;
+
+      if (equips[slotName] === id) return; // 已裝備
+      if (stars < price) {
+        alert("勇氣星星不足，先多安撫幾隻魔物吧！");
+        return;
+      }
+
+      stars -= price;
+      equips[slotName] = id;
+      save("stars", stars);
+      save("equips", equips);
+      alert("兔兔工匠：裝備安裝完成，試試看力量有沒有變強吧！");
+      initEquipPage(); // 重新整理畫面
+    });
+  });
+}
 }
