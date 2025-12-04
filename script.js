@@ -1,5 +1,5 @@
 /* ==========================================================
-   小勇者之旅大冒險 ｜ script.js（穩定版）
+   小勇者之旅大冒險 ｜ script.js（九宮格＋裝備升級版）
    ========================================================== */
 
 /* ---------- LocalStorage 工具 ---------- */
@@ -13,7 +13,7 @@ function save(key, value) {
 
 /* ---------- 全域狀態 ---------- */
 let hero = load("hero", null);
-let level = load("level", 1);
+let level = load("level", 1);        // 也是勇者等級
 let stars = load("stars", 0);
 let items = load("items", {
   appleSmall: 0,
@@ -34,6 +34,7 @@ let equips = load("equips", {
 
 // 每一件裝備自己的等級（可升級）
 let equipLevels = load("equipLevels", {}); // 例如 { wood_sword: 2, cotton_armor: 1 }
+
 /* ---------- 勇者資料 ---------- */
 const HERO_DATA = {
   warrior: {
@@ -161,8 +162,176 @@ const MONSTER_STAGES = [
   "swamp"
 ];
 
+/* ---------- 兔兔工匠裝備資料 ---------- */
+const EQUIP_ITEMS = {
+  weapon: [
+    {
+      id: "wood_sword",
+      name: "木製勇氣劍",
+      price: 5,
+      atk: 1,
+      desc: "攻擊力 +1，適合剛出發的小勇者。"
+    },
+    {
+      id: "star_sword",
+      name: "星光騎士劍",
+      price: 12,
+      atk: 2,
+      desc: "攻擊力 +2，天賦拳發動時會更有感。"
+    }
+  ],
+  armor: [
+    {
+      id: "cotton_armor",
+      name: "棉花保暖披風",
+      price: 5,
+      def: 1,
+      desc: "防禦力 +1，被壞情緒打到也比較不痛。"
+    }
+  ],
+  accessory: [
+    {
+      id: "clover_charm",
+      name: "四葉幸運草吊飾",
+      price: 8,
+      luck: 1,
+      desc: "幸運 +1，以後可以用來影響戰鬥機率（預留）。"
+    }
+  ],
+  boots: [
+    {
+      id: "soft_boots",
+      name: "毛茸茸靈巧靴",
+      price: 8,
+      agi: 1,
+      desc: "敏捷 +1，以後可以用來閃避傷害（預留）。"
+    }
+  ]
+};
+
+/* ---------- 等級加成：每 3 級攻擊 +1、防禦 +1 ---------- */
+function getLevelBonus() {
+  const lvBonus = Math.floor((level - 1) / 3); // LV.1~3 = 0，LV.4~6 = 1 ...
+  return {
+    atk: lvBonus,
+    def: lvBonus
+  };
+}
+
+/* ---------- 裝備總加成（含等級） ---------- */
+function getEquipStats() {
+  let atk = 0, def = 0, luck = 0, agi = 0;
+  ["weapon", "armor", "accessory", "boots"].forEach(slot => {
+    const id = equips[slot];
+    if (!id) return;
+    const item = EQUIP_ITEMS[slot].find(it => it.id === id);
+    if (!item) return;
+
+    let lv = equipLevels[id];
+    if (lv == null) lv = 1; // 舊存檔預設 Lv.1
+
+    atk  += (item.atk  || 0) * lv;
+    def  += (item.def  || 0) * lv;
+    luck += (item.luck || 0) * lv;
+    agi  += (item.agi  || 0) * lv;
+  });
+  return { atk, def, luck, agi };
+}
+
+/* ---------- 出拳 key ↔ emoji ---------- */
+const MOVE_ICON = {
+  rock: "✊",
+  scissors: "✌️",
+  paper: "🖐"
+};
+
+/* ---------- 戰鬥狀態 ---------- */
+let battleState = {
+  heroHp: 0,
+  heroMax: 0,
+  heroAtk: 1,
+  heroDef: 0,
+  heroLuck: 0,
+  heroAgi: 0,
+  monsterHp: 0,
+  monsterMax: 0,
+  monsterAtk: 1,
+  round: 0
+};
+
 /* ==========================================================
-   地圖 map.html（九宮格 9 個魔物＋魔王解鎖）
+   入口：依頁面啟動
+   ========================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const page = document.body.dataset.page;
+
+  switch (page) {
+    case "index":
+      initIndexPage();
+      break;
+    case "map":
+      initMapPage();
+      break;
+    case "battle":
+      initBattlePage();
+      break;
+    case "equip":
+      initEquipPage();
+      break;
+    case "tarot":
+      initTarotPage();
+      break;
+    case "shop":
+      initShopPage();
+      break;
+  }
+});
+
+/* ==========================================================
+   新手村 index.html
+   ========================================================== */
+function initIndexPage() {
+  const heroListDiv = document.getElementById("heroList");
+  const storyBox = document.getElementById("heroStoryBox");
+  const storyText = document.getElementById("heroStoryText");
+  const lineText = document.getElementById("heroLineText");
+  const abilityText = document.getElementById("heroAbilityText");
+  const confirmBtn = document.getElementById("confirmHeroBtn");
+
+  if (!heroListDiv) return;
+
+  heroListDiv.innerHTML = "";
+
+  Object.values(HERO_DATA).forEach(h => {
+    const div = document.createElement("div");
+    div.className = "hero-card";
+    div.innerHTML = `
+      <div class="hero-name">${h.name}</div>
+      <div class="hero-fist">天賦拳：${h.talentEmoji || "任意拳"}</div>
+    `;
+    div.addEventListener("click", () => {
+      hero = { ...h };
+      save("hero", hero);
+
+      [...heroListDiv.children].forEach(c => c.classList.remove("active"));
+      div.classList.add("active");
+
+      storyBox.style.display = "block";
+      storyText.textContent = h.story;
+      lineText.textContent = "口頭禪：" + h.line;
+      abilityText.textContent = "能力：" + h.ability;
+      confirmBtn.style.display = "block";
+    });
+    heroListDiv.appendChild(div);
+  });
+
+  confirmBtn.addEventListener("click", () => {
+    window.location.href = "map.html";
+  });
+}
+
+/* ==========================================================
+   地圖 map.html（九宮格 9 魔物＋魔王解鎖）
    ========================================================== */
 function initMapPage() {
   const grid = document.getElementById("mapGrid");
@@ -265,278 +434,6 @@ function initMapPage() {
     });
     fbClose.addEventListener("click", () => fbModal.classList.remove("show"));
   }
-} "lake", "cave", "grave", "dungeon", "ruins"];
-/* ---------- 兔兔工匠裝備資料 ---------- */
-const EQUIP_ITEMS = {
-  weapon: [
-    {
-      id: "wood_sword",
-      name: "木製勇氣劍",
-      price: 5,
-      atk: 1,
-      desc: "攻擊力 +1，適合剛出發的小勇者。"
-    },
-    {
-      id: "star_sword",
-      name: "星光騎士劍",
-      price: 12,
-      atk: 2,
-      desc: "攻擊力 +2，天賦拳發動時會更有感。"
-    }
-  ],
-  armor: [
-    {
-      id: "cotton_armor",
-      name: "棉花保暖披風",
-      price: 5,
-      def: 1,
-      desc: "防禦力 +1，被壞情緒打到也比較不痛。"
-    }
-  ],
-  accessory: [
-    {
-      id: "clover_charm",
-      name: "四葉幸運草吊飾",
-      price: 8,
-      luck: 1,
-      desc: "幸運 +1，以後可以用來影響戰鬥機率（預留）。"
-    }
-  ],
-  boots: [
-    {
-      id: "soft_boots",
-      name: "毛茸茸靈巧靴",
-      price: 8,
-      agi: 1,
-      desc: "敏捷 +1，以後可以用來閃避傷害（預留）。"
-    }
-  ]
-};
-
-// 之後要算戰鬥加成會用到的工具（含等級）
-function getEquipStats() {
-  // 等級加成：每提升 3 級，攻擊 +1、防禦 +1
-function getLevelBonus() {
-  const lvBonus = Math.floor((level - 1) / 3); // LV.1~3 = 0，LV.4~6 = 1 ...
-  return {
-    atk: lvBonus,
-    def: lvBonus
-  };
-}
-  let atk = 0, def = 0, luck = 0, agi = 0;
-  ["weapon", "armor", "accessory", "boots"].forEach(slot => {
-    const id = equips[slot];
-    if (!id) return;
-    const item = EQUIP_ITEMS[slot].find(it => it.id === id);
-    if (!item) return;
-
-    // 舊存檔補償：如果有裝、但等級還沒存過，就當 Lv.1
-    let lv = equipLevels[id];
-    if (lv == null) {
-      lv = 1;
-    }
-
-    atk  += (item.atk  || 0) * lv;
-    def  += (item.def  || 0) * lv;
-    luck += (item.luck || 0) * lv;
-    agi  += (item.agi  || 0) * lv;
-  });
-  return { atk, def, luck, agi };
-}
-/* ---------- 出拳 key ↔ emoji ---------- */
-const MOVE_ICON = {
-  rock: "✊",
-  scissors: "✌️",
-  paper: "🖐"
-};
-
-/* ---------- 戰鬥狀態 ---------- */
-let battleState = {
-  heroHp: 0,
-  heroMax: 0,
-  heroAtk: 1,
-  heroDef: 0,
-  heroLuck: 0,
-  heroAgi: 0,
-  monsterHp: 0,
-  monsterMax: 0,
-  monsterAtk: 1,
-  round: 0
-};
-
-/* ==========================================================
-   入口：依頁面啟動
-   ========================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-  const page = document.body.dataset.page;
-
-  switch (page) {
-    case "index":
-      initIndexPage();
-      break;
-    case "map":
-      initMapPage();
-      break;
-    case "battle":
-      initBattlePage();
-      break;
-    case "equip":
-      initEquipPage();
-      break;
-    case "tarot":
-      initTarotPage();
-      break;
-    case "shop":
-      initShopPage();
-      break;
-  }
-});
-/* ==========================================================
-   新手村 index.html
-   ========================================================== */
-function initIndexPage() {
-  const heroListDiv = document.getElementById("heroList");
-  const storyBox = document.getElementById("heroStoryBox");
-  const storyText = document.getElementById("heroStoryText");
-  const lineText = document.getElementById("heroLineText");
-  const abilityText = document.getElementById("heroAbilityText");
-  const confirmBtn = document.getElementById("confirmHeroBtn");
-
-  if (!heroListDiv) return;
-
-  heroListDiv.innerHTML = "";
-
-  Object.values(HERO_DATA).forEach(h => {
-    const div = document.createElement("div");
-    div.className = "hero-card";
-    div.innerHTML = `
-      <div class="hero-name">${h.name}</div>
-      <div class="hero-fist">天賦拳：${h.talentEmoji || "任意拳"}</div>
-    `;
-    div.addEventListener("click", () => {
-      hero = { ...h };
-      save("hero", hero);
-
-      [...heroListDiv.children].forEach(c => c.classList.remove("active"));
-      div.classList.add("active");
-
-      storyBox.style.display = "block";
-      storyText.textContent = h.story;
-      lineText.textContent = "口頭禪：" + h.line;
-      abilityText.textContent = "能力：" + h.ability;
-      confirmBtn.style.display = "block";
-    });
-    heroListDiv.appendChild(div);
-  });
-
-  confirmBtn.addEventListener("click", () => {
-    window.location.href = "map.html";
-  });
-}
-
-/* ==========================================================
-   地圖 map.html（維持原本 3x3 佈局）
-   ========================================================== */
-function initMapPage() {
-  const grid = document.getElementById("mapGrid");
-  if (!grid) return;
-
-  // 舊版本保護：若魔物+魔王都打完卻沒升級，補一次
-  const allMonstersCleared = MONSTER_STAGES.every(id => clearedStages[id]);
-  const bossCleared = !!clearedStages.boss;
-  if (allMonstersCleared && bossCleared) {
-    level += 1;
-    save("level", level);
-    clearedStages = {};
-    save("clearedStages", clearedStages);
-    alert(`🎉 補上一次升級！地圖提升到 LV.${level}，可以重新挑戰所有地點了！`);
-  }
-
-  document.getElementById("mapLevel").textContent = "LV." + level;
-  document.getElementById("mapStars").textContent = stars;
-
-  const cells = [
-    { id: "start", label: "🏡 新手村", kind: "start" },
-    { id: "forest", label: "🌲 森林（獸人）", kind: "monster" },
-    { id: "boss", label: "🔥 魔王城（惡龍）", kind: "boss" },
-
-    { id: "lake", label: "🌊 湖畔（人魚）", kind: "monster" },
-    { id: "tarot", label: "🔮 占卜屋", kind: "tarot" },
-    { id: "cave", label: "🕳 洞窟（哥布林）", kind: "monster" },
-
-    { id: "grave", label: "💀 墓地（骷髏兵）", kind: "monster" },
-    { id: "dungeon", label: "🕸 地窖（異教徒）", kind: "monster" },
-    { id: "ruins", label: "🏛 遺跡（魔像）", kind: "monster" }
-  ];
-
-  grid.innerHTML = "";
-
-  cells.forEach(cell => {
-    const tile = document.createElement("div");
-    tile.className = "map-tile";
-    tile.textContent = cell.label;
-
-    if (cell.kind === "boss") tile.classList.add("boss");
-    if (cell.kind === "start" || cell.kind === "tarot") tile.classList.add("special");
-
-    const isCleared = !!clearedStages[cell.id];
-    if ((cell.kind === "monster" || cell.kind === "boss") && isCleared) {
-      tile.classList.add("cleared");
-    }
-
-    tile.addEventListener("click", () => {
-      // 已通關的魔物／魔王，在這一輪內不能再進入
-      if ((cell.kind === "monster" || cell.kind === "boss") && isCleared) {
-        alert("這個地點已完成，要等打倒魔王、地圖升級後才能重新挑戰喔！");
-        return;
-      }
-
-      switch (cell.kind) {
-        case "start":
-          window.location.href = "index.html";
-          break;
-        case "tarot":
-          window.location.href = "tarot.html";
-          break;
-        case "boss": {
-          const ready = MONSTER_STAGES.every(id => clearedStages[id]);
-          if (!ready) {
-            alert("請先安撫所有魔物，再來挑戰魔王城！");
-            return;
-          }
-          save("currentStage", "boss");
-          window.location.href = "battle.html";
-          break;
-        }
-        case "monster":
-          save("currentStage", cell.id);
-          window.location.href = "battle.html";
-          break;
-      }
-    });
-
-    grid.appendChild(tile);
-  });
-
-  /* --- 好友名單 Modal --- */
-  const fbBtn = document.getElementById("friendsBtn");
-  const fbModal = document.getElementById("friendsModal");
-  const fbClose = document.getElementById("friendsCloseBtn");
-  const fbList = document.getElementById("friendsList");
-
-  if (fbBtn && fbModal && fbClose && fbList) {
-    fbBtn.addEventListener("click", () => {
-      if (!friends.length) {
-        fbList.innerHTML = "<li>目前還沒有好友～多多安撫魔物吧！</li>";
-      } else {
-        fbList.innerHTML = friends
-          .map(f => `<li>${f.name}（⭐ ${f.stars}）LV.${f.level}</li>`)
-          .join("");
-      }
-      fbModal.classList.add("show");
-    });
-    fbClose.addEventListener("click", () => fbModal.classList.remove("show"));
-  }
 }
 
 /* ==========================================================
@@ -564,7 +461,6 @@ function initBattlePage() {
 
   // 勇者攻擊力：基礎 + 等級 + 等級加成 + 裝備加成
   battleState.heroAtk = 1 + (level - 1);
-
   const lvBonus = getLevelBonus();
   battleState.heroAtk += lvBonus.atk;
 
@@ -574,7 +470,8 @@ function initBattlePage() {
   // 勇者防禦＆其他能力（目前只在扣血時用到防禦）
   battleState.heroDef  = lvBonus.def + (es.def || 0);
   battleState.heroLuck = es.luck || 0;
-  battleState.heroAgi  = es.agi  || 0;    
+  battleState.heroAgi  = es.agi  || 0;
+
   // 魔物 / 魔王壞情緒 HP & 攻擊（隨 LV 成長）
   if (stageId === "boss") {
     battleState.monsterMax = m.emotions + (level - 1) * 2;
@@ -619,57 +516,49 @@ function initBattlePage() {
 
 /* --- 更新戰鬥 UI --- */
 function updateBattleUI(h, m, stageId) {
-  const heroHpText = document.getElementById("heroHpText");
-if (monsterStageText) monsterStageText.textContent = m.stageName;
-if (monsterNameText) monsterNameText.textContent = m.name;
-
-// HTML 裡已經有「LV.」，這裡只填數字
-if (monsterLevelText) monsterLevelText.textContent = level;
-
-// 顯示魔物天賦拳
-if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
-
-if (monsterForbidText) {
-  monsterForbidText.textContent = m.forbidEmoji || "—";
-}
-  const emotionList = document.getElementById("emotionList");
+  const heroHpText        = document.getElementById("heroHpText");
+  const monsterStageText  = document.getElementById("monsterStageText");
+  const monsterNameText   = document.getElementById("monsterNameText");
+  const monsterLevelText  = document.getElementById("monsterLevelText");
+  const monsterTalentText = document.getElementById("monsterTalentText");
+  const monsterForbidText = document.getElementById("monsterForbidText");
+  const emotionList       = document.getElementById("emotionList");
 
   const heroTalentText = document.getElementById("heroTalentText");
-  const heroNameText = document.getElementById("heroNameText");
-  const heroEquipText = document.getElementById("heroEquipText");
-  const heroBuffText = document.getElementById("heroBuffText");
+  const heroNameText   = document.getElementById("heroNameText");
+  const heroEquipText  = document.getElementById("heroEquipText");
+  const heroBuffText   = document.getElementById("heroBuffText");
 
   // 勇者相關
   if (heroNameText) heroNameText.textContent = h.name;
-  if (heroHpText) {heroHpText.textContent = `${battleState.heroHp} / ${battleState.heroMax}`;}
+  if (heroHpText) {
+    heroHpText.textContent = `${battleState.heroHp} / ${battleState.heroMax}`;
+  }
   if (heroTalentText) heroTalentText.textContent = h.talentEmoji || "任意拳";
 
   // 魔物相關
   if (monsterStageText) monsterStageText.textContent = m.stageName;
-  if (monsterNameText) monsterNameText.textContent = m.name;
+  if (monsterNameText)  monsterNameText.textContent  = m.name;
   if (monsterLevelText) monsterLevelText.textContent = level; // HTML 已經有 "LV."
   if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
-  if (monsterForbidText) {monsterForbidText.textContent = m.forbidEmoji || "—";}
+  if (monsterForbidText) monsterForbidText.textContent = m.forbidEmoji || "—";
 
-    // 壞情緒條：改用 monsterMax / monsterHp 來畫，不再用 battleState.emotions
+  // 壞情緒條
   if (emotionList) {
     emotionList.innerHTML = "";
-
-    const max = battleState.monsterMax; // 總壞情緒量
-    const cur = battleState.monsterHp;  // 剩餘壞情緒
+    const max = battleState.monsterMax;
+    const cur = battleState.monsterHp;
 
     for (let i = 0; i < max; i++) {
       const li = document.createElement("li");
-      const isCalm = i >= cur; // 已被安撫 = 💚
-
+      const isCalm = i >= cur;
       if (isCalm) li.classList.add("calm");
       li.textContent = isCalm ? "💚" : "💢";
-
       emotionList.appendChild(li);
     }
   }
 
-  // ===== 裝備名稱顯示（會顯示等級）=====
+  // 裝備名稱顯示（含等級）
   if (heroEquipText) {
     const names = [];
     ["weapon", "armor", "accessory", "boots"].forEach(slot => {
@@ -679,17 +568,16 @@ if (monsterForbidText) {
       if (!item) return;
 
       let lv = equipLevels[id];
-      if (lv == null) lv = 1; // 舊存檔預設 Lv.1
+      if (lv == null) lv = 1;
 
       names.push(`${item.name} Lv.${lv}`);
     });
-
     heroEquipText.textContent = names.length ? names.join("／") : "尚未裝備";
   }
 
-  // ===== 裝備效果說明（累計數值加成）=====
+  // 裝備＋等級加成說明
   if (heroBuffText) {
-    const s = getEquipStats();
+    const s   = getEquipStats();
     const lvB = getLevelBonus();
     const buffs = [];
 
@@ -700,15 +588,13 @@ if (monsterForbidText) {
     if (s.def)  buffs.push(`裝備防禦 +${s.def}`);
     if (s.luck) buffs.push(`幸運 +${s.luck}`);
     if (s.agi)  buffs.push(`敏捷 +${s.agi}`);
-    const lvB = getLevelBonus();
-    if (lvB.atk || lvB.def) {
-      buffs.push(`等級加成：攻擊 +${lvB.atk}、防禦 +${lvB.def}`);
-}
+
     heroBuffText.textContent = buffs.length
       ? buffs.join("；")
       : "目前沒有額外加成";
   }
 }
+
 /* --- 魔物出拳（55% 天賦拳 / 45% 另一個可用拳） --- */
 function monsterMove(m) {
   // 魔王：三種隨機出，無弱點拳
@@ -717,14 +603,16 @@ function monsterMove(m) {
     return icons[Math.floor(Math.random() * icons.length)];
   }
 
-  const talent = m.talentEmoji;   // 天賦拳
-  const forbid = m.forbidEmoji;   // 弱點拳（不會出）
+  const talent = m.talentEmoji;
+  const forbid = m.forbidEmoji;
   const all = ["✊", "✌️", "🖐"];
   const other = all.find(e => e !== talent && e !== forbid);
 
   const r = Math.random();
   return r < 0.55 ? talent : other;
-}/* --- 判定勝負（全部用 emoji） --- */
+}
+
+/* --- 判定勝負（全部用 emoji） --- */
 function judge(playerEmoji, monsterEmoji) {
   if (playerEmoji === monsterEmoji) return "tie";
 
@@ -746,8 +634,8 @@ function playRound(moveKey, h, m, stageId) {
   battleState.round++;
   if (roundText) roundText.textContent = battleState.round;
 
-  const playerEmoji = MOVE_ICON[moveKey] || "✊"; // 勇者出拳 emoji
-  const monsterEmoji = monsterMove(m);           // 魔物出拳 emoji
+  const playerEmoji  = MOVE_ICON[moveKey] || "✊";
+  const monsterEmoji = monsterMove(m);
 
   if (dialogBox) {
     dialogBox.innerHTML += `<p>小勇者：我出 ${playerEmoji}！</p>`;
@@ -765,7 +653,7 @@ function playRound(moveKey, h, m, stageId) {
 /* --- 處理勝負結果 --- */
 function handleRoundResult(result, playerEmoji, h, m, stageId) {
   const roundResult = document.getElementById("roundResult");
-  const dialogBox = document.getElementById("dialogBox");
+  const dialogBox   = document.getElementById("dialogBox");
 
   if (result === "tie") {
     if (roundResult) roundResult.textContent = "平手～再試一次！";
@@ -773,8 +661,7 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
   }
 
   if (result === "win") {
-    // ✅ 勝利：安撫魔物，會扣壞情緒 HP
-    let dmg = battleState.heroAtk; // 勇者基礎攻擊
+    let dmg = battleState.heroAtk;
 
     if (h.talentEmoji && h.talentEmoji === playerEmoji) {
       dmg *= 2;
@@ -792,7 +679,6 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
       roundResult.textContent = `安撫成功！壞情緒減少 ${dmg} 點 💚`;
     }
   } else if (result === "lose") {
-    // ❌ 只有輸的時候才會扣勇者血
     if (h.key === "villager" && stageId === "boss") {
       if (dialogBox) {
         dialogBox.innerHTML += `<p>勇敢的村民心超強！壞情緒無法傷害他！</p>`;
@@ -802,12 +688,9 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
       }
     } else {
       let dmg = battleState.monsterAtk;
-
-      // 防禦減傷（最低還是會扣 1）
       if (battleState.heroDef) {
         dmg = Math.max(1, dmg - battleState.heroDef);
       }
-
       battleState.heroHp = Math.max(0, battleState.heroHp - dmg);
       if (roundResult) {
         roundResult.textContent = `這回合被壞情緒影響了，HP -${dmg}。`;
@@ -815,7 +698,6 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
     }
   }
 
-  // 結束判定
   if (battleState.monsterHp <= 0) {
     clearBattle(stageId, m);
     return;
@@ -847,7 +729,6 @@ function clearBattle(stageId, m) {
   save("clearedStages", clearedStages);
 
   if (isBoss) {
-    // 打倒魔王 → 升級並清空所有通關紀錄
     level += 1;
     save("level", level);
     clearedStages = {};
@@ -880,8 +761,8 @@ function heroDefeated(h, m, stageId) {
    ========================================================== */
 function openItemBag() {
   document.getElementById("appleSmallCount").textContent = items.appleSmall;
-  document.getElementById("appleBigCount").textContent = items.appleBig;
-  document.getElementById("reviveCount").textContent = items.revive;
+  document.getElementById("appleBigCount").textContent   = items.appleBig;
+  document.getElementById("reviveCount").textContent     = items.revive;
   document.getElementById("itemModal").classList.add("show");
 }
 function closeItemBag() {
@@ -895,9 +776,7 @@ function useItem(type, h, m, stageId) {
 
   if (type === "appleSmall") {
     battleState.heroHp = Math.min(battleState.heroHp + 1, battleState.heroMax);
-  } else if (type === "appleBig") {
-    battleState.heroHp = battleState.heroMax;
-  } else if (type === "revive") {
+  } else if (type === "appleBig" || type === "revive") {
     battleState.heroHp = battleState.heroMax;
   }
 
@@ -933,11 +812,11 @@ const TAROT_CARDS = [
 
 function initTarotPage() {
   const honeyLabel = document.getElementById("honeyCount");
-  const starLabel = document.getElementById("tarotStars");
+  const starLabel  = document.getElementById("tarotStars");
   if (honeyLabel) honeyLabel.textContent = items.honey;
-  if (starLabel) starLabel.textContent = stars;
+  if (starLabel)  starLabel.textContent  = stars;
 
-  const hugBtn = document.getElementById("bearHugBtn");
+  const hugBtn  = document.getElementById("bearHugBtn");
   const drawBtn = document.getElementById("tarotDrawBtn");
 
   if (hugBtn) {
@@ -961,9 +840,9 @@ function doTarot() {
   const honeyLabel = document.getElementById("honeyCount");
   if (honeyLabel) honeyLabel.textContent = items.honey;
 
-  const past = drawTarotCard();
+  const past    = drawTarotCard();
   const present = drawTarotCard();
-  const future = drawTarotCard();
+  const future  = drawTarotCard();
 
   showTarotCard("Past", past);
   showTarotCard("Present", present);
@@ -985,11 +864,11 @@ function drawTarotCard() {
 }
 
 function showTarotCard(pos, card) {
-  const nameEl = document.getElementById(`tarot${pos}Name`);
-  const orientEl = document.getElementById(`tarot${pos}Orient`);
+  const nameEl    = document.getElementById(`tarot${pos}Name`);
+  const orientEl  = document.getElementById(`tarot${pos}Orient`);
   const meaningEl = document.getElementById(`tarot${pos}Meaning`);
-  if (nameEl) nameEl.textContent = card.name;
-  if (orientEl) orientEl.textContent = card.orientation;
+  if (nameEl)    nameEl.textContent    = card.name;
+  if (orientEl)  orientEl.textContent  = card.orientation;
   if (meaningEl) meaningEl.textContent = card.meaning;
 }
 
@@ -997,17 +876,17 @@ function showTarotCard(pos, card) {
    商店 shop.html
    ========================================================== */
 function initShopPage() {
-  const starText = document.getElementById("shopStars");
+  const starText  = document.getElementById("shopStars");
   const honeyText = document.getElementById("shopHoneyCount");
-  const sSmall = document.getElementById("shopAppleSmallCount");
-  const sBig = document.getElementById("shopAppleBigCount");
-  const sRevive = document.getElementById("shopReviveCount");
+  const sSmall    = document.getElementById("shopAppleSmallCount");
+  const sBig      = document.getElementById("shopAppleBigCount");
+  const sRevive   = document.getElementById("shopReviveCount");
 
-  if (starText) starText.textContent = stars;
+  if (starText)  starText.textContent  = stars;
   if (honeyText) honeyText.textContent = items.honey;
-  if (sSmall) sSmall.textContent = items.appleSmall;
-  if (sBig) sBig.textContent = items.appleBig;
-  if (sRevive) sRevive.textContent = items.revive;
+  if (sSmall)    sSmall.textContent    = items.appleSmall;
+  if (sBig)      sBig.textContent      = items.appleBig;
+  if (sRevive)   sRevive.textContent   = items.revive;
 
   document.querySelectorAll(".shop-buy-btn").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -1038,8 +917,6 @@ function buyItem(type, label) {
   save("items", items);
 
   alert(`成功購買 ${label}！`);
-
-  // 更新商店畫面的數字
   initShopPage();
 }
 
@@ -1063,7 +940,7 @@ function renderEquipList(slot, containerId) {
   box.innerHTML = EQUIP_ITEMS[slot].map(item => {
     let lv = equipLevels[item.id] || 0; // 目前等級，0 = 未購買
     const nextLv = lv + 1;
-    const price = item.price * nextLv;  // 每級價格遞增
+    const price  = item.price * nextLv;
 
     const isEquipped = equips[slot] === item.id;
     const lvText = lv > 0 ? `（目前 Lv.${lv}）` : "（尚未購買）";
@@ -1092,24 +969,21 @@ function renderEquipList(slot, containerId) {
   box.querySelectorAll(".equip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const slotName = btn.dataset.slot;
-      const id = btn.dataset.id;
-      const price = Number(btn.dataset.price);
+      const id       = btn.dataset.id;
+      const price    = Number(btn.dataset.price);
 
       if (stars < price) {
         alert("勇氣星星不足，先多安撫幾隻魔物吧！");
         return;
       }
 
-      // 扣星星
       stars -= price;
       save("stars", stars);
 
-      // 等級 +1
       const currentLv = equipLevels[id] || 0;
-      const newLv = currentLv + 1;
+      const newLv     = currentLv + 1;
       equipLevels[id] = newLv;
 
-      // 這個欄位改成穿這件
       equips[slotName] = id;
 
       save("equipLevels", equipLevels);
@@ -1117,13 +991,22 @@ function renderEquipList(slot, containerId) {
 
       alert(
         newLv === 1
-          ? `兔兔工匠：幫你穿上「${id}」，現在是 Lv.1！`
+          ? `兔兔工匠：幫你穿上「${itemNameFromId(id)}」，現在是 Lv.1！`
           : `兔兔工匠：裝備升級到 Lv.${newLv}，效果更棒了！`
       );
 
-      initEquipPage(); // 重畫列表
+      initEquipPage();
       const starText = document.getElementById("equipStars");
       if (starText) starText.textContent = stars;
     });
   });
+}
+
+// 小工具：透過 ID 找中文名稱（只用在提示文字）
+function itemNameFromId(id) {
+  for (const slot of ["weapon", "armor", "accessory", "boots"]) {
+    const found = EQUIP_ITEMS[slot].find(it => it.id === id);
+    if (found) return found.name;
+  }
+  return id;
 }
