@@ -79,7 +79,24 @@
           </p>
         </div>
       </div>
+/* 熊熊抱抱的正向鼓勵語句 */
+const BEAR_HUG_MESSAGES = [
+  "你不是一個人，熊熊一直在這裡陪你。",
+  "就算今天只前進一小步，也是超棒的勇氣。",
+  "犯錯沒關係，代表你正在學會新的事情。",
+  "累了就休息一下，再出發一樣很厲害。",
+  "你的溫柔和善良，已經在偷偷照亮別人了。",
+  "可以慢慢來，不用跟任何人比速度。",
+  "願意開口求助的人，才是真正的勇者。",
+  "今天辛苦了，謝謝你努力活成現在的樣子。",
+  "不被喜歡的時候，也要記得先喜歡自己。",
+  "世界上只有一個你，這件事本身就很了不起。"
+];
 
+function getRandomBearHugMessage() {
+  const i = Math.floor(Math.random() * BEAR_HUG_MESSAGES.length);
+  return BEAR_HUG_MESSAGES[i];
+}
       <!-- 熊熊村長提醒 -->
       <div id="tarotBearMessage" class="tarot-bear-box">
         熊熊村長：準備好了嗎？我會陪著你一起面對每一張牌 💛
