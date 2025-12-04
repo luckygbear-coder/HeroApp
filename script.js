@@ -192,6 +192,73 @@ let battleState = {
   round: 0
 };
 
+/* ---------- 兔兔工匠裝備資料 ---------- */
+const EQUIP_ITEMS = {
+  weapon: [
+    {
+      id: "wood_sword",
+      name: "木製勇氣劍",
+      price: 8,
+      atk: 1,
+      desc: "攻擊力 +1，適合剛出發的小勇者。"
+    },
+    {
+      id: "star_sword",
+      name: "星光騎士劍",
+      price: 18,
+      atk: 2,
+      desc: "攻擊力 +2，天賦拳發動時傷害會更驚人。"
+    }
+  ],
+  armor: [
+    {
+      id: "cotton_armor",
+      name: "棉花保暖披風",
+      price: 8,
+      def: 1,
+      desc: "防禦力 +1，壞情緒打到你時會比較不痛。"
+    },
+    {
+      id: "star_armor",
+      name: "星星守護鎧",
+      price: 18,
+      def: 2,
+      desc: "防禦力 +2，適合挑戰魔王前準備。"
+    }
+  ],
+  accessory: [
+    {
+      id: "clover_charm",
+      name: "四葉幸運草吊飾",
+      price: 10,
+      luck: 1,
+      desc: "幸運 +1，有一點點機率把輸的回合變成平手。"
+    },
+    {
+      id: "star_necklace",
+      name: "流星願望項鍊",
+      price: 20,
+      luck: 2,
+      desc: "幸運 +2，更容易把壞情緒回合翻盤。"
+    }
+  ],
+  boots: [
+    {
+      id: "soft_boots",
+      name: "毛茸茸靈巧靴",
+      price: 10,
+      agi: 1,
+      desc: "敏捷 +1，有機會在輸的時候閃過一次傷害。"
+    },
+    {
+      id: "wind_boots",
+      name: "疾風勇者靴",
+      price: 20,
+      agi: 2,
+      desc: "敏捷 +2，更容易在輸的時候跳起來躲掉攻擊。"
+    }
+  ]
+};
 /* ==========================================================
    入口：依頁面啟動
    ========================================================== */
