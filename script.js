@@ -470,35 +470,72 @@ function updateBattleUI(h, m, stageId) {
   const monsterTalentText = document.getElementById("monsterTalentText");
   const monsterForbidText = document.getElementById("monsterForbidText");
   const emotionList = document.getElementById("emotionList");
+
   const heroNameText = document.getElementById("heroNameText");
   const heroEquipText = document.getElementById("heroEquipText");
   const heroBuffText = document.getElementById("heroBuffText");
+
+  // 勇者相關
+  if (heroNameText) heroNameText.textContent = h.name;
   if (heroHpText) {
     heroHpText.textContent = `${battleState.heroHp} / ${battleState.heroMax}`;
   }
+  if (heroTalentText) heroTalentText.textContent = h.talentEmoji || "任意拳";
+
+  // 魔物相關
   if (monsterStageText) monsterStageText.textContent = m.stageName;
   if (monsterNameText) monsterNameText.textContent = m.name;
   if (monsterLevelText) monsterLevelText.textContent = "LV." + level;
-  if (heroTalentText) heroTalentText.textContent = h.talentEmoji || "任意拳";
   if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
   if (monsterForbidText) {
     monsterForbidText.textContent = m.forbidEmoji || "—";
   }
 
-  // 壞情緒指數：HP > 3 用數字，<=3 用 💢
+  // 壞情緒條
   if (emotionList) {
     emotionList.innerHTML = "";
-    const li = document.createElement("li");
-    const hp = battleState.monsterHp;
-    if (hp > 3) {
-      li.textContent = `壞情緒：${hp}`;
-    } else {
-      li.textContent = "壞情緒：" + "💢".repeat(Math.max(0, hp));
+    battleState.emotions.forEach(ok => {
+      const li = document.createElement("li");
+      if (ok) li.classList.add("calm");
+      li.textContent = ok ? "💚" : "💢";
+      emotionList.appendChild(li);
+    });
+  }
+
+  // ===== 裝備名稱顯示 =====
+  if (heroEquipText) {
+    const names = [];
+    if (equipment.weapon && equipment.weapon.name) {
+      names.push(equipment.weapon.name);
     }
-    emotionList.appendChild(li);
+    if (equipment.armor && equipment.armor.name) {
+      names.push(equipment.armor.name);
+    }
+    if (equipment.accessory && equipment.accessory.name) {
+      names.push(equipment.accessory.name);
+    }
+    if (equipment.shoes && equipment.shoes.name) {
+      names.push(equipment.shoes.name);
+    }
+    heroEquipText.textContent = names.length ? names.join("／") : "尚未裝備";
+  }
+
+  // ===== 裝備效果說明（數值加成）=====
+  if (heroBuffText) {
+    const b = equipment.bonus || {};
+    const buffs = [];
+    if (b.atk) buffs.push(`攻擊 +${b.atk}`);
+    if (b.def) buffs.push(`防禦 +${b.def}`);
+    if (b.luck) buffs.push(`幸運 +${b.luck}`);
+    if (b.dodge) {
+      const percent = Math.round(b.dodge * 100);
+      buffs.push(`閃避 ${percent}%`);
+    }
+    heroBuffText.textContent = buffs.length
+      ? buffs.join("、")
+      : "目前沒有額外加成";
   }
 }
-
 /* --- 魔物出拳（55% 天賦拳 / 45% 另一個可用拳） --- */
 function monsterMove(m) {
   // 魔王：三種隨機出，無弱點拳
