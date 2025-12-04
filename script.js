@@ -955,28 +955,3 @@ function renderEquipList(slot, containerId) {
     });
   });
 }
-      // 扣星星 & 更新畫面
-      stars -= cost;
-      save("stars", stars);
-      if (starText) starText.textContent = stars;
-
-      // 設定該部位的裝備
-      equipment[slot] = { name, atk, def, luck, dodge };
-
-      // 重新計算裝備總加成
-      const total = { atk: 0, def: 0, luck: 0, dodge: 0 };
-      ["weapon", "armor", "accessory", "shoes"].forEach(s => {
-        const e = equipment[s];
-        if (!e) return;
-        total.atk   += e.atk   || 0;
-        total.def   += e.def   || 0;
-        total.luck  += e.luck  || 0;
-        total.dodge += e.dodge || 0;
-      });
-      equipment.bonus = total;
-      save("equipment", equipment);
-
-      alert(`已裝備「${name}」！\n下次進入戰鬥畫面就會看到裝備效果囉～`);
-    });
-  });
-}
