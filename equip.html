@@ -1,37 +1,54 @@
 <!DOCTYPE html>
-    <!-- 分頁 -->
-    <nav class="top-nav">
-      <a class="nav-link" href="index.html">新手村</a>
-      <a class="nav-link" href="map.html">地圖</a>
-      <a class="nav-link active" href="battle.html">裝備坊</a>
-      <a class="nav-link" href="tarot.html">占卜屋</a>
-      <a class="nav-link" href="shop.html">商店</a>
-    </nav>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>🐰兔兔工匠的裝備坊</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小勇者之旅大冒險｜兔兔工匠的裝備坊</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body data-page="equip">
   <div class="game-wrap">
-    <header class="card">
+
+    <!-- 標題 -->
+    <section class="card title-card">
       <h1>🐰 兔兔工匠的裝備坊</h1>
-      <p>用勇氣星星換取裝備，讓小勇者更有自信出發吧！</p>
- <p>目前星星：<span id="equipStars">0</span> ⭐</p>
+      <p class="subtitle">用勇氣星星換取裝備，讓小勇者更有自信出發吧！</p>
+    </section>
 
-<h2>武器</h2>
-<div id="equipWeaponList" class="equip-list"></div>
+    <!-- 分頁（這一頁讓「裝備坊」是橘色） -->
+    <div class="nav-row">
+      <button class="nav-btn" onclick="location.href='index.html'">新手村</button>
+      <button class="nav-btn" onclick="location.href='map.html'">地圖</button>
+      <button class="nav-btn active" onclick="location.href='equip.html'">裝備坊</button>
+      <button class="nav-btn" onclick="location.href='tarot.html'">占卜屋</button>
+      <button class="nav-btn" onclick="location.href='shop.html'">商店</button>
+    </div>
 
-<h2>防具</h2>
-<div id="equipArmorList" class="equip-list"></div>
+    <!-- 星星數 -->
+    <section class="card">
+      <p>目前星星：<span id="equipStars">0</span> ⭐</p>
+    </section>
 
-<h2>飾品（幸運）</h2>
-<div id="equipAccessoryList" class="equip-list"></div>
+    <!-- 裝備列表 -->
+    <section class="card">
+      <h2>武器</h2>
+      <div id="equipWeaponList" class="equip-list"></div>
 
-<h2>鞋子（敏捷）</h2>
-<div id="equipBootsList" class="equip-list"></div>
+      <h2>防具</h2>
+      <div id="equipArmorList" class="equip-list"></div>
+
+      <h2>飾品（幸運）</h2>
+      <div id="equipAccessoryList" class="equip-list"></div>
+
+      <h2>鞋子（敏捷）</h2>
+      <div id="equipBootsList" class="equip-list"></div>
+    </section>
+
+    <footer class="footer">
+      <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
