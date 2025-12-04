@@ -876,58 +876,56 @@ function buyItem(type, label) {
 }
 
 /* ==========================================================
-   兔兔工匠的裝備坊 equip.html
+   兔兔工匠的裝備坊 equip.html（新版）
    ========================================================== */
 function initEquipPage() {
   const starText = document.getElementById("equipStars");
   if (starText) starText.textContent = stars;
 
-  renderEquipList("weapon", "equipWeaponList");
-  renderEquipList("armor", "equipArmorList");
-  renderEquipList("accessory", "equipAccessoryList");
-  renderEquipList("boots", "equipBootsList");
-}
-
-function renderEquipList(slot, containerId) {
-  const box = document.getElementById(containerId);
-  if (!box) return;
-
-  const currentId = equips[slot];
-
-  box.innerHTML = EQUIP_ITEMS[slot].map(item => {
-    const owned = currentId === item.id;
-    const btnLabel = owned ? "已裝備" : `用 ${item.price}⭐ 裝備`;
-    const disabled = owned ? "disabled" : "";
-    return `
-      <div class="equip-item">
-        <div class="equip-name">${item.name}</div>
-        <div class="equip-desc">${item.desc}</div>
-        <button class="equip-btn" data-slot="${slot}" data-id="${item.id}" data-price="${item.price}" ${disabled}>
-          ${btnLabel}
-        </button>
-      </div>
-    `;
-  }).join("");
-
-  box.querySelectorAll(".equip-btn").forEach(btn => {
+  // 綁定所有「用 X⭐ 裝備」的按鈕
+  document.querySelectorAll(".equip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      const price = Number(btn.dataset.price);
-      const slotName = btn.dataset.slot;
-      const id = btn.dataset.id;
+      const slot  = btn.dataset.slot;            // weapon / armor / accessory / shoes
+      const name  = btn.dataset.name || "神秘裝備";
+      const cost  = Number(btn.dataset.cost  || "0");
+      const atk   = Number(btn.dataset.atk   || "0");
+      const def   = Number(btn.dataset.def   || "0");
+      const luck  = Number(btn.dataset.luck  || "0");
+      const dodge = Number(btn.dataset.dodge || "0");
 
-      if (equips[slotName] === id) return; // 已裝備
-      if (stars < price) {
-        alert("勇氣星星不足，先多安撫幾隻魔物吧！");
+      if (!slot) {
+        alert("裝備欄位未設定（slot）");
         return;
       }
 
-      stars -= price;
-      equips[slotName] = id;
-      save("stars", stars);
-      save("equips", equips);
+      // 星星不夠
+      if (stars < cost) {
+        alert("勇氣星星不足，無法裝備這件道具～");
+        return;
+      }
 
-      alert("兔兔工匠：裝備裝好了，之後戰鬥會更有自信喔！");
-      initEquipPage(); // 重新刷新畫面（按鈕會變成「已裝備」）
+      // 扣星星 & 更新畫面
+      stars -= cost;
+      save("stars", stars);
+      if (starText) starText.textContent = stars;
+
+      // 設定該部位的裝備
+      equipment[slot] = { name, atk, def, luck, dodge };
+
+      // 重新計算裝備總加成
+      const total = { atk: 0, def: 0, luck: 0, dodge: 0 };
+      ["weapon", "armor", "accessory", "shoes"].forEach(s => {
+        const e = equipment[s];
+        if (!e) return;
+        total.atk   += e.atk   || 0;
+        total.def   += e.def   || 0;
+        total.luck  += e.luck  || 0;
+        total.dodge += e.dodge || 0;
+      });
+      equipment.bonus = total;
+      save("equipment", equipment);
+
+      alert(`已裝備「${name}」！\n下次進入戰鬥畫面就會看到裝備效果囉～`);
     });
   });
 }
