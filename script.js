@@ -1061,12 +1061,9 @@ function renderEquipList(slot, containerId) {
   if (!box) return;
 
   box.innerHTML = EQUIP_ITEMS[slot].map(item => {
-    // 目前等級：0 = 尚未購買
-    let lv = equipLevels[item.id] || 0;
+    let lv = equipLevels[item.id] || 0; // 目前等級，0 = 未購買
     const nextLv = lv + 1;
-
-    // 價格規則：每升一級，價格 = 基礎價格 * 等級
-    const price = item.price * nextLv;
+    const price = item.price * nextLv;  // 每級價格遞增
 
     const isEquipped = equips[slot] === item.id;
     const lvText = lv > 0 ? `（目前 Lv.${lv}）` : "（尚未購買）";
@@ -1092,7 +1089,6 @@ function renderEquipList(slot, containerId) {
     `;
   }).join("");
 
-  // 綁定「購買／升級」按鈕
   box.querySelectorAll(".equip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const slotName = btn.dataset.slot;
@@ -1113,7 +1109,7 @@ function renderEquipList(slot, containerId) {
       const newLv = currentLv + 1;
       equipLevels[id] = newLv;
 
-      // 這一格欄位改成使用這件裝備
+      // 這個欄位改成穿這件
       equips[slotName] = id;
 
       save("equipLevels", equipLevels);
@@ -1125,7 +1121,7 @@ function renderEquipList(slot, containerId) {
           : `兔兔工匠：裝備升級到 Lv.${newLv}，效果更棒了！`
       );
 
-      initEquipPage(); // 重畫列表（按鈕文字、價格更新）
+      initEquipPage(); // 重畫列表
       const starText = document.getElementById("equipStars");
       if (starText) starText.textContent = stars;
     });
