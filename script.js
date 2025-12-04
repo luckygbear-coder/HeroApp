@@ -920,7 +920,7 @@ function buyItem(type, label) {
   initShopPage();
 }
 
-/* ==========================================================
+/* /* ==========================================================
    兔兔工匠的裝備坊 equip.html（可升級版）
    ========================================================== */
 function initEquipPage() {
@@ -940,12 +940,12 @@ function renderEquipList(slot, containerId) {
   box.innerHTML = EQUIP_ITEMS[slot].map(item => {
     const lv = equipLevels[item.id] || 0;   // 0 = 尚未購買
     const nextLv = lv + 1;
-    const price = item.price * nextLv;      // 升級價格
+    const price = item.price * nextLv;      // 每級價格遞增
 
     const isEquipped = equips[slot] === item.id;
     const owned = lv > 0;
 
-    const lvText = owned ? `（目前 Lv.${lv}）` : "（尚未購買）";
+    const lvText = owned ? `（目前 Lv.${lv}）` : "（尚未購買）`;
 
     // 按鈕模式：未購買 = buy；已購買未使用 = switch；已購買且使用中 = upgrade
     let mode, btnLabel;
@@ -983,9 +983,9 @@ function renderEquipList(slot, containerId) {
   box.querySelectorAll(".equip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const slotName = btn.dataset.slot;
-      const id = btn.dataset.id;
-      const price = Number(btn.dataset.price);
-      const mode = btn.dataset.mode;
+      const id       = btn.dataset.id;
+      const price    = Number(btn.dataset.price);
+      const mode     = btn.dataset.mode;
 
       if (mode === "buy") {
         // 第一次購買
@@ -1002,7 +1002,7 @@ function renderEquipList(slot, containerId) {
         save("equipLevels", equipLevels);
         save("equips", equips);
 
-        alert(`兔兔工匠：幫你穿上「${id}」，現在是 Lv.1！`);
+        alert(`兔兔工匠：幫你穿上「${itemNameFromId(id)}」，現在是 Lv.1！`);
 
       } else if (mode === "upgrade") {
         // 已穿著 → 升級
@@ -1025,8 +1025,7 @@ function renderEquipList(slot, containerId) {
         // 已購買、未使用 → 免費切換
         equips[slotName] = id;
         save("equips", equips);
-        alert(`兔兔工匠：已切換為「${id}」！`);
-
+        alert(`兔兔工匠：已切換為「${itemNameFromId(id)}」！`);
       }
 
       // 重新刷新列表 & 星星數字
@@ -1036,9 +1035,8 @@ function renderEquipList(slot, containerId) {
     });
   });
 }
-}
 
-// 小工具：透過 ID 找中文名稱（只用在提示文字）
+/* 小工具：透過 ID 找中文名稱（只是讓提示文字好看一點） */
 function itemNameFromId(id) {
   for (const slot of ["weapon", "armor", "accessory", "boots"]) {
     const found = EQUIP_ITEMS[slot].find(it => it.id === id);
