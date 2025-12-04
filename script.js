@@ -232,15 +232,15 @@ document.addEventListener("DOMContentLoaded", () => {
     case "battle":
       initBattlePage();
       break;
+    case "equip":
+      initEquipPage();
+      break;
     case "tarot":
       initTarotPage();
       break;
     case "shop":
       initShopPage();
       break;
-        case "equip":
-    initEquipPage();
-    break;
   }
 });/* ==========================================================
    新手村 index.html
