@@ -23,17 +23,18 @@ let items = load("items", {
 });
 let clearedStages = load("clearedStages", {}); // { forest:true, boss:true ... }
 let friends = load("friends", []);
-// 裝備狀態（之後在裝備坊改這個物件就好）
+
+// 裝備狀態：目前穿什麼＋加成總數
 let equipment = load("equipment", {
-  weapon: null,    // { name: "木製勇氣劍", atk: 1, ... }
-  armor: null,     // { name: "棉花保暖披風", def: 1, ... }
-  accessory: null, // { name: "四葉幸運草吊飾", luck: 1, ... }
-  shoes: null,     // { name: "輕盈步伐靴", dodge: 0.2, ... }
+  weapon: null,    // { name, atk, def, luck, dodge }
+  armor: null,
+  accessory: null,
+  shoes: null,
   bonus: {
     atk: 0,
     def: 0,
     luck: 0,
-    dodge: 0       // 0.2 代表 20% 閃避機率（只是顯示用）
+    dodge: 0      // 0.2 = 20% 閃避率
   }
 });
 let equips = load("equips", {
