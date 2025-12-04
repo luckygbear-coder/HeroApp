@@ -315,6 +315,14 @@ const EQUIP_ITEMS = {
 
 // 之後要算戰鬥加成會用到的工具（含等級）
 function getEquipStats() {
+  // 等級加成：每提升 3 級，攻擊 +1、防禦 +1
+function getLevelBonus() {
+  const lvBonus = Math.floor((level - 1) / 3); // LV.1~3 = 0，LV.4~6 = 1 ...
+  return {
+    atk: lvBonus,
+    def: lvBonus
+  };
+}
   let atk = 0, def = 0, luck = 0, agi = 0;
   ["weapon", "armor", "accessory", "boots"].forEach(slot => {
     const id = equips[slot];
@@ -347,6 +355,9 @@ let battleState = {
   heroHp: 0,
   heroMax: 0,
   heroAtk: 1,
+  heroDef: 0,
+  heroLuck: 0,
+  heroAgi: 0,
   monsterHp: 0,
   monsterMax: 0,
   monsterAtk: 1,
@@ -551,10 +562,19 @@ function initBattlePage() {
   battleState.heroMax = h.baseHp + friends.length;
   battleState.heroHp = battleState.heroMax;
 
-// 勇者攻擊力：基礎 + 等級 + 裝備加成（用裝備等級計算）
-  const s = getEquipStats();
-  battleState.heroAtk = 1 + (level - 1) + (s.atk || 0);
-    
+  // 勇者攻擊力：基礎 + 等級 + 等級加成 + 裝備加成
+  battleState.heroAtk = 1 + (level - 1);
+
+  const lvBonus = getLevelBonus();
+  battleState.heroAtk += lvBonus.atk;
+
+  const es = getEquipStats();
+  battleState.heroAtk += es.atk || 0;
+
+  // 勇者防禦＆其他能力（目前只在扣血時用到防禦）
+  battleState.heroDef  = lvBonus.def + (es.def || 0);
+  battleState.heroLuck = es.luck || 0;
+  battleState.heroAgi  = es.agi  || 0;    
   // 魔物 / 魔王壞情緒 HP & 攻擊（隨 LV 成長）
   if (stageId === "boss") {
     battleState.monsterMax = m.emotions + (level - 1) * 2;
