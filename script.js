@@ -813,7 +813,64 @@ function showTarotCard(pos, card) {
   if (orientEl) orientEl.textContent = card.orientation;
   if (meaningEl) meaningEl.textContent = card.meaning;
 }
+/* ==========================================================
+   兔兔工匠的裝備坊 equip.html
+   ========================================================== */
 
+function initEquipPage() {
+  const starText = document.getElementById("equipStars");
+  if (starText) starText.textContent = stars;
+
+  // 所有「裝備」按鈕
+  document.querySelectorAll(".equip-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const slot = btn.dataset.slot;    // weapon / armor / accessory / shoes
+      const cost = parseInt(btn.dataset.cost || "0", 10);
+      const name = btn.dataset.name || "神秘裝備";
+
+      // 各能力加成（沒有就視為 0）
+      const atk   = parseInt(btn.dataset.atk   || "0", 10);
+      const def   = parseInt(btn.dataset.def   || "0", 10);
+      const luck  = parseInt(btn.dataset.luck  || "0", 10);
+      const dodge = parseFloat(btn.dataset.dodge || "0");
+
+      if (!slot) {
+        alert("裝備欄位未設定（slot）");
+        return;
+      }
+
+      // 檢查星星是否足夠
+      if (stars < cost) {
+        alert("勇氣星星不足，無法裝備這件道具～");
+        return;
+      }
+
+      // 扣星星
+      stars -= cost;
+      save("stars", stars);
+      if (starText) starText.textContent = stars;
+
+      // 設定該欄位的裝備
+      equipment[slot] = { name, atk, def, luck, dodge };
+
+      // 重新計算總加成
+      const total = { atk: 0, def: 0, luck: 0, dodge: 0 };
+      ["weapon", "armor", "accessory", "shoes"].forEach(s => {
+        const it = equipment[s];
+        if (!it) return;
+        if (it.atk)   total.atk   += it.atk;
+        if (it.def)   total.def   += it.def;
+        if (it.luck)  total.luck  += it.luck;
+        if (it.dodge) total.dodge += it.dodge;
+      });
+      equipment.bonus = total;
+
+      save("equipment", equipment);
+
+      alert(`已裝備「${name}」！\n下次進入戰鬥畫面就會看到裝備效果囉～`);
+    });
+  });
+}
 /* ==========================================================
    商店 shop.html
    ========================================================== */
