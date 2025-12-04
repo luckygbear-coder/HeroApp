@@ -819,11 +819,20 @@ function initTarotPage() {
   const hugBtn  = document.getElementById("bearHugBtn");
   const drawBtn = document.getElementById("tarotDrawBtn");
 
-  if (hugBtn) {
-    hugBtn.addEventListener("click", () => {
-      alert("熊熊抱抱～小勇者恢復滿滿好心情！");
-    });
-  }
+if (hugBtn) {
+  hugBtn.addEventListener("click", () => {
+    const msg = getRandomBearHugMessage();
+
+    // 跳出對話框
+    alert("🐻 熊熊抱抱～\n\n" + msg);
+
+    // 同步更新下面「熊熊村長」的文字區塊
+    const bearMsgBox = document.getElementById("tarotBearMessage");
+    if (bearMsgBox) {
+      bearMsgBox.textContent = "熊熊村長：" + msg;
+    }
+  });
+}
   if (drawBtn) {
     drawBtn.addEventListener("click", doTarot);
   }
