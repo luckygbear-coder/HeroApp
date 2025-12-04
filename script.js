@@ -463,14 +463,21 @@ function initBattlePage() {
 /* --- 更新戰鬥 UI --- */
 function updateBattleUI(h, m, stageId) {
   const heroHpText = document.getElementById("heroHpText");
-  const monsterStageText = document.getElementById("monsterStageText");
-  const monsterNameText = document.getElementById("monsterNameText");
-  const monsterLevelText = document.getElementById("monsterLevelText");
-  const heroTalentText = document.getElementById("heroTalentText");
-  const monsterTalentText = document.getElementById("monsterTalentText");
-  const monsterForbidText = document.getElementById("monsterForbidText");
+if (monsterStageText) monsterStageText.textContent = m.stageName;
+if (monsterNameText) monsterNameText.textContent = m.name;
+
+// HTML 裡已經有「LV.」，這裡只填數字
+if (monsterLevelText) monsterLevelText.textContent = level;
+
+// 顯示魔物天賦拳
+if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
+
+if (monsterForbidText) {
+  monsterForbidText.textContent = m.forbidEmoji || "—";
+}
   const emotionList = document.getElementById("emotionList");
 
+  const heroTalentText = document.getElementById("heroTalentText");
   const heroNameText = document.getElementById("heroNameText");
   const heroEquipText = document.getElementById("heroEquipText");
   const heroBuffText = document.getElementById("heroBuffText");
