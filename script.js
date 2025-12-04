@@ -165,6 +165,22 @@ const MONSTER_STAGES = [
   "swamp",
   "mountain"
 ];
+
+function getEquipStats() {
+  // 每一件裝備只記 id，實際數值從 EQUIP_ITEMS 查
+  let atk = 0, def = 0, luck = 0, agi = 0;
+  ["weapon", "armor", "accessory", "boots"].forEach(slot => {
+    const id = equips[slot];
+    if (!id) return;
+    const item = EQUIP_ITEMS[slot].find(it => it.id === id);
+    if (!item) return;
+    atk  += item.atk  || 0;
+    def  += item.def  || 0;
+    luck += item.luck || 0;
+    agi  += item.agi  || 0;
+  });
+  return { atk, def, luck, agi };
+}
 /* ---------- 戰鬥狀態 ---------- */
 let battleState = {
   heroHp: 0,
