@@ -209,9 +209,9 @@ const EQUIP_ITEMS = {
   ]
 };
 
-/* ---------- 等級加成：每 3 級攻擊 +1、防禦 +1 ---------- */
+/* ---------- 等級加成：每 5 級攻擊 +1、防禦 +1 ---------- */
 function getLevelBonus() {
-  const lvBonus = Math.floor((level - 1) / 3); // LV.1~3 = 0，LV.4~6 = 1 ...
+  const lvBonus = Math.floor((level - 1) / 5); // LV.1~5 = 0，LV.6~10 = 1 ...
   return {
     atk: lvBonus,
     def: lvBonus
