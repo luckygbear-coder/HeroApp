@@ -23,7 +23,12 @@ let items = load("items", {
 });
 let clearedStages = load("clearedStages", {}); // { forest:true, boss:true ... }
 let friends = load("friends", []);
-
+let equips = load("equips", {
+  weapon: null,
+  armor: null,
+  accessory: null,
+  boots: null
+});
 /* ---------- 勇者資料 ---------- */
 const HERO_DATA = {
   warrior: {
