@@ -524,3 +524,49 @@ body[data-page="battle"] .card {
   font-size: 12px;
   cursor: pointer;
 }
+/* 裝備坊：整區卡片跟商店一樣 */
+.equip-section-card {
+  background: #fff7eb;
+  border-radius: 18px;
+  border: 2px solid #f4cf9c;
+  padding: 16px 14px;
+  margin-bottom: 16px;
+}
+
+/* 每一件裝備像一個商品列 */
+.equip-item {
+  padding: 10px 0;
+  border-top: 1px dashed #f0c9a4;
+}
+
+.equip-item:first-child {
+  border-top: none;
+}
+
+.equip-name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.equip-desc {
+  font-size: 13px;
+  color: #7a5742;
+  margin-bottom: 6px;
+}
+
+/* 升級按鈕：用商店「購買」那種小膠囊風格 */
+.equip-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 13px;
+  background: #ffe3c8;
+  color: #7a5742;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+}
+
+.equip-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
