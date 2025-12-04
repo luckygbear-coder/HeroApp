@@ -700,7 +700,10 @@ if (monsterForbidText) {
     if (s.def)  buffs.push(`裝備防禦 +${s.def}`);
     if (s.luck) buffs.push(`幸運 +${s.luck}`);
     if (s.agi)  buffs.push(`敏捷 +${s.agi}`);
-
+    const lvB = getLevelBonus();
+    if (lvB.atk || lvB.def) {
+      buffs.push(`等級加成：攻擊 +${lvB.atk}、防禦 +${lvB.def}`);
+}
     heroBuffText.textContent = buffs.length
       ? buffs.join("；")
       : "目前沒有額外加成";
