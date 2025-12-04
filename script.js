@@ -223,6 +223,7 @@ let battleState = {
    ========================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   const page = document.body.dataset.page;
+
   switch (page) {
     case "index":
       initIndexPage();
@@ -243,7 +244,8 @@ document.addEventListener("DOMContentLoaded", () => {
       initShopPage();
       break;
   }
-});/* ==========================================================
+});
+/* ==========================================================
    新手村 index.html
    ========================================================== */
 function initIndexPage() {
