@@ -74,7 +74,7 @@ const HERO_DATA = {
   }
 };
 
-/* ---------- 魔物資料（維持原本 6 隻 + 魔王） ---------- */
+/* ---------- 魔物資料（九宮格 9 隻 + 魔王） ---------- */
 const MONSTER_DATA = {
   forest: {
     stageName: "森林",
@@ -118,6 +118,27 @@ const MONSTER_DATA = {
     forbidEmoji: "✊",
     emotions: 3
   },
+  meadow: {
+    stageName: "草原",
+    name: "史萊姆",
+    talentEmoji: "✊",
+    forbidEmoji: "🖐",
+    emotions: 3
+  },
+  mountain: {
+    stageName: "雪山",
+    name: "雪怪",
+    talentEmoji: "🖐",
+    forbidEmoji: "✌️",
+    emotions: 3
+  },
+  swamp: {
+    stageName: "沼澤",
+    name: "毒沼怪",
+    talentEmoji: "✌️",
+    forbidEmoji: "✊",
+    emotions: 3
+  },
   boss: {
     stageName: "魔王城",
     name: "惡龍",
@@ -128,7 +149,123 @@ const MONSTER_DATA = {
 };
 
 /* 所有普通魔物關卡（不含魔王） */
-const MONSTER_STAGES = ["forest", "lake", "cave", "grave", "dungeon", "ruins"];
+const MONSTER_STAGES = [
+  "forest",
+  "lake",
+  "cave",
+  "grave",
+  "dungeon",
+  "ruins",
+  "meadow",
+  "mountain",
+  "swamp"
+];
+
+/* ==========================================================
+   地圖 map.html（九宮格 9 個魔物＋魔王解鎖）
+   ========================================================== */
+function initMapPage() {
+  const grid = document.getElementById("mapGrid");
+  if (!grid) return;
+
+  // 舊版本保護：若魔物+魔王都打完卻沒升級，補一次
+  const allMonstersCleared = MONSTER_STAGES.every(id => clearedStages[id]);
+  const bossCleared = !!clearedStages.boss;
+  if (allMonstersCleared && bossCleared) {
+    level += 1;
+    save("level", level);
+    clearedStages = {};
+    save("clearedStages", clearedStages);
+    alert(`🎉 補上一次升級！地圖提升到 LV.${level}，可以重新挑戰所有地點了！`);
+  }
+
+  // 顯示地圖等級 & 星星
+  const levelSpan = document.getElementById("mapLevel");
+  const starSpan  = document.getElementById("mapStars");
+  if (levelSpan) levelSpan.textContent = "LV." + level;
+  if (starSpan)  starSpan.textContent  = stars;
+
+  // 九宮格：全部都是魔物
+  const cells = [
+    { id: "forest",   label: "🌲 森林（獸人）" },
+    { id: "lake",     label: "🌊 湖畔（人魚）" },
+    { id: "cave",     label: "🕳 洞窟（哥布林）" },
+
+    { id: "grave",    label: "💀 墓地（骷髏兵）" },
+    { id: "dungeon",  label: "🕸 地窖（異教徒）" },
+    { id: "ruins",    label: "🏛 遺跡（魔像）" },
+
+    { id: "meadow",   label: "🌾 草原（史萊姆）" },
+    { id: "mountain", label: "🏔 雪山（雪怪）" },
+    { id: "swamp",    label: "🦠 沼澤（毒沼怪）" }
+  ];
+
+  grid.innerHTML = "";
+
+  cells.forEach(cell => {
+    const tile = document.createElement("div");
+    tile.className = "map-tile";
+    tile.textContent = cell.label;
+
+    const isCleared = !!clearedStages[cell.id];
+    if (isCleared) {
+      tile.classList.add("cleared");
+    }
+
+    tile.addEventListener("click", () => {
+      if (isCleared) {
+        alert("這個地點已經安撫完成了，等打倒魔王、地圖升級後再來挑戰吧！");
+        return;
+      }
+      save("currentStage", cell.id);
+      window.location.href = "battle.html";
+    });
+
+    grid.appendChild(tile);
+  });
+
+  /* --- 魔王城解鎖區 --- */
+  const bossSection = document.getElementById("bossSection");
+  const bossHint    = document.getElementById("bossHintText");
+  const bossBtn     = document.getElementById("bossBtn");
+
+  if (bossSection && bossHint && bossBtn) {
+    const ready = MONSTER_STAGES.every(id => clearedStages[id]);
+
+    if (ready) {
+      bossSection.style.display = "block";
+      bossHint.textContent = "所有魔物都成為你的好朋友了！可以挑戰魔王城囉 ✨";
+      bossBtn.disabled = false;
+
+      bossBtn.addEventListener("click", () => {
+        save("currentStage", "boss");
+        window.location.href = "battle.html";
+      });
+    } else {
+      bossSection.style.display = "none"; // 還沒打完 9 格就不顯示
+    }
+  }
+
+  /* --- 好友名單 Modal --- */
+  const fbBtn   = document.getElementById("friendsBtn");
+  const fbModal = document.getElementById("friendsModal");
+  const fbClose = document.getElementById("friendsCloseBtn");
+  const fbList  = document.getElementById("friendsList");
+
+  if (fbBtn && fbModal && fbClose && fbList) {
+    fbBtn.addEventListener("click", () => {
+      if (!friends.length) {
+        fbList.innerHTML = "<li>目前還沒有好友～多多安撫魔物吧！</li>";
+      } else {
+        fbList.innerHTML = friends
+          .map(f => `<li>${f.name}（⭐ ${f.stars}）LV.${f.level}</li>`)
+          .join("");
+      }
+      fbModal.classList.add("show");
+    });
+    fbClose.addEventListener("click", () => fbModal.classList.remove("show"));
+  }
+} "lake", "cave", "grave", "dungeon", "ruins"];
 /* ---------- 兔兔工匠裝備資料 ---------- */
 const EQUIP_ITEMS = {
   weapon: [
