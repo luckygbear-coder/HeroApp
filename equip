@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>🐰兔兔工匠的裝備坊</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="equip">
+  <div class="game-wrap">
+    <header class="card">
+      <h1>🐰 兔兔工匠的裝備坊</h1>
+      <p>用勇氣星星換取裝備，讓小勇者更有自信出發吧！</p>
+      <p>目前星星：<span id="equipStars"></span>⭐</p>
+    </header>
+
+    <main class="card">
+      <h2>武器</h2>
+      <div id="equipWeaponList" class="equip-list"></div>
+
+      <h2>防具</h2>
+      <div id="equipArmorList" class="equip-list"></div>
+
+      <h2>飾品（幸運）</h2>
+      <div id="equipAccessoryList" class="equip-list"></div>
+
+      <h2>鞋子（敏捷）</h2>
+      <div id="equipBootsList" class="equip-list"></div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
