@@ -438,9 +438,16 @@ function initBattlePage() {
   battleState.heroMax = h.baseHp + friends.length;
   battleState.heroHp = battleState.heroMax;
 
-  // 勇者攻擊力：1 + (level - 1)
-  battleState.heroAtk = 1 + (level - 1);
+  // 裝備加成
+  const es = getEquipStats();
 
+  // 勇者攻擊力：1 + (level - 1) + 武器加成
+  battleState.heroAtk = 1 + (level - 1) + es.atk;
+
+  // 防禦、幸運、敏捷 也記在 battleState 裡
+  battleState.heroDef  = es.def  || 0;
+  battleState.heroLuck = es.luck || 0;
+  battleState.heroAgi  = es.agi  || 0;
   // 魔物 / 魔王壞情緒 HP & 攻擊（隨 LV 成長）
   if (stageId === "boss") {
     battleState.monsterMax = m.emotions + (level - 1) * 2;
