@@ -12,70 +12,50 @@
 
     <!-- 標題 -->
     <section class="card title-card">
-      <h1>🌱 小勇者之旅大冒險</h1>
-      <p class="subtitle">剪刀、石頭、布！用好心情安撫壞情緒魔物 ✨</p>
+      <h1>🏡 新手村</h1>
+      <p class="subtitle">先選出屬於你的「小勇者」，再出發冒險吧！</p>
     </section>
 
-    <!-- 分頁 -->
-    <nav class="top-nav">
-      <a class="nav-link active" href="index.html">新手村</a>
-      <a class="nav-link" href="map.html">地圖</a>
-      <a class="nav-link" href="equip.html">裝備坊</a>
-      <a class="nav-link" href="tarot.html">占卜屋</a>
-      <a class="nav-link" href="shop.html">商店</a>
-    </nav>
-
-    <!-- 故事介紹 -->
-    <section class="card">
-      <h2>故事介紹</h2>
-      <p>
-        歡迎來到 <b>新手村</b>！🌈  
-        小勇者們準備出發冒險，挑戰各地被壞情緒纏住的魔物，並收集勇氣星星 ⭐。
-      </p>
-      <p>
-        冒險途中，你會探索森林、湖畔、洞窟、墓地、地窖、遺跡……  
-        最後前往魔王城面對惡龍。  
-        記住：真正最重要的力量，是你帶著的好心情與善良的心 ❤️
-      </p>
-
-      <div class="btn-row">
-        <a
-          class="primary-btn full"
-          href="https://www.instagram.com/luckygbear/"
-          target="_blank"
-        >
-          🐻 追蹤村長熊熊 IG
-        </a>
-      </div>
-
-
-    </section>
-
-    <!-- 選擇勇者 -->
-    <section class="card">
+    <!-- 選擇勇者（主畫面重點：盡量一頁看完） -->
+    <section class="card hero-select-card">
       <h2>選擇小勇者</h2>
-      <p>點選一位小勇者開始冒險：</p>
-
-      <!-- 勇者列表 -->
       <div id="heroList" class="hero-list"></div>
 
-      <!-- 故事＋語句＋能力 -->
-      <div id="heroStoryBox" class="hero-story-box" style="display:none;">
-        <p id="heroStoryText" class="hero-story-text"></p>
-        <p id="heroLineText" class="hero-line-text"></p>
-        <p id="heroAbilityText" class="hero-ability-text"></p>
-
-        <button
-          id="confirmHeroBtn"
-          class="primary-btn hero-confirm-btn"
-          style="display:none;"
-        >
-          ✅ 確認小勇者並前往地圖
-        </button>
+      <div id="heroStoryBox" class="hero-story-box">
+        <p id="heroStoryText">點上面的勇者卡，可以看到個性與故事。</p>
+        <p id="heroLineText"></p>
+        <p id="heroAbilityText"></p>
       </div>
+
+      <button id="confirmHeroBtn" class="primary-btn full" style="display:none;">
+        ✅ 確認這位小勇者，出發冒險！
+      </button>
     </section>
 
-    <!-- 頁尾 -->
+    <!-- 簡易玩法說明 -->
+    <section class="card help-card">
+      <h2>怎麼玩？（超簡版）</h2>
+      <ul class="help-list">
+        <li>在地圖上選一個地點，進入與魔物的戰鬥。</li>
+        <li>出 ✊✌🖐 跟魔物猜拳，比大小決定這回合的結果。</li>
+        <li>贏的時候：安撫魔物，壞情緒 💢 會慢慢變成 💚。</li>
+        <li>輸的時候：小勇者會掉 HP，要小心不要被壞情緒打倒。</li>
+      </ul>
+
+      <h3>天賦拳是什麼？</h3>
+      <p class="help-text">
+        每位小勇者都有一個最拿手的「天賦拳」：<br>
+        戰士 ✊、法師 ✌️、牧師 🖐，勇敢的村民則是「任意拳」。<br>
+        <strong>當你出天賦拳而且這回合勝利時 → 安撫效果 x2</strong>，更快讓魔物冷靜下來。
+      </p>
+
+      <h3>弱點拳是什麼？</h3>
+      <p class="help-text">
+        每隻魔物都有一個最怕的「弱點拳」，那個拳牠完全不會出。<br>
+        例如：如果魔物的弱點拳是 ✌️，代表牠只會出 ✊ 或 🖐，你就可以利用這個情報來思考要出什麼拳。
+      </p>
+    </section>
+
     <footer class="footer">
       <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
     </footer>
