@@ -690,13 +690,19 @@ if (monsterForbidText) {
   // ===== 裝備效果說明（累計數值加成）=====
   if (heroBuffText) {
     const s = getEquipStats();
+    const lvB = getLevelBonus();
     const buffs = [];
-    if (s.atk)  buffs.push(`攻擊 +${s.atk}`);
-    if (s.def)  buffs.push(`防禦 +${s.def}`);
+
+    if (lvB.atk || lvB.def) {
+      buffs.push(`等級加成：攻擊 +${lvB.atk}、防禦 +${lvB.def}`);
+    }
+    if (s.atk)  buffs.push(`裝備攻擊 +${s.atk}`);
+    if (s.def)  buffs.push(`裝備防禦 +${s.def}`);
     if (s.luck) buffs.push(`幸運 +${s.luck}`);
     if (s.agi)  buffs.push(`敏捷 +${s.agi}`);
+
     heroBuffText.textContent = buffs.length
-      ? buffs.join("、")
+      ? buffs.join("；")
       : "目前沒有額外加成";
   }
 }
@@ -792,7 +798,13 @@ function handleRoundResult(result, playerEmoji, h, m, stageId) {
         roundResult.textContent = "雖然這回合沒贏，但你的心情很穩定。";
       }
     } else {
-      const dmg = battleState.monsterAtk;
+      let dmg = battleState.monsterAtk;
+
+      // 防禦減傷（最低還是會扣 1）
+      if (battleState.heroDef) {
+        dmg = Math.max(1, dmg - battleState.heroDef);
+      }
+
       battleState.heroHp = Math.max(0, battleState.heroHp - dmg);
       if (roundResult) {
         roundResult.textContent = `這回合被壞情緒影響了，HP -${dmg}。`;
