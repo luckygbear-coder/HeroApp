@@ -546,51 +546,72 @@ function initBattlePage() {
   }
 }
 
-/* --- 更新戰鬥 UI --- */
+/* --- 更新戰鬥 UI（新版：HP 數字＋頭像） --- */
 function updateBattleUI(h, m, stageId) {
   const heroHpText        = document.getElementById("heroHpText");
+  const heroLevelText     = document.getElementById("heroLevelText");
+  const heroTalentText    = document.getElementById("heroTalentText");
+  const heroNameText      = document.getElementById("heroNameText");
+  const heroEquipText     = document.getElementById("heroEquipText");
+  const heroBuffText      = document.getElementById("heroBuffText");
+  const heroAvatar        = document.getElementById("heroAvatar");
+
   const monsterStageText  = document.getElementById("monsterStageText");
   const monsterNameText   = document.getElementById("monsterNameText");
   const monsterLevelText  = document.getElementById("monsterLevelText");
   const monsterTalentText = document.getElementById("monsterTalentText");
   const monsterForbidText = document.getElementById("monsterForbidText");
-  const emotionList       = document.getElementById("emotionList");
+  const monsterHpText     = document.getElementById("monsterHpText");
+  const monsterAvatar     = document.getElementById("monsterAvatar");
 
-  const heroTalentText = document.getElementById("heroTalentText");
-  const heroNameText   = document.getElementById("heroNameText");
-  const heroEquipText  = document.getElementById("heroEquipText");
-  const heroBuffText   = document.getElementById("heroBuffText");
-
-  // 勇者相關
-  if (heroNameText) heroNameText.textContent = h.name;
-  if (heroHpText) {
-    heroHpText.textContent = `${battleState.heroHp} / ${battleState.heroMax}`;
-  }
+  // 勇者
+  if (heroNameText)   heroNameText.textContent   = h.name;
+  if (heroLevelText)  heroLevelText.textContent  = "LV." + level;
   if (heroTalentText) heroTalentText.textContent = h.talentEmoji || "任意拳";
+  if (heroHpText) {
+    heroHpText.textContent =
+      `好心情 HP：${battleState.heroHp} / ${battleState.heroMax}`;
+  }
 
-  // 魔物相關
-  if (monsterStageText) monsterStageText.textContent = m.stageName;
-  if (monsterNameText)  monsterNameText.textContent  = m.name;
-  if (monsterLevelText) monsterLevelText.textContent = level; // HTML 已經有 "LV."
+  // 頭像用 emoji 先頂著，以後可以改成圖片
+  if (heroAvatar) {
+    const heroIconMap = {
+      warrior: "🛡️",
+      mage: "🔮",
+      priest: "💖",
+      villager: "🌾"
+    };
+    heroAvatar.textContent = heroIconMap[h.key] || "🧒";
+  }
+
+  // 魔物 / 魔王
+  if (monsterStageText)  monsterStageText.textContent  = m.stageName;
+  if (monsterNameText)   monsterNameText.textContent   = m.name;
+  if (monsterLevelText)  monsterLevelText.textContent  = "LV." + level;
   if (monsterTalentText) monsterTalentText.textContent = m.talentEmoji || "任意拳";
   if (monsterForbidText) monsterForbidText.textContent = m.forbidEmoji || "—";
-
-  // 壞情緒條
-  if (emotionList) {
-    emotionList.innerHTML = "";
-    const max = battleState.monsterMax;
-    const cur = battleState.monsterHp;
-
-    for (let i = 0; i < max; i++) {
-      const li = document.createElement("li");
-      const isCalm = i >= cur;
-      if (isCalm) li.classList.add("calm");
-      li.textContent = isCalm ? "💚" : "💢";
-      emotionList.appendChild(li);
-    }
+  if (monsterHpText) {
+    monsterHpText.textContent =
+      `壞情緒 HP：${battleState.monsterHp} / ${battleState.monsterMax}`;
   }
 
-  // 裝備名稱顯示（含等級）
+  if (monsterAvatar) {
+    const monsterIconMap = {
+      forest:   "👹",
+      lake:     "🧜‍♀️",
+      cave:     "🧌",
+      grave:    "💀",
+      dungeon:  "🕸️",
+      ruins:    "🗿",
+      meadow:   "🟢",
+      mountain: "👾",
+      swamp:    "🦠",
+      boss:     "🐉"
+    };
+    monsterAvatar.textContent = monsterIconMap[stageId] || "👾";
+  }
+
+  // 裝備名稱顯示（含等級）——沿用你原本的邏輯
   if (heroEquipText) {
     const names = [];
     ["weapon", "armor", "accessory", "boots"].forEach(slot => {
@@ -598,21 +619,18 @@ function updateBattleUI(h, m, stageId) {
       if (!id) return;
       const item = EQUIP_ITEMS[slot].find(it => it.id === id);
       if (!item) return;
-
       let lv = equipLevels[id];
       if (lv == null) lv = 1;
-
       names.push(`${item.name} Lv.${lv}`);
     });
     heroEquipText.textContent = names.length ? names.join("／") : "尚未裝備";
   }
 
-  // 裝備＋等級加成說明
+  // 裝備＋等級加成說明——沿用你原本的邏輯
   if (heroBuffText) {
     const s   = getEquipStats();
     const lvB = getLevelBonus();
     const buffs = [];
-
     if (lvB.atk || lvB.def) {
       buffs.push(`等級加成：攻擊 +${lvB.atk}、防禦 +${lvB.def}`);
     }
@@ -620,7 +638,6 @@ function updateBattleUI(h, m, stageId) {
     if (s.def)  buffs.push(`裝備防禦 +${s.def}`);
     if (s.luck) buffs.push(`幸運 +${s.luck}`);
     if (s.agi)  buffs.push(`敏捷 +${s.agi}`);
-
     heroBuffText.textContent = buffs.length
       ? buffs.join("；")
       : "目前沒有額外加成";
