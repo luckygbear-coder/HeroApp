@@ -286,9 +286,10 @@ document.addEventListener("DOMContentLoaded", () => {
       initTarotPage();
       break;
     case "shop":
+      // 同一頁同時準備「補給商店」和「裝備坊」
       initShopPage();
+      initEquipPage();
       break;
-  }
 });
 
 /* ==========================================================
@@ -1219,53 +1220,65 @@ function renderTarotHistory() {
   listEl.innerHTML = rows.join("");
 }
 /* ==========================================================
-   商店 shop.html
+   商店＋裝備坊（同頁分頁） shop.html
    ========================================================== */
 function initShopPage() {
-  const starText  = document.getElementById("shopStars");
-  const honeyText = document.getElementById("shopHoneyCount");
-  const sSmall    = document.getElementById("shopAppleSmallCount");
-  const sBig      = document.getElementById("shopAppleBigCount");
-  const sRevive   = document.getElementById("shopReviveCount");
+  const starText   = document.getElementById("shopStars");
+  const honeyText  = document.getElementById("shopHoneyCount");
+  const honeyText2 = document.getElementById("shopHoneyCount2");
+  const sSmall     = document.getElementById("shopAppleSmallCount");
+  const sBig       = document.getElementById("shopAppleBigCount");
+  const sRevive    = document.getElementById("shopReviveCount");
 
-  if (starText)  starText.textContent  = stars;
-  if (honeyText) honeyText.textContent = items.honey;
-  if (sSmall)    sSmall.textContent    = items.appleSmall;
-  if (sBig)      sBig.textContent      = items.appleBig;
-  if (sRevive)   sRevive.textContent   = items.revive;
+  // 數字顯示（補給商店）
+  if (starText)   starText.textContent   = stars;
+  if (honeyText)  honeyText.textContent  = items.honey;
+  if (honeyText2) honeyText2.textContent = items.honey;
+  if (sSmall)     sSmall.textContent     = items.appleSmall;
+  if (sBig)       sBig.textContent       = items.appleBig;
+  if (sRevive)    sRevive.textContent    = items.revive;
 
+  // 綁定購買按鈕
   document.querySelectorAll(".shop-buy-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       buyItem(btn.dataset.item, btn.dataset.label);
     });
   });
-}
 
-function buyItem(type, label) {
-  const COST = {
-    appleSmall: 1,
-    appleBig: 5,
-    revive: 10,
-    honey: 6
-  };
+  // 分頁切換：補給商店 ↔ 裝備坊
+  const shopTabBtn   = document.getElementById("shopTabBtn");
+  const equipTabBtn  = document.getElementById("equipTabBtn");
+  const shopSection  = document.getElementById("shopSection");
+  const equipSection = document.getElementById("equipSection");
 
-  const cost = COST[type];
-  if (cost == null) return;
+  if (shopTabBtn && equipTabBtn && shopSection && equipSection) {
+    const switchTo = (panel) => {
+      const toShop  = panel === "shop";
 
-  if (stars < cost) {
-    alert("勇氣星星不足，先多安撫幾隻魔物吧！");
-    return;
+      shopTabBtn.classList.toggle("active", toShop);
+      equipTabBtn.classList.toggle("active", !toShop);
+
+      shopSection.classList.toggle("active", toShop);
+      equipSection.classList.toggle("active", !toShop);
+    };
+
+    // 小彈跳動畫（加上 pop class，再在動畫結束後移除）
+    const addPop = (btn) => {
+      btn.classList.remove("pop");
+      void btn.offsetWidth;   // 強制重排，讓動畫可以重播
+      btn.classList.add("pop");
+    };
+
+    shopTabBtn.addEventListener("click", () => {
+      switchTo("shop");
+      addPop(shopTabBtn);
+    });
+    equipTabBtn.addEventListener("click", () => {
+      switchTo("equip");
+      addPop(equipTabBtn);
+    });
   }
-
-  stars -= cost;
-  items[type] += 1;
-  save("stars", stars);
-  save("items", items);
-
-  alert(`成功購買 ${label}！`);
-  initShopPage();
 }
-
 /* ==========================================================
    兔兔工匠的裝備坊 equip.html（可升級版＋可切換）
    ========================================================== */
