@@ -574,6 +574,8 @@ body[data-page="battle"] .card {
 .equip-btn:active {
   transform: translateY(1px);
   box-shadow: none;
+}
+
 /* ===========================
    底部導覽列
    =========================== */
@@ -584,11 +586,12 @@ body[data-page="battle"] .card {
   background: #ffeec9;
 }
 
+/* 這裡再定義一次 game-wrap，主要是預留底部導覽的空間 */
 .game-wrap {
   max-width: 480px;
   margin: 0 auto;
   padding: 16px;
-  padding-bottom: 96px; /* 預留空間給底部導覽 */
+  padding-bottom: 96px; /* 預留空間給底部導覽，避免內容被擋住 */
 }
 
 /* 主體卡片既有樣式如有就保留，這裡只補一點 */
@@ -596,7 +599,7 @@ body[data-page="battle"] .card {
   text-align: left;
 }
 
-/* 首頁的兩個主選單行高漂亮一點 */
+/* 首頁主選單：行高漂亮一點（需要再用可以用這兩個 class） */
 .home-menu-btn {
   display: flex;
   flex-direction: column;
@@ -660,10 +663,10 @@ body[data-page="battle"] .card {
   text-decoration: none;
   box-shadow: 0 4px 10px rgba(0,0,0,0.18);
   position: relative;
-  transform: translateY(-10px); /* 如果想跟其它平行，可改成 0 或 -4 */
+  transform: translateY(-6px); /* 想跟其他平行就調成 0～-4 之間 */
 }
 
-/* 目前頁面的高亮（搭配 script.js 裡的 data-nav 判斷） */
+/* 目前頁面的高亮（之後要配 script 或手動加 .active） */
 .bottom-nav .nav-item.active,
 .bottom-nav .star-btn.active {
   color: #ff8a00;
@@ -671,5 +674,4 @@ body[data-page="battle"] .card {
 
 .bottom-nav .nav-item.active .label {
   font-weight: 600;
-}
 }
