@@ -1,424 +1,124 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <title>冒險者天堂｜小勇者之旅大冒險</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- 你原本的 style.css -->
-  <link rel="stylesheet" href="style.css" />
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(#b8e9ff, #c6f2c5);
-    }
-
-    .app-wrap {
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding-bottom: 72px; /* 給底部導覽留空間 */
-      box-sizing: border-box;
-    }
-
-    /* ===== 主畫面 Header ===== */
-    .home-header {
-      padding: 24px 20px 12px;
-      color: #6b3b1f;
-    }
-    .home-title-en {
-      font-size: 14px;
-      letter-spacing: 0.2em;
-      opacity: 0.9;
-    }
-    .home-title-zh {
-      font-size: 24px;
-      font-weight: 700;
-      margin-top: 4px;
-    }
-    .home-subtitle {
-      font-size: 13px;
-      margin-top: 2px;
-      color: #8b5f3a;
-    }
-
-    .home-hero-row {
-      display: flex;
-      align-items: center;
-      margin-top: 20px;
-      gap: 12px;
-    }
-    .bear-avatar-wrap {
-      position: relative;
-    }
-    .bear-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 4px solid #ffdfaa;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      background: #f6c38b url("images/bear-avatar.png") center/cover no-repeat;
-    }
-    .bear-bubble {
-      position: absolute;
-      right: -6px;
-      bottom: 0;
-      background: #fff7d9;
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 12px;
-      border: 1px solid #f2c46a;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .small-hero {
-      margin-left: auto;
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: #ffeec9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-      font-size: 24px;
-    }
-
-    /* ===== 三個大選單卡片 ===== */
-    .home-main {
-      padding: 8px 16px 24px;
-    }
-    .home-card-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .home-card {
-      border-radius: 18px;
-      border: 1px solid #f0d6a4;
-      background: #fff7e6;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-align: left;
-      cursor: pointer;
-    }
-    .home-card-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .home-card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      border: 1px solid #f3c98e;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      background: #fff;
-    }
-    .home-card-text-main {
-      font-size: 16px;
-      font-weight: 600;
-      color: #7a4a24;
-    }
-    .home-card-text-sub {
-      font-size: 12px;
-      color: #a17a4f;
-      margin-top: 2px;
-    }
-    .home-card-arrow {
-      font-size: 18px;
-      color: #c9a469;
-    }
-
-    /* ===== 新手村：小故事 & IG 區 ===== */
-    .story-card-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .story-card-text {
-      font-size: 13px;
-      line-height: 1.6;
-      color: #7a5a3b;
-    }
-    .ig-link-btn {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: #ffa95a;
-      color: #fff;
-      font-size: 13px;
-      text-decoration: none;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    }
-
-    /* ===== 新手村：選擇勇者區（先隱藏） ===== */
-    #villageSection {
-      margin-top: 20px;
-      padding: 16px;
-      background: rgba(255, 247, 230, 0.95);
-      border-radius: 20px 20px 0 0;
-      border-top: 2px solid #f0cf93;
-      display: none; /* ← 一開始先不顯示，按「小勇者大冒險」才打開 */
-    }
-    #villageSection h2 {
-      margin: 0 0 8px;
-      font-size: 18px;
-      color: #7a4a24;
-    }
-    #villageSection p {
-      margin: 0 0 12px;
-      font-size: 13px;
-      color: #9b6b3a;
-    }
-
-    .hero-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      border: 1px solid #f0d6a4;
-      cursor: pointer;
-    }
-    .hero-card.active {
-      border-color: #ff9f4a;
-      box-shadow: 0 0 0 2px rgba(255,159,74,0.35);
-      background: #fff3df;
-    }
-    .hero-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: #7a4a24;
-    }
-    .hero-fist {
-      font-size: 13px;
-      color: #a17a4f;
-      margin-top: 2px;
-    }
-
-    #heroStoryBox {
-      display: none;
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: #fff;
-      border: 1px solid #f0d6a4;
-      font-size: 13px;
-      color: #7a4a24;
-    }
-    #confirmHeroBtn {
-      display: none;
-      width: 100%;
-      margin-top: 12px;
-      padding: 10px 0;
-      border-radius: 999px;
-      border: none;
-      background: #ff9f4a;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 600;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.18);
-    }
-
-    /* ===== 底部導覽列 ===== */
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 0;
-      max-width: 480px;
-      width: 100%;
-      background: #fffaf0;
-      border-top: 1px solid #f0d6a4;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 6px 8px 10px;
-      box-sizing: border-box;
-      z-index: 20;
-    }
-    .nav-item {
-      flex: 1;
-      text-align: center;
-      font-size: 11px;
-      color: #b38b5c;
-    }
-    .nav-item span {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 2px;
-    }
-    .nav-item.active {
-      color: #ff9f4a;
-      font-weight: 600;
-    }
-
-    .nav-star-center {
-      position: relative;
-      top: -14px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #ff9f4a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      color: #fff;
-      border: 3px solid #fffaf0;
-      font-size: 24px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>村長的家｜小勇者之旅大冒險</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body data-page="index">
-  <div class="app-wrap">
+<div class="app-wrap">
 
-    <!-- ===== 上方主畫面 ===== -->
-    <header class="home-header">
-      <div class="home-title-en">ADVENTURER'S PARADISE</div>
-      <div class="home-title-zh">冒險者天堂</div>
-      <div class="home-subtitle">小勇者之旅大冒險</div>
+  <!-- ====== 頁首 ====== -->
+  <header class="home-header">
+    <div class="home-title-en">ADVENTURER'S PARADISE</div>
+    <div class="home-title-zh">村長的家</div>
+    <div class="home-subtitle">歡迎回來，小勇者！</div>
 
-      <div class="home-hero-row">
-        <div class="bear-avatar-wrap">
-          <div class="bear-avatar"></div>
-          <div class="bear-bubble">嗨！一起出發冒險吧～</div>
-        </div>
-
-        <div class="small-hero">
-          🧒
-        </div>
+    <div class="home-hero-row">
+      <div class="bear-avatar-wrap">
+        <div class="bear-avatar"></div>
+        <div class="bear-bubble">今天想聽個小故事嗎？</div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <!-- ===== 三個主選單按鈕 ===== -->
-    <main class="home-main">
-      <section class="home-card-list">
+  <!-- ====== 小故事 ====== -->
+  <main class="home-main">
 
-        <!-- 熊熊村莊：捲到小故事區 -->
-        <button class="home-card" id="goVillageBtn" type="button">
-          <div class="home-card-left">
-            <div class="home-card-icon">🏡</div>
-            <div>
-              <div class="home-card-text-main">熊熊村莊</div>
-              <div class="home-card-text-sub">跟村長熊熊一起認識小勇者</div>
-            </div>
+    <section class="story-card">
+      <h2>🐻 熊熊村長的小故事</h2>
+      <p>
+        很久以前，星星王國突然被壞情緒魔物包圍。
+        熊熊村長四處尋找能帶來希望的孩子，
+        而他發現 —— 你，就是那位擁有柔軟心靈的小勇者！
+      </p>
+      <p>從今天起，熊熊村長會陪你一起走過這段冒險旅程。</p>
+    </section>
+
+    <!-- IG 連結 -->
+    <section class="story-card" style="margin-top:12px;">
+      <h2>📸 熊熊村長的 IG</h2>
+      <p>想看更多故事、卡牌、創作？歡迎來找熊熊！</p>
+      <a href="https://instagram.com/luckygbear" 
+         style="display:block;margin-top:8px;font-size:14px;color:#ff914d;">
+         👉 @luckygbear
+      </a>
+    </section>
+
+    <!-- ====== 主選單 ====== -->
+    <section class="home-card-list" style="margin-top:18px;">
+
+      <!-- 冒險 -->
+      <button class="home-card" onclick="goAdventure()">
+        <div class="home-card-left">
+          <div class="home-card-icon">🗺</div>
+          <div>
+            <div class="home-card-text-main">小勇者大冒險</div>
+            <div class="home-card-text-sub">進入星星王國地圖</div>
           </div>
-          <div class="home-card-arrow">›</div>
-        </button>
-
-        <!-- 小勇者大冒險：若未選勇者→打開下面勇者選單；已有勇者→直接去地圖 -->
-        <button class="home-card" id="goAdventureBtn" type="button">
-          <div class="home-card-left">
-            <div class="home-card-icon">🗺</div>
-            <div>
-              <div class="home-card-text-main">小勇者大冒險</div>
-              <div class="home-card-text-sub">選好夥伴後，一起前往星星王國地圖</div>
-            </div>
-          </div>
-          <div class="home-card-arrow">›</div>
-        </button>
-
-        <!-- 熊熊占卜：前往塔羅占卜屋 -->
-        <button class="home-card" type="button" onclick="window.location.href='tarot.html'">
-          <div class="home-card-left">
-            <div class="home-card-icon">🔮</div>
-            <div>
-              <div class="home-card-text-main">熊熊占卜</div>
-              <div class="home-card-text-sub">用嗡嗡蜂蜜換取暖心指引</div>
-            </div>
-          </div>
-          <div class="home-card-arrow">›</div>
-        </button>
-
-      </section>
-
-      <!-- ===== 小故事區 ===== -->
-      <section class="card" id="homeStory">
-        <div class="story-card-title">今天的冒險小故事</div>
-        <p class="story-card-text">
-          很久以前，在星星王國裡，每一顆星星都藏著一位小勇者的願望。
-          當你覺得有一點點害怕、或有一點點不開心時，
-          村長熊熊就會拿出他的冒險筆記，陪你一起把心裡的故事說出來。
-          <br><br>
-          你現在的心情，也是這本筆記裡最重要的一頁喔 🌟
-        </p>
-      </section>
-
-      <!-- ===== 熊熊村長 IG 區 ===== -->
-      <section class="card" id="homeIG">
-        <div class="story-card-title">追蹤熊熊村長 IG</div>
-        <p class="story-card-text">
-          想看更多小勇者插畫、暖心語錄和遊戲更新，
-          可以到 Instagram 找「<b>luckygbear</b>」，跟熊熊打招呼。
-        </p>
-        <a
-          class="ig-link-btn"
-          href="https://www.instagram.com/luckygbear"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          🐻 前往熊熊村長 IG
-        </a>
-      </section>
-
-      <!-- ===== 選擇小勇者區（按小勇者大冒險才會打開） ===== -->
-      <section id="villageSection">
-        <h2>選擇你的第一位小勇者</h2>
-        <p>每一位小勇者都有不同的天賦拳與故事，選一位一起出發吧！</p>
-
-        <div id="heroList"></div>
-
-        <div id="heroStoryBox">
-          <div id="heroStoryText"></div>
-          <div id="heroLineText" style="margin-top:4px;"></div>
-          <div id="heroAbilityText" style="margin-top:4px;"></div>
         </div>
-
-        <button id="confirmHeroBtn">確認小勇者，前往地圖！</button>
-      </section>
-    </main>
-
-    <!-- ===== 底部導覽列 ===== -->
-    <nav class="bottom-nav">
-      <a class="nav-item active" href="index.html">
-        <span>🏠</span>
-        首頁
-      </a>
-      <a class="nav-item" href="map.html">
-        <span>🗺</span>
-        冒險
-      </a>
-
-      <button class="nav-star-center" type="button" onclick="window.location.href='tarot.html'">
-        ⭐
+        <div class="home-card-arrow">›</div>
       </button>
 
-      <a class="nav-item" href="shop.html">
-        <span>🛍</span>
-        商店
-      </a>
-      <a class="nav-item" href="#homeIG">
-        <span>🐻</span>
-        我的
-      </a>
-    </nav>
-  </div>
+      <!-- 占卜 -->
+      <button class="home-card" onclick="location.href='tarot.html'">
+        <div class="home-card-left">
+          <div class="home-card-icon">🔮</div>
+          <div>
+            <div class="home-card-text-main">熊熊占卜</div>
+            <div class="home-card-text-sub">抽塔羅 × 聽村長暖心提醒</div>
+          </div>
+        </div>
+        <div class="home-card-arrow">›</div>
+      </button>
 
-  <!-- 共用 script.js -->
-  <script src="script.js"></script>
+      <!-- 商店 -->
+      <button class="home-card" onclick="location.href='shop.html'">
+        <div class="home-card-left">
+          <div class="home-card-icon">🛒</div>
+          <div>
+            <div class="home-card-text-main">冒險商店</div>
+            <div class="home-card-text-sub">購買道具提升戰力</div>
+          </div>
+        </div>
+        <div class="home-card-arrow">›</div>
+      </button>
+
+    </section>
+  </main>
+</div>
+
+<!-- ====== 底部導覽列 ====== -->
+<nav class="bottom-nav">
+  <a class="nav-item active" href="index.html">
+    <span>🐻</span>村長的家
+  </a>
+  <a class="nav-item" href="map.html">
+    <span>🗺</span>冒險
+  </a>
+  <button class="nav-star-center" onclick="location.href='tarot.html'">
+    ⭐
+  </button>
+  <a class="nav-item" href="shop.html">
+    <span>🛍</span>商店
+  </a>
+  <a class="nav-item" href="choose-hero.html">
+    <span>⚔️</span>勇者
+  </a>
+</nav>
+
+<script>
+function goAdventure() {
+  const hero = localStorage.getItem("hero");
+  if (!hero) {
+    location.href = "choose-hero.html";
+  } else {
+    location.href = "map.html";
+  }
+}
+</script>
+
 </body>
 </html>
