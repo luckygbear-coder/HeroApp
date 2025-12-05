@@ -366,6 +366,11 @@ function initIndexPage() {
 /* ==========================================================
    地圖 map.html（九宮格 9 魔物＋魔王解鎖）
    ========================================================== */
+if (!hero) {
+  alert("請先選擇一位小勇者！");
+  location.href = "choose-hero.html";
+  return;
+}
 function initMapPage() {
   const grid = document.getElementById("mapGrid");
   if (!grid) return;
