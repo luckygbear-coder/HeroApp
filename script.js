@@ -1130,7 +1130,7 @@ function drawTarotCard() {
   };
 }
 
-/* ---------- 顯示單張卡片＋「更多說明」按鈕 ---------- */
+/* ---------- 顯示單張卡片＋「更多說明」按鈕＋翻牌動畫 ---------- */
 function showTarotCard(pos, card) {
   // pos 為 "Past" / "Present" / "Future"
   const nameEl    = document.getElementById(`tarot${pos}Name`);
@@ -1141,6 +1141,7 @@ function showTarotCard(pos, card) {
 
   const shortText = makeShortText(card.meaning);
 
+  // 文字內容
   nameEl.textContent    = card.name;
   if (orientEl) orientEl.textContent = card.orientation;
   meaningEl.textContent = shortText;
@@ -1150,7 +1151,10 @@ function showTarotCard(pos, card) {
   meaningEl.dataset.short    = shortText;
   meaningEl.dataset.expanded = "0";
 
-  // 建立或更新「更多說明」按鈕
+  // 找到外層卡片元素（用來加翻牌動畫 class）
+  const cardBox = meaningEl.closest(".tarot-card");
+
+  // ------- 更多說明按鈕 -------
   let moreBtn = document.getElementById(`tarot${pos}More`);
   if (!moreBtn) {
     moreBtn = document.createElement("button");
@@ -1158,7 +1162,6 @@ function showTarotCard(pos, card) {
     moreBtn.className = "tarot-more-btn";
     moreBtn.type = "button";
 
-    const cardBox = meaningEl.closest(".tarot-card");
     if (cardBox) {
       cardBox.appendChild(moreBtn);
     }
@@ -1177,6 +1180,15 @@ function showTarotCard(pos, card) {
       moreBtn.textContent         = "收合說明";
     }
   };
+
+  // ------- 翻牌動畫 -------
+  if (cardBox) {
+    // 先移除再加上，讓每次抽牌都會重新播放動畫
+    cardBox.classList.remove("flipped");
+    // 讀一次 offsetWidth 觸發 reflow，讓瀏覽器認為狀態重來
+    void cardBox.offsetWidth;
+    cardBox.classList.add("flipped");
+  }
 }
 
 /* ---------- 占卜紀錄列表（右上角按鈕打開的 Modal） ---------- */
