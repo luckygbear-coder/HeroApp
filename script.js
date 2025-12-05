@@ -1,5 +1,6 @@
 /* ==========================================================
-   小勇者之旅大冒險 ｜ script.js（九宮格＋裝備升級＋可切換版）
+   小勇者之旅大冒險 ｜ script.js
+   （首頁＝村長的家＋九宮格地圖＋裝備升級＋熊熊暖心占卜紀錄）
    ========================================================== */
 
 /* ---------- LocalStorage 工具 ---------- */
@@ -263,14 +264,14 @@ let battleState = {
    入口：依頁面啟動
    ========================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-  const page = document.body.dataset.page;
+  const page = document.body.dataset.page || "index";
 
   switch (page) {
-    case "chooseHero":
-      initIndexPage(); // 勇者選擇共用之前的功能
-      break;
     case "index":
-      initIndexPage();
+      initHomePage();         // 村長的家：小故事＋主選單
+      break;
+    case "chooseHero":
+      initChooseHeroPage();   // 選擇小勇者專用頁面
       break;
     case "map":
       initMapPage();
@@ -291,45 +292,34 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ==========================================================
-   新手村 index.html
+   首頁：村長的家 index.html
    ========================================================== */
-function initIndexPage() {
-  // 上方三個大按鈕
-  const btnVillage   = document.getElementById("goVillageBtn");
+function initHomePage() {
   const adventureBtn = document.getElementById("goAdventureBtn");
 
-  // 點「熊熊村莊」：捲到小故事區
-  if (btnVillage) {
-    btnVillage.addEventListener("click", () => {
-      const sec = document.getElementById("homeStory");
-      if (sec) sec.scrollIntoView({ behavior: "smooth" });
-    });
-  }
-
-  // 點「小勇者大冒險」
+  // 點「小勇者大冒險」：沒選勇者 → 去 choose-hero；有勇者 → 直接去地圖
   if (adventureBtn) {
     adventureBtn.addEventListener("click", () => {
-      if (!hero) {
-        // 還沒選勇者 → 打開下面的村莊選角區
-        const sec = document.getElementById("villageSection");
-        if (sec) {
-          sec.style.display = "block";
-          sec.scrollIntoView({ behavior: "smooth" });
-        }
+      const heroData = localStorage.getItem("hero");
+      if (!heroData) {
+        window.location.href = "choose-hero.html";
       } else {
-        // 已經有選過勇者 → 直接去地圖
         window.location.href = "map.html";
       }
     });
   }
+}
 
-  // === 以下是原本的「建立勇者選單」 ===
-  const heroListDiv   = document.getElementById("heroList");
-  const storyBox      = document.getElementById("heroStoryBox");
-  const storyText     = document.getElementById("heroStoryText");
-  const lineText      = document.getElementById("heroLineText");
-  const abilityText   = document.getElementById("heroAbilityText");
-  const confirmBtn    = document.getElementById("confirmHeroBtn");
+/* ==========================================================
+   選擇小勇者頁：choose-hero.html
+   ========================================================== */
+function initChooseHeroPage() {
+  const heroListDiv = document.getElementById("heroList");
+  const storyBox    = document.getElementById("heroStoryBox");
+  const storyText   = document.getElementById("heroStoryText");
+  const lineText    = document.getElementById("heroLineText");
+  const abilityText = document.getElementById("heroAbilityText");
+  const confirmBtn  = document.getElementById("confirmHeroBtn");
 
   if (!heroListDiv) return;
 
@@ -349,29 +339,33 @@ function initIndexPage() {
       [...heroListDiv.children].forEach(c => c.classList.remove("active"));
       div.classList.add("active");
 
-      storyBox.style.display = "block";
-      storyText.textContent = h.story;
-      lineText.textContent = "口頭禪：" + h.line;
-      abilityText.textContent = "能力：" + h.ability;
-      confirmBtn.style.display = "block";
+      if (storyBox)   storyBox.style.display = "block";
+      if (storyText)  storyText.textContent  = h.story;
+      if (lineText)   lineText.textContent   = "口頭禪：" + h.line;
+      if (abilityText) abilityText.textContent = "能力：" + h.ability;
+      if (confirmBtn) confirmBtn.style.display = "block";
     });
     heroListDiv.appendChild(div);
   });
 
-  // 選好勇者 → 直接前往地圖
-  confirmBtn.addEventListener("click", () => {
-    window.location.href = "map.html";
-  });
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", () => {
+      window.location.href = "map.html";
+    });
+  }
 }
+
 /* ==========================================================
    地圖 map.html（九宮格 9 魔物＋魔王解鎖）
    ========================================================== */
-if (!hero) {
-  alert("請先選擇一位小勇者！");
-  location.href = "choose-hero.html";
-  return;
-}
 function initMapPage() {
+  // 保護：如果還沒有選勇者，就導回選角頁
+  if (!hero) {
+    alert("請先選擇一位小勇者！");
+    window.location.href = "choose-hero.html";
+    return;
+  }
+
   const grid = document.getElementById("mapGrid");
   if (!grid) return;
 
@@ -485,8 +479,8 @@ function initBattlePage() {
     return;
   }
   if (!hero) {
-    alert("請先在新手村選擇小勇者！");
-    window.location.href = "index.html";
+    alert("請先選擇小勇者！");
+    window.location.href = "choose-hero.html";
     return;
   }
 
@@ -790,7 +784,7 @@ function heroDefeated(h, m, stageId) {
     return;
   }
 
-  alert("小勇者累壞了…先回新手村好好休息一下吧！");
+  alert("小勇者累壞了…先回村長的家好好休息一下吧！");
   window.location.href = "index.html";
 }
 
@@ -847,8 +841,9 @@ function getRandomBearHugMessage() {
 }
 
 /* ==========================================================
-   占卜 tarot.html
+   占卜 tarot.html（含歷史紀錄）
    ========================================================== */
+
 const TAROT_CARDS = [
   {
     name: "太陽",
@@ -869,6 +864,17 @@ const TAROT_CARDS = [
     bear: "能說出『我不喜歡這樣』，本身就是一種很大的勇氣。"
   }
 ];
+
+// 占卜歷史記錄 key
+const TAROT_HISTORY_KEY = "tarotHistory";
+
+function loadTarotHistory() {
+  return load(TAROT_HISTORY_KEY, []);
+}
+
+function saveTarotHistory(list) {
+  save(TAROT_HISTORY_KEY, list);
+}
 
 function initTarotPage() {
   const honeyLabel = document.getElementById("honeyCount");
@@ -898,6 +904,9 @@ function initTarotPage() {
   if (drawBtn) {
     drawBtn.addEventListener("click", doTarot);
   }
+
+  // 一進占卜頁就把歷史紀錄畫出來
+  renderTarotHistory();
 }
 
 function doTarot() {
@@ -921,6 +930,20 @@ function doTarot() {
 
   const bearMsg = document.getElementById("tarotBearMessage");
   if (bearMsg) bearMsg.textContent = "熊熊村長：" + future.bear;
+
+  // 把本次占卜結果存入歷史紀錄（附時間）
+  const history = loadTarotHistory();
+  const now = new Date();
+  history.push({
+    time: now.toLocaleString(),  // 例如：2025/12/05 21:30:12
+    past,
+    present,
+    future
+  });
+  saveTarotHistory(history);
+
+  // 重新渲染歷史列表
+  renderTarotHistory();
 }
 
 function drawTarotCard() {
@@ -941,6 +964,35 @@ function showTarotCard(pos, card) {
   if (nameEl)    nameEl.textContent    = card.name;
   if (orientEl)  orientEl.textContent  = card.orientation;
   if (meaningEl) meaningEl.textContent = card.meaning;
+}
+
+// 畫出占卜歷史紀錄（若 HTML 裡有 <ul id="tarotHistoryList">）
+function renderTarotHistory() {
+  const listEl = document.getElementById("tarotHistoryList");
+  if (!listEl) return;
+
+  const history = loadTarotHistory();
+  if (!history.length) {
+    listEl.innerHTML = '<li class="tarot-history-empty">目前還沒有占卜紀錄～</li>';
+    return;
+  }
+
+  // 最新的在最上面
+  const rows = history
+    .slice()
+    .reverse()
+    .map(entry => `
+      <li class="tarot-history-item">
+        <div class="tarot-history-time">📅 ${entry.time}</div>
+        <div class="tarot-history-cards">
+          <div>過去：${entry.past.name}（${entry.past.orientation}）- ${entry.past.meaning}</div>
+          <div>現在：${entry.present.name}（${entry.present.orientation}）- ${entry.present.meaning}</div>
+          <div>未來：${entry.future.name}（${entry.future.orientation}）- ${entry.future.meaning}</div>
+        </div>
+      </li>
+    `);
+
+  listEl.innerHTML = rows.join("");
 }
 
 /* ==========================================================
