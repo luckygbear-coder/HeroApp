@@ -1004,4 +1004,139 @@ body[data-page="home"] {
 .shop-switch-btn:hover {
   background: #f8d7a7;
 }
+/* ===========================
+   星星小商店 & 兔兔裝備坊（同頁分頁）
+   =========================== */
+
+.shop-header {
+  text-align: left;
+}
+
+.shop-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shop-npc-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #ffe7cf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.shop-npc-icon {
+  font-size: 32px;
+}
+
+.shop-npc-line {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #8a5b3b;
+}
+
+/* 分頁按鈕列 */
+.shop-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.shop-tab-btn {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #ffe7c7;
+  color: #7f5b39;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.shop-tab-btn.active {
+  background: #ffcf8b;
+  color: #81501e;
+  font-weight: 600;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+}
+
+/* 按下去彈一下的小動畫 */
+@keyframes tab-pop {
+  0%   { transform: translateY(0) scale(1); }
+  40%  { transform: translateY(1px) scale(0.97); }
+  100% { transform: translateY(-1px) scale(1); }
+}
+
+.shop-tab-btn.pop {
+  animation: tab-pop 0.18s ease-out;
+}
+
+/* 星星與蜂蜜總覽卡片 */
+.shop-summary-card {
+  font-size: 13px;
+}
+
+.shop-summary-title {
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+
+.shop-summary-row {
+  margin: 2px 0;
+}
+
+.shop-summary-tip {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #9b6d49;
+}
+
+/* 分頁面板：只顯示 active 的那個 */
+.shop-panel {
+  display: none;
+}
+
+.shop-panel.active {
+  display: block;
+}
+
+/* 裝備坊區塊微調 */
+.equip-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.equip-stars-info {
+  font-size: 13px;
+  color: #7a5742;
+}
+
+.equip-tip {
+  font-size: 12px;
+  color: #8a6a4c;
+  margin-top: 6px;
+}
+
+.equip-subtitle {
+  margin: 10px 0 4px;
+  font-size: 14px;
+  color: #7a4f32;
+}
+
+/* 讓商店與裝備坊卡片視覺一致 */
+.shop-section-title {
+  margin-top: 0;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
 }
