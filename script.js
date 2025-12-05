@@ -882,18 +882,19 @@ function initTarotPage() {
   if (honeyLabel) honeyLabel.textContent = items.honey;
   if (starLabel)  starLabel.textContent  = stars;
 
-  const hugBtn  = document.getElementById("bearHugBtn");
-  const drawBtn = document.getElementById("tarotDrawBtn");
+  const hugBtn     = document.getElementById("bearHugBtn");
+  const drawBtn    = document.getElementById("tarotDrawBtn");
+  const historyBtn = document.getElementById("openTarotHistoryBtn");
+  const historyModal = document.getElementById("tarotHistoryModal");
+  const historyClose = document.getElementById("closeTarotHistoryBtn");
 
   // 熊熊抱抱：隨機暖心語錄
   if (hugBtn) {
     hugBtn.addEventListener("click", () => {
       const msg = getRandomBearHugMessage();
 
-      // 跳出對話框
       alert("🐻 熊熊抱抱～\n\n" + msg);
 
-      // 同步更新下面「熊熊村長」文字區塊
       const bearMsgBox = document.getElementById("tarotBearMessage");
       if (bearMsgBox) {
         bearMsgBox.textContent = "熊熊村長：" + msg;
@@ -905,94 +906,19 @@ function initTarotPage() {
     drawBtn.addEventListener("click", doTarot);
   }
 
-  // 一進占卜頁就把歷史紀錄畫出來
-  renderTarotHistory();
-}
-
-function doTarot() {
-  if (items.honey <= 0) {
-    alert("需要 🍯 嗡嗡蜂蜜才能請熊熊村長占卜喔！");
-    return;
+  // 打開／關閉占卜紀錄視窗
+  if (historyBtn && historyModal && historyClose) {
+    historyBtn.addEventListener("click", () => {
+      historyModal.classList.add("show");
+      renderTarotHistory();   // 每次打開都重新畫一次
+    });
+    historyClose.addEventListener("click", () => {
+      historyModal.classList.remove("show");
+    });
   }
 
-  items.honey -= 1;
-  save("items", items);
-  const honeyLabel = document.getElementById("honeyCount");
-  if (honeyLabel) honeyLabel.textContent = items.honey;
-
-  const past    = drawTarotCard();
-  const present = drawTarotCard();
-  const future  = drawTarotCard();
-
-  showTarotCard("Past", past);
-  showTarotCard("Present", present);
-  showTarotCard("Future", future);
-
-  const bearMsg = document.getElementById("tarotBearMessage");
-  if (bearMsg) bearMsg.textContent = "熊熊村長：" + future.bear;
-
-  // 把本次占卜結果存入歷史紀錄（附時間）
-  const history = loadTarotHistory();
-  const now = new Date();
-  history.push({
-    time: now.toLocaleString(),  // 例如：2025/12/05 21:30:12
-    past,
-    present,
-    future
-  });
-  saveTarotHistory(history);
-
-  // 重新渲染歷史列表
+  // 進入占卜頁時，先把歷史記錄好好準備好
   renderTarotHistory();
-}
-
-function drawTarotCard() {
-  const card = TAROT_CARDS[Math.floor(Math.random() * TAROT_CARDS.length)];
-  const upright = Math.random() < 0.5;
-  return {
-    name: card.name,
-    orientation: upright ? "正位" : "逆位",
-    meaning: upright ? card.upright : card.reverse,
-    bear: card.bear
-  };
-}
-
-function showTarotCard(pos, card) {
-  const nameEl    = document.getElementById(`tarot${pos}Name`);
-  const orientEl  = document.getElementById(`tarot${pos}Orient`);
-  const meaningEl = document.getElementById(`tarot${pos}Meaning`);
-  if (nameEl)    nameEl.textContent    = card.name;
-  if (orientEl)  orientEl.textContent  = card.orientation;
-  if (meaningEl) meaningEl.textContent = card.meaning;
-}
-
-// 畫出占卜歷史紀錄（若 HTML 裡有 <ul id="tarotHistoryList">）
-function renderTarotHistory() {
-  const listEl = document.getElementById("tarotHistoryList");
-  if (!listEl) return;
-
-  const history = loadTarotHistory();
-  if (!history.length) {
-    listEl.innerHTML = '<li class="tarot-history-empty">目前還沒有占卜紀錄～</li>';
-    return;
-  }
-
-  // 最新的在最上面
-  const rows = history
-    .slice()
-    .reverse()
-    .map(entry => `
-      <li class="tarot-history-item">
-        <div class="tarot-history-time">📅 ${entry.time}</div>
-        <div class="tarot-history-cards">
-          <div>過去：${entry.past.name}（${entry.past.orientation}）- ${entry.past.meaning}</div>
-          <div>現在：${entry.present.name}（${entry.present.orientation}）- ${entry.present.meaning}</div>
-          <div>未來：${entry.future.name}（${entry.future.orientation}）- ${entry.future.meaning}</div>
-        </div>
-      </li>
-    `);
-
-  listEl.innerHTML = rows.join("");
 }
 
 /* ==========================================================
