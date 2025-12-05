@@ -301,120 +301,185 @@ body {
   cursor: pointer;
 }
 
-/* ========= 戰鬥頁：嚴格固定一屏 ========= */
-body[data-page="battle"] .game-wrap {
-  padding-top: 6px;
+/* ========= 戰鬥頁：單畫面版 ========= */
+
+body[data-page="battle"] {
+  overflow: hidden;              /* 不讓整頁上下捲動 */
 }
 
-body[data-page="battle"] .card {
+body[data-page="battle"] .game-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 6px 8px 80px;         /* 預留底部導覽空間 */
+}
+
+/* 上方雙方狀態卡片 */
+.battle-top-card {
   margin-bottom: 6px;
   padding: 8px 10px;
 }
 
-/* 戰鬥資訊 */
-.status-card h2,
-.dialog-card h2,
-.battle-card h2 {
-  font-size: 14px;
-  margin: 0 0 4px;
-}
-
-.status-row {
+.battle-actors {
   display: flex;
+  flex-direction: column;
   gap: 6px;
 }
 
-.status-box {
-  flex: 1;
-  background: #fffdf8;
-  border-radius: 10px;
-  border: 1px solid #f2c9a4;
-  padding: 5px 6px;
-}
-
-.status-title {
-  font-weight: 600;
-  margin-bottom: 1px;
-  font-size: 11px;
-}
-
-.status-box p {
-  margin: 2px 0;
-  font-size: 11px;
-}
-
-/* 壞情緒條 */
-.emotion-bar {
-  margin-top: 6px;
-}
-#emotionList {
+.actor-row {
   display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 4px;
-}
-#emotionList li {
-  flex: 1;
-  font-size: 11px;
-  text-align: center;
-  padding: 3px 2px;
-  border-radius: 999px;
-  background: #ffd7dd;
-  color: #944;
-}
-#emotionList li.calm {
-  background: #e3f6d5;
-  color: #4a7b33;
+  align-items: center;
+  gap: 8px;
 }
 
-/* 對話紀錄（可捲動） */
+.hero-row {
+  background: #fffdf6;
+  border-radius: 12px;
+  padding: 6px 8px;
+}
+
+.monster-row {
+  background: #fff6f4;
+  border-radius: 12px;
+  padding: 6px 8px;
+}
+
+/* 頭像 */
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+
+.hero-avatar {
+  background: #ffe9c7;
+}
+
+.monster-avatar {
+  background: #ffd3d9;
+}
+
+.actor-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.actor-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.actor-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.actor-level {
+  font-size: 12px;
+  color: #a0674a;
+}
+
+.actor-stage {
+  font-size: 11px;
+  color: #8a6a4c;
+  margin-bottom: 1px;
+}
+
+.actor-hp {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.actor-sub-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #8a6a4c;
+}
+
+.actor-equip {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.actor-buff {
+  font-size: 11px;
+  color: #b07543;
+}
+
+/* 中間：對話區 */
+.dialog-card {
+  margin-bottom: 6px;
+  padding: 8px 10px;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.round-result {
+  color: #b15c36;
+  text-align: right;
+}
+
+/* 對話紀錄（可捲動的小框） */
 .dialog-box {
-  max-height: 70px;
+  max-height: 76px;
   overflow-y: auto;
   border-radius: 10px;
   border: 1px solid #f4d0b3;
   background: #fffdf8;
-  padding: 5px 6px;
+  padding: 4px 6px;
   font-size: 11px;
 }
 
-/* 出拳區 */
+/* 下方：出拳＋道具 */
+.battle-action-card {
+  padding: 8px 10px;
+}
+
 .battle-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
+  gap: 10px;
+  margin-bottom: 4px;
 }
 
-/* 大型圓形拳頭按鈕 */
+/* 巨大圓形拳頭按鈕 */
 .rps-btn.circle {
-  width: 70px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   border: none;
-  font-size: 32px;
+  font-size: 30px;
   background: #ffe8cc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
   cursor: pointer;
 }
 
-/* 道具籃 */
+/* 道具籃按鈕 */
 .item-bag-btn {
   margin-left: auto;
-  width: 58px;
-  height: 58px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   border: none;
-  font-size: 28px;
+  font-size: 24px;
   background: #ffe1f2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
   cursor: pointer;
-}
-
-/* 道具籃 Modal */
-#itemModal .modal-content p {
-  margin: 4px 0;
 }
 
 .item-use-btn {
