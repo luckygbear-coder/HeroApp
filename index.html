@@ -5,7 +5,7 @@
   <title>冒險者天堂｜小勇者之旅大冒險</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- 外部樣式，原本就有的就保留 -->
+  <!-- 你原本的 style.css -->
   <link rel="stylesheet" href="style.css" />
 
   <style>
@@ -51,21 +51,16 @@
       margin-top: 20px;
       gap: 12px;
     }
-
-    /* 熊熊村長頭像 */
     .bear-avatar-wrap {
       position: relative;
-      width: 90px;
-      height: 90px;
     }
     .bear-avatar {
-      width: 100%;
-      height: 100%;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       border: 4px solid #ffdfaa;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
       background: #f6c38b url("images/bear-avatar.png") center/cover no-repeat;
-      /* ▲ 這裡用的是 images/bear-avatar.png，和你的資料夾一致 */
     }
     .bear-bubble {
       position: absolute;
@@ -77,7 +72,6 @@
       font-size: 12px;
       border: 1px solid #f2c46a;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      white-space: nowrap;
     }
 
     .small-hero {
@@ -101,6 +95,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      margin-bottom: 16px;
     }
 
     .home-card {
@@ -146,13 +141,37 @@
       color: #c9a469;
     }
 
-    /* ===== 新手村：選擇勇者區 ===== */
+    /* ===== 新手村：小故事 & IG 區 ===== */
+    .story-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .story-card-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #7a5a3b;
+    }
+    .ig-link-btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #ffa95a;
+      color: #fff;
+      font-size: 13px;
+      text-decoration: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    /* ===== 新手村：選擇勇者區（先隱藏） ===== */
     #villageSection {
       margin-top: 20px;
       padding: 16px;
       background: rgba(255, 247, 230, 0.95);
       border-radius: 20px 20px 0 0;
       border-top: 2px solid #f0cf93;
+      display: none; /* ← 一開始先不顯示，按「小勇者大冒險」才打開 */
     }
     #villageSection h2 {
       margin: 0 0 8px;
@@ -246,12 +265,11 @@
       font-weight: 600;
     }
 
-    /* 中間星星按鈕：已經拉回來跟其他 icon 差不多平行 */
     .nav-star-center {
       position: relative;
-      top: 0; /* 原本是 -14px，現在拉回來 */
-      width: 56px;
-      height: 56px;
+      top: -14px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: #ff9f4a;
       display: flex;
@@ -290,7 +308,7 @@
     <main class="home-main">
       <section class="home-card-list">
 
-        <!-- 熊熊村莊：帶玩家去選勇者區塊 -->
+        <!-- 熊熊村莊：捲到小故事區 -->
         <button class="home-card" id="goVillageBtn" type="button">
           <div class="home-card-left">
             <div class="home-card-icon">🏡</div>
@@ -302,13 +320,13 @@
           <div class="home-card-arrow">›</div>
         </button>
 
-        <!-- 小勇者大冒險：進入地圖（九宮格） -->
-        <button class="home-card" type="button" onclick="window.location.href='map.html'">
+        <!-- 小勇者大冒險：若未選勇者→打開下面勇者選單；已有勇者→直接去地圖 -->
+        <button class="home-card" id="goAdventureBtn" type="button">
           <div class="home-card-left">
             <div class="home-card-icon">🗺</div>
             <div>
               <div class="home-card-text-main">小勇者大冒險</div>
-              <div class="home-card-text-sub">前往星星王國地圖，安撫魔物</div>
+              <div class="home-card-text-sub">選好夥伴後，一起前往星星王國地圖</div>
             </div>
           </div>
           <div class="home-card-arrow">›</div>
@@ -328,7 +346,36 @@
 
       </section>
 
-      <!-- ===== 新手村：選勇者區 ===== -->
+      <!-- ===== 小故事區 ===== -->
+      <section class="card" id="homeStory">
+        <div class="story-card-title">今天的冒險小故事</div>
+        <p class="story-card-text">
+          很久以前，在星星王國裡，每一顆星星都藏著一位小勇者的願望。
+          當你覺得有一點點害怕、或有一點點不開心時，
+          村長熊熊就會拿出他的冒險筆記，陪你一起把心裡的故事說出來。
+          <br><br>
+          你現在的心情，也是這本筆記裡最重要的一頁喔 🌟
+        </p>
+      </section>
+
+      <!-- ===== 熊熊村長 IG 區 ===== -->
+      <section class="card" id="homeIG">
+        <div class="story-card-title">追蹤熊熊村長 IG</div>
+        <p class="story-card-text">
+          想看更多小勇者插畫、暖心語錄和遊戲更新，
+          可以到 Instagram 找「<b>luckygbear</b>」，跟熊熊打招呼。
+        </p>
+        <a
+          class="ig-link-btn"
+          href="https://www.instagram.com/luckygbear"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          🐻 前往熊熊村長 IG
+        </a>
+      </section>
+
+      <!-- ===== 選擇小勇者區（按小勇者大冒險才會打開） ===== -->
       <section id="villageSection">
         <h2>選擇你的第一位小勇者</h2>
         <p>每一位小勇者都有不同的天賦拳與故事，選一位一起出發吧！</p>
@@ -364,27 +411,14 @@
         <span>🛍</span>
         商店
       </a>
-      <a class="nav-item" href="#villageSection">
+      <a class="nav-item" href="#homeIG">
         <span>🐻</span>
         我的
       </a>
     </nav>
   </div>
 
-  <!-- script.js 保留 -->
+  <!-- 共用 script.js -->
   <script src="script.js"></script>
-
-  <!-- 主畫面按鈕的小腳本 -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const btnVillage = document.getElementById("goVillageBtn");
-      if (btnVillage) {
-        btnVillage.addEventListener("click", function () {
-          const sec = document.getElementById("villageSection");
-          if (sec) sec.scrollIntoView({ behavior: "smooth" });
-        });
-      }
-    });
-  </script>
 </body>
 </html>
