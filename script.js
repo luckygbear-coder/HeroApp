@@ -787,6 +787,28 @@ function useItem(type, h, m, stageId) {
 }
 
 /* ==========================================================
+   熊熊暖心語錄（熊熊抱抱）
+   ========================================================== */
+
+const BEAR_HUG_MESSAGES = [
+  "你已經很棒很努力了，熊熊為你感到好驕傲 💛",
+  "就算今天有點累，明天的你還是充滿可能喔！",
+  "犯錯沒關係，代表你正在學習新東西。",
+  "如果覺得難過，可以先停下來抱抱自己一下。",
+  "你不需要變成別人眼中的完美，只要做喜歡的自己就好。",
+  "慢慢來也沒關係，每一步都是在前進。",
+  "遇到不開心的事，記得跟信任的大人或朋友說說。",
+  "即使現在看不到，未來還是有很多美好的驚喜在等你。",
+  "你值得被溫柔對待，也值得好好對自己溫柔。",
+  "謝謝你一直沒有放棄，熊熊會一直陪你一起走。"
+];
+
+function getRandomBearHugMessage() {
+  const i = Math.floor(Math.random() * BEAR_HUG_MESSAGES.length);
+  return BEAR_HUG_MESSAGES[i];
+}
+
+/* ==========================================================
    占卜 tarot.html
    ========================================================== */
 const TAROT_CARDS = [
@@ -819,20 +841,22 @@ function initTarotPage() {
   const hugBtn  = document.getElementById("bearHugBtn");
   const drawBtn = document.getElementById("tarotDrawBtn");
 
-if (hugBtn) {
-  hugBtn.addEventListener("click", () => {
-    const msg = getRandomBearHugMessage();
+  // 熊熊抱抱：隨機暖心語錄
+  if (hugBtn) {
+    hugBtn.addEventListener("click", () => {
+      const msg = getRandomBearHugMessage();
 
-    // 跳出對話框
-    alert("🐻 熊熊抱抱～\n\n" + msg);
+      // 跳出對話框
+      alert("🐻 熊熊抱抱～\n\n" + msg);
 
-    // 同步更新下面「熊熊村長」的文字區塊
-    const bearMsgBox = document.getElementById("tarotBearMessage");
-    if (bearMsgBox) {
-      bearMsgBox.textContent = "熊熊村長：" + msg;
-    }
-  });
-}
+      // 同步更新下面「熊熊村長」文字區塊
+      const bearMsgBox = document.getElementById("tarotBearMessage");
+      if (bearMsgBox) {
+        bearMsgBox.textContent = "熊熊村長：" + msg;
+      }
+    });
+  }
+
   if (drawBtn) {
     drawBtn.addEventListener("click", doTarot);
   }
