@@ -2,123 +2,151 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <title>商店｜小勇者之旅大冒險</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>小勇者之旅大冒險｜喵喵商人の道具店</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body data-page="shop">
-  <div class="game-wrap">
+<body class="page-wrap" data-page="shop">
+<div class="game-wrap">
 
-    <!-- 標題 -->
-    <section class="card title-card">
-      <h1>🐱 喵喵商人の道具店</h1>
-      <p class="subtitle">用勇氣星星購買道具，讓冒險更順利 ✨</p>
-    </section>
-
-    <!-- 分頁 -->
-    <nav class="top-nav">
-      <a class="nav-link" href="index.html">新手村</a>
-      <a class="nav-link" href="map.html">地圖</a>
-      <a class="nav-link" href="equip.html">裝備坊</a>
-      <a class="nav-link" href="tarot.html">占卜屋</a>
-      <a class="nav-link active" href="shop.html">商店</a>
-    </nav>
-
-    <!-- 星星與道具數量 -->
-    <section class="card">
-      <h2>目前資源</h2>
-      <p>⭐ 勇氣星星：<span id="shopStars">0</span> 顆</p>
-      <p>🍯 嗡嗡蜂蜜：<span id="shopHoneyCount">0</span> 罐</p>
-      <p>❤️ 小蘋果：<span id="shopAppleSmallCount">0</span> 顆</p>
-      <p>💖 大蘋果：<span id="shopAppleBigCount">0</span> 顆</p>
-      <p>⭐ 復活星星：<span id="shopReviveCount">0</span> 顆</p>
-    </section>
-
-    <!-- 商品列表 -->
-    <section class="card shop-card">
-      <h2>商品列表</h2>
-
-      <!-- 小蘋果 -->
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">❤️ 小蘋果（+1 HP）</p>
-          <p class="shop-desc">補 1 點血量，適合小受傷時使用。</p>
-          <p class="shop-price">價格：⭐ 1 顆</p>
-        </div>
-        <button
-          class="shop-buy-btn"
-          data-item="appleSmall"
-          data-label="小蘋果"
-        >
-          購買
-        </button>
-      </div>
-
-      <!-- 大蘋果 -->
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">💖 大蘋果（HP 全滿）</p>
-          <p class="shop-desc">一口咬下去，好心情與體力一次回滿！</p>
-          <p class="shop-price">價格：⭐ 5 顆</p>
-        </div>
-        <button
-          class="shop-buy-btn"
-          data-item="appleBig"
-          data-label="大蘋果"
-        >
-          購買
-        </button>
-      </div>
-
-      <!-- 復活星星 -->
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">⭐ 復活星星</p>
-          <p class="shop-desc">HP 歸零時可使用，讓小勇者重新站起來。</p>
-          <p class="shop-price">價格：⭐ 10 顆</p>
-        </div>
-        <button
-          class="shop-buy-btn"
-          data-item="revive"
-          data-label="復活星星"
-        >
-          購買
-        </button>
-      </div>
-
-      <!-- 嗡嗡蜂蜜 -->
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">🍯 嗡嗡蜂蜜</p>
-          <p class="shop-desc">熊熊村長占卜專用，每次占卜消耗 1 罐。</p>
-          <p class="shop-price">價格：⭐ 6 顆</p>
-        </div>
-        <button
-          class="shop-buy-btn"
-          data-item="honey"
-          data-label="嗡嗡蜂蜜"
-        >
-          購買
-        </button>
-      </div>
-    </section>
-
-    <!-- 返回地圖 -->
-    <section class="card">
-      <button
-        class="secondary-btn full"
-        onclick="window.location.href='map.html'"
-      >
-        ⬅️ 回冒險地圖
-      </button>
-    </section>
-
-    <footer class="footer">
-      <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
-    </footer>
+  <!-- 抬頭 -->
+  <div class="card title-card">
+    <h1>商店</h1>
+    <p class="subtitle">用勇氣星星換取道具與嗡嗡蜂蜜</p>
   </div>
 
-  <script src="script.js"></script>
+  <!-- 星星與蜂蜜狀態 -->
+  <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+    <div>⭐ 勇氣星星：<span id="shopStars">0</span></div>
+    <div>
+      🍯 嗡嗡蜂蜜：<span id="shopHoneyCount">0</span>
+    </div>
+  </div>
+
+  <!-- 道具列表 -->
+  <div class="card">
+    <h3 style="margin-top:0;">道具與補給</h3>
+
+    <!-- 小蘋果 -->
+    <div class="shop-item">
+      <div class="shop-item-main">
+        <div class="shop-item-title">🍎 小蘋果</div>
+        <div class="shop-item-desc">恢復 1 點 HP，適合小小休息一下。</div>
+        <div class="shop-item-info">
+          花費：⭐ 1　｜　持有數量：<span id="shopAppleSmallCount">0</span>
+        </div>
+      </div>
+      <button
+        class="shop-buy-btn"
+        data-item="appleSmall"
+        data-label="小蘋果">
+        購買
+      </button>
+    </div>
+
+    <!-- 大蘋果 -->
+    <div class="shop-item">
+      <div class="shop-item-main">
+        <div class="shop-item-title">🍏 大蘋果</div>
+        <div class="shop-item-desc">直接回滿 HP，戰鬥前的好選擇。</div>
+        <div class="shop-item-info">
+          花費：⭐ 5　｜　持有數量：<span id="shopAppleBigCount">0</span>
+        </div>
+      </div>
+      <button
+        class="shop-buy-btn"
+        data-item="appleBig"
+        data-label="大蘋果">
+        購買
+      </button>
+    </div>
+
+    <!-- 復活星星 -->
+    <div class="shop-item">
+      <div class="shop-item-main">
+        <div class="shop-item-title">⭐ 復活星星</div>
+        <div class="shop-item-desc">小勇者倒下時，自動原地滿血復活一次。</div>
+        <div class="shop-item-info">
+          花費：⭐ 10　｜　持有數量：<span id="shopReviveCount">0</span>
+        </div>
+      </div>
+      <button
+        class="shop-buy-btn"
+        data-item="revive"
+        data-label="復活星星">
+        購買
+      </button>
+    </div>
+
+  </div>
+
+  <!-- 嗡嗡蜂蜜專區 -->
+  <div class="card">
+    <h3 style="margin-top:0;">占卜專用嗡嗡蜂蜜</h3>
+    <p style="font-size:12px;color:#a67b5b;margin-bottom:8px;">
+      熊熊占卜需要使用 🍯 嗡嗡蜂蜜，越甜的蜂蜜，訊息越溫暖。
+    </p>
+
+    <div class="shop-item">
+      <div class="shop-item-main">
+        <div class="shop-item-title">🍯 嗡嗡蜂蜜</div>
+        <div class="shop-item-desc">可在占卜屋進行一次三張牌占卜。</div>
+        <div class="shop-item-info">
+          花費：⭐ 6　｜　持有數量：<span id="shopHoneyCountInline">0</span>
+        </div>
+      </div>
+      <button
+        class="shop-buy-btn"
+        data-item="honey"
+        data-label="嗡嗡蜂蜜">
+        購買
+      </button>
+    </div>
+  </div>
+
+</div><!-- /game-wrap -->
+
+<!-- 底部導覽 -->
+<nav class="bottom-nav">
+
+  <!-- 左一：村長的家 -->
+  <a href="index.html" class="nav-item" id="navHome">
+    <div class="icon">🐻</div>
+    <div class="label">村長的家</div>
+  </a>
+
+  <!-- 左二：占卜屋 -->
+  <a href="tarot.html" class="nav-item" id="navTarot">
+    <div class="icon">🔮</div>
+    <div class="label">占卜屋</div>
+  </a>
+
+  <!-- 中間：冒險地圖 -->
+  <a href="map.html" class="star-btn" id="navAdventure">⭐</a>
+
+  <!-- 右二：商店（目前頁） -->
+  <a href="shop.html" class="nav-item active" id="navShop">
+    <div class="icon">🛍</div>
+    <div class="label">商店</div>
+  </a>
+
+  <!-- 右一：小勇者的家 -->
+  <a href="choose-hero.html" class="nav-item" id="navHero">
+    <div class="icon">🧒</div>
+    <div class="label">小勇者的家</div>
+  </a>
+
+</nav>
+
+<script src="script.js"></script>
+<script>
+  // 讓下方「嗡嗡蜂蜜」數字跟上方同一個 id 的值保持一致
+  document.addEventListener("DOMContentLoaded", function () {
+    var inline = document.getElementById("shopHoneyCountInline");
+    var top = document.getElementById("shopHoneyCount");
+    if (inline && top) inline.textContent = top.textContent;
+  });
+</script>
 </body>
 </html>
