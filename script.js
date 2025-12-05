@@ -920,7 +920,32 @@ function initTarotPage() {
   // 進入占卜頁時，先把歷史記錄好好準備好
   renderTarotHistory();
 }
+function renderTarotHistory() {
+  const listEl = document.getElementById("tarotHistoryList");
+  if (!listEl) return;
 
+  const history = loadTarotHistory();
+  if (!history.length) {
+    listEl.innerHTML = '<li class="tarot-history-empty">目前還沒有占卜紀錄～</li>';
+    return;
+  }
+
+  const rows = history
+    .slice()
+    .reverse()
+    .map(entry => `
+      <li class="tarot-history-item">
+        <div class="tarot-history-time">📅 ${entry.time}</div>
+        <div class="tarot-history-cards">
+          <div>過去：${entry.past.name}（${entry.past.orientation}）－ ${entry.past.meaning}</div>
+          <div>現在：${entry.present.name}（${entry.present.orientation}）－ ${entry.present.meaning}</div>
+          <div>未來：${entry.future.name}（${entry.future.orientation}）－ ${entry.future.meaning}</div>
+        </div>
+      </li>
+    `);
+
+  listEl.innerHTML = rows.join("");
+}
 /* ==========================================================
    商店 shop.html
    ========================================================== */
