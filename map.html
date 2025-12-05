@@ -2,68 +2,99 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <title>冒險地圖｜小勇者之旅大冒險</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>小勇者之旅大冒險｜冒險地圖</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body data-page="map">
-  <div class="game-wrap">
+<body class="page-wrap" data-page="map">
+<div class="game-wrap">
 
-    <!-- 標題 -->
-    <section class="card title-card">
-      <h1>🗺 冒險地圖</h1>
-      <p class="subtitle">選擇地點進入冒險！安撫所有魔物後才會出現魔王城 ✨</p>
-    </section>
+  <!-- 抬頭 -->
+  <div class="card title-card">
+    <h1>冒險地圖</h1>
+    <p class="subtitle">前往星星王國，安撫被壞情緒影響的魔物</p>
+  </div>
 
-    <!-- 分頁 -->
-    <nav class="top-nav">
-      <a class="nav-link" href="index.html">新手村</a>
-      <a class="nav-link active" href="map.html">地圖</a>
-      <a class="nav-link" href="equip.html">裝備坊</a>
-      <a class="nav-link" href="tarot.html">占卜屋</a>
-      <a class="nav-link" href="shop.html">商店</a>
-    </nav>
+  <!-- 地圖等級與星星 -->
+  <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <div style="font-size:14px;">地圖等級：<span id="mapLevel">LV.1</span></div>
+      <div style="font-size:12px;color:#a67b5b;">越多冒險，地圖會慢慢升級喔！</div>
+    </div>
+    <div style="font-size:14px;">
+      ⭐ 勇氣星星：<span id="mapStars">0</span>
+    </div>
+  </div>
 
-    <!-- 地圖狀態 -->
-    <section class="card">
-      <div class="map-status-row">
-        <span>地圖等級：<strong id="mapLevel">LV.1</strong></span>
-        <span>勇氣星星：<strong id="mapStars">0</strong> ⭐</span>
-      </div>
-      <p>每次完成所有魔物後，可以挑戰魔王城 🔥！打倒魔王後地圖會升級，所有地點可再次探索。</p>
-      <button id="friendsBtn" class="secondary-btn full">🐾 好友名單</button>
-    </section>
+  <!-- 九宮格地圖 -->
+  <div class="card">
+    <h3 style="margin-top:0;">選擇要前往的地點</h3>
+    <p style="font-size:12px;color:#a67b5b;margin-bottom:8px;">
+      點擊格子開始與魔物猜拳，幫助牠們恢復好心情。
+    </p>
+    <div id="mapGrid" class="map-grid"></div>
+  </div>
 
-    <!-- 九宮格地圖（全部是魔物） -->
-    <section class="card">
-      <h2>九宮格冒險地圖</h2>
-      <div id="mapGrid" class="map-grid"></div>
-      <p class="small-text">💡 已安撫的地點會變成淡色卡片，代表那裡的魔物已經是你的好朋友囉。</p>
-    </section>
+  <!-- 魔王城解鎖區（預設隱藏，由 JS 控制） -->
+  <div id="bossSection" class="card" style="display:none;">
+    <h3 style="margin-top:0;">魔王城</h3>
+    <p id="bossHintText" style="font-size:13px;"></p>
+    <button id="bossBtn" class="primary-btn" disabled>前往魔王城</button>
+  </div>
 
-    <!-- 魔王城（打完 9 格後才會顯示） -->
-    <section class="card" id="bossSection" style="display:none;">
-      <h2>🔥 魔王城（惡龍）</h2>
-      <p id="bossHintText">先安撫完九宮格裡的所有魔物，魔王城才會出現。</p>
-      <button id="bossBtn" class="primary-btn full" disabled>挑戰魔王城</button>
-    </section>
-
-    <footer class="footer">
-      <p>© 小勇者之旅大冒險 ｜ Designed by 熊熊村長</p>
-    </footer>
+  <!-- 好友名單按鈕 -->
+  <div class="card">
+    <h3 style="margin-top:0;">已成為好朋友的魔物</h3>
+    <p style="font-size:12px;color:#a67b5b;">
+      每安撫成功一隻魔物，牠們就會加入你的好友名單，一起替你加油！
+    </p>
+    <button id="friendsBtn" class="secondary-btn">查看好友名單</button>
   </div>
 
   <!-- 好友名單 Modal -->
   <div id="friendsModal" class="modal">
     <div class="modal-content">
-      <h3>🐾 好友名單</h3>
-      <p>以下是曾經被你安撫、成為好朋友的魔物們：</p>
-      <ul id="friendsList"></ul>
-      <button id="friendsCloseBtn" class="close-btn">關閉</button>
+      <h3 style="margin-top:0;">好友名單</h3>
+      <ul id="friendsList" class="friends-list"></ul>
+      <button id="friendsCloseBtn" class="secondary-btn" style="margin-top:12px;">關閉</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+</div><!-- /game-wrap -->
+
+<!-- 底部導覽 -->
+<nav class="bottom-nav">
+
+  <!-- 左一：村長的家 -->
+  <a href="index.html" class="nav-item" id="navHome">
+    <div class="icon">🐻</div>
+    <div class="label">村長的家</div>
+  </a>
+
+  <!-- 左二：占卜屋 -->
+  <a href="tarot.html" class="nav-item" id="navTarot">
+    <div class="icon">🔮</div>
+    <div class="label">占卜屋</div>
+  </a>
+
+  <!-- 中間：冒險地圖（目前頁） -->
+  <a href="map.html" class="star-btn active" id="navAdventure">⭐</a>
+
+  <!-- 右二：商店 -->
+  <a href="shop.html" class="nav-item" id="navShop">
+    <div class="icon">🛍</div>
+    <div class="label">商店</div>
+  </a>
+
+  <!-- 右一：小勇者的家 -->
+  <a href="choose-hero.html" class="nav-item" id="navHero">
+    <div class="icon">🧒</div>
+    <div class="label">小勇者的家</div>
+  </a>
+
+</nav>
+
+<script src="script.js"></script>
 </body>
 </html>
