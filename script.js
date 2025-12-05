@@ -1400,7 +1400,7 @@ function renderEquipList(slot, containerId) {
     `;
   }).join("");
 
-  // 綁定按鈕事件（購買／升級／切換）
+  /* 綁定按鈕事件（購買／升級／切換） */
   box.querySelectorAll(".equip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const slotName = btn.dataset.slot;
@@ -1409,17 +1409,17 @@ function renderEquipList(slot, containerId) {
       const mode     = btn.dataset.mode;
 
       if (mode === "buy") {
-        // 第一次購買
         if (stars < price) {
           alert("勇氣星星不足，先多安撫幾隻魔物吧！");
           setShopNpcLine(randomFrom(RABBIT_LINES.notEnoughStars));
           return;
         }
+
         stars -= price;
         save("stars", stars);
 
-        equipLevels[id] = 1;       // Lv.1
-        equips[slotName] = id;     // 直接裝上
+        equipLevels[id] = 1;
+        equips[slotName] = id;
 
         save("equipLevels", equipLevels);
         save("equips", equips);
@@ -1428,12 +1428,12 @@ function renderEquipList(slot, containerId) {
         setShopNpcLine(randomFrom(RABBIT_LINES.equipBuy));
 
       } else if (mode === "upgrade") {
-        // 已穿著 → 升級
         if (stars < price) {
           alert("勇氣星星不足，先多安撫幾隻魔物吧！");
           setShopNpcLine(randomFrom(RABBIT_LINES.notEnoughStars));
           return;
         }
+
         stars -= price;
         save("stars", stars);
 
@@ -1447,21 +1447,25 @@ function renderEquipList(slot, containerId) {
         setShopNpcLine(randomFrom(RABBIT_LINES.equipUpgrade));
 
       } else if (mode === "switch") {
-        // 已購買、未使用 → 免費切換
         equips[slotName] = id;
         save("equips", equips);
+
         alert(`兔兔工匠：已切換為「${itemNameFromId(id)}」！`);
         setShopNpcLine(randomFrom(RABBIT_LINES.equipSwitch));
       }
 
-      // 重新刷新列表 & 星星數字
+      // 重新刷新
       initEquipPage();
       const starText = document.getElementById("equipStars");
       if (starText) starText.textContent = stars;
     });
   });
-  });
-}function buyItem(type, label) {
+}
+
+/* ==========================================================
+   道具商店購買 buyItem()
+   ========================================================== */
+function buyItem(type, label) {
   const COST = {
     appleSmall: 1,
     appleBig: 5,
@@ -1484,14 +1488,12 @@ function renderEquipList(slot, containerId) {
   save("items", items);
 
   alert(`成功購買 ${label}！`);
-
-  // 重算數字
   initShopPage();
-  // 讓兔兔說一句「買東西完成」的話
+
   setShopNpcLine(randomFrom(RABBIT_LINES.buyItem));
 }
 
-/* 小工具：透過 ID 找中文名稱（只是讓提示文字好看一點） */
+/* 小工具：裝備名查詢 */
 function itemNameFromId(id) {
   for (const slot of ["weapon", "armor", "accessory", "boots"]) {
     const found = EQUIP_ITEMS[slot].find(it => it.id === id);
@@ -1499,4 +1501,3 @@ function itemNameFromId(id) {
   }
   return id;
 }
-
