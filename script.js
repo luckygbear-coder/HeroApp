@@ -1412,6 +1412,7 @@ function renderEquipList(slot, containerId) {
         // 第一次購買
         if (stars < price) {
           alert("勇氣星星不足，先多安撫幾隻魔物吧！");
+          setShopNpcLine(randomFrom(RABBIT_LINES.notEnoughStars));
           return;
         }
         stars -= price;
@@ -1424,11 +1425,13 @@ function renderEquipList(slot, containerId) {
         save("equips", equips);
 
         alert(`兔兔工匠：幫你穿上「${itemNameFromId(id)}」，現在是 Lv.1！`);
+        setShopNpcLine(randomFrom(RABBIT_LINES.equipBuy));
 
       } else if (mode === "upgrade") {
         // 已穿著 → 升級
         if (stars < price) {
           alert("勇氣星星不足，先多安撫幾隻魔物吧！");
+          setShopNpcLine(randomFrom(RABBIT_LINES.notEnoughStars));
           return;
         }
         stars -= price;
@@ -1441,12 +1444,14 @@ function renderEquipList(slot, containerId) {
         save("equipLevels", equipLevels);
 
         alert(`兔兔工匠：裝備升級到 Lv.${newLv}，效果更棒了！`);
+        setShopNpcLine(randomFrom(RABBIT_LINES.equipUpgrade));
 
       } else if (mode === "switch") {
         // 已購買、未使用 → 免費切換
         equips[slotName] = id;
         save("equips", equips);
         alert(`兔兔工匠：已切換為「${itemNameFromId(id)}」！`);
+        setShopNpcLine(randomFrom(RABBIT_LINES.equipSwitch));
       }
 
       // 重新刷新列表 & 星星數字
@@ -1455,6 +1460,35 @@ function renderEquipList(slot, containerId) {
       if (starText) starText.textContent = stars;
     });
   });
+  });
+}function buyItem(type, label) {
+  const COST = {
+    appleSmall: 1,
+    appleBig: 5,
+    revive: 10,
+    honey: 6
+  };
+
+  const cost = COST[type];
+  if (cost == null) return;
+
+  if (stars < cost) {
+    alert("勇氣星星不足，先多安撫幾隻魔物吧！");
+    setShopNpcLine(randomFrom(RABBIT_LINES.notEnoughStars));
+    return;
+  }
+
+  stars -= cost;
+  items[type] += 1;
+  save("stars", stars);
+  save("items", items);
+
+  alert(`成功購買 ${label}！`);
+
+  // 重算數字
+  initShopPage();
+  // 讓兔兔說一句「買東西完成」的話
+  setShopNpcLine(randomFrom(RABBIT_LINES.buyItem));
 }
 
 /* 小工具：透過 ID 找中文名稱（只是讓提示文字好看一點） */
