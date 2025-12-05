@@ -7,97 +7,66 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body data-page="index">
+<body class="page-wrap" data-page="home">
 
 <div class="game-wrap">
 
-  <!-- 頂部：村長的家抬頭 -->
+  <!-- 標題 -->
   <div class="card title-card">
     <h1>村長的家</h1>
     <p class="subtitle">ADVENTURER'S PARADISE｜小勇者之旅大冒險</p>
   </div>
 
-  <!-- 村長熊熊頭像 + 歡迎文字 -->
+  <!-- 村長歡迎 -->
   <div class="card">
-    <div style="display:flex; align-items:center; gap:12px;">
-      <img src="images/bear.png"
-           alt="熊熊村長"
-           style="width:64px;height:64px;border-radius:50%;object-fit:cover;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <img src="images/bear.png" style="width:64px;height:64px;border-radius:50%;">
       <div>
-        <p style="margin:0 0 4px; font-size:15px;">嗨，小勇者歡迎回來～今天也一起變強吧！</p>
-        <p style="margin:0; font-size:12px; color:#a67b5b;">
-          村長在這裡記錄故事、發送勇氣星星，也會分享生活的小碎念。
-        </p>
+        <p style="margin:0 0 4px;font-size:14px;">嗨，小勇者歡迎回來～今天也一起變強吧！</p>
+        <p style="margin:0;font-size:12px;color:#a67b5b;">熊熊村長會在這裡記錄故事、送勇氣星星、分享生活小語。</p>
       </div>
     </div>
-
-    <!-- IG 連結 -->
-    <div style="margin-top:8px; font-size:13px;">
-      <a href="https://www.instagram.com/luckygbear"
-         target="_blank"
-         style="text-decoration:none; color:#865239;">
-        📷 追蹤熊熊村長 IG：<strong>@luckygbear</strong>
+    <div style="margin-top:8px;">
+      <a href="https://instagram.com/luckygbear" target="_blank"
+         style="text-decoration:none;color:#865239;">
+        📷 追蹤熊熊村長 IG：@luckygbear
       </a>
     </div>
   </div>
 
-  <!-- 主選單 -->
+  <!-- 功能選單 -->
   <div class="card">
-    <button id="goAdventureBtn"
-            class="primary-btn full"
-            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-      <span>🗺 小勇者大冒險</span>
-      <span style="font-size:12px;">前往星星王國地圖，安撫魔物</span>
-    </button>
+    <a class="home-menu-btn" href="map.html" style="text-decoration:none;">
+      <div style="font-size:18px;">🗺 小勇者大冒險</div>
+      <div style="font-size:12px;opacity:0.7;">前往星星王國地圖，安撫魔物</div>
+    </a>
 
-    <a href="tarot.html"
-       class="secondary-btn full"
-       style="display:flex;align-items:center;justify-content:space-between;text-decoration:none;">
-      <span>🔮 熊熊占卜</span>
-      <span style="font-size:12px;">用嗡嗡蜂蜜換取暖心指引</span>
+    <a class="home-menu-btn" href="tarot.html" style="margin-top:10px;text-decoration:none;">
+      <div style="font-size:18px;">🔮 熊熊占卜</div>
+      <div style="font-size:12px;opacity:0.7;">用嗡嗡蜂蜜換取暖心指引</div>
     </a>
   </div>
 
-  <!-- 小語 -->
-  <div id="homeStory" class="card">
-    <h3 style="margin-top:0;">今天的村長小語</h3>
-    <p style="font-size:13px; margin:0 0 4px;">
-      有時候，勇氣不是大吼大叫，而是在心裡小小地說：
-      「我想再試一次。」——熊熊村長
+  <!-- 今日小語 -->
+  <div class="card">
+    <h3>今天的村長小語</h3>
+    <p style="font-size:13px;margin:0 0 4px;">
+      有時候，勇氣不是大吼大叫，而是在心裡小小地說：「我想再試一次。」
     </p>
-    <p style="font-size:12px; color:#a67b5b; margin:0;">
-      想到什麼讓你有勇氣的回憶嗎？可以在心裡跟熊熊說說看 💛
+    <p style="font-size:12px;color:#a67b5b;margin:0;">
+      有沒有什麼讓你變強的小回憶？可以在心裡跟熊熊說說 💛
     </p>
   </div>
 
-</div> <!-- END game-wrap -->
+</div>
 
-<!-- 底部導覽：全站固定 -->
+<!-- 底部導覽列 -->
 <nav class="bottom-nav">
-
-<a href="index.html" class="nav-item active">
-  <a href="index.html" class="nav-item" id="navHome">
-    <div class="icon">🐻</div>
-    <div class="label">村長的家</div>
-  </a>
-
-  <a href="tarot.html" class="nav-item" id="navTarot">
-    <div class="icon">🔮</div>
-    <div class="label">占卜屋</div>
-  </a>
-
-  <a href="map.html" class="star-btn" id="navAdventure">⭐</a>
-
-  <a href="shop.html" class="nav-item" id="navShop">
-    <div class="icon">🛍</div>
-    <div class="label">商店</div>
-  </a>
-
-  <a href="choose-hero.html" class="nav-item" id="navHero">
-    <div class="icon">🧒</div>
-    <div class="label">小勇者的家</div>
-  </a>
-
+  <a href="index.html" class="nav-item active"><div class="icon">🐻</div><div class="label">村長的家</div></a>
+  <a href="tarot.html" class="nav-item"><div class="icon">🔮</div><div class="label">占卜屋</div></a>
+  <a href="map.html" class="star-btn">⭐</a>
+  <a href="shop.html" class="nav-item"><div class="icon">🛍</div><div class="label">商店</div></a>
+  <a href="choose-hero.html" class="nav-item"><div class="icon">🧒</div><div class="label">小勇者的家</div></a>
 </nav>
 
 <script src="script.js"></script>
