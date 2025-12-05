@@ -10,96 +10,126 @@
 <body class="page-wrap" data-page="tarot">
   <div class="game-wrap">
 
-    <!-- 抬頭 -->
+    <!-- 標題 -->
     <div class="card title-card">
       <h1>熊熊占卜屋</h1>
       <p class="subtitle">用嗡嗡蜂蜜換取暖心指引</p>
     </div>
 
-    <!-- 資訊＋說明 -->
-    <div class="card shop-card">
+    <!-- 說明＋資源 -->
+    <div class="card">
       <p class="tarot-intro">
-        帶著你的問題，請熊熊村長抽出三張牌：<br />
-        「過去、現在、未來」，看看星星王國給你的提醒吧。
-      </p>
-      <p style="font-size:13px;margin:6px 0 0;">
-        🍯 嗡嗡蜂蜜：<span id="honeyCount">0</span><br />
-        ⭐ 勇氣星星：<span id="tarotStars">0</span>
+        每次占卜會消耗 <strong>1 份 🍯 嗡嗡蜂蜜</strong>。<br />
+        熊熊村長會抽出「過去・現在・未來」三張牌，幫你看看最近的心情與方向。
       </p>
 
+      <p style="font-size:13px;margin:6px 0 4px;">
+        目前持有：
+      </p>
+      <ul style="list-style:none;padding:0;margin:0;font-size:13px;">
+        <li>🍯 嗡嗡蜂蜜：<span id="honeyCount">0</span> 份</li>
+        <li>⭐ 勇氣星星：<span id="tarotStars">0</span> 顆</li>
+      </ul>
+
       <div class="tarot-btn-row">
-        <button id="bearHugBtn" class="secondary-btn full">
-          🐻 熊熊抱抱一下
-        </button>
         <button id="tarotDrawBtn" class="primary-btn full">
-          🔮 抽一組三張牌（過去／現在／未來）
+          進行一次占卜 🍯
+        </button>
+        <button id="bearHugBtn" class="secondary-btn full">
+          需要熊熊抱抱一下 💛
         </button>
       </div>
     </div>
 
-    <!-- 抽到的三張牌 -->
+    <!-- 占卜結果 -->
     <div class="card tarot-section">
-      <h3 style="margin-top:0;">今日占卜結果</h3>
+      <div class="tarot-header-row">
+        <h2 class="tarot-section-title">本次占卜結果</h2>
+        <button id="openTarotHistoryBtn" class="tarot-history-btn">
+          占卜紀錄
+        </button>
+      </div>
 
       <div class="tarot-row">
         <div class="tarot-card">
-          <div class="tarot-position">過去 Past</div>
-          <div class="tarot-name" id="tarotPastName">—</div>
+          <div class="tarot-position">過去</div>
+          <div class="tarot-name" id="tarotPastName">尚未占卜</div>
           <div class="tarot-orientation" id="tarotPastOrient"></div>
           <p class="tarot-meaning" id="tarotPastMeaning">
-            抽牌後，這裡會顯示與「過去」有關的故事與學習。
+            抽牌後，這裡會顯示過去帶來的影響。
           </p>
         </div>
 
         <div class="tarot-card">
-          <div class="tarot-position">現在 Present</div>
-          <div class="tarot-name" id="tarotPresentName">—</div>
+          <div class="tarot-position">現在</div>
+          <div class="tarot-name" id="tarotPresentName">尚未占卜</div>
           <div class="tarot-orientation" id="tarotPresentOrient"></div>
           <p class="tarot-meaning" id="tarotPresentMeaning">
-            抽牌後，這裡會顯示你此刻正在面對的狀態。
+            抽牌後，這裡會顯示你現在的狀態與心情。
           </p>
         </div>
 
         <div class="tarot-card">
-          <div class="tarot-position">未來 Future</div>
-          <div class="tarot-name" id="tarotFutureName">—</div>
+          <div class="tarot-position">未來</div>
+          <div class="tarot-name" id="tarotFutureName">尚未占卜</div>
           <div class="tarot-orientation" id="tarotFutureOrient"></div>
           <p class="tarot-meaning" id="tarotFutureMeaning">
-            抽牌後，這裡會顯示未來的方向與提醒。
+            抽牌後，這裡會顯示接下來可以注意的方向。
           </p>
         </div>
       </div>
 
+      <!-- 熊熊溫馨提醒 -->
       <div class="tarot-bear-box" id="tarotBearMessage">
-        熊熊村長：抽牌後，熊熊會在這裡給你一段專屬提醒 💛
+        熊熊村長：抽完牌之後，熊熊會在這裡跟你說說悄悄話。
       </div>
     </div>
 
-    <!-- 歷史紀錄 -->
-    <div class="card">
-      <h3 style="margin-top:0;">占卜紀錄本</h3>
-      <p style="font-size:12px;color:#8a6a4c;">
-        每一次抽牌都會被記錄下來，可以回頭看看自己的成長軌跡。
-      </p>
-      <ul id="tarotHistoryList" style="padding-left:18px;margin:8px 0 0;"></ul>
-    </div>
+  </div><!-- /game-wrap -->
 
+  <!-- 占卜紀錄：按鈕才會打開的視窗 -->
+  <div id="tarotHistoryModal" class="modal">
+    <div class="modal-content tarot-history-modal">
+      <h3 style="margin-top:0;">占卜紀錄</h3>
+      <p class="tarot-history-tip">
+        每一次占卜都會被記錄下來，你可以回頭看看自己的變化。
+      </p>
+      <ul id="tarotHistoryList" class="tarot-history-list"></ul>
+      <button id="closeTarotHistoryBtn" class="close-btn">
+        關閉
+      </button>
+    </div>
   </div>
 
-  <!-- 底部導覽列 -->
+  <!-- 底部導覽：全站共用 -->
   <nav class="bottom-nav">
+    <!-- 左一：村長的家 -->
     <a href="index.html" class="nav-item" data-nav="home">
-      <div class="icon">🐻</div><div class="label">村長的家</div>
+      <div class="icon">🐻</div>
+      <div class="label">村長的家</div>
     </a>
+
+    <!-- 左二：占卜屋（目前頁面） -->
     <a href="tarot.html" class="nav-item" data-nav="tarot">
-      <div class="icon">🔮</div><div class="label">占卜屋</div>
+      <div class="icon">🔮</div>
+      <div class="label">占卜屋</div>
     </a>
-    <a href="map.html" class="star-btn" data-nav="map">⭐</a>
+
+    <!-- 中間：大星星 → 地圖冒險 -->
+    <a href="map.html" class="star-btn" data-nav="map">
+      ⭐
+    </a>
+
+    <!-- 右二：商店 -->
     <a href="shop.html" class="nav-item" data-nav="shop">
-      <div class="icon">🛍</div><div class="label">商店</div>
+      <div class="icon">🛍</div>
+      <div class="label">商店</div>
     </a>
+
+    <!-- 右一：小勇者的家 -->
     <a href="choose-hero.html" class="nav-item" data-nav="hero">
-      <div class="icon">🧒</div><div class="label">小勇者的家</div>
+      <div class="icon">🧒</div>
+      <div class="label">小勇者的家</div>
     </a>
   </nav>
 
