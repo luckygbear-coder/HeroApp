@@ -683,7 +683,24 @@ body[data-page="battle"] .card {
   opacity: 0.8;
 }
 
-/* 底部導覽本體 */
+/* ===========================
+   底部導覽列（所有頁面共用）
+   =========================== */
+
+.page-wrap {
+  margin: 0;
+  min-height: 100vh;
+  background: #ffeec9;
+}
+
+/* 下面多預留一點空間避免被導航蓋住 */
+.game-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 96px; /* 預留空間給底部導覽 */
+}
+
 .bottom-nav {
   position: fixed;
   left: 0;
@@ -699,6 +716,7 @@ body[data-page="battle"] .card {
   box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
 }
 
+/* 左右四個小圖示 */
 .bottom-nav .nav-item {
   flex: 1;
   text-align: center;
@@ -717,7 +735,7 @@ body[data-page="battle"] .card {
   margin-top: 2px;
 }
 
-/* 中間星星按鈕：圓形，稍微浮起來 */
+/* 中間星星按鈕：現在跟其它比較平行了 */
 .bottom-nav .star-btn {
   width: 64px;
   height: 64px;
@@ -731,10 +749,10 @@ body[data-page="battle"] .card {
   text-decoration: none;
   box-shadow: 0 4px 10px rgba(0,0,0,0.18);
   position: relative;
-  transform: translateY(-6px); /* 想跟其他平行就調成 0～-4 之間 */
+  transform: translateY(-6px); /* 想完全平行就改成 0 */
 }
 
-/* 目前頁面的高亮（之後要配 script 或手動加 .active） */
+/* 目前頁面的高亮（搭配 script.js 裡的 data-nav 判斷） */
 .bottom-nav .nav-item.active,
 .bottom-nav .star-btn.active {
   color: #ff8a00;
