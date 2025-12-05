@@ -291,12 +291,42 @@ document.addEventListener("DOMContentLoaded", () => {
    新手村 index.html
    ========================================================== */
 function initIndexPage() {
-  const heroListDiv = document.getElementById("heroList");
-  const storyBox = document.getElementById("heroStoryBox");
-  const storyText = document.getElementById("heroStoryText");
-  const lineText = document.getElementById("heroLineText");
-  const abilityText = document.getElementById("heroAbilityText");
-  const confirmBtn = document.getElementById("confirmHeroBtn");
+  // 上方三個大按鈕
+  const btnVillage   = document.getElementById("goVillageBtn");
+  const adventureBtn = document.getElementById("goAdventureBtn");
+
+  // 點「熊熊村莊」：捲到小故事區
+  if (btnVillage) {
+    btnVillage.addEventListener("click", () => {
+      const sec = document.getElementById("homeStory");
+      if (sec) sec.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // 點「小勇者大冒險」
+  if (adventureBtn) {
+    adventureBtn.addEventListener("click", () => {
+      if (!hero) {
+        // 還沒選勇者 → 打開下面的村莊選角區
+        const sec = document.getElementById("villageSection");
+        if (sec) {
+          sec.style.display = "block";
+          sec.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // 已經有選過勇者 → 直接去地圖
+        window.location.href = "map.html";
+      }
+    });
+  }
+
+  // === 以下是原本的「建立勇者選單」 ===
+  const heroListDiv   = document.getElementById("heroList");
+  const storyBox      = document.getElementById("heroStoryBox");
+  const storyText     = document.getElementById("heroStoryText");
+  const lineText      = document.getElementById("heroLineText");
+  const abilityText   = document.getElementById("heroAbilityText");
+  const confirmBtn    = document.getElementById("confirmHeroBtn");
 
   if (!heroListDiv) return;
 
@@ -325,11 +355,11 @@ function initIndexPage() {
     heroListDiv.appendChild(div);
   });
 
+  // 選好勇者 → 直接前往地圖
   confirmBtn.addEventListener("click", () => {
     window.location.href = "map.html";
   });
 }
-
 /* ==========================================================
    地圖 map.html（九宮格 9 魔物＋魔王解鎖）
    ========================================================== */
