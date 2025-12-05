@@ -5,8 +5,9 @@
   <title>村長的家｜小勇者之旅大冒險</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
-<body data-page="index">
+<body class="page-wrap" data-page="index">
   <div class="game-wrap">
 
     <!-- 頂部：村長的家抬頭 -->
@@ -18,8 +19,8 @@
     <!-- 熊熊村長歡迎／小故事 + IG -->
     <div class="card">
       <div style="display:flex; align-items:center; gap:10px;">
-        <!-- 如果有熊熊頭像圖片可以放這裡 -->
-        <!-- <img src="images/bear-head.png" alt="熊熊村長" style="width:56px;height:56px;border-radius:50%;"> -->
+        <!-- 之後可換成村長熊熊頭像 -->
+        <!-- <img src="images/bear-head.png" alt="熊熊村長" class="bear-avatar"> -->
         <div>
           <p style="margin:0 0 4px; font-size:14px;">嗨，小勇者歡迎回來～這裡是村長的家，也是所有冒險開始的地方！</p>
           <p style="margin:0; font-size:12px; color:#a67b5b;">
@@ -37,31 +38,30 @@
       </div>
     </div>
 
-    <!-- 主選單：只剩 小勇者大冒險 + 熊熊占卜 -->
+    <!-- 主選單：小勇者大冒險 + 熊熊占卜 -->
     <div class="card">
-      <!-- 小勇者大冒險（用 JS 控制：沒選勇者就去 choose-hero，選過就去 map） -->
+      <!-- 小勇者大冒險（用 JS 控制：沒選勇者就去 choose-hero，有勇者就去 map） -->
       <button id="goAdventureBtn"
-              class="primary-btn full"
-              style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <span>🗺 小勇者大冒險</span>
-        <span style="font-size:12px;">前往星星王國地圖，安撫魔物</span>
+              class="primary-btn full home-menu-btn">
+        <span class="home-menu-main">🗺 小勇者大冒險</span>
+        <span class="home-menu-sub">前往星星王國地圖，安撫魔物</span>
       </button>
 
       <!-- 熊熊占卜：直接連到 tarot.html -->
       <a href="tarot.html"
-         class="secondary-btn full"
-         style="display:flex;align-items:center;justify-content:space-between;text-decoration:none;">
-        <span>🔮 熊熊占卜</span>
-        <span style="font-size:12px;">用嗡嗡蜂蜜換取暖心指引</span>
+         class="secondary-btn full home-menu-btn"
+         style="text-decoration:none;">
+        <span class="home-menu-main">🔮 熊熊占卜</span>
+        <span class="home-menu-sub">用嗡嗡蜂蜜換取暖心指引</span>
       </a>
     </div>
 
-    <!-- （可選）在首頁保留一點小故事區塊 -->
+    <!-- 村長小語 -->
     <div id="homeStory" class="card">
       <h3 style="margin-top:0;">今天的村長小語</h3>
       <p style="font-size:13px; margin:0 0 4px;">
         有時候，勇氣不是大吼大叫，而是在心裡小小地說：
-        「我想再試一次。」——熊熊村長
+        「我想再試一次。」—— 熊熊村長
       </p>
       <p style="font-size:12px; color:#a67b5b; margin:0;">
         想到什麼讓你有勇氣的回憶嗎？可以在心裡跟熊熊說說看 💛
@@ -70,58 +70,36 @@
 
   </div>
 
-<body class="page-wrap" data-page="chooseHero">
-  <div class="game-wrap">
-    <div class="card">
-      <h2>選擇你的第一位小勇者</h2>
-      <p>每一位小勇者都有不同的天賦拳與故事，選一位一起出發吧！</p>
-    </div>
+  <!-- ✅ 共用底部導覽 -->
+  <nav class="bottom-nav">
+    <!-- 左一：村長的家 -->
+    <a href="index.html" class="nav-item" data-nav="home">
+      <div class="icon">🐻</div>
+      <div class="label">村長的家</div>
+    </a>
 
-    <div id="heroList" class="hero-list"></div>
+    <!-- 左二：占卜屋 -->
+    <a href="tarot.html" class="nav-item" data-nav="tarot">
+      <div class="icon">🔮</div>
+      <div class="label">占卜屋</div>
+    </a>
 
-    <!-- 小勇者故事＋效果區塊 -->
-    <div id="heroStoryBox" class="card" style="display:none; margin-top:16px;">
-      <h3 id="heroStoryTitle">小勇者故事</h3>
-      <p id="heroStoryText"></p>
-      <p id="heroLineText" class="hero-line"></p>
-      <p id="heroAbilityText" class="hero-ability"></p>
-      <button id="confirmHeroBtn" class="primary-btn" style="display:none; margin-top:12px;">
-        就決定是你了！前往冒險地圖
-      </button>
-    </div>
-  </div>
+    <!-- 中間凸出的星星按鈕（冒險地圖） -->
+    <a href="map.html" class="star-btn" data-nav="map">
+      ⭐
+    </a>
 
-  <!-- 底部導覽：貼上共用 nav -->
+    <!-- 右二：商店 -->
+    <a href="shop.html" class="nav-item" data-nav="shop">
+      <div class="icon">🛍</div>
+      <div class="label">商店</div>
+    </a>
+
+    <!-- 右一：小勇者的家（選角頁） -->
+    <a href="choose-hero.html" class="nav-item" data-nav="hero">
+      <div class="icon">🧒</div>
+      <div class="label">小勇者的家</div>
+    </a>
+  </nav>
 </body>
-<nav class="bottom-nav">
-
-  <!-- 左一：村長家（首頁） -->
-  <a href="index.html" class="nav-item" id="navHome">
-    <div class="icon">🐻</div>
-    <div class="label">村長的家</div>
-  </a>
-
-  <!-- 左二：占卜屋 -->
-  <a href="tarot.html" class="nav-item" id="navTarot">
-    <div class="icon">🔮</div>
-    <div class="label">占卜屋</div>
-  </a>
-
-  <!-- 中間凸出的星星按鈕（冒險） -->
-  <a href="map.html" class="star-btn" id="navAdventure">
-    ⭐
-  </a>
-
-  <!-- 右二：商店 -->
-  <a href="shop.html" class="nav-item" id="navShop">
-    <div class="icon">🛍</div>
-    <div class="label">商店</div>
-  </a>
-
-  <!-- 右一：小勇者的家（選角頁） -->
-  <a href="choose-hero.html" class="nav-item" id="navHero">
-    <div class="icon">🧒</div>
-    <div class="label">小勇者的家</div>
-  </a>
-</nav>
 </html>
