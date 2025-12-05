@@ -484,6 +484,74 @@ body[data-page="battle"] .card {
   font-size: 12px;
 }
 
+/* 占卜結果標題列 + 歷史紀錄按鈕 */
+.tarot-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.tarot-section-title {
+  font-size: 15px;
+  margin: 0;
+}
+
+.tarot-history-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  background: #ffe3c8;
+  color: #7a5742;
+  cursor: pointer;
+}
+
+/* 歷史紀錄 modal */
+.tarot-history-modal {
+  max-height: 70vh;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.tarot-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.tarot-history-item {
+  padding: 6px 0;
+  border-top: 1px dashed #f0c9a4;
+}
+
+.tarot-history-item:first-child {
+  border-top: none;
+}
+
+.tarot-history-time {
+  font-size: 11px;
+  color: #a67b5b;
+  margin-bottom: 2px;
+}
+
+.tarot-history-cards {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.tarot-history-empty {
+  font-size: 12px;
+  color: #a67b5b;
+}
+
+.tarot-history-tip {
+  font-size: 11px;
+  color: #a67b5b;
+  margin: 0 0 4px;
+}
+
 /* ========= 商店 ========= */
 .shop-card {
   font-size: 13px;
