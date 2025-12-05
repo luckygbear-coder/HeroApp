@@ -1168,24 +1168,3 @@ function itemNameFromId(id) {
   return id;
 }
 
-/* ==========================================================
-   底部導覽：根據 body data-page 高亮目前頁
-   ========================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-  const page = document.body.dataset.page || "index";
-  const items = document.querySelectorAll(".bottom-nav [data-nav]");
-
-  items.forEach(el => {
-    const key = el.getAttribute("data-nav");
-
-    if (
-      (page === "index"      && key === "home") ||
-      (["map", "battle", "equip"].includes(page) && key === "map") ||
-      (page === "tarot"      && key === "tarot") ||
-      (page === "shop"       && key === "shop") ||
-      (page === "chooseHero" && key === "hero")
-    ) {
-      el.classList.add("active");
-    }
-  });
-});
