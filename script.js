@@ -1309,6 +1309,13 @@ function initShopPage() {
 
       shopSection.classList.toggle("active", toShop);
       equipSection.classList.toggle("active", !toShop);
+
+      // 切分頁時，兔兔換一段話
+      if (toShop) {
+        setShopNpcLine(randomFrom(RABBIT_LINES.idleShop));
+      } else {
+        setShopNpcLine(randomFrom(RABBIT_LINES.idleEquip));
+      }
     };
 
     // 小彈跳動畫（加上 pop class，再在動畫結束後移除）
@@ -1326,6 +1333,12 @@ function initShopPage() {
       switchTo("equip");
       addPop(equipTabBtn);
     });
+
+    // 進到商店頁第一次，預設在「補給商店」
+    switchTo("shop");
+  } else {
+    // 如果分頁按鈕沒抓到，就先給一段預設對話
+    setShopNpcLine(randomFrom(RABBIT_LINES.idleShop));
   }
 }
 /* ==========================================================
