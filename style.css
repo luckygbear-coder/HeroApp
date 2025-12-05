@@ -574,68 +574,89 @@ body[data-page="battle"] .card {
 .equip-btn:active {
   transform: translateY(1px);
   box-shadow: none;
-  /* =============================
-     底部導覽列 Bottom Nav Bar
-   ============================= */
+/* ===============================
+   底部導覽列（所有頁面通用）
+   =============================== */
 
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 72px;
-  background: #ffffff;
-  border-top: 1px solid #eee;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 9999;
-  padding-bottom: env(safe-area-inset-bottom); /* iPhone 安全區域 */
+.page-wrap {
+  min-height: 100vh;
+  padding-bottom: 90px; /* 留出底部導覽空間，避免內容被蓋住 */
+  box-sizing: border-box;
 }
 
-/* 一般按鈕 */
+/* 底部導航容器 */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  background: #fff7e6;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 999;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.06);
+  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 一般導覽項目（左邊「村長的家」、中間「冒險」、右邊「商店」「小勇者的家」） */
 .nav-item {
   flex: 1;
   text-align: center;
   text-decoration: none;
-  color: #b98958;
+  color: #b07a33;
   font-size: 12px;
+  padding-top: 4px;
 }
 
-.nav-item .icon {
-  font-size: 24px;
-  margin-bottom: 2px;
+.nav-item-icon {
+  font-size: 22px;
+  display: block;
+  line-height: 24px;
 }
 
-.nav-item.active {
-  color: #ff9f43;
+.nav-item-label {
+  display: block;
+  margin-top: 2px;
 }
 
-/* ⭐ 凸出星星按鈕（冒險主頁） */
-.star-btn {
+/* 中間的大星星按鈕（占卜屋） */
+.nav-center-wrapper {
   position: relative;
+  width: 80px;
+  text-align: center;
+}
 
-  /* ⭐⭐ 讓星星往下移，與底部對齊（最重要） */
-  top: -20px;  /* 想再低一點改 -18、-15、-12 */
-
+.nav-star-btn {
+  position: relative;
+  top: 6px;               /* ⭐ 往下一點，跟其他圖示比較平行 */
   width: 64px;
   height: 64px;
-  background: #ffa54a;
-  color: #fff;
-  border-radius: 50%;
-
+  border-radius: 32px;
+  border: none;
+  background: #ffa851;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  justify-content: center;
+  margin: 0 auto 2px;
 }
 
-.star-btn:active {
-  transform: scale(0.92);
+.nav-star-btn span {
+  font-size: 30px;
+}
+
+.nav-star-label {
+  font-size: 11px;
+  color: #b07a33;
+}
+
+/* 目前所在頁高亮（可選） */
+.nav-item.active,
+.nav-center-wrapper.active .nav-star-label {
+  color: #ff8c3a;
+  font-weight: 600;
 }
 }
