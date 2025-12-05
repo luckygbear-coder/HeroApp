@@ -70,27 +70,28 @@
 
   </div>
 
-  <!-- 底部導覽列：村長的家 / 冒險 / 商店 / 小勇者的家 -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="bottom-nav-item active">
-      <div>🏠</div>
-      <div>村長的家</div>
-    </a>
-    <a href="map.html" class="bottom-nav-item">
-      <div>🗺</div>
-      <div>冒險</div>
-    </a>
-    <a href="shop.html" class="bottom-nav-item">
-      <div>🛍</div>
-      <div>商店</div>
-    </a>
-    <a href="choose-hero.html" class="bottom-nav-item">
-      <div>🧒</div>
-      <div>小勇者的家</div>
-    </a>
-  </nav>
+<body class="page-wrap" data-page="chooseHero">
+  <div class="game-wrap">
+    <div class="card">
+      <h2>選擇你的第一位小勇者</h2>
+      <p>每一位小勇者都有不同的天賦拳與故事，選一位一起出發吧！</p>
+    </div>
 
-  <script src="script.js"></script>
+    <div id="heroList" class="hero-list"></div>
+
+    <!-- 小勇者故事＋效果區塊 -->
+    <div id="heroStoryBox" class="card" style="display:none; margin-top:16px;">
+      <h3 id="heroStoryTitle">小勇者故事</h3>
+      <p id="heroStoryText"></p>
+      <p id="heroLineText" class="hero-line"></p>
+      <p id="heroAbilityText" class="hero-ability"></p>
+      <button id="confirmHeroBtn" class="primary-btn" style="display:none; margin-top:12px;">
+        就決定是你了！前往冒險地圖
+      </button>
+    </div>
+  </div>
+
+  <!-- 底部導覽：貼上共用 nav -->
 </body>
 <nav class="bottom-nav">
 
