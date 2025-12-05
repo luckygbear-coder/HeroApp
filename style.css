@@ -50,7 +50,7 @@ body {
   color: #a67b5b;
 }
 
-/* ========= 分頁導覽 ========= */
+/* ========= 分頁導覽（舊的上方 tabs，用在 tarot / shop / equip 頁） ========= */
 .top-nav {
   display: flex;
   justify-content: space-between;
@@ -116,47 +116,54 @@ body {
   margin-top: 8px;
 }
 
-/* ========= 新手村：勇者列表 ========= */
+/* ========= 新手村：勇者列表（新版排版） ========= */
+.hero-select-card {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* 兩欄排版，讓手機一頁看得下 */
 .hero-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .hero-card {
-  background: #fffdf8;
-  border-radius: 14px;
-  border: 1px solid #f2c9a4;
-  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid #f0cfa0;
+  background: #fffaf4;
+  padding: 8px;
+  text-align: center;
   font-size: 13px;
   cursor: pointer;
 }
 
 .hero-card.active {
-  border-color: #ffa95a;
-  box-shadow: 0 0 0 2px rgba(255, 169, 90, 0.3);
+  box-shadow: 0 0 0 2px #f4a769;
 }
 
 .hero-name {
-  font-weight: 600;
-  margin-bottom: 4px;
+  font-weight: 700;
+  margin-bottom: 2px;
 }
 
 .hero-fist {
   font-size: 12px;
-  color: #a67b5b;
+  color: #9a6b4c;
 }
 
 .hero-story-box {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px dashed #f2c9a4;
-  font-size: 13px;
-}
-
-.hero-story-text {
-  margin: 0 0 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #7a5742;
+  background: #fff7ec;
+  border-radius: 10px;
+  padding: 6px 8px;
+  max-height: 80px;
+  overflow-y: auto; /* 文字太多就小小捲動，不會撐高整頁 */
+  margin-bottom: 8px;
 }
 
 .hero-line-text,
@@ -226,6 +233,7 @@ body {
   background: #ffe0e0;
   border-color: #ff9d9d;
 }
+
 .map-boss-btn {
   margin-top: 8px;
   padding: 8px 16px;
@@ -233,7 +241,7 @@ body {
   border: none;
   background: #ffb3b3;
   font-size: 14px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* 通關樣式：顏色 + ✔ */
@@ -274,11 +282,10 @@ body {
   width: 90%;
   max-width: 360px;
   font-size: 13px;
-
-  /* 新增下面兩行 */
-  max-height: 70vh;
+  max-height: 70vh;   /* 讓手機畫面不被撐爆 */
   overflow-y: auto;
 }
+
 .modal-content h3 {
   margin-top: 0;
 }
@@ -295,7 +302,6 @@ body {
 }
 
 /* ========= 戰鬥頁：嚴格固定一屏 ========= */
-
 body[data-page="battle"] .game-wrap {
   padding-top: 6px;
 }
@@ -389,7 +395,7 @@ body[data-page="battle"] .card {
   border: none;
   font-size: 32px;
   background: #ffe8cc;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
@@ -402,7 +408,7 @@ body[data-page="battle"] .card {
   border: none;
   font-size: 28px;
   background: #ffe1f2;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
@@ -524,7 +530,8 @@ body[data-page="battle"] .card {
   font-size: 12px;
   cursor: pointer;
 }
-/* 裝備坊：整區卡片跟商店一樣 */
+
+/* ========= 裝備坊 ========= */
 .equip-section-card {
   background: #fff7eb;
   border-radius: 18px;
@@ -533,7 +540,6 @@ body[data-page="battle"] .card {
   margin-bottom: 16px;
 }
 
-/* 每一件裝備像一個商品列 */
 .equip-item {
   padding: 10px 0;
   border-top: 1px dashed #f0c9a4;
@@ -554,7 +560,6 @@ body[data-page="battle"] .card {
   margin-bottom: 6px;
 }
 
-/* 升級按鈕：用商店「購買」那種小膠囊風格 */
 .equip-btn {
   border: none;
   border-radius: 999px;
@@ -563,71 +568,10 @@ body[data-page="battle"] .card {
   background: #ffe3c8;
   color: #7a5742;
   cursor: pointer;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .equip-btn:active {
   transform: translateY(1px);
   box-shadow: none;
-  
-  /* 新手村：勇者列表排版，縮一點讓手機一頁放得下 */
-.hero-select-card {
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.hero-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.hero-card {
-  border-radius: 12px;
-  border: 1px solid #f0cfa0;
-  background: #fffaf4;
-  padding: 8px;
-  text-align: center;
-  font-size: 13px;
-  cursor: pointer;
-}
-.hero-card.active {
-  box-shadow: 0 0 0 2px #f4a769;
-}
-
-.hero-name {
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.hero-fist {
-  font-size: 12px;
-  color: #9a6b4c;
-}
-
-.hero-story-box {
-  font-size: 12px;
-  line-height: 1.4;
-  color: #7a5742;
-  background: #fff7ec;
-  border-radius: 10px;
-  padding: 6px 8px;
-  max-height: 80px;
-  overflow-y: auto; /* 文字太多就小小捲動，不會撐高整頁 */
-  margin-bottom: 8px;
-}
-
-.help-card {
-  font-size: 13px;
-}
-.help-list {
-  padding-left: 18px;
-  margin-top: 4px;
-  margin-bottom: 8px;
-}
-.help-text {
-  font-size: 12px;
-  line-height: 1.5;
-}
 }
