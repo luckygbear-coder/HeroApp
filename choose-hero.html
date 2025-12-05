@@ -17,7 +17,7 @@
       <p class="subtitle">選擇你的第一位小勇者</p>
     </div>
 
-    <!-- 村長熊熊頭像說明 -->
+    <!-- 熊熊村長頭像 + 說明 -->
     <div class="card">
       <div style="display:flex; align-items:center; gap:12px;">
         <img src="images/bear.png"
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <!-- 英雄列表（由 script.js 動態產生） -->
+    <!-- 英雄列表（由 script.js 動態生成） -->
     <div class="card">
       <div id="heroList" class="hero-list"></div>
     </div>
@@ -55,33 +55,33 @@
 
   </div><!-- /game-wrap -->
 
-  <!-- 底部導覽：全站共用 -->
+  <!-- 底部導覽列（全站共用版本） -->
   <nav class="bottom-nav">
     <!-- 左一：村長的家 -->
-    <a href="index.html" class="nav-item" id="navHome">
+    <a href="index.html" class="nav-item" data-nav="home">
       <div class="icon">🐻</div>
       <div class="label">村長的家</div>
     </a>
 
     <!-- 左二：占卜屋 -->
-    <a href="tarot.html" class="nav-item" id="navTarot">
+    <a href="tarot.html" class="nav-item" data-nav="tarot">
       <div class="icon">🔮</div>
       <div class="label">占卜屋</div>
     </a>
 
-    <!-- 中間凸出的星星按鈕：直接去地圖（若還沒選勇者，script 會擋） -->
-    <a href="map.html" class="star-btn" id="navAdventure">
+    <!-- 中間：星星（冒險地圖） -->
+    <a href="map.html" class="star-btn" data-nav="map">
       ⭐
     </a>
 
     <!-- 右二：商店 -->
-    <a href="shop.html" class="nav-item" id="navShop">
+    <a href="shop.html" class="nav-item" data-nav="shop">
       <div class="icon">🛍</div>
       <div class="label">商店</div>
     </a>
 
-    <!-- 右一：小勇者的家（目前頁面，高亮） -->
-    <a href="choose-hero.html" class="nav-item active" id="navHero">
+    <!-- 右一：小勇者的家（目前頁面） -->
+    <a href="choose-hero.html" class="nav-item" data-nav="hero">
       <div class="icon">🧒</div>
       <div class="label">小勇者的家</div>
     </a>
