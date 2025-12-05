@@ -9,88 +9,98 @@
 
 <body class="page-wrap" data-page="battle">
 
-  <div class="game-wrap">
+<div class="game-wrap">
 
-    <!-- 敵方資訊 -->
-    <div class="card status-card">
-      <h2>敵方資訊</h2>
-      <p id="monsterStageText"></p>
-      <p id="monsterNameText"></p>
-      <p>LV.<span id="monsterLevelText">1</span></p>
-      <p>天賦拳：<span id="monsterTalentText">？</span></p>
-      <p>禁用拳：<span id="monsterForbidText">—</span></p>
+  <!-- 上方：雙方狀態 -->
+  <div class="card battle-top-card">
+    <div class="battle-actors">
 
-      <div class="emotion-bar">
-        <ul id="emotionList"></ul>
-      </div>
-    </div>
-
-    <!-- 我方資訊 -->
-    <div class="card status-card">
-      <h2>小勇者</h2>
-      <p id="heroNameText"></p>
-      <p>HP：<span id="heroHpText"></span></p>
-      <p>天賦拳：<span id="heroTalentText"></span></p>
-      <p>裝備：<span id="heroEquipText"></span></p>
-      <p>能力加成：<span id="heroBuffText"></span></p>
-    </div>
-
-    <!-- 對話紀錄 -->
-    <div class="card dialog-card">
-      <h2>戰鬥對話</h2>
-      <div id="dialogBox" class="dialog-box"></div>
-      <p id="roundResult" style="font-weight:bold;"></p>
-      <p>回合：<span id="roundCount">0</span></p>
-    </div>
-
-    <!-- 出拳 -->
-    <div class="card battle-card">
-      <h2>選擇你的拳</h2>
-      <div class="battle-row">
-        <button class="rps-btn circle" data-move="rock">✊</button>
-        <button class="rps-btn circle" data-move="scissors">✌️</button>
-        <button class="rps-btn circle" data-move="paper">🖐</button>
-        <button id="itemBagBtn" class="item-bag-btn">🎒</button>
+      <!-- 小勇者 -->
+      <div class="actor-row hero-row">
+        <div id="heroAvatar" class="avatar hero-avatar">🧒</div>
+        <div class="actor-info">
+          <div class="actor-name-row">
+            <span id="heroNameText" class="actor-name">小勇者</span>
+            <span id="heroLevelText" class="actor-level">LV.1</span>
+          </div>
+          <div id="heroHpText" class="actor-hp">好心情 HP：0 / 0</div>
+          <div class="actor-sub-row">
+            <span>天賦拳：<span id="heroTalentText">任意拳</span></span>
+          </div>
+          <div id="heroEquipText" class="actor-equip">尚未裝備</div>
+          <div id="heroBuffText" class="actor-buff">目前沒有額外加成</div>
+        </div>
       </div>
 
-      <button id="backToMapBtn" class="secondary-btn full">離開戰鬥</button>
-    </div>
-
-    <!-- 道具 Modal -->
-    <div id="itemModal" class="modal">
-      <div class="modal-content">
-        <h3>道具籃</h3>
-        <p>小蘋果：<span id="appleSmallCount"></span></p>
-        <button class="item-use-btn" data-item="appleSmall">使用</button>
-
-        <p>大蘋果：<span id="appleBigCount"></span></p>
-        <button class="item-use-btn" data-item="appleBig">使用</button>
-
-        <p>復活星星：<span id="reviveCount"></span></p>
-        <button class="item-use-btn" data-item="revive">使用</button>
-
-        <button id="closeItemModal" class="close-btn">關閉</button>
+      <!-- 魔物 / 魔王 -->
+      <div class="actor-row monster-row">
+        <div id="monsterAvatar" class="avatar monster-avatar">👾</div>
+        <div class="actor-info">
+          <div class="actor-name-row">
+            <span id="monsterNameText" class="actor-name">魔物名稱</span>
+            <span id="monsterLevelText" class="actor-level">LV.1</span>
+          </div>
+          <div id="monsterStageText" class="actor-stage">地點：—</div>
+          <div id="monsterHpText" class="actor-hp">壞情緒 HP：0 / 0</div>
+          <div class="actor-sub-row">
+            <span>天賦拳：<span id="monsterTalentText">任意拳</span></span>
+            <span>禁出：<span id="monsterForbidText">—</span></span>
+          </div>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
 
-  <!-- 底部導覽 -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item" data-nav="home">
-      <div class="icon">🐻</div><div class="label">村長的家</div>
-    </a>
-    <a href="tarot.html" class="nav-item" data-nav="tarot">
-      <div class="icon">🔮</div><div class="label">占卜屋</div>
-    </a>
-    <a href="map.html" class="star-btn" data-nav="map">⭐</a>
-    <a href="shop.html" class="nav-item" data-nav="shop">
-      <div class="icon">🛍</div><div class="label">商店</div>
-    </a>
-    <a href="choose-hero.html" class="nav-item" data-nav="hero">
-      <div class="icon">🧒</div><div class="label">小勇者的家</div>
-    </a>
-  </nav>
+  <!-- 中間：回合＆對話 -->
+  <div class="card dialog-card">
+    <div class="dialog-header">
+      <span>第 <span id="roundCount">0</span> 回合</span>
+      <span id="roundResult" class="round-result">請出拳開始安撫魔物～</span>
+    </div>
+    <div id="dialogBox" class="dialog-box"></div>
+  </div>
+
+  <!-- 下方：出拳＆道具 -->
+  <div class="card battle-action-card">
+    <div class="battle-row">
+      <button class="rps-btn circle" data-move="rock">✊</button>
+      <button class="rps-btn circle" data-move="scissors">✌️</button>
+      <button class="rps-btn circle" data-move="paper">🖐</button>
+      <button id="itemBagBtn" class="item-bag-btn">🎒</button>
+    </div>
+    <button id="backToMapBtn" class="secondary-btn full" style="margin-top:4px;">
+      先回冒險地圖休息一下
+    </button>
+  </div>
+
+</div><!-- /game-wrap -->
+
+<!-- 道具籃 Modal -->
+<div id="itemModal" class="modal">
+  <div class="modal-content">
+    <h3>小勇者的道具籃</h3>
+    <p>🍎 小蘋果：<span id="appleSmallCount">0</span></p>
+    <button class="item-use-btn" data-item="appleSmall">吃一顆恢復少量好心情</button>
+
+    <p>🍎 大蘋果：<span id="appleBigCount">0</span></p>
+    <button class="item-use-btn" data-item="appleBig">吃一顆恢復全部好心情</button>
+
+    <p>⭐ 復活星星：<span id="reviveCount">0</span></p>
+    <button class="item-use-btn" data-item="revive">立刻恢復全部好心情</button>
+
+    <button id="closeItemModal" class="close-btn">關閉道具籃</button>
+  </div>
+</div>
+
+<!-- 底部導覽列 -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item"><div class="icon">🐻</div><div class="label">村長的家</div></a>
+  <a href="tarot.html" class="nav-item"><div class="icon">🔮</div><div class="label">占卜屋</div></a>
+  <a href="map.html" class="star-btn active">⭐</a>
+  <a href="shop.html" class="nav-item"><div class="icon">🛍</div><div class="label">商店</div></a>
+  <a href="choose-hero.html" class="nav-item"><div class="icon">🧒</div><div class="label">小勇者的家</div></a>
+</nav>
 
 <script src="script.js"></script>
 </body>
