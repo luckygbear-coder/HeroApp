@@ -10,112 +10,190 @@
 <body class="page-wrap" data-page="shop">
   <div class="game-wrap">
 
-<div class="card title-card shop-header">
-  <h1>星星小商店</h1>
-  <p class="subtitle">用勇氣星星換取補給與道具</p>
+    <!-- 標題 + NPC 兔兔工匠 + 分頁切換 -->
+    <div class="card title-card shop-header">
+      <div class="shop-title-row">
+        <div>
+          <h1>星星小商店</h1>
+          <p class="subtitle">用勇氣星星換取補給與裝備</p>
+        </div>
+        <div class="shop-npc-avatar">
+          <span class="shop-npc-icon">🐰</span>
+        </div>
+      </div>
 
-  <div class="shop-switch-row">
-    <button class="shop-switch-btn active">補給商店</button>
-    <button class="shop-switch-btn" onclick="window.location.href='equip.html'">裝備坊</button>
-  </div>
-</div>
+      <p class="shop-npc-line">
+        兔兔工匠：今天想先補給體力，還是來升級帥氣裝備呢？✨
+      </p>
 
-    <div class="card shop-card">
-      <p style="margin:0 0 4px;font-size:13px;">
-        ⭐ 勇氣星星：<span id="shopStars">0</span><br />
+      <div class="shop-tabs">
+        <button id="shopTabBtn" class="shop-tab-btn active" type="button">
+          補給商店
+        </button>
+        <button id="equipTabBtn" class="shop-tab-btn" type="button">
+          裝備坊
+        </button>
+      </div>
+    </div>
+
+    <!-- ⭐ 資源概況（兩個分頁共用） -->
+    <div class="card shop-summary-card">
+      <p class="shop-summary-title">勇氣與資源</p>
+      <p class="shop-summary-row">
+        ⭐ 勇氣星星：<span id="shopStars">0</span>
+      </p>
+      <p class="shop-summary-row">
         🍯 嗡嗡蜂蜜：<span id="shopHoneyCount">0</span>
       </p>
-      <p style="font-size:12px;color:#8a6a4c;margin:4px 0 0;">
-        小提醒：星星是很珍貴的喔，記得思考現在最需要什麼再購買～
+      <p class="shop-summary-tip">
+        小提醒：星星很珍貴，要想想現在最需要的是補給還是裝備強化～
       </p>
     </div>
 
-    <!-- 補給品 -->
-    <div class="card shop-card">
-      <h3 style="margin-top:0;">回復道具</h3>
+    <!-- 🔹 分頁一：補給商店 -->
+    <div id="shopSection" class="shop-panel active">
+      <div class="card shop-card">
+        <h2 class="shop-section-title">回復道具</h2>
 
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">🍎 小蘋果</p>
-          <p class="shop-desc">回復 1 點 HP，適合小小受傷的時候。</p>
-          <p class="shop-price">價格：⭐ 1　擁有：<span id="shopAppleSmallCount">0</span></p>
+        <div class="shop-item">
+          <div class="shop-item-info">
+            <p class="shop-name">🍎 小蘋果</p>
+            <p class="shop-desc">回復 1 點 HP，適合小小受傷的時候。</p>
+            <p class="shop-price">
+              價格：⭐ 1　擁有：<span id="shopAppleSmallCount">0</span>
+            </p>
+          </div>
+          <button
+            class="shop-buy-btn"
+            data-item="appleSmall"
+            data-label="小蘋果"
+            type="button"
+          >
+            購買
+          </button>
         </div>
-        <button
-          class="shop-buy-btn"
-          data-item="appleSmall"
-          data-label="小蘋果"
-        >
-          購買
-        </button>
+
+        <div class="shop-item">
+          <div class="shop-item-info">
+            <p class="shop-name">🍎🍎 大蘋果</p>
+            <p class="shop-desc">直接回滿 HP，一口氣恢復元氣！</p>
+            <p class="shop-price">
+              價格：⭐ 5　擁有：<span id="shopAppleBigCount">0</span>
+            </p>
+          </div>
+          <button
+            class="shop-buy-btn"
+            data-item="appleBig"
+            data-label="大蘋果"
+            type="button"
+          >
+            購買
+          </button>
+        </div>
+
+        <div class="shop-item">
+          <div class="shop-item-info">
+            <p class="shop-name">⭐ 復活星星</p>
+            <p class="shop-desc">戰鬥中倒下時，自動讓小勇者重新站起來。</p>
+            <p class="shop-price">
+              價格：⭐ 10　擁有：<span id="shopReviveCount">0</span>
+            </p>
+          </div>
+          <button
+            class="shop-buy-btn"
+            data-item="revive"
+            data-label="復活星星"
+            type="button"
+          >
+            購買
+          </button>
+        </div>
       </div>
 
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">🍎🍎 大蘋果</p>
-          <p class="shop-desc">直接回滿 HP，一口氣恢復元氣！</p>
-          <p class="shop-price">價格：⭐ 5　擁有：<span id="shopAppleBigCount">0</span></p>
-        </div>
-        <button
-          class="shop-buy-btn"
-          data-item="appleBig"
-          data-label="大蘋果"
-        >
-          購買
-        </button>
-      </div>
+      <div class="card shop-card">
+        <h2 class="shop-section-title">熊熊專用道具</h2>
 
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">⭐ 復活星星</p>
-          <p class="shop-desc">戰鬥中倒下時，自動讓小勇者重新站起來。</p>
-          <p class="shop-price">價格：⭐ 10　擁有：<span id="shopReviveCount">0</span></p>
+        <div class="shop-item">
+          <div class="shop-item-info">
+            <p class="shop-name">🍯 嗡嗡蜂蜜</p>
+            <p class="shop-desc">
+              拿去請熊熊村長占卜，用甜甜的蜂蜜換取暖心指引。
+            </p>
+            <p class="shop-price">
+              價格：⭐ 6　擁有：<span id="shopHoneyCount2">0</span>
+            </p>
+          </div>
+          <button
+            class="shop-buy-btn"
+            data-item="honey"
+            data-label="嗡嗡蜂蜜"
+            type="button"
+          >
+            購買
+          </button>
         </div>
-        <button
-          class="shop-buy-btn"
-          data-item="revive"
-          data-label="復活星星"
-        >
-          購買
-        </button>
       </div>
     </div>
 
-    <!-- 特殊道具：嗡嗡蜂蜜 -->
-    <div class="card shop-card">
-      <h3 style="margin-top:0;">熊熊專用道具</h3>
-
-      <div class="shop-item">
-        <div class="shop-item-info">
-          <p class="shop-name">🍯 嗡嗡蜂蜜</p>
-          <p class="shop-desc">拿去請熊熊村長占卜，用甜甜的蜂蜜換來暖心指引。</p>
-          <p class="shop-price">價格：⭐ 6　擁有：<span id="shopHoneyCount">0</span></p>
+    <!-- 🔹 分頁二：裝備坊（沿用原本 equip.html 的結構） -->
+    <div id="equipSection" class="shop-panel">
+      <div class="card equip-section-card">
+        <div class="equip-header-row">
+          <h2 class="shop-section-title">兔兔裝備坊</h2>
+          <div class="equip-stars-info">
+            ⭐ 星星餘額：<span id="equipStars">0</span>
+          </div>
         </div>
-        <button
-          class="shop-buy-btn"
-          data-item="honey"
-          data-label="嗡嗡蜂蜜"
-        >
-          購買
-        </button>
+        <p class="equip-tip">
+          兔兔工匠：裝備可以購買、升級，也可以切換不同套裝～<br />
+          （價格會隨著等級慢慢增加喔）
+        </p>
+
+        <h3 class="equip-subtitle">武器</h3>
+        <div id="equipWeaponList"></div>
+
+        <h3 class="equip-subtitle">防具</h3>
+        <div id="equipArmorList"></div>
+
+        <h3 class="equip-subtitle">飾品</h3>
+        <div id="equipAccessoryList"></div>
+
+        <h3 class="equip-subtitle">鞋子</h3>
+        <div id="equipBootsList"></div>
       </div>
     </div>
 
-  </div>
+  </div><!-- /game-wrap -->
 
-  <!-- 底部導覽列 -->
+  <!-- 底部導覽：全站共用 -->
   <nav class="bottom-nav">
+    <!-- 左一：村長的家 -->
     <a href="index.html" class="nav-item" data-nav="home">
-      <div class="icon">🐻</div><div class="label">村長的家</div>
+      <div class="icon">🐻</div>
+      <div class="label">村長的家</div>
     </a>
+
+    <!-- 左二：占卜屋 -->
     <a href="tarot.html" class="nav-item" data-nav="tarot">
-      <div class="icon">🔮</div><div class="label">占卜屋</div>
+      <div class="icon">🔮</div>
+      <div class="label">占卜屋</div>
     </a>
-    <a href="map.html" class="star-btn" data-nav="map">⭐</a>
+
+    <!-- 中間：大星星 → 地圖冒險 -->
+    <a href="map.html" class="star-btn" data-nav="map">
+      ⭐
+    </a>
+
+    <!-- 右二：商店（目前這頁） -->
     <a href="shop.html" class="nav-item" data-nav="shop">
-      <div class="icon">🛍</div><div class="label">商店</div>
+      <div class="icon">🛍</div>
+      <div class="label">商店</div>
     </a>
+
+    <!-- 右一：小勇者的家 -->
     <a href="choose-hero.html" class="nav-item" data-nav="hero">
-      <div class="icon">🧒</div><div class="label">小勇者的家</div>
+      <div class="icon">🧒</div>
+      <div class="label">小勇者的家</div>
     </a>
   </nav>
 
