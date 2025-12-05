@@ -28,24 +28,29 @@
 
 </div>
 
-<!-- 導覽列 -->
-<nav class="bottom-nav">
-  <a class="nav-item" href="index.html">
-    <span>🐻</span>村長的家
-  </a>
-  <a class="nav-item" href="map.html">
-    <span>🗺</span>冒險
-  </a>
-  <button class="nav-star-center" onclick="location.href='tarot.html'">
-    ⭐
-  </button>
-  <a class="nav-item" href="shop.html">
-    <span>🛍</span>商店
-  </a>
-  <a class="nav-item active" href="choose-hero.html">
-    <span>⚔️</span>勇者
-  </a>
-</nav>
+<body class="page-wrap" data-page="chooseHero">
+  <div class="game-wrap">
+    <div class="card">
+      <h2>選擇你的第一位小勇者</h2>
+      <p>每一位小勇者都有不同的天賦拳與故事，選一位一起出發吧！</p>
+    </div>
+
+    <div id="heroList" class="hero-list"></div>
+
+    <!-- 小勇者故事＋效果區塊 -->
+    <div id="heroStoryBox" class="card" style="display:none; margin-top:16px;">
+      <h3 id="heroStoryTitle">小勇者故事</h3>
+      <p id="heroStoryText"></p>
+      <p id="heroLineText" class="hero-line"></p>
+      <p id="heroAbilityText" class="hero-ability"></p>
+      <button id="confirmHeroBtn" class="primary-btn" style="display:none; margin-top:12px;">
+        就決定是你了！前往冒險地圖
+      </button>
+    </div>
+  </div>
+
+  <!-- 底部導覽：貼上共用 nav -->
+</body>
 
 <script src="script.js"></script>
 </body>
