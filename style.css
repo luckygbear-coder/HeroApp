@@ -761,3 +761,33 @@ body[data-page="battle"] .card {
 .bottom-nav .nav-item.active .label {
   font-weight: 600;
 }
+/* ========= 針對村長的家專屬修正 ========= */
+
+body[data-page="home"] .game-wrap {
+  padding-bottom: 110px !important; /* 預留導航列空間 */
+}
+
+body[data-page="home"] {
+  background: linear-gradient(180deg, #ffeef5 0%, #fff7e3 100%);
+}
+
+/* 防止某些頁面的舊版 wrap 套用 margin 導致錯位 */
+.page-wrap {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 統一導航列不偏移 */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  background: #fff7e6;
+  border-top: 1px solid #f1d3a0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+}
