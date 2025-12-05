@@ -967,4 +967,41 @@ body[data-page="home"] {
   font-size: 12px;
   color: #9f7b5a;
 }
+/* --------------------------
+   商店 ↔ 裝備坊 切換按鈕
+--------------------------- */
+
+.shop-header {
+  text-align: center;
+}
+
+.shop-switch-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.shop-switch-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #ffe7c7;
+  color: #7f5b39;
+  font-size: 13px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.shop-switch-btn.active {
+  background: #ffcf8b;
+  color: #81501e;
+  font-weight: 600;
+  transform: translateY(-1px);
+}
+
+.shop-switch-btn:hover {
+  background: #f8d7a7;
+}
 }
