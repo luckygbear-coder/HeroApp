@@ -855,4 +855,116 @@ body[data-page="home"] {
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
+  /* ===========================
+   塔羅占卜：抽牌動畫＋翻牌效果
+   =========================== */
+
+/* 占卜區標題列（左文字＋右按鈕） */
+.tarot-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tarot-section-title {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* 右上角「占卜紀錄」按鈕 */
+.tarot-history-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  background: #ffe4c5;
+  color: #805134;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+/* 抽牌時（洗牌中）的動畫：整排小小晃動 */
+.tarot-section.tarot-drawing .tarot-card {
+  animation: tarotShuffle 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes tarotShuffle {
+  0%   { transform: translateY(0px); }
+  100% { transform: translateY(-4px); }
+}
+
+/* 卡片本體：加上 3D 翻轉 + transition */
+.tarot-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+/* 抽完牌時，給卡片一個 360 度翻轉的感覺 */
+.tarot-card.flipped {
+  animation: tarotFlip 0.6s ease;
+}
+
+@keyframes tarotFlip {
+  0%   { transform: rotateY(0deg); }
+  50%  { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* 「更多說明」按鈕 */
+.tarot-more-btn {
+  margin-top: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #f2c9a4;
+  background: #fff2d9;
+  font-size: 11px;
+  color: #8a5a3b;
+  cursor: pointer;
+}
+
+/* 占卜紀錄彈窗的內容區：可捲動 */
+.tarot-history-modal {
+  max-height: 75vh;
+}
+
+.tarot-history-tip {
+  font-size: 12px;
+  color: #8a6a4c;
+}
+
+.tarot-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+.tarot-history-item {
+  padding: 6px 0;
+  border-top: 1px dashed #f2c9a4;
+  font-size: 12px;
+}
+
+.tarot-history-item:first-child {
+  border-top: none;
+}
+
+.tarot-history-time {
+  font-size: 11px;
+  color: #b08963;
+  margin-bottom: 2px;
+}
+
+.tarot-history-cards > div {
+  margin-bottom: 2px;
+}
+
+.tarot-history-empty {
+  font-size: 12px;
+  color: #9f7b5a;
+}
 }
