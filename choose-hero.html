@@ -9,83 +9,84 @@
 
 <body class="page-wrap" data-page="chooseHero">
 
-<div class="game-wrap">
+  <div class="game-wrap">
 
-  <!-- 頂部：抬頭 + 村長熊熊頭像 -->
-  <div class="card title-card">
-    <h1>小勇者的家</h1>
-    <p class="subtitle">選擇你的第一位小勇者</p>
-  </div>
+    <!-- 頂部：抬頭 -->
+    <div class="card title-card">
+      <h1>小勇者的家</h1>
+      <p class="subtitle">選擇你的第一位小勇者</p>
+    </div>
 
-  <div class="card">
-    <div style="display:flex; align-items:center; gap:12px;">
-      <img src="images/bear.png"
-           alt="熊熊村長"
-           style="width:64px;height:64px;border-radius:50%;object-fit:cover;">
-      <div>
-        <p style="margin:0 0 4px; font-size:14px;">
-          每一位小勇者都有不同的天賦拳與故事，選一位一起出發冒險吧！
-        </p>
-        <p style="margin:0; font-size:12px; color:#a67b5b;">
-          點選卡片就能看到他／她的故事、口頭禪和特殊能力效果。
-        </p>
+    <!-- 村長熊熊頭像說明 -->
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <img src="images/bear.png"
+             alt="熊熊村長"
+             style="width:64px;height:64px;border-radius:50%;object-fit:cover;">
+        <div>
+          <p style="margin:0 0 4px; font-size:14px;">
+            每一位小勇者都有不同的天賦拳與故事，選一位一起出發冒險吧！
+          </p>
+          <p style="margin:0; font-size:12px; color:#a67b5b;">
+            點選卡片就能看到他／她的故事、口頭禪和特殊能力效果。
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- 英雄列表（由 script.js 動態產生） -->
-  <div class="card">
-    <div id="heroList" class="hero-list"></div>
-  </div>
+    <!-- 英雄列表（由 script.js 動態產生） -->
+    <div class="card">
+      <div id="heroList" class="hero-list"></div>
+    </div>
 
-  <!-- 小勇者故事＋效果區塊：點到某位勇者才會顯示 -->
-  <div id="heroStoryBox" class="card" style="display:none; margin-top:16px;">
-    <h3 id="heroStoryTitle" style="margin-top:0;">小勇者故事</h3>
-    <p id="heroStoryText"></p>
-    <p id="heroLineText" class="hero-line" style="font-weight:600;"></p>
-    <p id="heroAbilityText" class="hero-ability" style="color:#a0673b;"></p>
+    <!-- 小勇者故事＋效果區塊：點到某位勇者才會顯示 -->
+    <div id="heroStoryBox" class="card" style="display:none; margin-top:16px;">
+      <h3 id="heroStoryTitle" style="margin-top:0;">小勇者故事</h3>
+      <p id="heroStoryText"></p>
+      <p id="heroLineText" class="hero-line" style="font-weight:600;"></p>
+      <p id="heroAbilityText" class="hero-ability" style="color:#a0673b;"></p>
 
-    <button id="confirmHeroBtn"
-            class="primary-btn"
-            style="display:none; margin-top:12px;">
-      就決定是你了！前往冒險地圖
-    </button>
-  </div>
+      <button id="confirmHeroBtn"
+              class="primary-btn"
+              style="display:none; margin-top:12px;">
+        就決定是你了！前往冒險地圖
+      </button>
+    </div>
 
-</div> <!-- /game-wrap -->
+  </div><!-- /game-wrap -->
 
-<!-- 底部導覽：全站共用 -->
-<nav class="bottom-nav">
-<a href="choose-hero.html" class="nav-item active">
-  <!-- 左一：村長的家 -->
-  <a href="index.html" class="nav-item" id="navHome">
-    <div class="icon">🐻</div>
-    <div class="label">村長的家</div>
-  </a>
+  <!-- 底部導覽：全站共用 -->
+  <nav class="bottom-nav">
+    <!-- 左一：村長的家 -->
+    <a href="index.html" class="nav-item" id="navHome">
+      <div class="icon">🐻</div>
+      <div class="label">村長的家</div>
+    </a>
 
-  <!-- 左二：占卜屋 -->
-  <a href="tarot.html" class="nav-item" id="navTarot">
-    <div class="icon">🔮</div>
-    <div class="label">占卜屋</div>
-  </a>
+    <!-- 左二：占卜屋 -->
+    <a href="tarot.html" class="nav-item" id="navTarot">
+      <div class="icon">🔮</div>
+      <div class="label">占卜屋</div>
+    </a>
 
-  <!-- 中間凸出的星星按鈕：直接去地圖（若還沒選勇者，script 會擋） -->
-  <a href="map.html" class="star-btn" id="navAdventure">⭐</a>
+    <!-- 中間凸出的星星按鈕：直接去地圖（若還沒選勇者，script 會擋） -->
+    <a href="map.html" class="star-btn" id="navAdventure">
+      ⭐
+    </a>
 
-  <!-- 右二：商店 -->
-  <a href="shop.html" class="nav-item" id="navShop">
-    <div class="icon">🛍</div>
-    <div class="label">商店</div>
-  </a>
+    <!-- 右二：商店 -->
+    <a href="shop.html" class="nav-item" id="navShop">
+      <div class="icon">🛍</div>
+      <div class="label">商店</div>
+    </a>
 
-  <!-- 右一：小勇者的家（目前頁面） -->
-  <a href="choose-hero.html" class="nav-item active" id="navHero">
-    <div class="icon">🧒</div>
-    <div class="label">小勇者的家</div>
-  </a>
+    <!-- 右一：小勇者的家（目前頁面，高亮） -->
+    <a href="choose-hero.html" class="nav-item active" id="navHero">
+      <div class="icon">🧒</div>
+      <div class="label">小勇者的家</div>
+    </a>
+  </nav>
 
-</nav>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
