@@ -858,10 +858,6 @@ function getRandomBearHugMessage() {
 }
 
 /* ==========================================================
-   占卜 tarot.html（含歷史紀錄）
-   ========================================================== */
-
-/* ==========================================================
    占卜 tarot.html（22 張大秘儀）
    ========================================================== */
 
@@ -906,83 +902,83 @@ const TAROT_CARDS = [
     name: "VI 戀人",
     upright: "選擇、關係和諧、愛與支持。適合做出真心的選擇。",
     reverse: "猶豫不決、太在意別人想法。",
-    bear: "做選擇前問問自己：『哪一個讓我更做自己？』"
+    bear: "做選擇前問問自己：「哪一個讓我更做自己？」"
   },
   {
     name: "VII 戰車",
     upright: "向前衝刺、意志堅定、把目標往前推進的好時機。",
     reverse: "太急、太硬、忽略情緒或休息。",
-    bear: "勇敢不是一直往前衝，而是知道何時該停下看地圖。"
+    bear: "真正的勇敢不是一直往前衝，而是知道何時該停下來看地圖。"
   },
   {
     name: "VIII 力量",
     upright: "溫柔但堅定，能好好面對壞情緒而不被吞沒。",
     reverse: "對自己太嚴格或覺得不夠好。",
-    bear: "你不需要完美，你願意努力、願意誠實就是力量。"
+    bear: "不需要完美，你願意努力、願意誠實，就是你的超能力。"
   },
   {
     name: "IX 隱者",
-    upright: "適合獨處、整理心情、找答案。",
-    reverse: "封閉、孤單、把自己困住。",
-    bear: "安靜一下很好，但如果覺得孤單，熊熊一直都在。"
+    upright: "適合獨處、整理心情、慢慢找答案。",
+    reverse: "太封閉、孤單，把自己關在小房間裡。",
+    bear: "安靜一下很好，但如果覺得孤單，記得打開門找找願意聽你說話的人。"
   },
   {
     name: "X 命運之輪",
     upright: "運氣轉變、機會來臨，新篇章要開始。",
-    reverse: "卡住、反覆遇到同樣問題，需要換方式。",
+    reverse: "卡住、反覆遇到同樣問題，需要換方式面對。",
     bear: "運氣不好不代表你不好，只是故事還沒演到轉折。"
   },
-    {
+  {
     name: "XI 正義",
     upright: "公平、理性、做出負責任的決定。",
-    reverse: "覺得不公平、責怪自己或他人過度。",
+    reverse: "覺得不公平、過度責怪自己或別人。",
     bear: "如果覺得被誤會，試著冷靜說清楚，你的感受很重要。"
   },
   {
     name: "XII 吊人",
     upright: "暫停、等待、換角度思考，是成長的過程。",
     reverse: "覺得被卡住、心悶、沒進展。",
-    bear: "停下來不代表失敗，可能是在為更好的路讓空間。"
+    bear: "停下來不代表失敗，可能是在為更好的路讓出空間。"
   },
   {
     name: "XIII 死神",
     upright: "結束舊階段、迎接新的開始。",
     reverse: "害怕改變、不敢放手。",
-    bear: "說再見很難，但新的美好也會因此走進來。"
+    bear: "說再見很難，但新的美好也會因為這個空位而靠近你。"
   },
   {
     name: "XIV 節制",
     upright: "平衡、剛剛好、調整生活節奏。",
     reverse: "過度或不足、失衡、情緒不穩。",
-    bear: "每天一點小調整就很好，不需要一下做到很完美。"
+    bear: "每天一點小小的調整就很好，不需要一下做到完美。"
   },
   {
     name: "XV 惡魔",
-    upright: "欲望、習慣、被困住的感覺。",
+    upright: "欲望、壞習慣、被困住的感覺。",
     reverse: "開始看清束縛，準備離開不健康的狀態。",
-    bear: "你永遠可以重新選擇，即使只是小小一步，也是在走向自由。"
+    bear: "你永遠可以重新選擇，即使只是一小步，也是走向自由。"
   },
   {
     name: "XVI 高塔",
     upright: "突發事件、真相浮現、舊的結構被打破。",
     reverse: "問題其實早就存在，只是一直被忽略。",
-    bear: "雖然現在很亂，但之後你會蓋一個更安全、更喜歡的塔。"
+    bear: "雖然現在很亂，但之後你會蓋一座更安全、更喜歡的新塔。"
   },
-    {
+  {
     name: "XVII 星星",
-    upright: "希望、療癒、慢慢變好。",
-    reverse: "信心動搖、找不到亮光。",
-    bear: "哪怕很小很小的亮光，它也是希望，請幫自己保留下來。"
+    upright: "希望、療癒、慢慢變好，是溫柔而長期的好轉。",
+    reverse: "信心動搖、暫時看不到亮光。",
+    bear: "哪怕只有一點點微光，它也是希望，請幫自己把它留著。"
   },
   {
     name: "XVIII 月亮",
     upright: "直覺敏銳、情緒細膩、適合觀察內心。",
     reverse: "擔心太多、想像過頭、感到不安。",
-    bear: "把害怕說出來，很多時候就沒那麼可怕了。"
+    bear: "把害怕說出來，很多時候它就沒那麼可怕了。"
   },
   {
     name: "XIX 太陽",
-    upright: "成功、開心、充滿活力，是非常幸運的訊號。",
+    upright: "成功、開心、充滿活力，是非常幸運與快樂的訊號。",
     reverse: "累了、壓力大、暫時失去光。",
     bear: "太陽有時會被雲遮住，但它從未消失，你的光也是。"
   },
@@ -995,8 +991,8 @@ const TAROT_CARDS = [
   {
     name: "XXI 世界",
     upright: "圓滿、達成、完成一個階段。",
-    reverse: "接近成功但有點拖延、不敢踏出最後一小步。",
-    bear: "你已經走了很遠很遠，再踏出小小的一步就到了。"
+    reverse: "接近成功但有點拖延、不敢踏出最後一步。",
+    bear: "你已經走了很遠，再跨出小小一步就會看到新的風景。"
   }
 ];
 
@@ -1006,30 +1002,37 @@ const TAROT_HISTORY_KEY = "tarotHistory";
 function loadTarotHistory() {
   return load(TAROT_HISTORY_KEY, []);
 }
-
 function saveTarotHistory(list) {
   save(TAROT_HISTORY_KEY, list);
 }
 
-function initTarotPage() {
-  const honeyLabel = document.getElementById("honeyCount");
-  const starLabel  = document.getElementById("tarotStars");
-  if (honeyLabel) honeyLabel.textContent = items.honey;
-  if (starLabel)  starLabel.textContent  = stars;
+// 把一段文字切成「短說明」用在卡片初始顯示
+function makeShortText(text) {
+  const idx = text.indexOf("。");
+  if (idx !== -1) {
+    return text.slice(0, idx + 1); // 第一個句號為止
+  }
+  return text;
+}
 
-  const hugBtn     = document.getElementById("bearHugBtn");
-  const drawBtn    = document.getElementById("tarotDrawBtn");
-  const historyBtn = document.getElementById("openTarotHistoryBtn");
+/* ---------- 占卜頁初始化 ---------- */
+function initTarotPage() {
+  const honeyLabel   = document.getElementById("honeyCount");
+  const starLabel    = document.getElementById("tarotStars");
+  const hugBtn       = document.getElementById("bearHugBtn");
+  const drawBtn      = document.getElementById("tarotDrawBtn");
+  const historyBtn   = document.getElementById("openTarotHistoryBtn");
   const historyModal = document.getElementById("tarotHistoryModal");
   const historyClose = document.getElementById("closeTarotHistoryBtn");
+
+  if (honeyLabel) honeyLabel.textContent = items.honey;
+  if (starLabel)  starLabel.textContent  = stars;
 
   // 熊熊抱抱：隨機暖心語錄
   if (hugBtn) {
     hugBtn.addEventListener("click", () => {
       const msg = getRandomBearHugMessage();
-
       alert("🐻 熊熊抱抱～\n\n" + msg);
-
       const bearMsgBox = document.getElementById("tarotBearMessage");
       if (bearMsgBox) {
         bearMsgBox.textContent = "熊熊村長：" + msg;
@@ -1037,6 +1040,7 @@ function initTarotPage() {
     });
   }
 
+  // 抽牌按鈕
   if (drawBtn) {
     drawBtn.addEventListener("click", doTarot);
   }
@@ -1052,9 +1056,130 @@ function initTarotPage() {
     });
   }
 
-  // 進入占卜頁時，先把歷史記錄好好準備好
+  // 進入占卜頁時，就先把歷史清單準備好
   renderTarotHistory();
 }
+
+/* ---------- 抽一次塔羅牌（過去／現在／未來） ---------- */
+function doTarot() {
+  if (items.honey <= 0) {
+    alert("需要 1 份 🍯 嗡嗡蜂蜜才能請熊熊村長占卜喔！");
+    return;
+  }
+
+  // 扣蜂蜜並更新畫面
+  items.honey -= 1;
+  save("items", items);
+  const honeyLabel = document.getElementById("honeyCount");
+  if (honeyLabel) honeyLabel.textContent = items.honey;
+
+  const section = document.querySelector(".tarot-section");
+  const pastName    = document.getElementById("tarotPastName");
+  const presentName = document.getElementById("tarotPresentName");
+  const futureName  = document.getElementById("tarotFutureName");
+
+  // 洗牌中的小提示
+  if (pastName)    pastName.textContent    = "洗牌中…";
+  if (presentName) presentName.textContent = "洗牌中…";
+  if (futureName)  futureName.textContent  = "洗牌中…";
+
+  if (section) {
+    section.classList.add("tarot-drawing"); // 這個 class 可以在 CSS 做震動 / 閃爍動畫
+  }
+
+  // 抽三張牌（資料先準備好）
+  const past    = drawTarotCard();
+  const present = drawTarotCard();
+  const future  = drawTarotCard();
+
+  // 模擬洗牌動畫時間，之後才翻開
+  setTimeout(() => {
+    if (section) section.classList.remove("tarot-drawing");
+
+    showTarotCard("Past", past);
+    showTarotCard("Present", present);
+    showTarotCard("Future", future);
+
+    const bearMsg = document.getElementById("tarotBearMessage");
+    if (bearMsg) bearMsg.textContent = "熊熊村長：" + future.bear;
+
+    // 存入歷史紀錄
+    const history = loadTarotHistory();
+    const now = new Date();
+    history.push({
+      time: now.toLocaleString(),  // 例如：2025/12/05 21:30:12
+      past,
+      present,
+      future
+    });
+    saveTarotHistory(history);
+
+    renderTarotHistory();
+  }, 700); // 0.7 秒的「洗牌中」感覺
+}
+
+/* ---------- 抽一張卡（隨機＋正逆位） ---------- */
+function drawTarotCard() {
+  const card = TAROT_CARDS[Math.floor(Math.random() * TAROT_CARDS.length)];
+  const upright = Math.random() < 0.5;
+  return {
+    name: card.name,
+    orientation: upright ? "正位" : "逆位",
+    meaning: upright ? card.upright : card.reverse,
+    bear: card.bear
+  };
+}
+
+/* ---------- 顯示單張卡片＋「更多說明」按鈕 ---------- */
+function showTarotCard(pos, card) {
+  // pos 為 "Past" / "Present" / "Future"
+  const nameEl    = document.getElementById(`tarot${pos}Name`);
+  const orientEl  = document.getElementById(`tarot${pos}Orient`);
+  const meaningEl = document.getElementById(`tarot${pos}Meaning`);
+
+  if (!nameEl || !meaningEl) return;
+
+  const shortText = makeShortText(card.meaning);
+
+  nameEl.textContent    = card.name;
+  if (orientEl) orientEl.textContent = card.orientation;
+  meaningEl.textContent = shortText;
+
+  // 把完整文字存在 data-* 裡，給「更多說明」用
+  meaningEl.dataset.full     = card.meaning;
+  meaningEl.dataset.short    = shortText;
+  meaningEl.dataset.expanded = "0";
+
+  // 建立或更新「更多說明」按鈕
+  let moreBtn = document.getElementById(`tarot${pos}More`);
+  if (!moreBtn) {
+    moreBtn = document.createElement("button");
+    moreBtn.id = `tarot${pos}More`;
+    moreBtn.className = "tarot-more-btn";
+    moreBtn.type = "button";
+
+    const cardBox = meaningEl.closest(".tarot-card");
+    if (cardBox) {
+      cardBox.appendChild(moreBtn);
+    }
+  }
+
+  moreBtn.textContent = "更多說明";
+  moreBtn.onclick = () => {
+    const expanded = meaningEl.dataset.expanded === "1";
+    if (expanded) {
+      meaningEl.textContent       = meaningEl.dataset.short;
+      meaningEl.dataset.expanded  = "0";
+      moreBtn.textContent         = "更多說明";
+    } else {
+      meaningEl.textContent       = meaningEl.dataset.full;
+      meaningEl.dataset.expanded  = "1";
+      moreBtn.textContent         = "收合說明";
+    }
+  };
+}
+
+/* ---------- 占卜紀錄列表（右上角按鈕打開的 Modal） ---------- */
 function renderTarotHistory() {
   const listEl = document.getElementById("tarotHistoryList");
   if (!listEl) return;
