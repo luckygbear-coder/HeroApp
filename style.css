@@ -574,17 +574,45 @@ body[data-page="battle"] .card {
 .equip-btn:active {
   transform: translateY(1px);
   box-shadow: none;
-/* ===============================
-   底部導覽列（所有頁面通用）
-   =============================== */
+/* ===========================
+   底部導覽列
+   =========================== */
 
 .page-wrap {
+  margin: 0;
   min-height: 100vh;
-  padding-bottom: 90px; /* 留出底部導覽空間，避免內容被蓋住 */
-  box-sizing: border-box;
+  background: #ffeec9;
 }
 
-/* 底部導航容器 */
+.game-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 96px; /* 預留空間給底部導覽 */
+}
+
+/* 主體卡片既有樣式如有就保留，這裡只補一點 */
+.title-card {
+  text-align: left;
+}
+
+/* 首頁的兩個主選單行高漂亮一點 */
+.home-menu-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+}
+.home-menu-main {
+  font-size: 16px;
+}
+.home-menu-sub {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* 底部導覽本體 */
 .bottom-nav {
   position: fixed;
   left: 0;
@@ -592,71 +620,56 @@ body[data-page="battle"] .card {
   bottom: 0;
   height: 72px;
   background: #fff7e6;
-  border-top: 1px solid rgba(0,0,0,0.06);
+  border-top: 1px solid #f1d3a0;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  z-index: 999;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.06);
-  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+  z-index: 100;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
 }
 
-/* 一般導覽項目（左邊「村長的家」、中間「冒險」、右邊「商店」「小勇者的家」） */
-.nav-item {
+.bottom-nav .nav-item {
   flex: 1;
   text-align: center;
   text-decoration: none;
-  color: #b07a33;
-  font-size: 12px;
-  padding-top: 4px;
+  color: #b58958;
+  font-size: 11px;
+  padding-top: 6px;
 }
 
-.nav-item-icon {
+.bottom-nav .nav-item .icon {
   font-size: 22px;
-  display: block;
-  line-height: 24px;
+  line-height: 1.2;
 }
 
-.nav-item-label {
-  display: block;
+.bottom-nav .nav-item .label {
   margin-top: 2px;
 }
 
-/* 中間的大星星按鈕（占卜屋） */
-.nav-center-wrapper {
-  position: relative;
-  width: 80px;
-  text-align: center;
-}
-
-.nav-star-btn {
-  position: relative;
-  top: 6px;               /* ⭐ 往下一點，跟其他圖示比較平行 */
+/* 中間星星按鈕：圓形，稍微浮起來 */
+.bottom-nav .star-btn {
   width: 64px;
   height: 64px;
-  border-radius: 32px;
-  border: none;
-  background: #ffa851;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  border-radius: 50%;
+  background: #ffb04c;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 2px;
-}
-
-.nav-star-btn span {
   font-size: 30px;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+  position: relative;
+  transform: translateY(-10px); /* 如果想跟其它平行，可改成 0 或 -4 */
 }
 
-.nav-star-label {
-  font-size: 11px;
-  color: #b07a33;
+/* 目前頁面的高亮（搭配 script.js 裡的 data-nav 判斷） */
+.bottom-nav .nav-item.active,
+.bottom-nav .star-btn.active {
+  color: #ff8a00;
 }
 
-/* 目前所在頁高亮（可選） */
-.nav-item.active,
-.nav-center-wrapper.active .nav-star-label {
-  color: #ff8c3a;
+.bottom-nav .nav-item.active .label {
   font-weight: 600;
 }
 }
