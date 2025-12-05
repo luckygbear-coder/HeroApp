@@ -266,6 +266,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const page = document.body.dataset.page;
 
   switch (page) {
+    case "chooseHero":
+      initIndexPage(); // 勇者選擇共用之前的功能
+      break;
     case "index":
       initIndexPage();
       break;
