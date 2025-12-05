@@ -5,197 +5,100 @@
   <title>村長的家｜小勇者之旅大冒險</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
-  <script src="script.js" defer></script>
-
-  <!-- 這一段是底部導覽專用 CSS：直接寫在這裡，一定會生效 -->
-  <style>
-    /* 讓畫面底部留出空間給導覽列 */
-    body.page-wrap {
-      margin: 0;
-      min-height: 100vh;
-      background: #ffeec9;
-    }
-    .game-wrap {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 16px;
-      padding-bottom: 96px; /* 預留空間給底部導覽 */
-    }
-
-    /* 首頁中兩個主按鈕排版好看一點 */
-    .home-menu-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 2px;
-    }
-    .home-menu-main {
-      font-size: 16px;
-    }
-    .home-menu-sub {
-      font-size: 12px;
-      opacity: 0.8;
-    }
-
-    /* 底部導覽列本體 */
-    .bottom-nav {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 72px;
-      background: #fff7e6;
-      border-top: 1px solid #f1d3a0;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      z-index: 100;
-      box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
-      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    .bottom-nav .nav-item {
-      flex: 1;
-      text-align: center;
-      text-decoration: none;
-      color: #b58958;
-      font-size: 11px;
-      padding-top: 6px;
-    }
-
-    .bottom-nav .nav-item .icon {
-      font-size: 22px;
-      line-height: 1.2;
-    }
-
-    .bottom-nav .nav-item .label {
-      margin-top: 2px;
-    }
-
-    /* 中間星星按鈕：圓形、微微浮起來，可以調整 translateY 讓它高低不同 */
-    .bottom-nav .star-btn {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: #ffb04c;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      color: #fff;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
-      position: relative;
-      transform: translateY(-10px); /* 想要跟其他 icon 平行，就改成 0 或 -4 */
-    }
-
-    /* 簡單的「目前頁面」高亮效果（顏色變深） */
-    .bottom-nav .nav-item.active,
-    .bottom-nav .star-btn.active {
-      color: #ff8a00;
-    }
-    .bottom-nav .nav-item.active .label {
-      font-weight: 600;
-    }
-  </style>
 </head>
 
-<body class="page-wrap" data-page="index">
-  <div class="game-wrap">
+<body data-page="index">
 
-    <!-- 頂部：村長的家抬頭 -->
-    <div class="card title-card">
-      <h1>村長的家</h1>
-      <p class="subtitle">ADVENTURER'S PARADISE｜小勇者之旅大冒險</p>
-    </div>
+<div class="game-wrap">
 
-    <!-- 熊熊村長歡迎／小故事 + IG -->
-    <div class="card">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <!-- 之後可以放熊熊頭像 -->
-        <!-- <img src="images/bear-head.png" alt="熊熊村長" class="bear-avatar"> -->
-        <div>
-          <p style="margin:0 0 4px; font-size:14px;">
-            嗨，小勇者歡迎回來～這裡是村長的家，也是所有冒險開始的地方！
-          </p>
-          <p style="margin:0; font-size:12px; color:#a67b5b;">
-            熊熊村長會在這裡記錄故事、發送勇氣星星，也會分享生活的小碎念。
-          </p>
-        </div>
-      </div>
-
-      <!-- IG 連結區 -->
-      <div style="margin-top:8px; font-size:13px;">
-        <a href="https://www.instagram.com/luckygbear" target="_blank"
-           style="text-decoration:none; color:#865239;">
-          📷 追蹤熊熊村長 IG：<span style="font-weight:600;">@luckygbear</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- 主選單：小勇者大冒險 + 熊熊占卜 -->
-    <div class="card">
-      <!-- 小勇者大冒險（JS：沒選勇者 → choose-hero；有勇者 → map） -->
-      <button id="goAdventureBtn"
-              class="primary-btn full home-menu-btn">
-        <span class="home-menu-main">🗺 小勇者大冒險</span>
-        <span class="home-menu-sub">前往星星王國地圖，安撫魔物</span>
-      </button>
-
-      <!-- 熊熊占卜：直接連到 tarot.html -->
-      <a href="tarot.html"
-         class="secondary-btn full home-menu-btn"
-         style="text-decoration:none;">
-        <span class="home-menu-main">🔮 熊熊占卜</span>
-        <span class="home-menu-sub">用嗡嗡蜂蜜換取暖心指引</span>
-      </a>
-    </div>
-
-    <!-- 村長小語 -->
-    <div id="homeStory" class="card">
-      <h3 style="margin-top:0;">今天的村長小語</h3>
-      <p style="font-size:13px; margin:0 0 4px;">
-        有時候，勇氣不是大吼大叫，而是在心裡小小地說：
-        「我想再試一次。」—— 熊熊村長
-      </p>
-      <p style="font-size:12px; color:#a67b5b; margin:0;">
-        想到什麼讓你有勇氣的回憶嗎？可以在心裡跟熊熊說說看 💛
-      </p>
-    </div>
-
+  <!-- 頂部：村長的家抬頭 -->
+  <div class="card title-card">
+    <h1>村長的家</h1>
+    <p class="subtitle">ADVENTURER'S PARADISE｜小勇者之旅大冒險</p>
   </div>
 
-  <!-- ✅ 底部導覽列：村長的家 / 占卜屋 / 冒險 / 商店 / 小勇者的家 -->
-  <nav class="bottom-nav">
-    <!-- 左一：村長的家 -->
-    <a href="index.html" class="nav-item active" data-nav="home">
-      <div class="icon">🐻</div>
-      <div class="label">村長的家</div>
-    </a>
+  <!-- 村長熊熊頭像 + 歡迎文字 -->
+  <div class="card">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <img src="images/bear.png"
+           alt="熊熊村長"
+           style="width:64px;height:64px;border-radius:50%;object-fit:cover;">
+      <div>
+        <p style="margin:0 0 4px; font-size:15px;">嗨，小勇者歡迎回來～今天也一起變強吧！</p>
+        <p style="margin:0; font-size:12px; color:#a67b5b;">
+          村長在這裡記錄故事、發送勇氣星星，也會分享生活的小碎念。
+        </p>
+      </div>
+    </div>
 
-    <!-- 左二：占卜屋 -->
-    <a href="tarot.html" class="nav-item" data-nav="tarot">
-      <div class="icon">🔮</div>
-      <div class="label">占卜屋</div>
-    </a>
+    <!-- IG 連結 -->
+    <div style="margin-top:8px; font-size:13px;">
+      <a href="https://www.instagram.com/luckygbear"
+         target="_blank"
+         style="text-decoration:none; color:#865239;">
+        📷 追蹤熊熊村長 IG：<strong>@luckygbear</strong>
+      </a>
+    </div>
+  </div>
 
-    <!-- 中間星星：冒險地圖 -->
-    <a href="map.html" class="star-btn" data-nav="map">
-      ⭐
-    </a>
+  <!-- 主選單 -->
+  <div class="card">
+    <button id="goAdventureBtn"
+            class="primary-btn full"
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <span>🗺 小勇者大冒險</span>
+      <span style="font-size:12px;">前往星星王國地圖，安撫魔物</span>
+    </button>
 
-    <!-- 右二：商店 -->
-    <a href="shop.html" class="nav-item" data-nav="shop">
-      <div class="icon">🛍</div>
-      <div class="label">商店</div>
+    <a href="tarot.html"
+       class="secondary-btn full"
+       style="display:flex;align-items:center;justify-content:space-between;text-decoration:none;">
+      <span>🔮 熊熊占卜</span>
+      <span style="font-size:12px;">用嗡嗡蜂蜜換取暖心指引</span>
     </a>
+  </div>
 
-    <!-- 右一：小勇者的家（選角頁） -->
-    <a href="choose-hero.html" class="nav-item" data-nav="hero">
-      <div class="icon">🧒</div>
-      <div class="label">小勇者的家</div>
-    </a>
-  </nav>
+  <!-- 小語 -->
+  <div id="homeStory" class="card">
+    <h3 style="margin-top:0;">今天的村長小語</h3>
+    <p style="font-size:13px; margin:0 0 4px;">
+      有時候，勇氣不是大吼大叫，而是在心裡小小地說：
+      「我想再試一次。」——熊熊村長
+    </p>
+    <p style="font-size:12px; color:#a67b5b; margin:0;">
+      想到什麼讓你有勇氣的回憶嗎？可以在心裡跟熊熊說說看 💛
+    </p>
+  </div>
+
+</div> <!-- END game-wrap -->
+
+<!-- 底部導覽：全站固定 -->
+<nav class="bottom-nav">
+
+  <a href="index.html" class="nav-item" id="navHome">
+    <div class="icon">🐻</div>
+    <div class="label">村長的家</div>
+  </a>
+
+  <a href="tarot.html" class="nav-item" id="navTarot">
+    <div class="icon">🔮</div>
+    <div class="label">占卜屋</div>
+  </a>
+
+  <a href="map.html" class="star-btn" id="navAdventure">⭐</a>
+
+  <a href="shop.html" class="nav-item" id="navShop">
+    <div class="icon">🛍</div>
+    <div class="label">商店</div>
+  </a>
+
+  <a href="choose-hero.html" class="nav-item" id="navHero">
+    <div class="icon">🧒</div>
+    <div class="label">小勇者的家</div>
+  </a>
+
+</nav>
+
+<script src="script.js"></script>
 </body>
 </html>
