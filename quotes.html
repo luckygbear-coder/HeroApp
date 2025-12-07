@@ -1,186 +1,28 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <title>熊熊語錄小屋 ｜ 冒險者天堂</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .quote-wrap {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
-    }
-
-    .quote-main-card {
-      background: rgba(255, 247, 230, 0.96);
-      border-radius: 20px;
-      border: 2px solid #f7dba5;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-      padding: 18px 16px 16px;
-      color: #4a3450;
-    }
-
-    .quote-title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-
-    .quote-title-row span.emoji {
-      font-size: 26px;
-    }
-
-    .quote-title-row h1 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: .12em;
-    }
-
-    .quote-subtitle {
-      font-size: 12px;
-      color: #91667f;
-      margin-bottom: 10px;
-    }
-
-    .quote-card {
-      margin-top: 10px;
-      background: #fffdf8;
-      border-radius: 16px;
-      border: 1.5px solid #f2d7b1;
-      padding: 14px 12px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .quote-card::before {
-      content: "“";
-      position: absolute;
-      font-size: 46px;
-      left: 8px;
-      top: -10px;
-      color: rgba(240, 190, 140, 0.35);
-      pointer-events: none;
-    }
-
-    .quote-text {
-      font-size: 15px;
-      line-height: 1.7;
-      margin: 0 0 6px;
-      color: #5a3844;
-      white-space: pre-line;
-    }
-
-    .quote-meta {
-      font-size: 11px;
-      color: #a67b5b;
-      text-align: right;
-    }
-
-    .quote-tags {
-      margin-top: 6px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .quote-tag {
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid #e4bfd2;
-      background: #fff4fb;
-      color: #8b5675;
-    }
-
-    .quote-btn-bar {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .quote-btn-bar button,
-    .quote-btn-bar a {
-      flex: 1;
-      border-radius: 999px;
-      border: none;
-      padding: 9px 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-    }
-
-    #nextBtn {
-      background: linear-gradient(135deg, #f7a9ff, #ffce7a);
-      color: #4a2b37;
-      box-shadow: 0 3px 8px rgba(180, 99, 129, 0.4);
-    }
-
-    #nextBtn:active {
-      transform: translateY(1px);
-      box-shadow: 0 1px 4px rgba(180, 99, 129, 0.35);
-    }
-
-    .back-home-btn {
-      background: #fff7ef;
-      color: #7c5261;
-      border: 1px solid #e8c9b2 !important;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .small-hint {
-      margin-top: 10px;
-      font-size: 11px;
-      color: #8a6b7a;
-    }
-  </style>
-</head>
-
-<body class="page-wrap">
-
-<div class="quote-wrap">
-  <div class="quote-main-card">
-    <div class="quote-title-row">
-      <span class="emoji">📜</span>
-      <h1>熊熊語錄小屋</h1>
-    </div>
-    <div class="quote-subtitle">
-      每按一次按鈕，熊熊就送你一句今天的勇氣小語。  
-      可以在心裡想一個問題，再來抽抽看。✨
-    </div>
-
-    <!-- 語錄卡片 -->
-    <div class="quote-card">
-      <p id="quoteText" class="quote-text">
-        輕輕地對自己說一聲：「辛苦了，謝謝你還在努力。」  
-        有時候，這一句話就是今天最重要的魔法。
-      </p>
-      <div id="quoteMeta" class="quote-meta">
-        ─ 熊熊村長 · 給正在努力的你
-      </div>
-      <div id="quoteTags" class="quote-tags">
-        <span class="quote-tag">#自我照顧</span>
-        <span class="quote-tag">#累了也沒關係</span>
-      </div>
-    </div>
-
-    <!-- 按鈕 -->
-    <div class="quote-btn-bar">
-      <button id="nextBtn">再來一句 🌟</button>
-      <a href="index.html" class="back-home-btn">回冒險者天堂 🏠</a>
-    </div>
-
-    <p class="small-hint">
-      如果哪一句讓你特別有感，可以截圖存下來，  
-      或寫進自己的冒險日記裡。🐻
-    </p>
-  </div>
-</div>
-
 <script>
+  // 🔑 語錄歷史紀錄的 key
+  const QUOTE_HISTORY_KEY = "bearQuoteHistoryV1";
+  let quoteHistory = [];
+
+  // 讀取舊紀錄
+  function loadQuoteHistory() {
+    try {
+      const raw = localStorage.getItem(QUOTE_HISTORY_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) quoteHistory = parsed;
+    } catch (e) {
+      console.warn("讀取語錄紀錄失敗", e);
+    }
+  }
+
+  function saveQuoteHistory() {
+    try {
+      localStorage.setItem(QUOTE_HISTORY_KEY, JSON.stringify(quoteHistory));
+    } catch (e) {
+      console.warn("儲存語錄紀錄失敗", e);
+    }
+  }
+
   // 熊熊語錄資料
   const quotes = [
     {
@@ -240,8 +82,7 @@
   const quoteTagsEl = document.getElementById("quoteTags");
   const nextBtn = document.getElementById("nextBtn");
 
-  function randomQuote() {
-    const q = quotes[Math.floor(Math.random() * quotes.length)];
+  function renderQuote(q) {
     quoteTextEl.textContent = q.text;
     quoteMetaEl.textContent = q.meta;
     quoteTagsEl.innerHTML = q.tags
@@ -249,7 +90,43 @@
       .join("");
   }
 
+  // 抽一句並記錄到冒險日記
+  function randomQuote() {
+    const q = quotes[Math.floor(Math.random() * quotes.length)];
+    renderQuote(q);
+
+    const now = new Date();
+    const timeLabel = now.toLocaleString("zh-TW", {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    // 存到語錄歷史
+    quoteHistory.unshift({
+      time: timeLabel,
+      text: q.text,
+      meta: q.meta,
+      tags: q.tags
+    });
+
+    // 只保留最新 50 筆（避免爆太大）
+    if (quoteHistory.length > 50) {
+      quoteHistory = quoteHistory.slice(0, 50);
+    }
+
+    saveQuoteHistory();
+  }
+
   nextBtn.addEventListener("click", randomQuote);
+
+  // 載入舊紀錄，並顯示第一句
+  loadQuoteHistory();
+  if (quoteHistory.length) {
+    renderQuote(quoteHistory[0]);
+  } else {
+    // 沒有紀錄就先顯示第一筆預設 + 下次按才開始存
+    renderQuote(quotes[0]);
+  }
 </script>
-</body>
-</html>
