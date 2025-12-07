@@ -12,77 +12,38 @@
       padding: 20px 16px 40px;
       color: #4a3450;
     }
-
-    .quote-card {
-      background: rgba(255,247,230,0.96);
-      border-radius: 20px;
-      border: 2px solid #f7dba5;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-      padding: 18px 16px;
-      margin-bottom: 16px;
-    }
-
-    .quote-title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .quote-title-row h1 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: .12em;
-    }
-
-    .quote-title-row span.emoji {
-      font-size: 26px;
-    }
-
-    .quote-subtitle {
-      font-size: 12px;
-      color: #91667f;
-      margin-bottom: 6px;
-    }
-
-    #quoteText {
-      font-size: 15px;
+    .quote-main {
+      font-size: 16px;
       line-height: 1.8;
       white-space: pre-line;
-      margin: 8px 0 6px;
-      color: #5a3844;
+      margin-bottom: 6px;
     }
-
-    #quoteMeta {
-      font-size: 12px;
+    .quote-meta {
+      font-size: 13px;
       color: #a67b5b;
       margin-bottom: 6px;
     }
-
-    #quoteTags {
+    .quote-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
-      margin-bottom: 8px;
+      margin-top: 4px;
     }
-
     .quote-tag {
       font-size: 11px;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 999px;
-      background: #fff4fb;
-      border: 1px solid #e4bfd2;
-      color: #8b5675;
+      background: #fff2f7;
+      border: 1px solid #f1c3dd;
+      color: #8c4d74;
     }
-
-    .btn-row {
+    .quote-btn-row {
       margin-top: 10px;
       display: flex;
       gap: 8px;
     }
-
-    .btn-row button,
-    .btn-row a {
+    .quote-btn-row button,
+    .quote-btn-row a {
       flex: 1;
       text-align: center;
       padding: 8px 10px;
@@ -95,224 +56,43 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       cursor: pointer;
     }
-
-    .btn-row button.primary {
-      background: linear-gradient(135deg,#ffa95a,#ffcf7a);
-      color: #4a2a18;
-      border: none;
-    }
   </style>
 </head>
-<body class="page-wrap">
+<body class="page-wrap" data-page="quotes">
 
 <div class="quote-wrap">
 
-  <div class="quote-card">
-    <div class="quote-title-row">
-      <span class="emoji">📜</span>
-      <h1>熊熊語錄小屋</h1>
-    </div>
-    <div class="quote-subtitle">
-      當你覺得累累、需要被抱抱，  
-      就來這裡抽一句熊熊的溫柔語錄吧。🐻
-    </div>
+  <!-- 標題卡片 -->
+  <div class="card title-card">
+    <h1>熊熊語錄小屋</h1>
+    <p class="subtitle">給今天的你，一句剛剛好的小小勇氣 ✨</p>
+  </div>
 
-    <!-- 顯示語錄本體 -->
-    <div id="quoteText">載入中…</div>
-    <div id="quoteMeta"></div>
-    <div id="quoteTags"></div>
+  <!-- 語錄卡片 -->
+  <div class="card">
+    <div id="quoteText" class="quote-main">
+      讀取中…
+    </div>
+    <div id="quoteMeta" class="quote-meta"></div>
+    <div id="quoteTags" class="quote-tags"></div>
 
-    <div class="btn-row">
-      <button id="nextBtn" class="primary">✨ 再來一句</button>
+    <div class="quote-btn-row">
+      <button id="nextBtn">再來一句 ✨</button>
       <a href="diary.html">📓 看熊熊冒險日記</a>
     </div>
+  </div>
 
-    <div class="btn-row" style="margin-top:6px;">
-      <a href="index.html">🏠 回冒險者天堂</a>
-    </div>
+  <!-- 小提醒 -->
+  <div class="card">
+    <p style="font-size:13px;margin:0 0 4px;">
+      每按一次「再來一句」，熊熊會把這句話寫進你的
+      <strong>熊熊冒險日記</strong> 裡。  
+      有空時，可以去日記頁看看，會發現自己其實已經走了很遠。🐻💛
+    </p>
   </div>
 
 </div>
 
-<script>
-  // ===============================
-  // 🐻 熊熊冒險日記（共用總紀錄）
-  // ===============================
-  const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
-  let adventureDiary = [];
-
-  function loadAdventureDiary() {
-    try {
-      const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) adventureDiary = parsed;
-    } catch (e) {
-      console.warn("讀取冒險日記失敗", e);
-    }
-  }
-
-  function saveAdventureDiary() {
-    try {
-      localStorage.setItem(ADVENTURE_DIARY_KEY, JSON.stringify(adventureDiary));
-    } catch (e) {
-      console.warn("儲存冒險日記失敗", e);
-    }
-  }
-
-  // ===============================
-  // 📜 熊熊語錄：舊的獨立紀錄
-  // ===============================
-  const QUOTE_HISTORY_KEY = "bearQuoteHistoryV1";
-  let quoteHistory = [];
-
-  function loadQuoteHistory() {
-    try {
-      const raw = localStorage.getItem(QUOTE_HISTORY_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) quoteHistory = parsed;
-    } catch (e) {
-      console.warn("讀取語錄紀錄失敗", e);
-    }
-  }
-
-  function saveQuoteHistory() {
-    try {
-      localStorage.setItem(QUOTE_HISTORY_KEY, JSON.stringify(quoteHistory));
-    } catch (e) {
-      console.warn("儲存語錄紀錄失敗", e);
-    }
-  }
-
-  // ===============================
-  // 📚 熊熊語錄資料
-  // ===============================
-  const quotes = [
-    {
-      text: "你不需要每一天都很勇敢。\n有時候，只是沒有放棄，就已經很了不起了。",
-      meta: "─ 熊熊村長 · 給覺得撐不住的你",
-      tags: ["#已經很棒了", "#允許自己休息"]
-    },
-    {
-      text: "別急著把自己跟別人比較。\n你走的每一步，都是你專屬的關卡與故事。",
-      meta: "─ 熊熊村長 · 給愛想太多的你",
-      tags: ["#專屬旅程", "#慢慢來就好"]
-    },
-    {
-      text: "有些壞情緒不是來搗蛋的，而是來提醒你：\n「這裡好像需要被好好照顧一下。」",
-      meta: "─ 熊熊村長 · 給情緒很多的你",
-      tags: ["#情緒是訊號", "#好好照顧自己"]
-    },
-    {
-      text: "你可以不勇敢，但你不能對自己不溫柔。\n先學會抱抱自己，再去抱抱世界。",
-      meta: "─ 熊熊村長 · 給心很軟的你",
-      tags: ["#對自己溫柔", "#自我擁抱"]
-    },
-    {
-      text: "如果今天過得不太順利，沒關係。\n把它當成遊戲裡的一個難關，通關之後就會升級。",
-      meta: "─ 熊熊村長 · 給正在練功的你",
-      tags: ["#升級中", "#關卡不是終點"]
-    },
-    {
-      text: "你並不是一個人。\n也許現在還看不到，但總會有人在你看不到的地方，替你加油。",
-      meta: "─ 熊熊村長 · 給覺得孤單的你",
-      tags: ["#你不孤單", "#有人在乎你"]
-    },
-    {
-      text: "把「一定要完美」改成「可以慢慢來」。\n世界不會因為你慢一點就討厭你。",
-      meta: "─ 熊熊村長 · 給完美主義小勇者",
-      tags: ["#不必完美", "#允許犯錯"]
-    },
-    {
-      text: "你可以同時感到害怕，卻還是選擇往前走。\n這不是懦弱，而是最真實的勇氣。",
-      meta: "─ 熊熊村長 · 給正在猶豫的你",
-      tags: ["#帶著害怕前進", "#勇氣其實在你心裡"]
-    },
-    {
-      text: "那些你以為「很普通」的小小溫柔，\n其實都在悄悄地拯救別人的一天。",
-      meta: "─ 熊熊村長 · 給很溫柔的你",
-      tags: ["#你的存在很重要", "#小小溫柔大魔法"]
-    },
-    {
-      text: "有時候什麼都不做，也是一種功課。\n好好休息，也是前進旅程的一部分。",
-      meta: "─ 熊熊村長 · 給需要放鬆的你",
-      tags: ["#好好休息", "#充電也是任務"]
-    }
-  ];
-
-  // ===============================
-  // DOM 元素
-  // ===============================
-  const quoteTextEl = document.getElementById("quoteText");
-  const quoteMetaEl = document.getElementById("quoteMeta");
-  const quoteTagsEl = document.getElementById("quoteTags");
-  const nextBtn     = document.getElementById("nextBtn");
-
-  function renderQuote(q) {
-    quoteTextEl.textContent = q.text;
-    quoteMetaEl.textContent = q.meta;
-    quoteTagsEl.innerHTML = q.tags
-      .map(tag => `<span class="quote-tag">${tag}</span>`)
-      .join("");
-  }
-
-  // ===============================
-  // 初始化：先把舊資料載回來
-  // ===============================
-  loadAdventureDiary();
-  loadQuoteHistory();
-
-  if (quoteHistory.length) {
-    renderQuote(quoteHistory[0]);
-  } else {
-    renderQuote(quotes[0]);
-  }
-
-  // ===============================
-  // 抽一句並寫入兩個地方
-  // ===============================
-  function randomQuote() {
-    const q = quotes[Math.floor(Math.random() * quotes.length)];
-    renderQuote(q);
-
-    const now = new Date();
-    const timeLabel = now.toLocaleString("zh-TW", {
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-
-    // ➜ 寫入「熊熊冒險日記」
-    adventureDiary.unshift({
-      type: "quote",
-      time: timeLabel,
-      title: "熊熊語錄",
-      text: q.text,
-      meta: q.meta,
-      tags: q.tags
-    });
-    if (adventureDiary.length > 100) {
-      adventureDiary = adventureDiary.slice(0, 100);
-    }
-    saveAdventureDiary();
-
-    // ➜ 寫入舊的「語錄紀錄」
-    quoteHistory.unshift({
-      time: timeLabel,
-      text: q.text,
-      meta: q.meta,
-      tags: q.tags
-    });
-    if (quoteHistory.length > 50) {
-      quoteHistory = quoteHistory.slice(0, 50);
-    }
-    saveQuoteHistory();
-  }
-
-  nextBtn.addEventListener("click", randomQuote);
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
