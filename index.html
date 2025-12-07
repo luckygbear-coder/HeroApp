@@ -2,78 +2,123 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>村長的家｜小勇者之旅大冒險</title>
+  <title>冒險者天堂 ｜ 首頁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, #2d254a, #6a4f9c, #f9e4c8);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .wrap {
+      max-width: 480px;
+      width: 100%;
+      padding: 20px 16px 40px;
+    }
+    .panel {
+      background: rgba(255, 247, 230, 0.96);
+      border-radius: 20px;
+      border: 2px solid #f7dba5;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      padding: 18px 16px 22px;
+      color: #4a3450;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      text-align: center;
+      letter-spacing: 0.12em;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #7c5c88;
+      margin-bottom: 16px;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .menu-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 2px solid #f7dba5;
+      background: #fff9ef;
+      text-decoration: none;
+      color: #5a3844;
+      font-size: 15px;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+    .menu-btn span.small {
+      display: block;
+      font-size: 12px;
+      font-weight: 400;
+      color: #a57d8b;
+      margin-top: 2px;
+    }
+    .menu-btn .icon {
+      font-size: 22px;
+      margin-left: 8px;
+    }
+    .footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 11px;
+      color: #edd2f4;
+    }
+  </style>
 </head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>冒險者天堂</h1>
+      <div class="subtitle">選擇一個要前往的世界吧～</div>
 
-<body class="page-wrap" data-page="home">
+      <div class="menu">
+        <!-- 熊熊塔羅占卜 -->
+        <a class="menu-btn" href="tarot.html">
+          <div>
+            🔮 熊熊塔羅占卜
+            <span class="small">22 張大秘儀＋熊熊溫暖語錄，三張牌的小小指引</span>
+          </div>
+          <div class="icon">🐻</div>
+        </a>
 
-<div class="game-wrap">
+        <!-- 易經卜卦：之後你可以做一個 iching.html 放易經版 -->
+        <a class="menu-btn" href="iching.html">
+          <div>
+            🧿 熊熊易經卜卦
+            <span class="small">六十四卦靜心占卜，給冒險者的東方智慧提醒</span>
+          </div>
+          <div class="icon">📜</div>
+        </a>
 
-  <!-- 標題 -->
-  <div class="card title-card">
-    <h1>熊熊村長的家</h1>
-    <p class="subtitle">ADVENTURER'S PARADISE｜小勇者大冒險之旅</p>
-  </div>
-
-  <!-- 村長歡迎 -->
-  <div class="card">
-    <div style="display:flex;align-items:center;gap:12px;">
-      <img src="images/bear.png" style="width:64px;height:64px;border-radius:50%;">
-      <div>
-        <p style="margin:0 0 4px;font-size:14px;">嗨，小勇者歡迎回來～今天也一起變強吧！</p>
-        <p style="margin:0;font-size:12px;color:#a67b5b;">熊熊村長會在這裡記錄故事、送勇氣星星、分享生活小語。</p>
+        <!-- 小勇者大冒險：連到現有 HeroApp -->
+        <a class="menu-btn" href="https://luckygbear-coder.github.io/HeroApp/index.html">
+          <div>
+            🗺️ 小勇者之旅大冒險
+            <span class="small">剪刀石頭布對戰、魔物與魔王的勇氣旅程</span>
+          </div>
+          <div class="icon">➡️</div>
+        </a>
       </div>
     </div>
-    <div style="margin-top:8px;">
-      <a href="https://instagram.com/luckygbear" target="_blank"
-         style="text-decoration:none;color:#865239;">
-        📷 追蹤熊熊村長 IG：@luckygbear
-      </a>
+
+    <div class="footer">
+      村長熊熊 · Adventurer’s Paradise
     </div>
   </div>
-
-  <!-- 功能選單 -->
-  <div class="card">
-    <a class="home-menu-btn" href="map.html" style="text-decoration:none;">
-      <div style="font-size:18px;">🗺 小勇者大冒險</div>
-      <div style="font-size:12px;opacity:0.7;">前往星星王國地圖，安撫魔物</div>
-    </a>
-
-    <a class="home-menu-btn" href="tarot.html" style="margin-top:10px;text-decoration:none;">
-      <div style="font-size:18px;">🔮 熊熊塔羅占卜</div>
-      <div style="font-size:12px;opacity:0.7;">用嗡嗡蜂蜜換取暖心指引</div>
-    </a>
-  </div>
-
-  <!-- 今日小語 -->
-  <div class="card">
-    <h3>今天的村長小語</h3>
-    <p style="font-size:13px;margin:0 0 4px;">
-      給每一位小小勇者：
-      在這段旅程中，
-      你會遇見壞情緒、挑戰、需要幫助的夥伴，
-      也會找到自己的力量、勇氣，還有讓世界變亮的那一道光。
-
-    </p>
-    <p style="font-size:12px;color:#a67b5b;margin:0;">
-      願你永遠記得——
-      笑容是最強大的魔法，愛是最溫暖的力量。 💛
-    </p>
-  </div>
-
-</div>
-
-<!-- 底部導覽列 -->
-<nav class="bottom-nav">
-  <a href="index.html" class="nav-item active"><div class="icon">🐻</div><div class="label">村長的家</div></a>
-  <a href="tarot.html" class="nav-item"><div class="icon">🔮</div><div class="label">占卜屋</div></a>
-  <a href="map.html" class="star-btn">⭐</a>
-  <a href="shop.html" class="nav-item"><div class="icon">🛍</div><div class="label">商店</div></a>
-  <a href="choose-hero.html" class="nav-item"><div class="icon">🧒</div><div class="label">小勇者的家</div></a>
-</nav>
-
-<script src="script.js"></script>
 </body>
 </html>
