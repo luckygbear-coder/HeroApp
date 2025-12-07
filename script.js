@@ -1502,3 +1502,11 @@ function itemNameFromId(id) {
   }
   return id;
 }
+// 註冊 Service Worker，讓網站可以被安裝成 App & 簡單離線快取
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("sw.js")
+    .catch(err => {
+      console.log("Service worker 註冊失敗", err);
+    });
+}
