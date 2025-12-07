@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>熊熊冒險日記 ｜ 冒險者天堂</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .diary-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+      color: #4a3450;
+    }
+
+    .diary-card {
+      background: rgba(255,247,230,0.96);
+      border-radius: 20px;
+      border: 2px solid #f7dba5;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      padding: 18px 16px;
+      margin-bottom: 16px;
+    }
+
+    .diary-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .diary-title-row h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: .12em;
+    }
+
+    .diary-title-row span.emoji {
+      font-size: 26px;
+    }
+
+    .diary-subtitle {
+      font-size: 12px;
+      color: #91667f;
+      margin-bottom: 6px;
+    }
+
+    h2.section-title {
+      margin: 10px 0 6px;
+      font-size: 15px;
+      color: #7c5c88;
+    }
+
+    .entry-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .entry {
+      background: #fffdf8;
+      border-radius: 12px;
+      border: 1px solid #f2d7b1;
+      padding: 8px 10px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .entry-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+      color: #a67b5b;
+    }
+
+    .entry-type {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .entry-time {
+      font-size: 11px;
+    }
+
+    .entry-text {
+      white-space: pre-line;
+      color: #5a3844;
+    }
+
+    .entry-tags {
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .entry-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid #e4bfd2;
+      background: #fff4fb;
+      color: #8b5675;
+    }
+
+    .no-data {
+      font-size: 12px;
+      color: #a87f7f;
+    }
+
+    .btn-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-row a {
+      flex: 1;
+      text-align: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      text-decoration: none;
+      border: 1px solid #e8c9b2;
+      background: #fff7ef;
+      color: #7c5261;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .back-btn {
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body class="page-wrap">
+
+<div class="diary-wrap">
+
+  <div class="diary-card">
+    <div class="diary-title-row">
+      <span class="emoji">📓</span>
+      <h1>熊熊冒險日記</h1>
+    </div>
+    <div class="diary-subtitle">
+      把語錄、占卜、卦象的一點一滴，收集成你的冒險紀錄簿。  
+      有空時，可以回來看看自己一路走了多遠。🐻
+    </div>
+
+    <div class="btn-row">
+      <a href="index.html" class="back-btn">🏠 回冒險者天堂</a>
+      <a href="quotes.html">📜 去抽一句新語錄</a>
+    </div>
+  </div>
+
+  <!-- 語錄紀錄 -->
+  <div class="diary-card">
+    <h2 class="section-title">📜 熊熊語錄紀錄</h2>
+    <div id="quoteList" class="entry-list">
+      <div class="no-data">目前還沒有語錄紀錄，可以去「熊熊語錄小屋」抽一句試試看～</div>
+    </div>
+  </div>
+
+  <!-- 塔羅紀錄（預留） -->
+  <div class="diary-card">
+    <h2 class="section-title">🔮 熊熊塔羅紀錄（預留）</h2>
+    <div id="tarotList" class="entry-list">
+      <div class="no-data">
+        目前塔羅是在另一個網站執行（不同網址），  
+        瀏覽器不會分享紀錄。  
+        之後如果你把塔羅頁搬到同一個專案，我已經幫你預留好區塊，到時就能一起顯示囉。✨
+      </div>
+    </div>
+  </div>
+
+  <!-- 易經紀錄（預留） -->
+  <div class="diary-card">
+    <h2 class="section-title">🧿 熊熊易經紀錄（預留）</h2>
+    <div id="ichingList" class="entry-list">
+      <div class="no-data">
+        易經卜卦目前也是在另一個網址。  
+        未來如果整合到同一個「冒險者天堂」專案，就能在這裡看到一起整理好的紀錄。📚
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 讀取語錄歷史
+  function load(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.warn("讀取失敗", key, e);
+      return [];
+    }
+  }
+
+  const quoteHistory = load("bearQuoteHistoryV1");
+  // 預留：如果你之後把塔羅、易經搬進來，就可以用這兩個 key
+  const tarotHistory = load("bearTarotHistoryV1");
+  const ichingHistory = load("bearHexHistoryV1");
+
+  function renderList(listEl, data, typeLabel) {
+    if (!data.length) return; // 保留原本 no-data 文字
+
+    listEl.innerHTML = data.map(item => `
+      <div class="entry">
+        <div class="entry-top">
+          <div class="entry-type">${typeLabel}</div>
+          <div class="entry-time">${item.time || ""}</div>
+        </div>
+        <div class="entry-text">${(item.text || "").replace(/\n/g,"<br>")}</div>
+        ${
+          item.tags && item.tags.length
+            ? `<div class="entry-tags">
+                 ${item.tags.map(t => `<span class="entry-tag">${t}</span>`).join("")}
+               </div>`
+            : ""
+        }
+      </div>
+    `).join("");
+  }
+
+  const quoteListEl  = document.getElementById("quoteList");
+  const tarotListEl  = document.getElementById("tarotList");
+  const ichingListEl = document.getElementById("ichingList");
+
+  renderList(quoteListEl, quoteHistory, "語錄");
+  // 以下兩行目前在不同網站，所以大多數情況會是空陣列，先不覆蓋預設文字：
+  // renderList(tarotListEl, tarotHistory, "塔羅占卜");
+  // renderList(ichingListEl, ichingHistory, "易經卦象");
+</script>
+
+</body>
+</html>
