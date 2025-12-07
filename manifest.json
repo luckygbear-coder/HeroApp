@@ -1,3 +1,10 @@
+{
+  "name": "冒險者天堂｜熊熊村長",
+  "short_name": "冒險者天堂",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#2d254a",
+  "theme_color": "#2d254a",
 "icons": [
   {
     "src": "icons/bear-192.png",
@@ -10,3 +17,4 @@
     "type": "image/png"
   }
 ]
+}
