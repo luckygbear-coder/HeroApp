@@ -5,6 +5,77 @@
   <title>冒險者天堂 ｜ 熊熊村長的家</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* 可愛方塊選單（覆蓋部分 style.css） */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .icon-btn {
+      background: #fff9ef;
+      border: 2px solid #f7dba5;
+      border-radius: 16px;
+      padding: 16px 10px;
+      text-align: center;
+      text-decoration: none;
+      color: #5a3844;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: transform .15s ease, box-shadow .15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    }
+
+    .icon-emoji {
+      font-size: 32px;
+    }
+
+    .icon-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .icon-desc {
+      font-size: 11px;
+      opacity: 0.65;
+      line-height: 1.3;
+    }
+
+    /* IG 卡片 */
+    .ig-card {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 2px solid #f7dba5;
+      background: #fff7ec;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    .ig-card img {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+    }
+    .ig-card a {
+      color: #b15f8b;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .ig-card a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body class="page-wrap" data-page="home">
@@ -17,70 +88,69 @@
     <p class="subtitle">ADVENTURER'S PARADISE｜熊熊村長的玄關大廳</p>
   </div>
 
-  <!-- 熊熊村長歡迎 -->
-  <div class="card">
-    <div style="display:flex;align-items:center;gap:12px;">
-      <img src="images/bear.png" style="width:64px;height:64px;border-radius:50%;">
-      <div>
-        <p style="margin:0 0 4px;font-size:14px;">嗨，小勇者，歡迎回到冒險者天堂！</p>
-        <p style="margin:0;font-size:12px;color:#a67b5b;">
-          這裡是所有神祕力量、知識、冒險的起點。
-        </p>
+  <!-- 熊熊村長 IG 卡片 -->
+  <div class="ig-card">
+    <img src="images/bear.png" alt="熊熊村長頭像">
+    <div>
+      <div style="font-size:14px;color:#5a3844;font-weight:700;margin-bottom:4px;">
+        追蹤熊熊村長 IG
       </div>
+      <a href="https://instagram.com/luckygbear" target="_blank">@luckygbear</a>
     </div>
   </div>
 
-  <!-- 三大功能選單 -->
+  <!-- 三大入口：方塊 icon 選單 -->
   <div class="card">
+    <h3 style="margin-top:0;margin-bottom:8px;color:#7c5c88;">選一個世界開始冒險吧：</h3>
 
-    <!-- 熊熊塔羅占卜 -->
-    <a class="home-menu-btn" 
-       href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html"
-       style="text-decoration:none;">
-      <div style="font-size:18px;">🔮 熊熊塔羅占卜</div>
-      <div style="font-size:12px;opacity:0.7;">
-        三張牌的指引・村長熊熊的溫暖小語
-      </div>
-    </a>
+    <div class="icon-grid">
 
-    <!-- 熊熊易經卜卦 -->
-    <a class="home-menu-btn"
-       href="https://luckygbear-coder.github.io/Bear8/"
-       style="margin-top:10px;text-decoration:none;">
-      <div style="font-size:18px;">🧿 熊熊易經卜卦</div>
-      <div style="font-size:12px;opacity:0.7;">
-        六十四卦・東方智慧・安靜聽見內在聲音
-      </div>
-    </a>
+      <!-- 🟣 熊熊塔羅占卜 -->
+      <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html">
+        <div class="icon-emoji">🔮</div>
+        <div class="icon-title">塔羅占卜</div>
+        <div class="icon-desc">美麗插畫牌卡｜熊熊指引</div>
+      </a>
 
-    <!-- 小勇者大冒險 -->
-    <a class="home-menu-btn"
-       href="https://luckygbear-coder.github.io/HeroApp/index.html"
-       style="margin-top:10px;text-decoration:none;">
-      <div style="font-size:18px;">🗺️ 小勇者大冒險</div>
-      <div style="font-size:12px;opacity:0.7;">
-        剪刀石頭布對戰・魔物故事・勇氣成長旅程
-      </div>
-    </a>
+      <!-- 🔵 熊熊易經卜卦 -->
+      <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear8/">
+        <div class="icon-emoji">🧿</div>
+        <div class="icon-title">易經卜卦</div>
+        <div class="icon-desc">六十四卦｜深度指引</div>
+      </a>
 
+      <!-- 🟡 小勇者大冒險 -->
+      <a class="icon-btn" href="https://luckygbear-coder.github.io/HeroApp/index.html">
+        <div class="icon-emoji">🗺️</div>
+        <div class="icon-title">小勇者</div>
+        <div class="icon-desc">剪刀石頭布｜魔物故事</div>
+      </a>
+
+      <!-- 你未來可新增其他功能，例如 熊熊語錄、夢境解析、情緒留言簿 -->
+      <a class="icon-btn" href="#">
+        <div class="icon-emoji">✨</div>
+        <div class="icon-title">更多功能</div>
+        <div class="icon-desc">即將推出</div>
+      </a>
+
+    </div>
   </div>
 
-  <!-- 村長小語 -->
+  <!-- 今日小語 -->
   <div class="card">
     <h3>今天的村長小語</h3>
     <p style="font-size:13px;margin:0 0 4px;">
-      每一段旅程都有不同的風景。  
-      有時是探索、有時是挑戰、有時是突破自己。  
-      但請記得——你永遠不是孤單的。
+      每一次選擇，都會帶你走向一段新的冒險。  
+      講不講得完？不重要。  
+      重要的是 —— 你永遠在前進。  
     </p>
     <p style="font-size:12px;color:#a67b5b;margin:0;">
-      熊熊村長一直都在這裡，為你加油。✨
+      熊熊村長永遠相信你。💛
     </p>
   </div>
 
 </div>
 
-<!-- 主入口頁不需要底部導覽列，所以移除 -->
 <script src="script.js"></script>
 </body>
 </html>
