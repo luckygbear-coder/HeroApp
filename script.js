@@ -32,7 +32,189 @@ let equips = load("equips", {
   accessory: null,
   boots: null
 });
+// ===============================
+// 🐻 熊熊冒險日記（共用總紀錄）
+// ===============================
+const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
+let adventureDiary = [];
 
+function loadAdventureDiary() {
+  try {
+    const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) adventureDiary = parsed;
+  } catch (e) {
+    console.warn("讀取冒險日記失敗", e);
+  }
+}
+
+function saveAdventureDiary() {
+  try {
+    localStorage.setItem(ADVENTURE_DIARY_KEY, JSON.stringify(adventureDiary));
+  } catch (e) {
+    console.warn("儲存冒險日記失敗", e);
+  }
+}
+
+// 一開始先試著載入舊的總日記
+loadAdventureDiary();
+
+// ===============================
+// 📜 熊熊語錄：獨立歷史紀錄（給 quotes.html 用）
+// ===============================
+const QUOTE_HISTORY_KEY = "bearQuoteHistoryV1";
+let quoteHistory = [];
+
+function loadQuoteHistory() {
+  try {
+    const raw = localStorage.getItem(QUOTE_HISTORY_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) quoteHistory = parsed;
+  } catch (e) {
+    console.warn("讀取語錄紀錄失敗", e);
+  }
+}
+
+function saveQuoteHistory() {
+  try {
+    localStorage.setItem(QUOTE_HISTORY_KEY, JSON.stringify(quoteHistory));
+  } catch (e) {
+    console.warn("儲存語錄紀錄失敗", e);
+  }
+}
+
+// ===============================
+// 📚 熊熊語錄資料
+// ===============================
+const quotes = [
+  {
+    text: "你不需要每一天都很勇敢。\n有時候，只是沒有放棄，就已經很了不起了。",
+    meta: "─ 熊熊村長 · 給覺得撐不住的你",
+    tags: ["#已經很棒了", "#允許自己休息"]
+  },
+  {
+    text: "別急著把自己跟別人比較。\n你走的每一步，都是你專屬的關卡與故事。",
+    meta: "─ 熊熊村長 · 給愛想太多的你",
+    tags: ["#專屬旅程", "#慢慢來就好"]
+  },
+  {
+    text: "有些壞情緒不是來搗蛋的，而是來提醒你：\n「這裡好像需要被好好照顧一下。」",
+    meta: "─ 熊熊村長 · 給情緒很多的你",
+    tags: ["#情緒是訊號", "#好好照顧自己"]
+  },
+  {
+    text: "你可以不勇敢，但你不能對自己不溫柔。\n先學會抱抱自己，再去抱抱世界。",
+    meta: "─ 熊熊村長 · 給心很軟的你",
+    tags: ["#對自己溫柔", "#自我擁抱"]
+  },
+  {
+    text: "如果今天過得不太順利，沒關係。\n把它當成遊戲裡的一個難關，通關之後就會升級。",
+    meta: "─ 熊熊村長 · 給正在練功的你",
+    tags: ["#升級中", "#關卡不是終點"]
+  },
+  {
+    text: "你並不是一個人。\n也許現在還看不到，但總會有人在你看不到的地方，替你加油。",
+    meta: "─ 熊熊村長 · 給覺得孤單的你",
+    tags: ["#你不孤單", "#有人在乎你"]
+  },
+  {
+    text: "把「一定要完美」改成「可以慢慢來」。\n世界不會因為你慢一點就討厭你。",
+    meta: "─ 熊熊村長 · 給完美主義小勇者",
+    tags: ["#不必完美", "#允許犯錯"]
+  },
+  {
+    text: "你可以同時感到害怕，卻還是選擇往前走。\n這不是懦弱，而是最真實的勇氣。",
+    meta: "─ 熊熊村長 · 給正在猶豫的你",
+    tags: ["#帶著害怕前進", "#勇氣其實在你心裡"]
+  },
+  {
+    text: "那些你以為「很普通」的小小溫柔，\n其實都在悄悄地拯救別人的一天。",
+    meta: "─ 熊熊村長 · 給很溫柔的你",
+    tags: ["#你的存在很重要", "#小小溫柔大魔法"]
+  },
+  {
+    text: "有時候什麼都不做，也是一種功課。\n好好休息，也是前進旅程的一部分。",
+    meta: "─ 熊熊村長 · 給需要放鬆的你",
+    tags: ["#好好休息", "#充電也是任務"]
+  }
+];
+/* ==========================================================
+   熊熊語錄小屋 quotes.html
+   ========================================================== */
+function initQuotesPage() {
+  const quoteTextEl = document.getElementById("quoteText");
+  const quoteMetaEl = document.getElementById("quoteMeta");
+  const quoteTagsEl = document.getElementById("quoteTags");
+  const nextBtn     = document.getElementById("nextBtn");
+
+  // 元素沒抓到就直接離開，避免其它頁報錯
+  if (!quoteTextEl || !quoteMetaEl || !quoteTagsEl || !nextBtn) return;
+
+  function renderQuote(q) {
+    quoteTextEl.textContent = q.text;
+    quoteMetaEl.textContent = q.meta;
+    quoteTagsEl.innerHTML = q.tags
+      .map(tag => `<span class="quote-tag">${tag}</span>`)
+      .join("");
+  }
+
+  function randomQuote() {
+    const q = quotes[Math.floor(Math.random() * quotes.length)];
+    renderQuote(q);
+
+    const now = new Date();
+    const timeLabel = now.toLocaleString("zh-TW", {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    // ➜ 寫入「熊熊冒險日記」（之後 diary.html 就可以一起看）
+    adventureDiary.unshift({
+      type: "quote",
+      time: timeLabel,
+      title: "熊熊語錄",
+      text: q.text,
+      meta: q.meta,
+      tags: q.tags
+    });
+    if (adventureDiary.length > 100) {
+      adventureDiary = adventureDiary.slice(0, 100);
+    }
+    saveAdventureDiary();
+
+    // ➜ 寫入「語錄自己的歷史紀錄」
+    quoteHistory.unshift({
+      time: timeLabel,
+      text: q.text,
+      meta: q.meta,
+      tags: q.tags
+    });
+    if (quoteHistory.length > 50) {
+      quoteHistory = quoteHistory.slice(0, 50);
+    }
+    saveQuoteHistory();
+  }
+
+  // 先載語錄歷史，如果有，就顯示最新一筆，沒有就顯示第一句預設
+  loadQuoteHistory();
+  if (quoteHistory.length) {
+    const latest = quoteHistory[0];
+    renderQuote({
+      text: latest.text,
+      meta: latest.meta,
+      tags: latest.tags || []
+    });
+  } else {
+    renderQuote(quotes[0]);
+  }
+
+  // 綁定按鈕
+  nextBtn.addEventListener("click", randomQuote);
+}
 // 每一件裝備自己的等級（可升級）
 let equipLevels = load("equipLevels", {}); // 例如 { wood_sword: 2, cotton_armor: 1 }
 
@@ -268,10 +450,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   switch (page) {
     case "index":
-      initHomePage();         // 村長的家：小故事＋主選單
+      initHomePage();
       break;
     case "chooseHero":
-      initChooseHeroPage();   // 選擇小勇者專用頁面
+      initChooseHeroPage();
       break;
     case "map":
       initMapPage();
@@ -286,9 +468,11 @@ document.addEventListener("DOMContentLoaded", () => {
       initTarotPage();
       break;
     case "shop":
-      // 同一頁同時準備「補給商店」和「裝備坊」
       initShopPage();
       initEquipPage();
+      break;
+    case "quotes":
+      initQuotesPage();
       break;
   }
 });
