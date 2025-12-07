@@ -189,8 +189,8 @@
 </div>
 
 <script>
-  // 讀取語錄歷史
-  function load(key) {
+  // ========= 共用：讀取 localStorage =========
+  function loadArray(key) {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) return [];
@@ -202,55 +202,69 @@
     }
   }
 
-  const quoteHistory = load("bearQuoteHistoryV1");
-  // 預留：如果你之後把塔羅、易經搬進來，就可以用這兩個 key
-  const tarotHistory = load("bearTarotHistoryV1");
-  const ichingHistory = load("bearHexHistoryV1");
+  // ========= 冒險日記總表 =========
+  const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
+  let adventureDiary = loadArray(ADVENTURE_DIARY_KEY);
 
+  // 舊版各自的紀錄（給還沒完全串好的狀況用，當作備援）
+  const legacyQuoteHistory = loadArray("bearQuoteHistoryV1");
+  const legacyTarotHistory = loadArray("bearTarotHistoryV1");
+  const legacyIchingHistory = loadArray("bearHexHistoryV1");
+
+  // ========= 渲染工具 =========
   function renderList(listEl, data, typeLabel) {
-    if (!data.length) return; // 保留原本 no-data 文字
+    if (!data.length) return; // 沒資料就保留原本「no-data」文字
 
-    listEl.innerHTML = data.map(item => `
-      <div class="entry">
-        <div class="entry-top">
-          <div class="entry-type">${typeLabel}</div>
-          <div class="entry-time">${item.time || ""}</div>
+    listEl.innerHTML = data
+      .map(item => `
+        <div class="entry">
+          <div class="entry-top">
+            <div class="entry-type">${typeLabel}</div>
+            <div class="entry-time">${item.time || ""}</div>
+          </div>
+          <div class="entry-text">${(item.text || "").replace(/\n/g,"<br>")}</div>
+          ${
+            item.tags && item.tags.length
+              ? `<div class="entry-tags">
+                   ${item.tags.map(t => `<span class="entry-tag">${t}</span>`).join("")}
+                 </div>`
+              : ""
+          }
         </div>
-        <div class="entry-text">${(item.text || "").replace(/\n/g,"<br>")}</div>
-        ${
-          item.tags && item.tags.length
-            ? `<div class="entry-tags">
-                 ${item.tags.map(t => `<span class="entry-tag">${t}</span>`).join("")}
-               </div>`
-            : ""
-        }
-      </div>
-    `).join("");
+      `)
+      .join("");
   }
 
+  // ========= DOM =========
   const quoteListEl  = document.getElementById("quoteList");
   const tarotListEl  = document.getElementById("tarotList");
   const ichingListEl = document.getElementById("ichingList");
-const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
-let adventureDiary = [];
 
-function loadAdventureDiary() {
-  const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
-  if (!raw) return;
-  const parsed = JSON.parse(raw);
-  if (Array.isArray(parsed)) adventureDiary = parsed;
-}
+  // ========= 依 type 分類 =========
+  const diaryQuotes = adventureDiary.filter(item => item.type === "quote");
+  const diaryTarot  = adventureDiary.filter(item => item.type === "tarot");
+  const diaryIching = adventureDiary.filter(item => item.type === "iching");
 
-// 讀出來後 adventureDiary 會是像這樣的陣列：
-// [
-//   { type: "quote", time: "...", title: "熊熊語錄", text: "...", ... },
-//   { type: "tarot", time: "...", title: "熊熊塔羅占卜", text: "...", ... },
-//   { type: "iching", time: "...", title: "熊熊易經卜卦", text: "...", ... }
-// ]
-  renderList(quoteListEl, quoteHistory, "語錄");
-  // 以下兩行目前在不同網站，所以大多數情況會是空陣列，先不覆蓋預設文字：
-  // renderList(tarotListEl, tarotHistory, "塔羅占卜");
-  // renderList(ichingListEl, ichingHistory, "易經卦象");
+  // 📝 語錄：優先用冒險日記，沒有就用舊的 bearQuoteHistoryV1
+  if (diaryQuotes.length) {
+    renderList(quoteListEl, diaryQuotes, "熊熊語錄");
+  } else if (legacyQuoteHistory.length) {
+    renderList(quoteListEl, legacyQuoteHistory, "熊熊語錄");
+  }
+
+  // 🔮 塔羅：等你之後把塔羅也寫進 adventureDiary，就會自動顯示
+  if (diaryTarot.length) {
+    renderList(tarotListEl, diaryTarot, "熊熊塔羅占卜");
+  } else if (legacyTarotHistory.length) {
+    renderList(tarotListEl, legacyTarotHistory, "熊熊塔羅占卜");
+  }
+
+  // 🧿 易經：同上
+  if (diaryIching.length) {
+    renderList(ichingListEl, diaryIching, "熊熊易經卜卦");
+  } else if (legacyIchingHistory.length) {
+    renderList(ichingListEl, legacyIchingHistory, "熊熊易經卜卦");
+  }
 </script>
 
 </body>
