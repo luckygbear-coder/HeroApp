@@ -130,3 +130,31 @@
     renderQuote(quotes[0]);
   }
 </script>
+// ===============================
+// 🐻 熊熊冒險日記（共用的總紀錄）
+// ===============================
+const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
+let adventureDiary = [];
+
+// 載入總日記
+function loadAdventureDiary() {
+  try {
+    const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) adventureDiary = parsed;
+  } catch (e) {
+    console.warn("讀取冒險日記失敗", e);
+  }
+}
+
+function saveAdventureDiary() {
+  try {
+    localStorage.setItem(ADVENTURE_DIARY_KEY, JSON.stringify(adventureDiary));
+  } catch (e) {
+    console.warn("儲存冒險日記失敗", e);
+  }
+}
+
+// 一開始載入一次
+loadAdventureDiary();
