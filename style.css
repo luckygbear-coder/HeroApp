@@ -7,10 +7,9 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, system-ui,
-    sans-serif;
-  background: linear-gradient(180deg, #ffeef5 0%, #fff7e3 100%);
-  color: #5b4634;
+  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #fbe6c3, #f8f1e3);
+  color: #5a3b3b;
 }
 /* 頂部熊熊頭像（主視覺） */
 .hero-bear {
