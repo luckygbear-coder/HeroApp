@@ -192,4 +192,24 @@
 
 <script src="script.js"></script>
 </body>
+<script>
+  // 關掉啟動畫面
+  window.addEventListener('load', () => {
+    const splash = document.getElementById('splash');
+    if (splash) {
+      setTimeout(() => {
+        splash.style.opacity = '0';
+        splash.style.transition = 'opacity 0.4s ease';
+        setTimeout(() => splash.remove(), 400);
+      }, 800); // 0.8 秒後淡出，可以依喜好調整
+    }
+
+    // 註冊 Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => {
+        console.log('SW 註冊失敗：', err);
+      });
+    }
+  });
+</script>
 </html>
