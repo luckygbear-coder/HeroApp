@@ -231,7 +231,22 @@
   const quoteListEl  = document.getElementById("quoteList");
   const tarotListEl  = document.getElementById("tarotList");
   const ichingListEl = document.getElementById("ichingList");
+const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
+let adventureDiary = [];
 
+function loadAdventureDiary() {
+  const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
+  if (!raw) return;
+  const parsed = JSON.parse(raw);
+  if (Array.isArray(parsed)) adventureDiary = parsed;
+}
+
+// 讀出來後 adventureDiary 會是像這樣的陣列：
+// [
+//   { type: "quote", time: "...", title: "熊熊語錄", text: "...", ... },
+//   { type: "tarot", time: "...", title: "熊熊塔羅占卜", text: "...", ... },
+//   { type: "iching", time: "...", title: "熊熊易經卜卦", text: "...", ... }
+// ]
   renderList(quoteListEl, quoteHistory, "語錄");
   // 以下兩行目前在不同網站，所以大多數情況會是空陣列，先不覆蓋預設文字：
   // renderList(tarotListEl, tarotHistory, "塔羅占卜");
