@@ -12,6 +12,20 @@ body {
   background: linear-gradient(180deg, #ffeef5 0%, #fff7e3 100%);
   color: #5b4634;
 }
+/* 頂部熊熊頭像（主視覺） */
+.hero-bear {
+  display: block;
+  margin: 16px auto 12px;   /* 上下留一點空間＋置中 */
+  width: 220px;             /* 手機上大概這麼大就可愛 */
+  max-width: 70vw;          /* 螢幕太小就用 70% 寬 */
+  height: auto;
+  border-radius: 50%;       /* 讓外框也是圓的 */
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+.hero-wrap {
+  text-align: center;
+  padding-top: 12px;
+}
 
 body {
   min-height: 100vh;
