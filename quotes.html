@@ -94,5 +94,41 @@
 </div>
 
 <script src="script.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // 如果主程式已經有 initQuotesPage，就不用多做
+    if (typeof initQuotesPage === "function") return;
+    if (document.body.dataset.page !== "quotes") return;
+
+    // 如果舊版 script.js 沒有 initQuotesPage，就用這個簡化版頂著
+    const quoteTextEl = document.getElementById("quoteText");
+    const quoteMetaEl = document.getElementById("quoteMeta");
+    const quoteTagsEl = document.getElementById("quoteTags");
+    const nextBtn     = document.getElementById("nextBtn");
+
+    if (!quoteTextEl || !quoteMetaEl || !quoteTagsEl || !nextBtn) return;
+
+    const fallbackQuotes = [
+      "你不需要每一天都很勇敢，有時候只是沒有放棄，就已經很了不起了。",
+      "別急著把自己跟別人比較，你走的每一步都是你專屬的故事。",
+      "有時候什麼都不做，也是一種功課，好好休息也是前進的一部分。"
+    ];
+
+    function renderSimple(text) {
+      quoteTextEl.textContent = text;
+      quoteMetaEl.textContent = "─ 熊熊村長 · 簡易版語錄";
+      quoteTagsEl.innerHTML = "";
+    }
+
+    function randomSimple() {
+      const t = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+      renderSimple(t);
+    }
+
+    // 初始顯示一則
+    renderSimple(fallbackQuotes[0]);
+    nextBtn.addEventListener("click", randomSimple);
+  });
+</script>
 </body>
 </html>
