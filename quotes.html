@@ -24,9 +24,6 @@
     }
   }
 
-  // 一開始載入一次
-  loadAdventureDiary();
-
   // ===============================
   // 📜 熊熊語錄：舊的獨立紀錄
   // ===============================
@@ -125,9 +122,21 @@
   }
 
   // ===============================
-  // 抽一句並寫入：
-  //  1) 冒險日記 bearAdventureDiaryV1
-  //  2) 語錄歷史 bearQuoteHistoryV1
+  // 初始化：先把舊資料載回來
+  // ===============================
+  loadAdventureDiary();
+  loadQuoteHistory();
+
+  if (quoteHistory.length) {
+    // 有舊紀錄就顯示最新那句
+    renderQuote(quoteHistory[0]);
+  } else {
+    // 沒紀錄就顯示第一筆預設
+    renderQuote(quotes[0]);
+  }
+
+  // ===============================
+  // 抽一句並寫入兩個地方
   // ===============================
   function randomQuote() {
     const q = quotes[Math.floor(Math.random() * quotes.length)];
@@ -155,7 +164,7 @@
     }
     saveAdventureDiary();
 
-    // ➜ 寫入舊的「語錄紀錄」（給 quotes.html 自己用）
+    // ➜ 寫入舊的「語錄紀錄」
     quoteHistory.unshift({
       time: timeLabel,
       text: q.text,
@@ -169,16 +178,4 @@
   }
 
   nextBtn.addEventListener("click", randomQuote);
-
-  // ===============================
-  // 初始化顯示
-  // ===============================
-  loadQuoteHistory();
-  if (quoteHistory.length) {
-    // 有舊紀錄就顯示最新那句
-    renderQuote(quoteHistory[0]);
-  } else {
-    // 沒紀錄就顯示第一筆預設
-    renderQuote(quotes[0]);
-  }
 </script>
