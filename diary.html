@@ -139,6 +139,7 @@
 
 <div class="diary-wrap">
 
+  <!-- 封面卡 -->
   <div class="diary-card">
     <div class="diary-title-row">
       <span class="emoji">📓</span>
@@ -159,98 +160,38 @@
   <div class="diary-card">
     <h2 class="section-title">📜 熊熊語錄紀錄</h2>
     <div id="quoteList" class="entry-list">
-      <div class="no-data">目前還沒有語錄紀錄，可以去「熊熊語錄小屋」抽一句試試看～</div>
+      <div class="no-data">
+        目前還沒有語錄紀錄，可以去「熊熊語錄小屋」抽一句試試看～
+      </div>
     </div>
   </div>
 
-  <!-- 塔羅紀錄（預留） -->
+  <!-- 塔羅紀錄 -->
   <div class="diary-card">
     <h2 class="section-title">🔮 熊熊塔羅紀錄</h2>
     <div id="tarotList" class="entry-list">
       <div class="no-data">
-        目前塔羅是在另一個網站執行（不同網址），  
-        瀏覽器不會分享紀錄。  
+        目前塔羅是在另一個網站執行（不同網址），瀏覽器不會分享紀錄。  
         之後如果你把塔羅頁搬到同一個專案，我已經幫你預留好區塊，到時就能一起顯示囉。✨
       </div>
     </div>
   </div>
 
-<!-- 🧿 熊熊易經紀錄 -->
-<div class="card adventure-card">
-  <div class="card-title">
-    <span>🧿 熊熊易經紀錄</span>
+  <!-- 易經紀錄 -->
+  <div class="diary-card">
+    <h2 class="section-title">🧿 熊熊易經紀錄</h2>
+    <div id="ichingList" class="entry-list">
+      <div class="no-data">
+        目前還沒有易經紀錄。如果你在「熊熊易經卜卦」卜過卦，
+        且網址是同一個 <code>luckygbear-coder.github.io</code>，這裡就會自動顯示紀錄。📖
+      </div>
+    </div>
   </div>
-  <div id="ichingList" class="adventure-list"></div>
+
 </div>
 
 <script>
-  const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
-
-  function loadAdventureDiary() {
-    try {
-      const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
-      const parsed = JSON.parse(raw || "[]");
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      console.warn("讀取冒險日記失敗", e);
-      return [];
-    }
-  }
-
-  function renderIchingList() {
-    const listEl = document.getElementById("ichingList");
-    if (!listEl) return;
-
-    listEl.innerHTML = "";
-
-    const all = loadAdventureDiary();
-    const ichingList = all.filter((item) => item.type === "iching");
-
-    if (ichingList.length === 0) {
-      const empty = document.createElement("div");
-      empty.textContent =
-        "目前還沒有易經紀錄。如果你在熊熊易經小屋卜過卦，而且跟本網站是同一個網址，這裡就會自動顯示紀錄。";
-      empty.style.fontSize = "0.85rem";
-      empty.style.color = "#8a6b7a";
-      listEl.appendChild(empty);
-      return;
-    }
-
-    ichingList.forEach((item) => {
-      const box = document.createElement("div");
-      box.className = "adventure-item";
-
-      const title = document.createElement("div");
-      title.className = "adventure-item-title";
-      title.textContent = item.title || "熊熊易經卜卦";
-
-      const time = document.createElement("div");
-      time.className = "adventure-item-time";
-      time.textContent = item.time || "";
-
-      const content = document.createElement("div");
-      content.className = "adventure-item-content";
-      content.textContent =
-        (item.hexName ? "卦象：「" + item.hexName + "」\n" : "") +
-        (item.shortMeaning || "") +
-        (item.trend ? "（整體走向：" + item.trend + "）" : "");
-
-      const note = document.createElement("div");
-      note.className = "adventure-item-note";
-      note.textContent = item.note || "";
-
-      box.appendChild(title);
-      box.appendChild(time);
-      box.appendChild(content);
-      if (item.note) box.appendChild(note);
-
-      listEl.appendChild(box);
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", renderIchingList);
-</script>
-  // ========= 共用：讀取 localStorage =========
+  // ===== 共用：讀取 localStorage 陣列 =====
   function loadArray(key) {
     try {
       const raw = localStorage.getItem(key);
@@ -263,18 +204,13 @@
     }
   }
 
-  // ========= 冒險日記總表 =========
+  // 共用冒險日記 key（語錄 / 塔羅 / 易經都會寫進來）
   const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
-  let adventureDiary = loadArray(ADVENTURE_DIARY_KEY);
 
-  // 舊版各自的紀錄（給還沒完全串好的狀況用，當作備援）
-  const legacyQuoteHistory = loadArray("bearQuoteHistoryV1");
-  const legacyTarotHistory = loadArray("bearTarotHistoryV1");
-  const legacyIchingHistory = loadArray("bearHexHistoryV1");
-
-  // ========= 渲染工具 =========
+  // ===== 一般列表渲染（給語錄 / 舊版塔羅 / 舊版易經用） =====
   function renderList(listEl, data, typeLabel) {
-    if (!data.length) return; // 沒資料就保留原本「no-data」文字
+    if (!listEl) return;
+    if (!data.length) return; // 留下原本 no-data 文字
 
     listEl.innerHTML = data
       .map(item => `
@@ -296,80 +232,109 @@
       .join("");
   }
 
-  // ========= DOM =========
-  const quoteListEl  = document.getElementById("quoteList");
-  const tarotListEl  = document.getElementById("tarotList");
-  const ichingListEl = document.getElementById("ichingList");
-
-  // ========= 依 type 分類 =========
-  const diaryQuotes = adventureDiary.filter(item => item.type === "quote");
-  const diaryTarot  = adventureDiary.filter(item => item.type === "tarot");
-  const diaryIching = adventureDiary.filter(item => item.type === "iching");
-
-  // 📝 語錄：優先用冒險日記，沒有就用舊的 bearQuoteHistoryV1
-  if (diaryQuotes.length) {
-    renderList(quoteListEl, diaryQuotes, "熊熊語錄");
-  } else if (legacyQuoteHistory.length) {
-    renderList(quoteListEl, legacyQuoteHistory, "熊熊語錄");
-  }
-
-  // 🔮 塔羅：等你之後把塔羅也寫進 adventureDiary，就會自動顯示
-  if (diaryTarot.length) {
-    renderList(tarotListEl, diaryTarot, "熊熊塔羅占卜");
-  } else if (legacyTarotHistory.length) {
-    renderList(tarotListEl, legacyTarotHistory, "熊熊塔羅占卜");
-  }
-
-  // 🧿 易經：同上
-  if (diaryIching.length) {
-    renderList(ichingListEl, diaryIching, "熊熊易經卜卦");
-  } else if (legacyIchingHistory.length) {
-    renderList(ichingListEl, legacyIchingHistory, "熊熊易經卜卦");
-  }
-<script>
-  (function () {
-    const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
-
-    function loadAdventureDiary() {
-      try {
-        const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [];
-      } catch (e) {
-        console.warn("讀取冒險日記失敗", e);
-        return [];
-      }
+  // ===== 易經專用：主題文字 =====
+  function ichingTopicLabel(topic) {
+    switch (topic) {
+      case "love":   return "感情 / 關係";
+      case "career": return "工作 / 事業";
+      case "wealth": return "財運 / 金錢";
+      case "health": return "健康 / 身心";
+      case "social": return "人際 / 合作";
+      default:       return "整體狀況";
     }
+  }
 
-    const listEl = document.getElementById("ichingList");
+  // ===== 易經專用渲染（讀 bearAdventureDiaryV1 的 type="iching"） =====
+  function renderIchingDiary(listEl, data) {
     if (!listEl) return;
 
-    const diary = loadAdventureDiary().filter(e => e.type === "iching");
-
-    if (!diary.length) {
-      listEl.innerHTML =
-        '<li class="diary-empty">目前還沒有易經紀錄～先去「熊熊易經卜卦」抽一卦吧 🌱</li>';
+    if (!data || !data.length) {
+      // 沒資料就保留 HTML 裡原本的 no-data 文字
       return;
     }
 
-    listEl.innerHTML = diary
-      .map(entry => `
-        <li class="diary-item">
-          <div class="diary-header">
-            <span class="diary-title">${entry.title || "熊熊易經紀錄"}</span>
-            <span class="diary-time">${entry.time || ""}</span>
+    listEl.innerHTML = data
+      .map(item => {
+        const tags = [];
+        if (item.topic) {
+          tags.push("主題：" + ichingTopicLabel(item.topic));
+        }
+        if (item.trend) {
+          tags.push("走向：" + item.trend);
+        }
+        return `
+          <div class="entry">
+            <div class="entry-top">
+              <div class="entry-type">${item.title || "熊熊易經卜卦"}</div>
+              <div class="entry-time">${item.time || ""}</div>
+            </div>
+            <div class="entry-text">
+              ${
+                item.hexName
+                  ? "卦象：「" + item.hexName + "」\n"
+                  : ""
+              }${
+                item.shortMeaning || ""
+              }${
+                item.note
+                  ? "\n\n🐻 熊熊說：\n" + item.note
+                  : ""
+              }
+            </div>
+            ${
+              tags.length
+                ? `<div class="entry-tags">
+                     ${tags.map(t => `<span class="entry-tag">${t}</span>`).join("")}
+                   </div>`
+                : ""
+            }
           </div>
-          <div class="diary-body">
-            ${entry.topic ? `<div>主題：${entry.topic}</div>` : ""}
-            ${entry.hexName ? `<div>卦象：${entry.hexName}</div>` : ""}
-            ${entry.shortMeaning ? `<div>${entry.shortMeaning}</div>` : ""}
-            ${entry.note ? `<div class="diary-note">🐻 熊熊說：${entry.note}</div>` : ""}
-          </div>
-        </li>
-      `)
+        `;
+      })
       .join("");
-  })();
+  }
+
+  // ===== DOM Ready =====
+  document.addEventListener("DOMContentLoaded", function () {
+    const quoteListEl  = document.getElementById("quoteList");
+    const tarotListEl  = document.getElementById("tarotList");
+    const ichingListEl = document.getElementById("ichingList");
+
+    // 冒險日記總表（新版語錄 / 塔羅 / 易經都會寫進來）
+    const adventureDiary = loadArray(ADVENTURE_DIARY_KEY);
+
+    // 舊版各自的紀錄（還沒完全串好時當備援用）
+    const legacyQuoteHistory  = loadArray("bearQuoteHistoryV1");
+    const legacyTarotHistory  = loadArray("bearTarotHistoryV1");
+    const legacyIchingHistory = loadArray("bearHexHistoryV1");
+
+    // 依 type 分類
+    const diaryQuotes = adventureDiary.filter(item => item.type === "quote");
+    const diaryTarot  = adventureDiary.filter(item => item.type === "tarot");
+    const diaryIching = adventureDiary.filter(item => item.type === "iching");
+
+    // 📜 語錄：優先用冒險日記，沒有就用舊的 bearQuoteHistoryV1
+    if (diaryQuotes.length) {
+      renderList(quoteListEl, diaryQuotes, "熊熊語錄");
+    } else if (legacyQuoteHistory.length) {
+      renderList(quoteListEl, legacyQuoteHistory, "熊熊語錄");
+    }
+
+    // 🔮 塔羅：等之後你把塔羅也寫進 adventureDiary，就會自動顯示
+    if (diaryTarot.length) {
+      renderList(tarotListEl, diaryTarot, "熊熊塔羅占卜");
+    } else if (legacyTarotHistory.length) {
+      renderList(tarotListEl, legacyTarotHistory, "熊熊塔羅占卜");
+    }
+
+    // 🧿 易經：新版用 adventureDiary 的 type="iching"，舊版才用 bearHexHistoryV1
+    if (diaryIching.length) {
+      renderIchingDiary(ichingListEl, diaryIching);
+    } else if (legacyIchingHistory.length) {
+      // 舊版資料格式跟語錄類似，就用一般 renderList 顯示
+      renderList(ichingListEl, legacyIchingHistory, "熊熊易經卜卦");
+    }
+  });
 </script>
 
 </body>
