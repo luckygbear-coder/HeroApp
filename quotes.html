@@ -1,9 +1,38 @@
 <script>
-  // 🔑 語錄歷史紀錄的 key
+  // ===============================
+  // 🐻 熊熊冒險日記（共用總紀錄）
+  // ===============================
+  const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
+  let adventureDiary = [];
+
+  function loadAdventureDiary() {
+    try {
+      const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) adventureDiary = parsed;
+    } catch (e) {
+      console.warn("讀取冒險日記失敗", e);
+    }
+  }
+
+  function saveAdventureDiary() {
+    try {
+      localStorage.setItem(ADVENTURE_DIARY_KEY, JSON.stringify(adventureDiary));
+    } catch (e) {
+      console.warn("儲存冒險日記失敗", e);
+    }
+  }
+
+  // 一開始載入一次
+  loadAdventureDiary();
+
+  // ===============================
+  // 📜 熊熊語錄：舊的獨立紀錄
+  // ===============================
   const QUOTE_HISTORY_KEY = "bearQuoteHistoryV1";
   let quoteHistory = [];
 
-  // 讀取舊紀錄
   function loadQuoteHistory() {
     try {
       const raw = localStorage.getItem(QUOTE_HISTORY_KEY);
@@ -23,7 +52,9 @@
     }
   }
 
-  // 熊熊語錄資料
+  // ===============================
+  // 📚 熊熊語錄資料
+  // ===============================
   const quotes = [
     {
       text: "你不需要每一天都很勇敢。\n有時候，只是沒有放棄，就已經很了不起了。",
@@ -77,10 +108,13 @@
     }
   ];
 
+  // ===============================
+  // DOM 元素
+  // ===============================
   const quoteTextEl = document.getElementById("quoteText");
   const quoteMetaEl = document.getElementById("quoteMeta");
   const quoteTagsEl = document.getElementById("quoteTags");
-  const nextBtn = document.getElementById("nextBtn");
+  const nextBtn     = document.getElementById("nextBtn");
 
   function renderQuote(q) {
     quoteTextEl.textContent = q.text;
@@ -90,7 +124,11 @@
       .join("");
   }
 
-  // 抽一句並記錄到冒險日記
+  // ===============================
+  // 抽一句並寫入：
+  //  1) 冒險日記 bearAdventureDiaryV1
+  //  2) 語錄歷史 bearQuoteHistoryV1
+  // ===============================
   function randomQuote() {
     const q = quotes[Math.floor(Math.random() * quotes.length)];
     renderQuote(q);
@@ -102,74 +140,45 @@
       hour: "2-digit",
       minute: "2-digit"
     });
-    // 👉 多寫一筆到「熊熊冒險日記」
+
+    // ➜ 寫入「熊熊冒險日記」
     adventureDiary.unshift({
-      type: "quote",                 // 類型：語錄
+      type: "quote",
       time: timeLabel,
       title: "熊熊語錄",
       text: q.text,
       meta: q.meta,
       tags: q.tags
     });
-
-    // 只保留最近 100 筆
     if (adventureDiary.length > 100) {
       adventureDiary = adventureDiary.slice(0, 100);
     }
-
     saveAdventureDiary();
-    // 存到語錄歷史
+
+    // ➜ 寫入舊的「語錄紀錄」（給 quotes.html 自己用）
     quoteHistory.unshift({
       time: timeLabel,
       text: q.text,
       meta: q.meta,
       tags: q.tags
     });
-
-    // 只保留最新 50 筆（避免爆太大）
     if (quoteHistory.length > 50) {
       quoteHistory = quoteHistory.slice(0, 50);
     }
-
     saveQuoteHistory();
   }
 
   nextBtn.addEventListener("click", randomQuote);
 
-  // 載入舊紀錄，並顯示第一句
+  // ===============================
+  // 初始化顯示
+  // ===============================
   loadQuoteHistory();
   if (quoteHistory.length) {
+    // 有舊紀錄就顯示最新那句
     renderQuote(quoteHistory[0]);
   } else {
-    // 沒有紀錄就先顯示第一筆預設 + 下次按才開始存
+    // 沒紀錄就顯示第一筆預設
     renderQuote(quotes[0]);
   }
 </script>
-// ===============================
-// 🐻 熊熊冒險日記（共用的總紀錄）
-// ===============================
-const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
-let adventureDiary = [];
-
-// 載入總日記
-function loadAdventureDiary() {
-  try {
-    const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) adventureDiary = parsed;
-  } catch (e) {
-    console.warn("讀取冒險日記失敗", e);
-  }
-}
-
-function saveAdventureDiary() {
-  try {
-    localStorage.setItem(ADVENTURE_DIARY_KEY, JSON.stringify(adventureDiary));
-  } catch (e) {
-    console.warn("儲存冒險日記失敗", e);
-  }
-}
-
-// 一開始載入一次
-loadAdventureDiary();
