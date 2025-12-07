@@ -176,13 +176,10 @@
   </div>
 
   <!-- 易經紀錄（預留） -->
-  <div class="diary-card">
-    <h2 class="section-title">🧿 熊熊易經紀錄</h2>
-    <div id="ichingList" class="entry-list">
-      <div class="no-data">
-        易經卜卦目前也是在另一個網址。  
-        未來如果整合到同一個「冒險者天堂」專案，就能在這裡看到一起整理好的紀錄。📚
-      </div>
+<div class="card">
+  <h3>🧿 熊熊易經紀錄</h3>
+  <ul id="ichingList" class="diary-list"></ul>
+</div>
     </div>
   </div>
 
@@ -265,6 +262,50 @@
   } else if (legacyIchingHistory.length) {
     renderList(ichingListEl, legacyIchingHistory, "熊熊易經卜卦");
   }
+<script>
+  (function () {
+    const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
+
+    function loadAdventureDiary() {
+      try {
+        const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        console.warn("讀取冒險日記失敗", e);
+        return [];
+      }
+    }
+
+    const listEl = document.getElementById("ichingList");
+    if (!listEl) return;
+
+    const diary = loadAdventureDiary().filter(e => e.type === "iching");
+
+    if (!diary.length) {
+      listEl.innerHTML =
+        '<li class="diary-empty">目前還沒有易經紀錄～先去「熊熊易經卜卦」抽一卦吧 🌱</li>';
+      return;
+    }
+
+    listEl.innerHTML = diary
+      .map(entry => `
+        <li class="diary-item">
+          <div class="diary-header">
+            <span class="diary-title">${entry.title || "熊熊易經紀錄"}</span>
+            <span class="diary-time">${entry.time || ""}</span>
+          </div>
+          <div class="diary-body">
+            ${entry.topic ? `<div>主題：${entry.topic}</div>` : ""}
+            ${entry.hexName ? `<div>卦象：${entry.hexName}</div>` : ""}
+            ${entry.shortMeaning ? `<div>${entry.shortMeaning}</div>` : ""}
+            ${entry.note ? `<div class="diary-note">🐻 熊熊說：${entry.note}</div>` : ""}
+          </div>
+        </li>
+      `)
+      .join("");
+  })();
 </script>
 
 </body>
