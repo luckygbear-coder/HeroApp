@@ -1139,4 +1139,32 @@ body[data-page="home"] {
   margin-bottom: 6px;
   font-size: 16px;
 }
+/* 啟動畫面 Splash */
+#splash {
+  position: fixed;
+  inset: 0;
+  background: #f9e4c8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.splash-inner {
+  text-align: center;
+  color: #6a4f2e;
+  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.splash-inner img {
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+  margin-bottom: 12px;
+}
+
+.splash-inner p {
+  font-size: 14px;
+}
 }
