@@ -1,5 +1,5 @@
 // 很簡單的快取設定：把首頁 / 語錄 / icon 等基本檔案存起來
-const CACHE_NAME = "bear-adventure-v1";
+const CACHE_NAME = "bear-adventure-v3";
 
 const URLS_TO_CACHE = [
   "./",
