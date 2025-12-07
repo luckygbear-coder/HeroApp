@@ -175,17 +175,81 @@
     </div>
   </div>
 
-  <!-- 易經紀錄（預留） -->
-<div class="card">
-  <h3>🧿 熊熊易經紀錄</h3>
-  <ul id="ichingList" class="diary-list"></ul>
-</div>
-    </div>
+<!-- 🧿 熊熊易經紀錄 -->
+<div class="card adventure-card">
+  <div class="card-title">
+    <span>🧿 熊熊易經紀錄</span>
   </div>
-
+  <div id="ichingList" class="adventure-list"></div>
 </div>
 
 <script>
+  const ADVENTURE_DIARY_KEY = "bearAdventureDiaryV1";
+
+  function loadAdventureDiary() {
+    try {
+      const raw = localStorage.getItem(ADVENTURE_DIARY_KEY);
+      const parsed = JSON.parse(raw || "[]");
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.warn("讀取冒險日記失敗", e);
+      return [];
+    }
+  }
+
+  function renderIchingList() {
+    const listEl = document.getElementById("ichingList");
+    if (!listEl) return;
+
+    listEl.innerHTML = "";
+
+    const all = loadAdventureDiary();
+    const ichingList = all.filter((item) => item.type === "iching");
+
+    if (ichingList.length === 0) {
+      const empty = document.createElement("div");
+      empty.textContent =
+        "目前還沒有易經紀錄。如果你在熊熊易經小屋卜過卦，而且跟本網站是同一個網址，這裡就會自動顯示紀錄。";
+      empty.style.fontSize = "0.85rem";
+      empty.style.color = "#8a6b7a";
+      listEl.appendChild(empty);
+      return;
+    }
+
+    ichingList.forEach((item) => {
+      const box = document.createElement("div");
+      box.className = "adventure-item";
+
+      const title = document.createElement("div");
+      title.className = "adventure-item-title";
+      title.textContent = item.title || "熊熊易經卜卦";
+
+      const time = document.createElement("div");
+      time.className = "adventure-item-time";
+      time.textContent = item.time || "";
+
+      const content = document.createElement("div");
+      content.className = "adventure-item-content";
+      content.textContent =
+        (item.hexName ? "卦象：「" + item.hexName + "」\n" : "") +
+        (item.shortMeaning || "") +
+        (item.trend ? "（整體走向：" + item.trend + "）" : "");
+
+      const note = document.createElement("div");
+      note.className = "adventure-item-note";
+      note.textContent = item.note || "";
+
+      box.appendChild(title);
+      box.appendChild(time);
+      box.appendChild(content);
+      if (item.note) box.appendChild(note);
+
+      listEl.appendChild(box);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", renderIchingList);
+</script>
   // ========= 共用：讀取 localStorage =========
   function loadArray(key) {
     try {
