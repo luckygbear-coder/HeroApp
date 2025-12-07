@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2d254a" />
-    <style>
+
+  <style>
     /* ── 冒險者天堂 Logo 標章 ── */
     .logo-badge {
       display: inline-flex;
@@ -103,115 +104,115 @@
     }
   </style>
 </head>
-<div id="splash">
-  <div class="splash-inner">
-<!-- 放在 body 裡、最上面那張熊熊 -->
-<img src="icons/bear-192.png" alt="熊熊村長"
-     class="hero-bear">
-    <p>熊熊村長正在準備冒險道具…</p>
-  </div>
-</div>
+
 <body class="page-wrap" data-page="home">
-
-<div class="game-wrap">
-
-  <!-- 標題 + Logo 標章 -->
-  <div class="card title-card">
-    <div class="logo-badge">
-      <span class="icon">🛡️✨</span>
-      <span>冒險者天堂</span>
-      <span class="en">ADVENTURER'S PARADISE</span>
+  <!-- 🔆 啟動畫面 Splash，要放在 body 裡 -->
+  <div id="splash">
+    <div class="splash-inner">
+      <img src="icons/bear-192.png" alt="熊熊村長" class="hero-bear">
+      <p>熊熊村長正在準備冒險道具…</p>
     </div>
-    <h1>熊熊村長的家</h1>
-    <p class="subtitle">選一個世界開始今天的冒險吧！</p>
   </div>
 
-  <!-- 熊熊村長 IG 卡片 -->
-  <div class="ig-card">
-    <img src="images/bear.png" alt="熊熊村長頭像">
-    <div>
-      <div style="font-size:14px;color:#5a3844;font-weight:700;margin-bottom:4px;">
-        追蹤熊熊村長 IG
+  <div class="game-wrap">
+
+    <!-- 標題 + Logo 標章 -->
+    <div class="card title-card">
+      <div class="logo-badge">
+        <span class="icon">🛡️✨</span>
+        <span>冒險者天堂</span>
+        <span class="en">ADVENTURER'S PARADISE</span>
       </div>
-      <a href="https://instagram.com/luckygbear" target="_blank">@luckygbear</a>
-      <div style="font-size:11px;color:#a67b5b;margin-top:2px;">
-        看更多小勇者、魔物、占卜創作與日常故事 ✨
+      <h1>熊熊村長的家</h1>
+      <p class="subtitle">選一個世界開始今天的冒險吧！</p>
+    </div>
+
+    <!-- 熊熊村長 IG 卡片 -->
+    <div class="ig-card">
+      <img src="images/bear.png" alt="熊熊村長頭像">
+      <div>
+        <div style="font-size:14px;color:#5a3844;font-weight:700;margin-bottom:4px;">
+          追蹤熊熊村長 IG
+        </div>
+        <a href="https://instagram.com/luckygbear" target="_blank">@luckygbear</a>
+        <div style="font-size:11px;color:#a67b5b;margin-top:2px;">
+          看更多小勇者、魔物、占卜創作與日常故事 ✨
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- 三大世界 + 語錄小屋：方塊 icon 選單 -->
-  <div class="card">
-    <h3 style="margin-top:0;margin-bottom:8px;color:#7c5c88;">選一個入口前往：</h3>
+    <!-- 三大世界 + 語錄小屋：方塊 icon 選單 -->
+    <div class="card">
+      <h3 style="margin-top:0;margin-bottom:8px;color:#7c5c88;">選一個入口前往：</h3>
 
-    <div class="icon-grid">
+      <div class="icon-grid">
+        <!-- 🔮 熊熊塔羅占卜 -->
+        <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html">
+          <div class="icon-emoji">🔮</div>
+          <div class="icon-title">熊熊塔羅占卜</div>
+          <div class="icon-desc">22 張大秘儀｜三張牌小小指引</div>
+        </a>
 
-      <!-- 🔮 熊熊塔羅占卜 -->
-      <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html">
-        <div class="icon-emoji">🔮</div>
-        <div class="icon-title">熊熊塔羅占卜</div>
-        <div class="icon-desc">22 張大秘儀｜三張牌小小指引</div>
-      </a>
+        <!-- 🧿 熊熊易經卜卦 -->
+        <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear8/">
+          <div class="icon-emoji">🧿</div>
+          <div class="icon-title">熊熊易經卜卦</div>
+          <div class="icon-desc">六十四卦｜一步一步看懂流向</div>
+        </a>
 
-      <!-- 🧿 熊熊易經卜卦 -->
-      <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear8/">
-        <div class="icon-emoji">🧿</div>
-        <div class="icon-title">熊熊易經卜卦</div>
-        <div class="icon-desc">六十四卦｜一步一步看懂流向</div>
-      </a>
+        <!-- 🗺️ 小勇者大冒險 -->
+        <a class="icon-btn" href="https://luckygbear-coder.github.io/HeroApp/choose-hero.html">
+          <div class="icon-emoji">🗺️</div>
+          <div class="icon-title">小勇者大冒險</div>
+          <div class="icon-desc">剪刀石頭布對戰｜安撫魔物與魔王</div>
+        </a>
 
-      <!-- 🗺️ 小勇者大冒險 -->
-      <a class="icon-btn" href="https://luckygbear-coder.github.io/HeroApp/choose-hero.html">
-        <div class="icon-emoji">🗺️</div>
-        <div class="icon-title">小勇者大冒險</div>
-        <div class="icon-desc">剪刀石頭布對戰｜安撫魔物與魔王</div>
-      </a>
-
-      <!-- ✨ 熊熊語錄小屋（新頁面：quotes.html） -->
-      <a class="icon-btn" href="quotes.html">
-        <div class="icon-emoji">📜</div>
-        <div class="icon-title">熊熊語錄小屋</div>
-        <div class="icon-desc">今天需要哪一句勇氣小語呢？</div>
-      </a>
-
+        <!-- 📜 熊熊語錄小屋 -->
+        <a class="icon-btn" href="quotes.html">
+          <div class="icon-emoji">📜</div>
+          <div class="icon-title">熊熊語錄小屋</div>
+          <div class="icon-desc">今天需要哪一句勇氣小語呢？</div>
+        </a>
+      </div>
     </div>
+
+    <!-- 今日小語 -->
+    <div class="card">
+      <h3>今天的村長小語</h3>
+      <p style="font-size:13px;margin:0 0 4px;">
+        每一個選擇，都是一個新故事的開頭。  
+        不用急著成為最厲害的勇者，只要願意多走一步，  
+        你就已經比昨天更厲害了。💛
+      </p>
+      <p style="font-size:12px;color:#a67b5b;margin:0;">
+        ─ 熊熊村長
+      </p>
+    </div>
+
   </div>
 
-  <!-- 今日小語 -->
-  <div class="card">
-    <h3>今天的村長小語</h3>
-    <p style="font-size:13px;margin:0 0 4px;">
-      每一個選擇，都是一個新故事的開頭。  
-      不用急著成為最厲害的勇者，只要願意多走一步，  
-      你就已經比昨天更厲害了。💛
-    </p>
-    <p style="font-size:12px;color:#a67b5b;margin:0;">
-      ─ 熊熊村長
-    </p>
-  </div>
+  <!-- 先載入你的共用 script -->
+  <script src="script.js"></script>
 
-</div>
+  <!-- 再加上 splash + service worker -->
+  <script>
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash');
+      if (splash) {
+        setTimeout(() => {
+          splash.style.transition = 'opacity 0.4s ease';
+          splash.style.opacity = '0';
+          setTimeout(() => splash.remove(), 400);
+        }, 800);
+      }
 
-<script src="script.js"></script>
+      // 註冊 Service Worker（PWA）
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+          console.log('SW 註冊失敗：', err);
+        });
+      }
+    });
+  </script>
 </body>
-<script>
-  // 關掉啟動畫面
-  window.addEventListener('load', () => {
-    const splash = document.getElementById('splash');
-    if (splash) {
-      setTimeout(() => {
-        splash.style.opacity = '0';
-        splash.style.transition = 'opacity 0.4s ease';
-        setTimeout(() => splash.remove(), 400);
-      }, 800); // 0.8 秒後淡出，可以依喜好調整
-    }
-
-    // 註冊 Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(err => {
-        console.log('SW 註冊失敗：', err);
-      });
-    }
-  });
-</script>
 </html>
