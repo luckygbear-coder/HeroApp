@@ -102,7 +102,22 @@
       hour: "2-digit",
       minute: "2-digit"
     });
+    // 👉 多寫一筆到「熊熊冒險日記」
+    adventureDiary.unshift({
+      type: "quote",                 // 類型：語錄
+      time: timeLabel,
+      title: "熊熊語錄",
+      text: q.text,
+      meta: q.meta,
+      tags: q.tags
+    });
 
+    // 只保留最近 100 筆
+    if (adventureDiary.length > 100) {
+      adventureDiary = adventureDiary.slice(0, 100);
+    }
+
+    saveAdventureDiary();
     // 存到語錄歷史
     quoteHistory.unshift({
       time: timeLabel,
