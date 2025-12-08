@@ -5,23 +5,22 @@
   <title>冒險者天堂 ｜ 熊熊村長的家</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- 樣式檔 -->
+  <!-- 共用樣式 -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- PWA 設定 -->
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2d254a" />
   <link rel="apple-touch-icon" href="icons/bear-192.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/bear-192.png" />
-  <link rel="icon" type="image/png" sizes="512x512" href="icons/bear-512.png" />
 
-  <!-- 首頁額外樣式（可之後搬去 style.css） -->
+  <!-- 首頁專用小樣式 -->
   <style>
-    body {
+    /* 外層排版 */
+    body.page-wrap {
       margin: 0;
-      padding: 0;
-      background: #ffeec9;
+      background: #fde9d2;
       font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #5a3844;
     }
 
     .game-wrap {
@@ -31,106 +30,145 @@
     }
 
     .card {
-      background: #fff7e6;
-      border-radius: 16px;
-      border: 2px solid #e1b676;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-      padding: 16px;
-      margin-bottom: 14px;
+      background: #fff7ec;
+      border-radius: 18px;
+      border: 2px solid #f4d5aa;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 16px 14px;
+      margin-bottom: 16px;
     }
 
-    /* 標題 badge */
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 20% 0%, #fff7e8, #ffd8a8);
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-      font-size: 11px;
-      color: #8b5b3d;
-      margin-bottom: 8px;
-    }
-    .logo-badge span.en {
-      opacity: 0.8;
-      letter-spacing: 0.08em;
-    }
-
-    .title-card h1 {
-      margin: 0 0 4px;
+    .home-title {
+      margin: 4px 0 4px;
       font-size: 22px;
-      color: #6b3b32;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-align: center;
+      color: #6b3430;
     }
 
-    .subtitle-main {
-      margin: 0 0 10px;
+    .subtitle {
+      text-align: center;
       font-size: 13px;
-      color: #a87055;
-    }
-
-    /* 村長信箱按鈕 */
-    .mail-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: #ffe2b3;
-      color: #6b3b32;
-      font-size: 12px;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid #f3c17b;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    }
-    .mail-btn span.icon {
-      font-size: 14px;
-    }
-
-    /* 入口 icon 方塊 */
-    .entry-title {
-      margin-top: 0;
+      color: #a0745a;
       margin-bottom: 8px;
-      color: #7c5c88;
+    }
+
+    /* 🐻 最上面的村長介紹卡片 */
+    .intro-card {
+      text-align: center;
+    }
+
+    .intro-top {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    #quoteBearAvatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #f3d4a0;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform .15s ease;
+    }
+
+    #quoteBearAvatar:hover {
+      transform: translateY(-2px);
+    }
+
+    .intro-text {
       font-size: 14px;
+      line-height: 1.6;
+      color: #8b6a52;
+      margin: 6px 0 12px;
+    }
+
+    .intro-btn-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .intro-btn {
+      flex: 1;
+      padding: 9px 0;
+      border-radius: 999px;
+      border: 1px solid #f0cfa4;
+      background: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      color: #864f3a;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .intro-btn.mail {
+      background: #ffe3dd;
+      border-color: #f7b9a7;
+    }
+
+    .intro-btn.story {
+      background: #ffeecd;
+      border-color: #f7cfa0;
+    }
+
+    .intro-tip {
+      font-size: 11px;
+      color: #b0886a;
+      margin: 4px 0 0;
+    }
+
+    /* 六格入口選單 */
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #7b4a7a;
     }
 
     .icon-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 4px;
+      margin-top: 8px;
     }
 
     .icon-btn {
       background: #fff9ef;
       border: 2px solid #f7dba5;
       border-radius: 16px;
-      padding: 14px 10px;
+      padding: 14px 10px 12px;
       text-align: center;
       text-decoration: none;
       color: #5a3844;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-      transition: transform .15s ease, box-shadow .15s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform .12s ease, box-shadow .12s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
+      min-height: 90px;
     }
 
     .icon-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.14);
     }
 
     .icon-emoji {
-      font-size: 30px;
+      font-size: 28px;
     }
 
     .icon-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
     }
 
@@ -140,134 +178,79 @@
       line-height: 1.3;
     }
 
-    /* 認識村長卡片 */
-    .about-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .about-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #f4c17f;
-    }
-
-    .about-title {
-      margin: 0;
-      font-size: 16px;
-      color: #6b3b32;
-    }
-
-    .about-text {
-      margin: 4px 0 10px;
-      font-size: 13px;
-      color: #8a6044;
-      line-height: 1.6;
-    }
-
-    .about-link-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid #e9bedf;
-      background: #ffe7f5;
-      font-size: 12px;
-      text-decoration: none;
-      color: #a2557b;
-      font-weight: 600;
-    }
-
-    .about-link-btn span.icon {
-      font-size: 14px;
-    }
-
     /* 今日小語 */
-    .daily-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .daily-header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .daily-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #6b3b32;
-    }
-
-    .daily-hint {
-      font-size: 11px;
-      color: #b07a63;
-    }
-
-    .daily-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 2px solid #f3c17b;
-      cursor: pointer;
-      object-fit: cover;
-    }
-
-    .daily-quote-text {
-      font-size: 13px;
-      line-height: 1.7;
-      color: #7a4e3a;
+    .quote-card-title {
+      font-size: 16px;
+      font-weight: 800;
       margin: 0 0 4px;
-      transition: opacity 0.2s ease;
+      color: #7c4a35;
     }
 
-    .daily-sign {
+    .quote-tip {
+      font-size: 11px;
+      color: #ab7d61;
+      margin-bottom: 6px;
+    }
+
+    .quote-text {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0 0 4px;
+      color: #5a3844;
+    }
+
+    .quote-author {
       font-size: 12px;
-      color: #b07a63;
-      margin: 0;
+      color: #a3765a;
       text-align: right;
+      margin: 0;
     }
 
-    /* Splash */
+    /* 點頭像時的可愛晃動 */
+    .shake {
+      animation: bear-shake 0.3s ease;
+    }
+
+    @keyframes bear-shake {
+      0%   { transform: translateX(0); }
+      25%  { transform: translateX(-2px); }
+      50%  { transform: translateX(2px); }
+      75%  { transform: translateX(-1px); }
+      100% { transform: translateX(0); }
+    }
+
+    @media (max-width: 400px) {
+      #quoteBearAvatar {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    /* Splash（原本就有的可以沿用） */
     #splash {
       position: fixed;
       inset: 0;
       background: #2d254a;
+      color: #fff;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       z-index: 999;
     }
     .splash-inner {
       text-align: center;
-      color: #fff7e6;
-      font-size: 14px;
     }
     .splash-inner .hero-bear {
       width: 96px;
       height: 96px;
-      border-radius: 32px;
-      background: #fff7e6;
-      padding: 8px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-      margin-bottom: 10px;
-      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 8px;
     }
   </style>
 </head>
 
 <body class="page-wrap" data-page="home">
-
-  <!-- 啟動畫面 -->
+  <!-- 🔆 啟動畫面 -->
   <div id="splash">
     <div class="splash-inner">
       <img src="icons/bear-192.png" alt="熊熊村長" class="hero-bear">
@@ -277,63 +260,74 @@
 
   <div class="game-wrap">
 
-    <!-- 上方標題 + 村長信箱 -->
-    <div class="card title-card">
-      <div class="logo-badge">
-        <span>🛡️✨</span>
-        <span>冒險者天堂</span>
-        <span class="en">ADVENTURER'S PARADISE</span>
+    <!-- 🐻 村長熊熊介紹 + 信箱 + 故事入口（最上面） -->
+    <div class="card intro-card">
+      <div class="intro-top">
+        <!-- 點這顆熊熊頭像可以刷新下面的小語 -->
+        <img src="images/bear.png" alt="村長熊熊" id="quoteBearAvatar">
       </div>
-      <h1>熊熊村長的家</h1>
-      <p class="subtitle-main">選一個入口，開始今天的小小冒險吧！</p>
 
-      <a href="mailto:luckygbear@gmail.com" class="mail-btn">
-        <span class="icon">📮</span>
-        <span>寫信給村長熊熊</span>
-      </a>
+      <h1 class="home-title">熊熊村長的家</h1>
+      <p class="subtitle">選一個入口，開始今天的小小冒險吧！</p>
+
+      <p class="intro-text">
+        在星星會掉下來的山谷裡，有一隻毛茸茸的小熊，默默陪著每一個需要休息的人。  
+        他把這裡取名為「冒險者天堂」，希望每個來到這裡的人，都能帶著一點點更溫柔的勇氣回家。
+      </p>
+
+      <div class="intro-btn-row">
+        <a href="mailto:luckygbear@gmail.com" class="intro-btn mail">
+          ✉️ 寫信給村長熊熊
+        </a>
+        <a href="stories.html" class="intro-btn story">
+          📖 看更多熊熊的故事
+        </a>
+      </div>
+
+      <p class="intro-tip">貼心提醒：點一下村長熊熊的頭像，可以換一句今天的小語喔。</p>
     </div>
 
-    <!-- 六個入口選單 -->
+    <!-- ✨ 入口選單 -->
     <div class="card">
-      <h3 class="entry-title">從這裡選一個入口開始冒險：</h3>
+      <h3 class="section-title">從這裡選一個入口開始冒險：</h3>
 
       <div class="icon-grid">
-        <!-- 熊熊塔羅占卜 -->
+        <!-- 🔮 熊熊塔羅占卜 -->
         <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html">
           <div class="icon-emoji">🔮</div>
           <div class="icon-title">熊熊塔羅占卜</div>
           <div class="icon-desc">22 張大秘儀｜三張牌小小指引</div>
         </a>
 
-        <!-- 熊熊易經卜卦 -->
+        <!-- 🧿 熊熊易經卜卦 -->
         <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear8/">
           <div class="icon-emoji">🧿</div>
           <div class="icon-title">熊熊易經卜卦</div>
           <div class="icon-desc">六十四卦｜一步一步看懂流向</div>
         </a>
 
-        <!-- 小勇者大冒險 -->
+        <!-- 🗺️ 小勇者大冒險 -->
         <a class="icon-btn" href="https://luckygbear-coder.github.io/HeroApp/choose-hero.html">
           <div class="icon-emoji">🗺️</div>
           <div class="icon-title">小勇者大冒險</div>
           <div class="icon-desc">剪刀石頭布對戰｜安撫魔物與魔王</div>
         </a>
 
-        <!-- 熊熊語錄小屋 -->
+        <!-- 📜 熊熊語錄小屋 -->
         <a class="icon-btn" href="quotes.html">
           <div class="icon-emoji">📜</div>
           <div class="icon-title">熊熊語錄小屋</div>
           <div class="icon-desc">今天需要哪一句勇氣小語呢？</div>
         </a>
 
-        <!-- 熊熊故事屋（stories.html） -->
+        <!-- 📚 熊熊故事屋（stories.html） -->
         <a class="icon-btn" href="stories.html">
           <div class="icon-emoji">📚</div>
           <div class="icon-title">熊熊故事屋</div>
           <div class="icon-desc">十集床邊小故事｜下一晚繼續看</div>
         </a>
 
-        <!-- 在 IG 看熊熊日常 -->
+        <!-- 📷 在 IG 看熊熊日常 -->
         <a class="icon-btn" href="https://instagram.com/luckygbear" target="_blank">
           <div class="icon-emoji">📷</div>
           <div class="icon-title">在 IG 看熊熊日常</div>
@@ -342,46 +336,23 @@
       </div>
     </div>
 
-    <!-- 認識村長熊熊 -->
+    <!-- 💛 今天的村長小語 -->
     <div class="card">
-      <div class="about-card-header">
-        <img src="images/bear.png" alt="熊熊村長頭像" class="about-avatar" id="bearQuoteAvatar">
-        <div>
-          <h3 class="about-title">認識村長熊熊</h3>
-          <p class="about-text">
-            在星星會掉下來的山谷裡，有一隻毛茸茸的小熊，
-            默默陪著每一個需要休息的人。他把這裡取名叫做「冒險者天堂」，
-            希望每個來到這裡的人，都能帶著一點點更溫柔的勇氣回家。
-          </p>
-        </div>
-      </div>
-
-      <a href="about.html" class="about-link-btn">
-        <span class="icon">📖</span>
-        <span>閱讀更多熊熊的故事</span>
-      </a>
-    </div>
-
-    <!-- 今日村長小語 -->
-    <div class="card">
-      <div class="daily-header">
-        <div class="daily-header-left">
-          <div class="daily-title">今天的村長小語</div>
-          <div class="daily-hint">貼心提醒：點一下上面的熊熊頭像，可以換一句小語喔。</div>
-        </div>
-      </div>
-      <p id="dailyQuote" class="daily-quote-text"></p>
-      <p class="daily-sign">— 熊熊村長</p>
+      <h3 class="quote-card-title">今天的村長小語</h3>
+      <p class="quote-tip">貼心提醒：點一下最上面的村長熊熊頭像，可以換一句小語喔。</p>
+      <p id="todayQuote" class="quote-text">
+        溫柔是一種力量，而你也擁有它。
+      </p>
+      <p class="quote-author">— 熊熊村長</p>
     </div>
 
   </div>
 
-  <!-- 共用 script（如果你已經有就保留原本的） -->
+  <!-- 共用 script（如果你原本有） -->
   <script src="script.js"></script>
 
-  <!-- 首頁專用：Splash + Service Worker + 小語邏輯 -->
+  <!-- Splash + Service Worker -->
   <script>
-    // Splash & Service Worker
     window.addEventListener('load', () => {
       const splash = document.getElementById('splash');
       if (splash) {
@@ -398,61 +369,62 @@
         });
       }
     });
+  </script>
 
-    // -------------------------------
-    // 今日村長小語（點熊熊頭像刷新）
-    // -------------------------------
-    const dailyQuotes = [
-      "走慢一點沒關係，重要的是你還在前進。",
-      "你已經很努力了，休息一下也算是一種勇敢。",
-      "當你願意再試一次時，世界就又亮了一點。",
-      "你不是一個人，熊熊永遠在這裡陪你。",
-      "情緒不是壞東西，而是來提醒你「你需要被照顧」。",
-      "今天的你，不需要完美；只需要真實就很好。",
-      "心累的時候，把自己交給溫柔一點的世界。",
-      "願意說出「我不太舒服」本身就是很了不起的事。",
-      "別急著長大成英雄，先照顧好今天的自己。",
-      "你的感受永遠值得被好好聆聽。",
-      "你已經比昨天的自己更前進了。真的。",
-      "有些日子比較難熬，但你還是在努力活著，很棒。",
-      "試著把期待放輕一點，把呼吸放慢一點。",
+  <!-- 隨機 30 句村長小語 + 點頭像刷新 -->
+  <script>
+    const BEAR_QUOTES = [
       "溫柔是一種力量，而你也擁有它。",
-      "你的存在本身就值得被喜歡。",
-      "累了就回來熊熊這裡坐坐，我替你守著世界。",
-      "失敗不是結束，只是故事裡的一頁。",
-      "如果現在覺得辛苦，那一定代表你正在變強。",
-      "世界很大，但你的位置剛剛好。",
-      "心裡的黑夜也會慢慢迎來早晨。",
-      "請記得，你不需要一次把所有事情做好。",
-      "你願意學習、願意感受，就已經很棒了。",
-      "你的步伐不用和別人一樣快。做你自己就好。",
-      "你值得被愛，也值得被溫柔對待。",
-      "試著對自己說一句好話，就從今天開始。",
-      "有時候回答不了也沒關係，沉默也是一種語言。",
-      "你正在成為你想成為的人，只是還在路上。",
-      "被愛包圍不一定要很吵，有時候是很安靜的。",
-      "給自己多一點耐心，害怕也沒關係。",
-      "不舒服的今天會過去，好事情正在往你這裡走來。"
+      "走得慢沒關係，重要的是你還在往前。",
+      "不知道怎麼辦的日子，就先好好睡一覺。",
+      "你不需要完美，已經很值得被喜歡。",
+      "難過的時候，可以先讓自己當一下小朋友。",
+      "今天有好好吃飯，就是一種勇氣任務完成。",
+      "心裡亂糟糟時，先把房間的一角整理好就好。",
+      "拒絕別人也是在好好照顧自己。",
+      "你可以說「我也會怕」，這句話一點都不丟臉。",
+      "別急著對自己失望，你還在學習而已。",
+      "有情緒，不代表你不夠好，只代表你是人。",
+      "你願意求助時，世界也會伸出一點手。",
+      "小小的開心，可以疊成很大的力量。",
+      "今天如果只做到一件小事，也值得被稱讚。",
+      "放過自己的那一刻，才是真的長大。",
+      "你不一定要當第一名，只要當自己的夥伴。",
+      "不舒服的關係，可以慢慢遠離沒關係。",
+      "別忘了，你也值得被溫柔對待。",
+      "想哭就先哭，再來想要怎麼走下去。",
+      "害怕改變很正常，但你已經在思考就是進步。",
+      "有人懂很好，沒有人懂時，我懂你。",
+      "當你覺得撐不住時，來這裡坐一下就好。",
+      "你現在的樣子，已經比昨天更勇敢一點點。",
+      "不必把所有人都照顧好，先從自己開始。",
+      "世界不一定很溫柔，但我們可以對自己溫柔。",
+      "別把心裡所有聲音都當成真實，可以挑著聽。",
+      "迷路的時候，也是在收集地圖的一部分。",
+      "如果只剩一格電，就留給讓你心安的事情。",
+      "疲累的時候，休息不是懶惰，是在修補翅膀。",
+      "你可以慢慢來，熊熊會在這裡等你。"
     ];
 
-    function renderDailyQuote() {
-      const box = document.getElementById('dailyQuote');
-      if (!box) return;
-      box.style.opacity = 0;
-      setTimeout(() => {
-        const msg = dailyQuotes[Math.floor(Math.random() * dailyQuotes.length)];
-        box.textContent = msg;
-        box.style.opacity = 1;
-      }, 150);
+    function pickRandomQuote() {
+      const el = document.getElementById('todayQuote');
+      if (!el) return;
+      const idx = Math.floor(Math.random() * BEAR_QUOTES.length);
+      el.textContent = BEAR_QUOTES[idx];
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      renderDailyQuote(); // 進入網站先顯示一句
+      // 進入頁面先抽一句
+      pickRandomQuote();
 
-      const avatar = document.getElementById('bearQuoteAvatar');
+      const avatar = document.getElementById('quoteBearAvatar');
       if (avatar) {
         avatar.addEventListener('click', () => {
-          renderDailyQuote();
+          pickRandomQuote();
+          // 可愛晃動一下
+          avatar.classList.remove('shake');
+          void avatar.offsetWidth; // 重新觸發動畫
+          avatar.classList.add('shake');
         });
       }
     });
