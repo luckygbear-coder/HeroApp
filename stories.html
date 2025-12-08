@@ -1,231 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <title>熊熊故事書 ｜ 冒險者天堂</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
-  <meta name="theme-color" content="#2d254a" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(180deg, #2d254a, #6a4f9c, #f9e4c8);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-    }
-
-    .story-page-wrap {
-      max-width: 520px;
-      width: 100%;
-      padding: 18px 16px 40px;
-    }
-
-    .card.story-book-card {
-      background: #fff9f2;
-      border-radius: 18px;
-      border: 2px solid #f7d3b5;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-      padding: 16px 14px 18px;
-      color: #4a2f3a;
-    }
-
-    .back-home-top {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid #e4c7ff;
-      background: #f6f0ff;
-      font-size: 11px;
-      color: #5a3968;
-      text-decoration: none;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-    .back-home-top span.arrow {
-      font-size: 11px;
-    }
-
-    .story-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .story-header img {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 0 0 3px #fff7ec, 0 0 0 5px #f7dba5;
-    }
-    .story-header-title {
-      font-size: 18px;
-      color: #5a3844;
-      margin: 0;
-    }
-    .story-header-sub {
-      font-size: 12px;
-      color: #a67b5b;
-      margin-top: 2px;
-    }
-
-    .episode-bar {
-      margin: 8px 0 10px;
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      gap: 6px;
-      padding-bottom: 4px;
-    }
-    .episode-btn {
-      flex: 0 0 auto;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid #e4c7ff;
-      background: #f6f0ff;
-      font-size: 11px;
-      color: #5a3968;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background .15s ease, transform .1s ease, box-shadow .1s ease;
-    }
-    .episode-btn.active {
-      background: linear-gradient(135deg, #ffcf71, #ff9f7b);
-      color: #4a2a18;
-      border-color: #f3b56a;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-
-    .episode-title {
-      font-size: 15px;
-      color: #7c5c88;
-      margin: 8px 0 4px;
-    }
-
-    .episode-text {
-      font-size: 13px;
-      line-height: 1.9;
-      color: #5a3844;
-      white-space: pre-line;
-    }
-
-    .episode-quote {
-      font-size: 12px;
-      color: #b15f8b;
-      border-left: 3px solid #f3beda;
-      padding-left: 8px;
-      margin: 10px 0;
-    }
-
-    .story-illu {
-      margin: 10px 0 4px;
-      padding: 8px;
-      border-radius: 12px;
-      border: 1px dashed #e2c7a5;
-      background: #fff4dd;
-      font-size: 11px;
-      color: #a0774a;
-    }
-
-    .episode-nav {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .episode-nav button {
-      flex: 1;
-      border-radius: 999px;
-      border: none;
-      padding: 8px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      background: #f5e4ff;
-      color: #543561;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      transition: background .15s ease, transform .1s ease, box-shadow .1s ease;
-    }
-    .episode-nav button:disabled {
-      opacity: 0.5;
-      box-shadow: none;
-      cursor: default;
-    }
-    .episode-nav button:hover:not(:disabled) {
-      background: #ecd6ff;
-      transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-    }
-
-    .bedtime-note {
-      margin-top: 10px;
-      font-size: 11px;
-      color: #8c6b93;
-    }
-
-    @media (max-width: 480px) {
-      .story-page-wrap {
-        padding-top: 16px;
-      }
-      .episode-text {
-        font-size: 12.5px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-<div class="story-page-wrap">
-  <a href="index.html" class="back-home-top">
-    <span>←</span>
-    <span>回熊熊村長的家</span>
-  </a>
-
-  <div class="card story-book-card">
-    <div class="story-header">
-      <img src="images/bear.png" alt="村長熊熊">
-      <div>
-        <h1 class="story-header-title">熊熊故事書（共 10 集）</h1>
-        <div class="story-header-sub">適合當床邊故事，家長朗讀或孩子自己閱讀。</div>
-      </div>
-    </div>
-
-    <!-- 集數切換列 -->
-    <div class="episode-bar" id="episodeBar"></div>
-
-    <!-- 插圖預留區 -->
-    <div id="storyIllustration" class="story-illu">
-      未來插圖位置：這一集會放上對應的故事圖片 🖼️
-    </div>
-
-    <!-- 標題 & 內容 -->
-    <h2 id="episodeTitle" class="episode-title"></h2>
-    <div id="episodeText" class="episode-text"></div>
-    <div id="episodeQuote" class="episode-quote"></div>
-
-    <!-- 上一集 / 下一集 按鈕 -->
-    <div class="episode-nav">
-      <button id="prevEpBtn">← 上一集</button>
-      <button id="nextEpBtn">下一集 →</button>
-    </div>
-
-    <div class="bedtime-note">
-      小建議：睡前可以選一集，  
-      輕輕地念給自己聽，  
-      或者由家長念給孩子聽，  
-      再一起分享今天最有感覺的一句話。🌙
-    </div>
-  </div>
-</div>
-
 <script>
+  // 🔑 記錄上次看到第幾集的 key
+  const STORY_EP_KEY = "bearStoryLastEpisodeV1";
+
   // 10 集故事資料
   const episodes = [
     {
@@ -246,7 +22,6 @@
 每當說到心酸的地方，熊熊就會伸出毛茸茸的小熊掌，  
 輕輕地拍拍旁邊的朋友，好像在說：  
 「沒關係，我在。」`,
-
       quote: "有時候，一隻安靜陪在你身邊的小熊，就比很多話更有力量。"
     },
     {
@@ -271,7 +46,6 @@
 
 原來，這就是熊熊最特別的地方——  
 他會的不是大魔法，而是「好好陪在你身邊的小魔法」。`,
-
       quote: "不是每個人都要會大魔法，有時候，溫柔就是最重要的力量。"
     },
     {
@@ -279,7 +53,7 @@
       title: "第 3 集：遠方來的孩子們",
       text: `有一天，山谷裡來了一群從遠方村莊來的小孩。
 
-他們一開始很安靜，只是坐在河邊，看著水發呆。  
+他們一開始很安靜，只是坐在河畔，看著水發呆。  
 熊熊走過去，拿出自己最喜歡的小點心，慢慢地坐在旁邊。
 
 後來，孩子們開始說話了。
@@ -295,7 +69,6 @@
 那天晚上，星星雨下得特別亮。  
 孩子們躺在草地上，看著天空，  
 忽然覺得，心裡好像沒有那麼重了。`,
-
       quote: "當有人願意好好聽你說，心就會慢慢變輕。"
     },
     {
@@ -320,7 +93,6 @@
 還有人送給他一個小木牌，上面寫著：
 
 「歡迎光臨冒險者天堂。」`,
-
       quote: "有時候，當你願意站出來照顧別人，你也會一起變得更勇敢。"
     },
     {
@@ -340,7 +112,6 @@
 每當有小勇者成功安撫了魔物，  
 天空就會掉下一顆小星星，  
 代表今天又多了一點點勇氣。`,
-
       quote: "當你願意理解別人的心情，你也在學習擁抱自己的心。"
     },
     {
@@ -363,7 +134,6 @@
 
 熊熊常常說：  
 「占卜不是幫你決定，而是陪你一起想。」`,
-
       quote: "真正的答案，永遠藏在你的心裡，熊熊只是幫你把那盞燈打亮。"
     },
     {
@@ -390,7 +160,6 @@
 
 於是，魔物的眼淚變成了閃閃發光的小水珠，  
 掉在地上，長出了新的花。`,
-
       quote: "當你願意看見別人兇巴巴背後的難過，你就已經是一個很棒的勇者了。"
     },
     {
@@ -416,7 +185,6 @@
 
 熊熊聽完，眼睛也紅紅的。  
 他發現，原來自己也可以被安慰。`,
-
       quote: "照顧別人的人，也可以有累的時候；敢說出『我也需要陪伴』，是一種新的勇敢。"
     },
     {
@@ -438,7 +206,6 @@
 提醒自己：
 
 「原來，我們都在一起練習變得更溫柔。」`,
-
       quote: "每一顆願意說出真心的小星星，都讓世界亮一點點。"
     },
     {
@@ -462,12 +229,34 @@
 就輪到你，  
 慢慢地，一點一滴地，  
 把自己的故事寫進來。`,
-
       quote: "世界上沒有完美的勇者，只有願意再試一次的你。"
     }
   ];
 
-  let currentIndex = 0;
+  // 讀取上次看到第幾集（index）
+  function loadLastEpisodeIndex() {
+    try {
+      const raw = localStorage.getItem(STORY_EP_KEY);
+      if (!raw) return 0;
+      const idx = parseInt(raw, 10);
+      if (isNaN(idx)) return 0;
+      if (idx < 0 || idx >= episodes.length) return 0;
+      return idx;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  // 儲存目前看到第幾集（index）
+  function saveLastEpisodeIndex(idx) {
+    try {
+      localStorage.setItem(STORY_EP_KEY, String(idx));
+    } catch (e) {
+      // 靜靜失敗沒關係
+    }
+  }
+
+  let currentIndex = loadLastEpisodeIndex();
 
   const episodeBar   = document.getElementById("episodeBar");
   const titleEl      = document.getElementById("episodeTitle");
@@ -499,6 +288,9 @@
 
     illuEl.textContent =
       `未來插圖位置：第 ${ep.id} 集〈${ep.title.replace(/^第 \\d+ 集：/, "")}〉的圖片會放在這裡。`;
+
+    // 🌙 每次切換集數就記住這一集
+    saveLastEpisodeIndex(currentIndex);
 
     // 更新按鈕狀態
     prevBtn.disabled = currentIndex === 0;
@@ -533,6 +325,3 @@
   renderEpisodeButtons();
   renderEpisode();
 </script>
-
-</body>
-</html>
