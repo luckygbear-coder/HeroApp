@@ -1,41 +1,283 @@
-<!-- 村長熊熊：頭像＋簡短故事＋信箱＋按鈕 -->
-<div class="card hero-card">
-  <div class="hero-main">
-    <div class="hero-text-block">
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>冒險者天堂 ｜ 熊熊村長的家</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2d254a" />
+
+  <style>
+    /* ── Logo 標章 ── */
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 0%, #fff7e8, #ffd8a8);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      font-size: 11px;
+      color: #8b5b3d;
+      margin-bottom: 6px;
+    }
+    .logo-badge span.icon {
+      font-size: 16px;
+    }
+
+    /* 標題卡：改成比較矮，讓下面入口可以同屏出現 */
+    .title-card {
+      margin-bottom: 10px;
+      padding: 14px 14px 12px;
+    }
+    .hero-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .hero-title-group h1 {
+      margin: 0 0 4px;
+      font-size: 20px;
+    }
+    .hero-title-group .subtitle {
+      margin: 0;
+      font-size: 12px;
+      color: #a6785c;
+    }
+    .hero-avatar {
+      width: 68px;
+      height: 68px;
+      border-radius: 999px;
+      object-fit: cover;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+      border: 2px solid #f7deb0;
+    }
+
+    .hero-intro {
+      margin: 8px 0 6px;
+      font-size: 12px;
+      color: #7c5b46;
+      line-height: 1.5;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .pill-btn {
+      flex: 1 1 48%;
+      border: none;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      background: linear-gradient(135deg, #ffd9a6, #ffc27b);
+      color: #5a3824;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .pill-btn.secondary {
+      background: #f6ecff;
+      color: #7a4a82;
+    }
+
+    /* 可愛方塊選單 */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .icon-btn {
+      background: #fff9ef;
+      border: 2px solid #f7dba5;
+      border-radius: 16px;
+      padding: 12px 8px;
+      text-align: center;
+      text-decoration: none;
+      color: #5a3844;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: transform .15s ease, box-shadow .15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    }
+    .icon-emoji {
+      font-size: 28px;
+    }
+    .icon-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .icon-desc {
+      font-size: 10px;
+      opacity: 0.7;
+      line-height: 1.3;
+    }
+
+    /* section title */
+    .section-title {
+      margin-top: 0;
+      margin-bottom: 6px;
+      color: #7c5c88;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 400px) {
+      .hero-avatar {
+        width: 60px;
+        height: 60px;
+      }
+      .hero-title-group h1 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body class="page-wrap" data-page="home">
+  <!-- 🔆 啟動畫面 Splash -->
+  <div id="splash">
+    <div class="splash-inner">
+      <img src="icons/bear-192.png" alt="熊熊村長" class="hero-bear">
+      <p>熊熊村長正在準備冒險道具…</p>
+    </div>
+  </div>
+
+  <div class="game-wrap">
+
+    <!-- ▸ 村長熊熊的家（標題＋短故事＋信箱） -->
+    <div class="card title-card">
       <div class="logo-badge">
         <span class="icon">🛡️✨</span>
-        <span>冒險者天堂 · ADVENTURER'S PARADISE</span>
+        <span>冒險者天堂 ADVENTURER'S PARADISE</span>
       </div>
 
-      <h1 class="hero-title">熊熊村長的家</h1>
-      <p class="hero-subtitle">選一個入口，開始今天的小小冒險吧！</p>
+      <div class="hero-top-row">
+        <div class="hero-title-group">
+          <h1>熊熊村長的家</h1>
+          <p class="subtitle">選一個入口，開始今天的小小冒險吧！</p>
+        </div>
+        <img src="images/bear.png" alt="熊熊村長" class="hero-avatar">
+      </div>
+
+      <p class="hero-intro">
+        在星星會掉下來的山谷裡，有一隻毛茸茸的小熊，默默陪伴每一個需要休息的人。  
+        他就是村長熊熊，這裡叫做「冒險者天堂」。
+      </p>
+
+      <div class="hero-actions">
+        <a class="pill-btn" href="mailto:luckygbear@gmail.com?subject=寫信給熊熊村長">
+          📮 寫信給熊熊村長
+        </a>
+        <button class="pill-btn secondary" onclick="location.href='about.html'">
+          閱讀更多熊熊的故事 ⤴
+        </button>
+      </div>
     </div>
 
-    <!-- 熊熊頭像 -->
-    <img src="images/bear.png" alt="村長熊熊頭像" class="hero-avatar">
+    <!-- ▸ 六格入口 -->
+    <div class="card">
+      <h3 class="section-title">挑一個入口，熊熊陪你一起走：</h3>
+
+      <div class="icon-grid">
+        <!-- 1. 熊熊塔羅占卜 -->
+        <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html">
+          <div class="icon-emoji">🔮</div>
+          <div class="icon-title">熊熊塔羅占卜</div>
+          <div class="icon-desc">22 張大秘儀｜三張牌小指引</div>
+        </a>
+
+        <!-- 2. 熊熊易經卜卦 -->
+        <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear8/">
+          <div class="icon-emoji">🧿</div>
+          <div class="icon-title">熊熊易經卜卦</div>
+          <div class="icon-desc">六十四卦｜一步一步看懂流向</div>
+        </a>
+
+        <!-- 3. 小勇者大冒險 -->
+        <a class="icon-btn" href="https://luckygbear-coder.github.io/HeroApp/choose-hero.html">
+          <div class="icon-emoji">🗺️</div>
+          <div class="icon-title">小勇者大冒險</div>
+          <div class="icon-desc">剪刀石頭布對戰｜安撫魔物與魔王</div>
+        </a>
+
+        <!-- 4. 熊熊語錄小屋 -->
+        <a class="icon-btn" href="quotes.html">
+          <div class="icon-emoji">📜</div>
+          <div class="icon-title">熊熊語錄小屋</div>
+          <div class="icon-desc">今天需要哪一句勇氣小語呢？</div>
+        </a>
+
+        <!-- 5. 熊熊故事屋 -->
+        <a class="icon-btn" href="story.html">
+          <div class="icon-emoji">📚</div>
+          <div class="icon-title">熊熊故事屋</div>
+          <div class="icon-desc">十集床邊小故事｜下一晚繼續看</div>
+        </a>
+
+        <!-- 6. 在 IG 看熊熊日常 -->
+        <a class="icon-btn" href="https://instagram.com/luckygbear" target="_blank">
+          <div class="icon-emoji">📸</div>
+          <div class="icon-title">在 IG 看熊熊日常</div>
+          <div class="icon-desc">創作、魔物故事與生活小碎念</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ▸ 今天的村長小語 -->
+    <div class="card">
+      <h3>今天的村長小語</h3>
+      <p style="font-size:13px;margin:0 0 4px;">
+        每一個選擇，都是一個新故事的開頭。  
+        不用急著成為最厲害的勇者，只要願意多走一步，  
+        你就已經比昨天更厲害了。💛
+      </p>
+      <p style="font-size:12px;color:#a67b5b;margin:0;">
+        ─ 熊熊村長
+      </p>
+    </div>
   </div>
 
-  <!-- 熊熊簡短故事 -->
-  <p class="hero-intro">
-    在星星會掉下來的山谷裡，有一隻毛茸茸的小熊，默默陪伴每一個需要休息的人。  
-    他就是村長熊熊，這裡叫做「冒險者天堂」。
-  </p>
+  <!-- 共用 script -->
+  <script src="script.js"></script>
 
-  <!-- 熊熊信箱 -->
-  <a class="pill-btn" 
-     style="background:#ffe3b8; color:#5a3b2e;" 
-     href="mailto:luckygbear@gmail.com?subject=寫信給熊熊村長">
-     📮 寫信給熊熊村長
-  </a>
+  <!-- Splash + Service Worker -->
+  <script>
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash');
+      if (splash) {
+        setTimeout(() => {
+          splash.style.transition = 'opacity 0.4s ease';
+          splash.style.opacity = '0';
+          setTimeout(() => splash.remove(), 400);
+        }, 800);
+      }
 
-  <!-- 兩個附加按鈕 -->
-  <div class="hero-actions">
-    <button class="pill-btn" onclick="location.href='story.html'">
-      📖 打開熊熊故事屋
-    </button>
-
-    <button class="pill-btn secondary" onclick="location.href='about.html'">
-      認識更多關於熊熊 →
-    </button>
-  </div>
-</div>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+          console.log('SW 註冊失敗：', err);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
