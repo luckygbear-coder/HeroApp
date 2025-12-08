@@ -76,31 +76,82 @@
       line-height: 1.3;
     }
 
-    /* IG 卡片 */
+    /* 🟣 IG 卡片（升級版） */
     .ig-card {
       margin-top: 12px;
-      padding: 14px;
+      padding: 14px 14px 12px;
       border-radius: 16px;
-      border: 2px solid #f7dba5;
-      background: #fff7ec;
+      border: 2px solid rgba(247, 219, 165, 0.95);
+      background: radial-gradient(circle at 0% 0%, #fff7ec, #ffe0f3);
       display: flex;
       align-items: center;
       gap: 12px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.12);
     }
     .ig-card img {
-      width: 58px;
-      height: 58px;
+      width: 62px;
+      height: 62px;
       border-radius: 50%;
       object-fit: cover;
+      box-shadow: 0 0 0 3px #fff7ec, 0 0 0 5px #f7dba5;
     }
-    .ig-card a {
-      color: #b15f8b;
-      text-decoration: none;
+    .ig-text-main {
+      flex: 1;
+      min-width: 0;
+    }
+    .ig-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      background: linear-gradient(135deg, #ff9a9e, #fecf57);
+      color: #4a1f2e;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
     }
-    .ig-card a:hover {
-      text-decoration: underline;
+    .ig-badge span.icon {
+      font-size: 13px;
+    }
+    .ig-title {
+      font-size: 13px;
+      color: #5a3844;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .ig-handle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #ffffffcc;
+      border: 1px solid #f1c4dd;
+      font-size: 12px;
+      color: #b15f8b;
+      font-weight: 700;
+      text-decoration: none;
+      margin-bottom: 3px;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .ig-handle span.arrow {
+      font-size: 11px;
+      transition: transform .15s ease;
+    }
+    .ig-handle:hover {
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.16);
+      transform: translateY(-1px);
+    }
+    .ig-handle:hover span.arrow {
+      transform: translateX(2px);
+    }
+    .ig-desc {
+      font-size: 11px;
+      color: #a06764;
+      line-height: 1.5;
     }
 
     /* 🐻 村長熊熊的故事卡片 */
@@ -132,6 +183,35 @@
       color: #b15f8b;
       font-weight: 600;
     }
+    .story-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #e3bfd6;
+      background: #fff7fc;
+      font-size: 11px;
+      color: #8b4d7c;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: background .15s ease, transform .1s ease, box-shadow .1s ease;
+    }
+    .story-more-btn span.arrow {
+      font-size: 11px;
+      transition: transform .2s ease;
+    }
+    .story-more-btn:hover {
+      background: #fff0fa;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+    .story-more-btn:hover span.arrow {
+      transform: translateX(2px);
+    }
   </style>
 </head>
 
@@ -157,21 +237,27 @@
       <p class="subtitle">選一個世界開始今天的冒險吧！</p>
     </div>
 
-    <!-- 熊熊村長 IG 卡片 -->
+    <!-- ✨ IG 卡片（升級版） -->
     <div class="ig-card">
       <img src="images/bear.png" alt="熊熊村長頭像">
-      <div>
-        <div style="font-size:14px;color:#5a3844;font-weight:700;margin-bottom:4px;">
-          追蹤熊熊村長 IG
+      <div class="ig-text-main">
+        <div class="ig-badge">
+          <span class="icon">📸</span>
+          <span>FOLLOW 熊熊日常</span>
         </div>
-        <a href="https://instagram.com/luckygbear" target="_blank">@luckygbear</a>
-        <div style="font-size:11px;color:#a67b5b;margin-top:2px;">
-          看更多小勇者、魔物、占卜創作與日常故事 ✨
+        <div class="ig-title">在 Instagram 找到村長熊熊</div>
+        <a class="ig-handle" href="https://instagram.com/luckygbear" target="_blank" rel="noopener">
+          <span>@luckygbear</span>
+          <span class="arrow">↗</span>
+        </a>
+        <div class="ig-desc">
+          想看小勇者桌遊、塔羅占卜、魔物故事和熊熊的生活日常嗎？  
+          點進去，一起住進冒險者的天堂世界。✨
         </div>
       </div>
     </div>
 
-    <!-- 🐻 村長熊熊的故事 -->
+    <!-- 🐻 村長熊熊的故事（首頁精簡版） -->
     <div class="card story-card">
       <h3 class="story-title">
         <span class="emoji">🐻</span>
@@ -185,27 +271,26 @@
 有人難過，他就安靜地坐在旁邊陪著；  
 有人害怕黑夜，他就把自己的小燈籠借給對方。
 
-大家都說：「熊熊出現的地方，就會開一盞小小的光。」
+長大之後，小熊看見世界上有很多孩子，也有很多大人，  
+心裡藏著小小的煩惱、小小的疲憊，卻常常不好意思說出口。
 
-慢慢地，小熊長大了。  
-他看見世界上有很多孩子、也有很多大人，  
-心裡藏著小小的煩惱、小小的疲憊。
-
-於是，小熊做了一個重要的決定 ——  
-要蓋一個安全、又有魔法的地方，  
-讓每一位路過的旅人，都可以在這裡休息一下、被好好擁抱。
-
-那一天，他戴上了村長的帽子，  
-建造了「冒險者天堂」，  
-也成為大家熟悉的 —— 村長熊熊。
+於是，他戴上了村長的帽子，  
+蓋了一個「不需要偉大，只要願意出發」的地方——  
+那就是你現在看到的「冒險者天堂」。
       </div>
       <div class="story-highlight">
         「你不是一個人。走累了就來這裡坐坐，  
         準備好時，我會陪你一起往前走。」
       </div>
+
+      <!-- 🔗 閱讀更多熊熊的故事（連到 about.html） -->
+      <a href="about.html" class="story-more-btn">
+        <span>閱讀更多熊熊的故事</span>
+        <span class="arrow">↗</span>
+      </a>
     </div>
 
-    <!-- 三大世界 + 語錄小屋：方塊 icon 選單 -->
+    <!-- 四個入口：塔羅、易經、小勇者、語錄 -->
     <div class="card">
       <h3 style="margin-top:0;margin-bottom:8px;color:#7c5c88;">選一個入口前往：</h3>
 
