@@ -4,12 +4,46 @@
   <meta charset="UTF-8" />
   <title>冒險者天堂 ｜ 熊熊村長的家</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- 共用樣式 & PWA -->
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2d254a" />
 
   <style>
-    /* ── 冒險者天堂 Logo 標章 ── */
+    /* 整體版面：鎖在一個手機畫面裡 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #ffeec9;
+      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .page-shell {
+      max-width: 480px;
+      height: 100vh;                 /* 佔滿整個螢幕高度 */
+      margin: 0 auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-sizing: border-box;
+    }
+
+    .card {
+      background: #fff7e6;
+      border-radius: 16px;
+      border: 2px solid #e1b676;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+      padding: 12px 14px;
+    }
+
+    /* ── 上方標題區 ── */
+    .title-card {
+      flex: 0 0 auto;
+    }
+
     .logo-badge {
       display: inline-flex;
       align-items: center;
@@ -32,191 +66,176 @@
       letter-spacing: 0.08em;
     }
 
-    /* 可愛方塊選單 */
+    h1 {
+      margin: 2px 0 4px;
+      font-size: 20px;
+      letter-spacing: 0.08em;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 12px;
+      color: #9b6c62;
+    }
+
+    /* ── 中間主要區（入口＋按鈕）── */
+    .main-area {
+      flex: 1 1 auto;              /* 吃掉中間空間 */
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;               /* 防止 overflow 破版 */
+    }
+
+    /* 四個入口：縮小版方塊 */
+    .icon-card {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
     .icon-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
     }
 
     .icon-btn {
       background: #fff9ef;
-      border: 2px solid #f7dba5;
-      border-radius: 16px;
-      padding: 16px 10px;
+      border: 1px solid #f7dba5;
+      border-radius: 14px;
+      padding: 10px 6px;
       text-align: center;
       text-decoration: none;
       color: #5a3844;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
       transition: transform .15s ease, box-shadow .15s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .icon-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.16);
     }
 
     .icon-emoji {
-      font-size: 32px;
+      font-size: 26px;
     }
 
     .icon-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 700;
     }
 
     .icon-desc {
-      font-size: 11px;
-      opacity: 0.65;
+      font-size: 10px;
+      opacity: 0.7;
       line-height: 1.3;
     }
 
-    /* 🟣 IG 卡片（升級版） */
-    .ig-card {
-      margin-top: 12px;
-      padding: 14px 14px 12px;
-      border-radius: 16px;
-      border: 2px solid rgba(247, 219, 165, 0.95);
-      background: radial-gradient(circle at 0% 0%, #fff7ec, #ffe0f3);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-    }
-    .ig-card img {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 0 0 3px #fff7ec, 0 0 0 5px #f7dba5;
-    }
-    .ig-text-main {
-      flex: 1;
-      min-width: 0;
-    }
-    .ig-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 10px;
-      background: linear-gradient(135deg, #ff9a9e, #fecf57);
-      color: #4a1f2e;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      margin-bottom: 4px;
-    }
-    .ig-badge span.icon {
+    .icon-card h3 {
+      margin: 0 0 4px;
       font-size: 13px;
-    }
-    .ig-title {
-      font-size: 13px;
-      color: #5a3844;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .ig-handle {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #ffffffcc;
-      border: 1px solid #f1c4dd;
-      font-size: 12px;
-      color: #b15f8b;
-      font-weight: 700;
-      text-decoration: none;
-      margin-bottom: 3px;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-    }
-    .ig-handle span.arrow {
-      font-size: 11px;
-      transition: transform .15s ease;
-    }
-    .ig-handle:hover {
-      background: #ffffff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.16);
-      transform: translateY(-1px);
-    }
-    .ig-handle:hover span.arrow {
-      transform: translateX(2px);
-    }
-    .ig-desc {
-      font-size: 11px;
-      color: #a06764;
-      line-height: 1.5;
+      color: #7c5c88;
     }
 
-    /* 🐻 村長熊熊的故事卡片 */
-    .story-card {
-      margin-top: 12px;
-      background: #fff9f2;
-      border: 2px solid #f7d3b5;
-    }
-    .story-title {
-      margin: 0 0 6px;
-      font-size: 15px;
-      color: #7c5c88;
+    /* IG & 故事小按鈕列（橫向 pill） */
+    .quick-links-card {
+      flex: 0 0 auto;
+      padding: 10px 12px;
       display: flex;
-      align-items: center;
-      gap: 6px;
+      flex-direction: column;
+      gap: 8px;
     }
-    .story-title span.emoji {
-      font-size: 18px;
+
+    .quick-row {
+      display: flex;
+      gap: 8px;
     }
-    .story-text {
-      font-size: 12px;
-      line-height: 1.7;
-      color: #5a3844;
-      white-space: pre-line;
-    }
-    .story-highlight {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #b15f8b;
-      font-weight: 600;
-    }
-    .story-more-btn {
+
+    .pill-btn {
+      flex: 1 1 0;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      margin-top: 10px;
-      padding: 6px 12px;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 10px;
       border-radius: 999px;
-      border: 1px solid #e3bfd6;
-      background: #fff7fc;
-      font-size: 11px;
-      color: #8b4d7c;
       text-decoration: none;
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0.05em;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      transition: background .15s ease, transform .1s ease, box-shadow .1s ease;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(240, 186, 150, 0.9);
+      background: linear-gradient(135deg, #ffe8d3, #ffd1e0);
+      color: #7a4350;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      white-space: nowrap;
     }
-    .story-more-btn span.arrow {
+
+    .pill-btn.ghost {
+      background: #fffaf2;
+      color: #6b4b3d;
+    }
+
+    .pill-btn img {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .quick-caption {
+      font-size: 10px;
+      color: #aa7b61;
+      text-align: center;
+    }
+
+    /* ── 最下面：村長小語 ── */
+    .quote-card {
+      flex: 0 0 auto;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #6a4940;
+    }
+
+    .quote-card h3 {
+      margin: 0 0 4px;
+      font-size: 13px;
+      color: #7c5c88;
+    }
+
+    .quote-from {
+      margin-top: 3px;
       font-size: 11px;
-      transition: transform .2s ease;
+      color: #a67b5b;
+      text-align: right;
     }
-    .story-more-btn:hover {
-      background: #fff0fa;
-      transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    }
-    .story-more-btn:hover span.arrow {
-      transform: translateX(2px);
+
+    @media (max-height: 720px) {
+      /* 如果螢幕特別矮，再微縮字級 */
+      h1 {
+        font-size: 18px;
+      }
+      .icon-emoji {
+        font-size: 24px;
+      }
+      .icon-title {
+        font-size: 12px;
+      }
+      .icon-desc {
+        font-size: 9px;
+      }
     }
   </style>
 </head>
 
 <body class="page-wrap" data-page="home">
-  <!-- 🔆 啟動畫面 Splash，要放在 body 裡 -->
+
+  <!-- 🔆 啟動畫面 Splash -->
   <div id="splash">
     <div class="splash-inner">
       <img src="icons/bear-192.png" alt="熊熊村長" class="hero-bear">
@@ -224,9 +243,9 @@
     </div>
   </div>
 
-  <div class="game-wrap">
+  <div class="page-shell">
 
-    <!-- 標題 + Logo 標章 -->
+    <!-- ⛰️ 上方標題 -->
     <div class="card title-card">
       <div class="logo-badge">
         <span class="icon">🛡️✨</span>
@@ -234,120 +253,93 @@
         <span class="en">ADVENTURER'S PARADISE</span>
       </div>
       <h1>熊熊村長的家</h1>
-      <p class="subtitle">選一個世界開始今天的冒險吧！</p>
+      <p class="subtitle">選一個入口，開始今天的小小冒險吧！</p>
     </div>
 
-    <!-- ✨ IG 卡片（升級版） -->
-    <div class="ig-card">
-      <img src="images/bear.png" alt="熊熊村長頭像">
-      <div class="ig-text-main">
-        <div class="ig-badge">
-          <span class="icon">📸</span>
-          <span>FOLLOW 熊熊日常</span>
+    <!-- 🎮 中段：主要內容（入口＋小按鈕） -->
+    <div class="main-area">
+
+      <!-- 四個世界入口 -->
+      <div class="card icon-card">
+        <h3>選一個世界前往：</h3>
+        <div class="icon-grid">
+
+          <!-- 🔮 熊熊塔羅占卜 -->
+          <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html">
+            <div class="icon-emoji">🔮</div>
+            <div class="icon-title">熊熊塔羅占卜</div>
+            <div class="icon-desc">22 張大秘儀 · 三張牌指引</div>
+          </a>
+
+          <!-- 🧿 熊熊易經卜卦 -->
+          <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear8/">
+            <div class="icon-emoji">🧿</div>
+            <div class="icon-title">熊熊易經卜卦</div>
+            <div class="icon-desc">六十四卦 · 一步一步看流向</div>
+          </a>
+
+          <!-- 🗺️ 小勇者大冒險 -->
+          <a class="icon-btn" href="https://luckygbear-coder.github.io/HeroApp/choose-hero.html">
+            <div class="icon-emoji">🗺️</div>
+            <div class="icon-title">小勇者大冒險</div>
+            <div class="icon-desc">剪刀石頭布對戰 · 安撫魔物與魔王</div>
+          </a>
+
+          <!-- 📜 熊熊語錄小屋 -->
+          <a class="icon-btn" href="quotes.html">
+            <div class="icon-emoji">📜</div>
+            <div class="icon-title">熊熊語錄小屋</div>
+            <div class="icon-desc">抽一句今天的勇氣小語</div>
+          </a>
+
         </div>
-        <div class="ig-title">在 Instagram 找到村長熊熊</div>
-        <a class="ig-handle" href="https://instagram.com/luckygbear" target="_blank" rel="noopener">
-          <span>@luckygbear</span>
-          <span class="arrow">↗</span>
-        </a>
-        <div class="ig-desc">
-          想看小勇者桌遊、塔羅占卜、魔物故事和熊熊的生活日常嗎？  
-          點進去，一起住進冒險者的天堂世界。✨
+      </div>
+
+      <!-- IG＋故事按鈕：改成一行／兩行的 pill，不佔空間 -->
+      <div class="card quick-links-card">
+        <div class="quick-row">
+          <!-- 📖 十集故事書：請改成你故事書頁面的實際檔名 -->
+          <a class="pill-btn" href="stories.html">
+            📖 打開熊熊十集故事書
+          </a>
+
+          <!-- 🐻 認識熊熊：請改成你的 about 頁面檔名 -->
+          <a class="pill-btn ghost" href="about.html">
+            🐻 認識村長熊熊
+          </a>
+        </div>
+
+        <div class="quick-row">
+          <!-- IG 小 pill -->
+          <a class="pill-btn" href="https://instagram.com/luckygbear" target="_blank">
+            <img src="images/bear.png" alt="熊熊村長頭像">
+            在 IG 看熊熊日常
+          </a>
+        </div>
+
+        <div class="quick-caption">
+          想看熊熊的創作、魔物背後的小故事，或是日常碎念，都在這裡慢慢更新。🌙
         </div>
       </div>
     </div>
 
-    <!-- 🐻 村長熊熊的故事（首頁簡短版） -->
-<div class="card story-card">
-  <h3 class="story-title">
-    <span class="emoji">🐻</span>
-    <span>村長熊熊是誰？</span>
-  </h3>
-  <div class="story-text">
-    在星星會掉下來的山谷裡，有一隻毛茸茸的小熊。  
-    他不擅長厲害的魔法，卻很會安靜地陪在別人身邊。  
-
-    長大後，他蓋了一個地方，  
-    讓每一個覺得累累的孩子和大人，  
-    都可以在這裡稍微休息、再出發——  
-    這裡就叫作「冒險者天堂」。
-  </div>
-  <div class="story-highlight">
-    想把完整故事當成床邊故事讀給孩子聽嗎？
-  </div>
-
-  <!-- 🔗 打開完整十集故事書 -->
-  <a href="stories.html" class="story-more-btn">
-    <span>打開熊熊十集故事書</span>
-    <span class="arrow">📖</span>
-  </a>
-</div>
-      <div class="story-highlight">
-        「你不是一個人。走累了就來這裡坐坐，  
-        準備好時，我會陪你一起往前走。」
-      </div>
-
-      <!-- 🔗 閱讀更多熊熊的故事（連到 about.html） -->
-      <a href="about.html" class="story-more-btn">
-        <span>閱讀更多熊熊的故事</span>
-        <span class="arrow">↗</span>
-      </a>
-    </div>
-
-    <!-- 四個入口：塔羅、易經、小勇者、語錄 -->
-    <div class="card">
-      <h3 style="margin-top:0;margin-bottom:8px;color:#7c5c88;">選一個入口前往：</h3>
-
-      <div class="icon-grid">
-        <!-- 🔮 熊熊塔羅占卜 -->
-        <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear-Tarot/tarot.html">
-          <div class="icon-emoji">🔮</div>
-          <div class="icon-title">熊熊塔羅占卜</div>
-          <div class="icon-desc">22 張大秘儀｜三張牌小小指引</div>
-        </a>
-
-        <!-- 🧿 熊熊易經卜卦 -->
-        <a class="icon-btn" href="https://luckygbear-coder.github.io/Bear8/">
-          <div class="icon-emoji">🧿</div>
-          <div class="icon-title">熊熊易經卜卦</div>
-          <div class="icon-desc">六十四卦｜一步一步看懂流向</div>
-        </a>
-
-        <!-- 🗺️ 小勇者大冒險 -->
-        <a class="icon-btn" href="https://luckygbear-coder.github.io/HeroApp/choose-hero.html">
-          <div class="icon-emoji">🗺️</div>
-          <div class="icon-title">小勇者大冒險</div>
-          <div class="icon-desc">剪刀石頭布對戰｜安撫魔物與魔王</div>
-        </a>
-
-        <!-- 📜 熊熊語錄小屋 -->
-        <a class="icon-btn" href="quotes.html">
-          <div class="icon-emoji">📜</div>
-          <div class="icon-title">熊熊語錄小屋</div>
-          <div class="icon-desc">今天需要哪一句勇氣小語呢？</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- 今日小語 -->
-    <div class="card">
+    <!-- 💬 最下面：村長小語 -->
+    <div class="card quote-card">
       <h3>今天的村長小語</h3>
-      <p style="font-size:13px;margin:0 0 4px;">
+      <p>
         每一個選擇，都是一個新故事的開頭。  
         不用急著成為最厲害的勇者，只要願意多走一步，  
         你就已經比昨天更厲害了。💛
       </p>
-      <p style="font-size:12px;color:#a67b5b;margin:0;">
-        ─ 熊熊村長
-      </p>
+      <div class="quote-from">─ 熊熊村長</div>
     </div>
 
   </div>
 
-  <!-- 先載入你的共用 script -->
+  <!-- 共用 script（如果有） -->
   <script src="script.js"></script>
 
-  <!-- 再加上 splash + service worker -->
+  <!-- Splash 淡出 + Service Worker 註冊 -->
   <script>
     window.addEventListener('load', () => {
       const splash = document.getElementById('splash');
@@ -359,7 +351,6 @@
         }, 800);
       }
 
-      // 註冊 Service Worker（PWA）
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js').catch(err => {
           console.log('SW 註冊失敗：', err);
