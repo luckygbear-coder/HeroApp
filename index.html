@@ -56,12 +56,13 @@
     /* 🐻 最上面的村長介紹卡片 */
     .intro-card {
       text-align: center;
+      position: relative;
     }
 
     .intro-top {
       display: flex;
       justify-content: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     #quoteBearAvatar {
@@ -77,6 +78,53 @@
 
     #quoteBearAvatar:hover {
       transform: translateY(-2px);
+    }
+
+    /* 🗨️ 熊熊對話框 */
+    .bear-speech {
+      max-width: 260px;
+      margin: 6px auto 8px;
+      padding: 8px 10px;
+      background: #fffdf7;
+      border-radius: 12px;
+      border: 1px solid #f3d4a0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #6b4630;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+      opacity: 0;
+      transform: translateY(4px);
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      position: relative;
+    }
+
+    .bear-speech::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 7px 7px 7px;
+      border-style: solid;
+      border-color: transparent transparent #f3d4a0 transparent;
+    }
+
+    .bear-speech::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 6px 6px 6px;
+      border-style: solid;
+      border-color: transparent transparent #fffdf7 transparent;
+    }
+
+    .bear-speech.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     .intro-text {
@@ -268,8 +316,13 @@
     <!-- 🐻 村長熊熊介紹 + 信箱 + 故事屋 + IG -->
     <div class="card intro-card">
       <div class="intro-top">
-        <!-- 點這顆熊熊頭像可以刷新下面的小語 -->
+        <!-- 點這顆熊熊頭像可以刷新小語 & 彈出對話框 -->
         <img src="images/bear.png" alt="村長熊熊" id="quoteBearAvatar">
+      </div>
+
+      <!-- 🗨️ 熊熊說話的小對話框 -->
+      <div id="bearSpeech" class="bear-speech">
+        <div id="bearSpeechText">今天的熊熊小語在這裡出現～點點看村長熊熊吧！</div>
       </div>
 
       <h1 class="home-title">熊熊村長的家</h1>
@@ -292,7 +345,7 @@
         </a>
       </div>
 
-      <p class="intro-tip">貼心提醒：點一下村長熊熊的頭像，可以換一句今天的小語喔。</p>
+      <p class="intro-tip">貼心提醒：點一下村長熊熊的頭像，會跳出一個小小對話框，換一句今天的小語喔。</p>
     </div>
 
     <!-- ✨ 四格入口選單 -->
@@ -333,7 +386,7 @@
     <!-- 💛 今天的村長小語 -->
     <div class="card">
       <h3 class="quote-card-title">今天的村長小語</h3>
-      <p class="quote-tip">貼心提醒：點一下最上面的村長熊熊頭像，可以換一句小語喔。</p>
+      <p class="quote-tip">貼心提醒：上面村長熊熊說了什麼，這裡也會一起更新喔。</p>
       <p id="todayQuote" class="quote-text">
         溫柔是一種力量，而你也擁有它。
       </p>
@@ -365,7 +418,7 @@
     });
   </script>
 
-  <!-- 隨機 30 句村長小語 + 點頭像刷新 -->
+  <!-- 隨機 30 句村長小語 + 點頭像刷新 & 對話框 -->
   <script>
     const BEAR_QUOTES = [
       "溫柔是一種力量，而你也擁有它。",
@@ -401,19 +454,33 @@
     ];
 
     function pickRandomQuote() {
-      const el = document.getElementById('todayQuote');
-      if (!el) return;
+      const quoteEl  = document.getElementById('todayQuote');
+      const speechEl = document.getElementById('bearSpeechText');
+      if (!quoteEl || !speechEl) return;
+
       const idx = Math.floor(Math.random() * BEAR_QUOTES.length);
-      el.textContent = BEAR_QUOTES[idx];
+      const text = BEAR_QUOTES[idx];
+
+      quoteEl.textContent  = text;
+      speechEl.textContent = text;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // 先準備一句，但讓氣泡一開始是隱藏的
       pickRandomQuote();
 
       const avatar = document.getElementById('quoteBearAvatar');
+      const bubble = document.getElementById('bearSpeech');
+
       if (avatar) {
         avatar.addEventListener('click', () => {
           pickRandomQuote();
+
+          if (bubble) {
+            bubble.classList.add('show');
+          }
+
+          // 小晃動動畫
           avatar.classList.remove('shake');
           void avatar.offsetWidth;
           avatar.classList.add('shake');
