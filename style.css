@@ -1,3 +1,14 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;        /* 避免左右滑動 */
+}
+
+body.page-wrap,
+body[data-page="home"] .game-wrap {
+  min-height: 100vh;         /* 至少跟手機螢幕一樣高 */
+}
 /* ========= 全站基礎 ========= */
 * {
   box-sizing: border-box;
