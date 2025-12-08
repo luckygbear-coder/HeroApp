@@ -55,14 +55,27 @@
 
     /* 🐻 最上面的村長介紹卡片 */
     .intro-card {
-      text-align: center;
       position: relative;
     }
 
-    .intro-top {
+    /* 村長頭像＋對話框橫排：左氣泡、右熊熊 */
+    .intro-main {
       display: flex;
-      justify-content: center;
-      margin-bottom: 4px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .intro-main-left {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .intro-main-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
 
     #quoteBearAvatar {
@@ -80,10 +93,9 @@
       transform: translateY(-2px);
     }
 
-    /* 🗨️ 熊熊對話框 */
+    /* 🗨️ 熊熊對話框（在左邊） */
     .bear-speech {
       max-width: 260px;
-      margin: 6px auto 8px;
       padding: 8px 10px;
       background: #fffdf7;
       border-radius: 12px;
@@ -102,23 +114,23 @@
     .bear-speech::before {
       content: "";
       position: absolute;
-      top: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 0 7px 7px 7px;
+      top: 50%;
+      right: -7px;
+      transform: translateY(-50%);
+      border-width: 7px 0 7px 7px;
       border-style: solid;
-      border-color: transparent transparent #f3d4a0 transparent;
+      border-color: transparent transparent transparent #f3d4a0;
     }
 
     .bear-speech::after {
       content: "";
       position: absolute;
-      top: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 0 6px 6px 6px;
+      top: 50%;
+      right: -6px;
+      transform: translateY(-50%);
+      border-width: 6px 0 6px 6px;
       border-style: solid;
-      border-color: transparent transparent #fffdf7 transparent;
+      border-color: transparent transparent transparent #fffdf7;
     }
 
     .bear-speech.show {
@@ -132,6 +144,7 @@
       line-height: 1.6;
       color: #8b6a52;
       margin: 6px 0 12px;
+      text-align: left;
     }
 
     .intro-btn-row {
@@ -231,34 +244,6 @@
       line-height: 1.3;
     }
 
-    /* 今日小語 */
-    .quote-card-title {
-      font-size: 16px;
-      font-weight: 800;
-      margin: 0 0 4px;
-      color: #7c4a35;
-    }
-
-    .quote-tip {
-      font-size: 11px;
-      color: #ab7d61;
-      margin-bottom: 6px;
-    }
-
-    .quote-text {
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0 0 4px;
-      color: #5a3844;
-    }
-
-    .quote-author {
-      font-size: 12px;
-      color: #a3765a;
-      text-align: right;
-      margin: 0;
-    }
-
     /* 點頭像時的可愛晃動 */
     .shake {
       animation: bear-shake 0.3s ease;
@@ -299,6 +284,28 @@
       border-radius: 50%;
       margin-bottom: 8px;
     }
+
+    /* 📋 長按複製提示 Toast */
+    .toast-copy {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(65, 48, 40, 0.95);
+      color: #fff7ec;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 1000;
+    }
+    .toast-copy.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 
@@ -315,14 +322,21 @@
 
     <!-- 🐻 村長熊熊介紹 + 信箱 + 故事屋 + IG -->
     <div class="card intro-card">
-      <div class="intro-top">
-        <!-- 點這顆熊熊頭像可以刷新小語 & 彈出對話框 -->
-        <img src="images/bear.png" alt="村長熊熊" id="quoteBearAvatar">
-      </div>
 
-      <!-- 🗨️ 熊熊說話的小對話框 -->
-      <div id="bearSpeech" class="bear-speech">
-        <div id="bearSpeechText">今天的熊熊小語在這裡出現～點點看村長熊熊吧！</div>
+      <!-- 上半部：左邊對話框，右邊村長頭像 -->
+      <div class="intro-main">
+        <div class="intro-main-left">
+          <!-- 🗨️ 熊熊說話的小對話框（顯示小語） -->
+          <div id="bearSpeech" class="bear-speech">
+            <div id="bearSpeechText">
+              今天的熊熊小語在這裡出現～先點點右邊的村長熊熊吧！
+            </div>
+          </div>
+        </div>
+        <div class="intro-main-right">
+          <!-- 點這顆熊熊頭像可以刷新小語 & 顯示對話框 -->
+          <img src="images/bear.png" alt="村長熊熊" id="quoteBearAvatar">
+        </div>
       </div>
 
       <h1 class="home-title">熊熊村長的家</h1>
@@ -345,7 +359,10 @@
         </a>
       </div>
 
-      <p class="intro-tip">貼心提醒：點一下村長熊熊的頭像，會跳出一個小小對話框，換一句今天的小語喔。</p>
+      <p class="intro-tip">
+        小秘密：點一下右邊的村長熊熊，左邊會跳出一個小小對話框，出現今天的村長小語。<br/>
+        長按對話框裡的小語，可以複製起來傳給朋友或貼在社群喔！
+      </p>
     </div>
 
     <!-- ✨ 四格入口選單 -->
@@ -383,17 +400,10 @@
       </div>
     </div>
 
-    <!-- 💛 今天的村長小語 -->
-    <div class="card">
-      <h3 class="quote-card-title">今天的村長小語</h3>
-      <p class="quote-tip">貼心提醒：上面村長熊熊說了什麼，這裡也會一起更新喔。</p>
-      <p id="todayQuote" class="quote-text">
-        溫柔是一種力量，而你也擁有它。
-      </p>
-      <p class="quote-author">— 熊熊村長</p>
-    </div>
-
   </div>
+
+  <!-- 📋 複製成功提示 -->
+  <div id="copyToast" class="toast-copy">已複製到剪貼簿</div>
 
   <!-- 共用 script -->
   <script src="script.js"></script>
@@ -418,7 +428,7 @@
     });
   </script>
 
-  <!-- 隨機 30 句村長小語 + 點頭像刷新 & 對話框 -->
+  <!-- 隨機 30 句村長小語 + 點頭像刷新 & 對話框 + 長按複製（在氣泡文字上） -->
   <script>
     const BEAR_QUOTES = [
       "溫柔是一種力量，而你也擁有它。",
@@ -454,28 +464,95 @@
     ];
 
     function pickRandomQuote() {
-      const quoteEl  = document.getElementById('todayQuote');
       const speechEl = document.getElementById('bearSpeechText');
-      if (!quoteEl || !speechEl) return;
+      if (!speechEl) return;
 
       const idx = Math.floor(Math.random() * BEAR_QUOTES.length);
       const text = BEAR_QUOTES[idx];
 
-      quoteEl.textContent  = text;
       speechEl.textContent = text;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // 先準備一句，但讓氣泡一開始是隱藏的
-      pickRandomQuote();
+    function showCopyToast() {
+      const toast = document.getElementById('copyToast');
+      if (!toast) return;
+      toast.classList.add('show');
+      clearTimeout(window._copyToastTimer);
+      window._copyToastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1300);
+    }
 
+    function copyCurrentQuote() {
+      const speechEl = document.getElementById('bearSpeechText');
+      if (!speechEl) return;
+      const text = (speechEl.textContent || "").trim();
+      if (!text) return;
+
+      function fallbackCopy() {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showCopyToast();
+        } catch (e) {
+          console.log('複製失敗', e);
+        }
+        document.body.removeChild(ta);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(showCopyToast)
+          .catch(() => fallbackCopy());
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    function setupLongPressCopy() {
+      const target = document.getElementById('bearSpeechText');
+      if (!target) return;
+
+      let pressTimer = null;
+
+      const start = () => {
+        if (pressTimer !== null) return;
+        pressTimer = setTimeout(() => {
+          copyCurrentQuote();
+          pressTimer = null;
+        }, 650); // 長按 0.65 秒觸發
+      };
+
+      const cancel = () => {
+        if (pressTimer !== null) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
+      };
+
+      ['mousedown', 'touchstart'].forEach(ev =>
+        target.addEventListener(ev, start)
+      );
+      ['mouseup', 'mouseleave', 'touchend', 'touchcancel', 'touchmove'].forEach(ev =>
+        target.addEventListener(ev, cancel)
+      );
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
       const avatar = document.getElementById('quoteBearAvatar');
       const bubble = document.getElementById('bearSpeech');
 
       if (avatar) {
         avatar.addEventListener('click', () => {
+          // 每次點頭像換一句
           pickRandomQuote();
 
+          // 顯示對話框
           if (bubble) {
             bubble.classList.add('show');
           }
@@ -486,6 +563,9 @@
           avatar.classList.add('shake');
         });
       }
+
+      // 設定長按複製小語（對話框文字）
+      setupLongPressCopy();
     });
   </script>
 </body>
