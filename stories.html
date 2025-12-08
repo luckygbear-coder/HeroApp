@@ -1,327 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>熊熊故事書｜冒險者天堂</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  body {
+    margin: 0;
+    background: #fff7ec;
+    font-family: "Noto Sans TC", sans-serif;
+    color: #5a3844;
+  }
+
+  .story-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  .title-card {
+    background: #fff4da;
+    border: 2px solid #f7d8a8;
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  h1 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .05em;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: #ab7f62;
+  }
+
+  .continue-tip {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 6px;
+    color: #8c6b52;
+  }
+
+  .episode-bar {
+    margin: 16px 0 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .episode-btn {
+    flex: 1 0 30%;
+    padding: 6px 8px;
+    background: #fff;
+    border: 1px solid #e4c49c;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #6b4b3d;
+  }
+
+  .episode-btn.active {
+    background: #ffdca8;
+    border-color: #f3b565;
+    font-weight: 700;
+  }
+
+  .story-card {
+    background: #ffffff;
+    border: 2px solid #f5d8aa;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+
+  h2 {
+    margin-top: 0;
+    color: #7c5c3b;
+  }
+
+  .story-text {
+    font-size: 15px;
+    line-height: 1.75;
+    white-space: pre-line;
+  }
+
+  .story-quote {
+    margin-top: 14px;
+    padding-left: 10px;
+    border-left: 3px solid #e4b67b;
+    font-style: italic;
+    color: #9b6d42;
+  }
+
+  .illu-box {
+    margin: 14px 0;
+    padding: 12px;
+    background: #fff7ec;
+    border: 1px dashed #e8c79b;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #a47c57;
+    text-align: center;
+  }
+
+  .nav-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .nav-row button {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 999px;
+    background: #ffddac;
+    color: #6b4630;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .nav-row button:disabled {
+    opacity: .4;
+    cursor: default;
+  }
+
+  /* 回家按鈕 */
+  .back-home-btn {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 50;
+    padding: 6px 10px;
+    background: rgba(255,247,230,.95);
+    border: 1px solid #f3d9a8;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #5a3844;
+    box-shadow: 0 3px 8px rgba(0,0,0,.15);
+  }
+
+  .back-home-btn img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- 回首頁 -->
+<a href="index.html" class="back-home-btn">
+  <img src="images/bear.png" alt="熊熊村長">
+  回家
+</a>
+
+<div class="story-wrap">
+
+  <!-- 標題 -->
+  <div class="title-card">
+    <h1>熊熊故事書</h1>
+    <p class="subtitle">睡前最溫暖的小小勇氣 ✨</p>
+    <p id="continueTip" class="continue-tip"></p>
+  </div>
+
+  <!-- 集數按鈕列 -->
+  <div id="episodeBar" class="episode-bar"></div>
+
+  <!-- 內容 -->
+  <div class="story-card">
+    <h2 id="episodeTitle"></h2>
+
+    <div id="storyIllustration" class="illu-box"></div>
+
+    <div id="episodeText" class="story-text"></div>
+    <div id="episodeQuote" class="story-quote"></div>
+
+    <div class="nav-row">
+      <button id="prevEpBtn">上一集</button>
+      <button id="nextEpBtn">下一集</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // 🔑 記錄上次看到第幾集的 key
-  const STORY_EP_KEY = "bearStoryLastEpisodeV1";
+/* ============================================================
+   🐻 熊熊故事書 — 10 集（床邊故事版）
+   + 自動記住上次看到的集數
+   ============================================================ */
 
-  // 10 集故事資料
-  const episodes = [
-    {
-      id: 1,
-      title: "第 1 集：會下星星雨的山谷",
-      text: `很久以前，在一個遠遠的山谷裡，每到晚上就會下起「星星雨」。  
-星星不是重重地掉下來，而是像羽毛一樣輕輕地飄落在草地上。
+const STORY_EP_KEY = "bearStoryLastEpisodeV1";
 
-熊熊就是在這裡出生的。
+const episodes = [
+  {
+    id: 1,
+    title: "第 1 集：會下星星雨的山谷",
+    text: `很久很久以前，在一個被群山抱住的小小山谷裡，晚上不會下雨，而是會下「星星」——一顆一顆小光點，像在天空打翻的金色糖果，慢慢落在草地上。
 
-他還是小寶寶的時候，就很喜歡抬頭看星星，  
-他覺得那些發光的點，像是一個一個在對他眨眼的朋友。
+有一天，一隻圓滾滾的小熊蹲在星星雨裡，把光點一顆一顆撿起來，輕輕放進自己的口袋。牠的名字叫「熊熊」，還沒有任何稱號，也不是誰的村長，只是一隻有點害羞的小熊。
 
-其他小熊喜歡比賽誰跑得快、誰跳得高，  
-熊熊卻最喜歡做的事情是——安安靜靜地聽大人說故事。
+熊熊覺得，星星好像人的心情。有的亮亮的，有的有點灰，有的只剩下一點點光。那天晚上，牠小聲說：「如果有誰難過，我可以分一顆星星給他，就好了。」
 
-有的故事勇敢、有的故事難過。  
-每當說到心酸的地方，熊熊就會伸出毛茸茸的小熊掌，  
-輕輕地拍拍旁邊的朋友，好像在說：  
-「沒關係，我在。」`,
-      quote: "有時候，一隻安靜陪在你身邊的小熊，就比很多話更有力量。"
-    },
-    {
-      id: 2,
-      title: "第 2 集：不會魔法的小熊",
-      text: `長大一點之後，熊熊發現一件事情：  
-自己好像不太會「厲害的魔法」。
+星星沒有回答，但山谷變得更安靜、更溫暖，好像在對熊熊微笑。`,
+    quote: "有時候，一隻安靜陪在你身邊的小熊，比很多話更有力量。"
+  },
+  {
+    id: 2,
+    title: "第 2 集：不會魔法的小熊",
+    text: `山谷裡的其他動物，有的會噴火花，有的會唱讓花朵長高的歌。只有熊熊，什麼厲害的魔法都不會。
 
-他跑不快，也跳不高。  
-別的小熊會在森林裡翻跟斗，他只要跑兩步就會喘。
+牠試過學噴火，結果只是打了個可愛的噴嚏；試著學飛翔，卻因為肚子太圓，只在原地跳了兩下。熊熊有點沮喪，坐在石頭上，摸了摸自己的肚子說：「我好像…只是普通的小熊耶。」
 
-有時候，他也會偷偷覺得難過：  
-「我是不是不夠厲害？」
+那天晚上，一隻迷路的小狐狸哭著走進山谷。牠找不到回家的路，心裡又怕又亂。熊熊不會施魔法，只好坐在牠旁邊，慢慢聽牠說話，然後把口袋裡最亮的一顆星星放在小狐狸的手心。
 
-但是慢慢地，山谷裡的居民發現，  
-只要誰心情不好、誰害怕黑夜、誰睡不著，  
-第一個想到的，永遠是熊熊。
+「你可以先帶著這一顆，當作暫時的路燈。」熊熊說。
 
-因為熊熊很會聽。  
-他不會急著說『你不要這樣想』，  
-而是會認真地、專心地，把對方的心情接住。
+小狐狸的眼淚沒有立刻停下來，可是心好像不那麼怕了。牠抬頭看著熊熊：「你…好像會一種很溫柔的魔法。」`,
+    quote: "溫柔不是沒有力量，而是慢慢讓別人重新相信自己。"
+  },
+  {
+    id: 3,
+    title: "第 3 集：遠方來的孩子們",
+    text: `漸漸地，關於星星山谷和那隻小熊的消息，被風一點一滴帶到了遠方。有一天，幾個小小的人類孩子，背著書包、拖著行李箱，氣喘吁吁地爬上山。
 
-原來，這就是熊熊最特別的地方——  
-他會的不是大魔法，而是「好好陪在你身邊的小魔法」。`,
-      quote: "不是每個人都要會大魔法，有時候，溫柔就是最重要的力量。"
-    },
-    {
-      id: 3,
-      title: "第 3 集：遠方來的孩子們",
-      text: `有一天，山谷裡來了一群從遠方村莊來的小孩。
+他們有的因為在學校被誤會，有的常常覺得自己不夠好，有的只是單純覺得好累、好想休息一下。當他們走進山谷時，星星雨剛好下起來，整個世界像被溫暖的夜燈包圍。
 
-他們一開始很安靜，只是坐在河畔，看著水發呆。  
-熊熊走過去，拿出自己最喜歡的小點心，慢慢地坐在旁邊。
+「歡迎來…來…」熊熊突然緊張結巴，尾音都黏在一起，「歡迎來到…這裡。」牠有點不好意思，因為自己還是覺得沒什麼特別。
 
-後來，孩子們開始說話了。
+孩子們卻笑了出來，其中一個說：「你結巴好可愛喔。」另一個說：「沒關係啦，我講話也常常卡住。」
 
-有人說，自己在學校常常擔心考不好；  
-有人說，自己覺得好像怎麼努力都比不上別人；  
-還有人說：「我常常覺得自己很麻煩。」
+那一晚，熊熊第一次不是只待在角落，而是坐在孩子們中間，聽他們一個一個分享自己的故事。山谷裡很安靜，只聽見星星慢慢落下的聲音，和一點點被看見後的，輕輕呼吸。`,
+    quote: "當有人願意聽你說，心就會慢慢變輕。"
+  },
+  {
+    id: 4,
+    title: "第 4 集：熊熊決定當村長",
+    text: `日子一天一天過去，來山谷的人越來越多。有難過的孩子、疲累的大人、迷路的魔物，還有只是想坐下來發呆的旅人。
 
-熊熊聽完，只是輕輕地說：  
-「你知道嗎？在我眼裡，你們都很重要。  
-  就算現在覺得辛苦，也不代表你不好。」
+熊熊開始發現，大家來到這裡，其實不是為了看他有多厲害，而是因為在這裡，可以暫時不用那麼「厲害」。可以軟一點、慢一點、做回自己一點。
 
-那天晚上，星星雨下得特別亮。  
-孩子們躺在草地上，看著天空，  
-忽然覺得，心裡好像沒有那麼重了。`,
-      quote: "當有人願意好好聽你說，心就會慢慢變輕。"
-    },
-    {
-      id: 4,
-      title: "第 4 集：熊熊決定當村長",
-      text: `從那天起，來到山谷裡的人越來越多。
+有一天晚上，星星雨特別密。熊熊看著大家睡在山谷裡，有人抱著枕頭，有人抱著玩偶，有人就直接抱著熊熊的大尾巴。牠的心裡突然冒出一個想法：
 
-有迷路的旅人；  
-有剛剛吵完架的朋友；  
-也有覺得自己不被理解的大人。
+「如果…我可以讓這個地方，變成一個真正的『村莊』，讓大家一想到累了，就知道可以回來這裡休息，那會不會很好呢？」
 
-熊熊看著大家，心裡想：  
-「如果這裡可以變成一個『誰都可以來休息』的地方，一定很好。」
+第二天，熊熊認真地畫了一張小木牌，上面寫著：
 
-於是，他戴上了一頂有小星星的帽子，  
-對大家害羞地宣布：
+「歡迎來到冒險者天堂。  
+管理員：熊熊（暫時代班）。」
 
-「那…從今天開始，我就當這裡的村長，好嗎？  
-  你們可以叫我——村長熊熊。」
+旁邊的動物們看了看，笑著說：「你應該不是代班，你就是村長啦。」  
+熊熊臉紅紅的，但心裡，有一點點溫熱的驕傲。`,
+    quote: "有時候，當一個願意守護大家的人，本身就是一種超能力。"
+  },
+  {
+    id: 5,
+    title: "第 5 集：冒險者天堂開張",
+    text: `熊熊村長開始認真規劃村莊。
 
-大家拍手、大叫、吹口哨，  
-還有人送給他一個小木牌，上面寫著：
+牠在山谷入口立了一個木牌，上面畫著小勇者們舉著劍，也畫了幾個正在偷偷擦眼淚、卻被星星光包圍的魔物。旁邊寫著：「在這裡，你可以是勇者，也可以是很累很累的小孩。」
 
-「歡迎光臨冒險者天堂。」`,
-      quote: "有時候，當你願意站出來照顧別人，你也會一起變得更勇敢。"
-    },
-    {
-      id: 5,
-      title: "第 5 集：冒險者天堂開張",
-      text: `村長熊熊開始蓋一個小小的村莊。
+牠蓋了幾間小房子，有專門讓人睡午覺的棉被屋、有喝熱可可的小餐桌角落、也有一片大大的草地，讓大家可以在上面滾來滾去，跟星星一起看天空。
 
-有可以玩遊戲的廣場，  
-有可以說悄悄話的樹下長椅，  
-還有一間間溫暖的小屋子。
+「村長，這裡叫什麼名字呀？」第一批到訪的小勇者好奇地問。
 
-他為孩子們準備了「小勇者大冒險」的遊戲，  
-讓大家用剪刀石頭布跟魔物交朋友，  
-學著說出自己的感受，  
-也學著理解別人的心情。
+熊熊想了想，說：「這裡叫『冒險者天堂』。因為不管你在外面打怪打得多累，回到這裡，都可以先把盔甲放下，只當一個會笑、會哭、會怕的小小人就好。」
 
-每當有小勇者成功安撫了魔物，  
-天空就會掉下一顆小星星，  
-代表今天又多了一點點勇氣。`,
-      quote: "當你願意理解別人的心情，你也在學習擁抱自己的心。"
-    },
-    {
-      id: 6,
-      title: "第 6 集：塔羅屋與卜卦小屋",
-      text: `除了遊戲廣場以外，  
-村長熊熊還蓋了兩間特別的小屋。
+孩子們聽完，有人眨眨眼，有人點點頭。有人說：「那我以後迷路了，可以再回來嗎？」熊熊回答：「當然可以。這裡沒有『太晚』，只有『你剛好回來了』。」`,
+    quote: "真正的安全感，是你知道：不完美的自己，也依然被歡迎。"
+  },
+  {
+    id: 6,
+    title: "第 6 集：塔羅屋與卜卦小屋",
+    text: `慢慢地，村莊裡多了兩間有點神祕的小屋。
 
-一間是「熊熊塔羅屋」，  
-房間裡有 22 張會說故事的牌。  
-當你坐下來，深呼吸，輕輕抽出三張牌，  
-熊熊就會用溫柔的話，  
-告訴你牌裡看到的鼓勵與提醒。
+第一間，小門上掛著一張牌子：  
+「🔮 熊熊塔羅屋——用圖像說故事的地方。」
 
-另一間是「熊熊易經卜卦小屋」，  
-裡面有三枚會叮噹作響的銅錢。  
-你把問題放在心裡，靜靜地擲六次，  
-古老的卦象就會變成一句句好懂的話，  
-陪你一起看清楚現在正在發生什麼事。
+裡面有一疊塔羅牌，每一張都像是一個小世界。有太陽、有月亮、有走在路上的愚者，也有明明有點害怕，卻仍決定往前走的勇者。當有人坐下來抽牌時，熊熊不會說「好或不好」，只會陪著一起看圖，問一句：「你看到這張牌，想到的是什麼呢？」
 
-熊熊常常說：  
-「占卜不是幫你決定，而是陪你一起想。」`,
-      quote: "真正的答案，永遠藏在你的心裡，熊熊只是幫你把那盞燈打亮。"
-    },
-    {
-      id: 7,
-      title: "第 7 集：魔物們也會難過",
-      text: `在冒險者天堂裡，有很多魔物。  
-有看起來很兇的獸人、  
-有全身是刺的史萊姆、  
-也有常常發呆的樹精。
+第二間，小屋門口掛著風鈴，上面寫著：  
+「🧿 熊熊易經卜卦小屋——聽老智慧說故事。」
 
-一開始，大家都很怕他們。  
-但在一次次的對戰和對話中，小勇者們發現——
+在這裡，熊熊會拿出三枚銅錢，一起聽聽六十四卦想說的提醒。有時候卦象在說「先慢一點」，有時候在說「你其實準備好了」，有時候只是輕輕地提示：「記得照顧自己。」
 
-原來魔物們不是壞的，  
-他們只是被「壞心情」纏住了。
+熊熊總是說：「塔羅和卦象不是替你決定，而是幫你看到更多可能的路。真正走路的人，永遠是你。」`,
+    quote: "答案從來不只一個，最重要的是：你想為自己選哪一條路。"
+  },
+  {
+    id: 7,
+    title: "第 7 集：魔物們也會難過",
+    text: `有一天，山谷外的森林裡傳來吵鬧聲。幾個小勇者跑回村裡，緊張地說：「村長熊熊！外面有魔物在大吼大叫，好可怕！」
 
-有人因為常常被誤解而生氣；  
-有人因為總是被丟下而覺得孤單；  
-也有人只是很久很久沒有被好好擁抱。
+熊熊跟著孩子們一起走出去，看見一隻外表兇兇的魔物，正把石頭踢得到處飛。牠的眼睛紅紅的，像是很久沒有好好睡覺。
 
-慢慢地，小勇者們學會對魔物說：  
-「你可以生氣，但我還是在這裡。」  
-「如果你怕黑，我可以陪你一起等天亮。」
+小勇者們舉起剪刀石頭布的拳頭，準備戰鬥。熊熊卻先伸出手，比了一個「等一下」的手勢，慢慢走向魔物。
 
-於是，魔物的眼淚變成了閃閃發光的小水珠，  
-掉在地上，長出了新的花。`,
-      quote: "當你願意看見別人兇巴巴背後的難過，你就已經是一個很棒的勇者了。"
-    },
-    {
-      id: 8,
-      title: "第 8 集：村長熊熊的低潮",
-      text: `有一天晚上，星星雨沒有下。
+「你今天，看起來不是壞壞的樣子，比較像是…很難過的樣子。」熊熊小心翼翼地說。
 
-熊熊坐在樹下，覺得心裡悶悶的。  
-他開始擔心：  
-「我真的有幫上忙嗎？」  
-「如果有一天大家不需要我了怎麼辦？」
+魔物愣了一下，鼻子一酸，突然蹲下來哭了。「我只是…太累了。大家都怕我，我就只好更兇。可是我其實…不想一直這樣。」
 
-那天，他第一次覺得自己也很累。
+於是，那天的戰鬥變成了「一起說心事」時間。小勇者們仍然和魔物猜拳，但每贏一次，就要說一句溫柔的話送給牠。慢慢地，魔物的吼叫變小了，眼裡的光卻多了一點。
 
-這時，小勇者們悄悄地出現了。  
-有人帶了自己畫的畫，  
-有人寫了一小段話，  
-有人只是緊緊抱住他。
+熊熊在旁邊想：原來，有時候我們要打敗的，不是魔物，而是牠心裡那一團很孤單的黑影。`,
+    quote: "看見別人兇巴巴背後的難過，是很厲害的勇者等級。"
+  },
+  {
+    id: 8,
+    title: "第 8 集：熊熊的低潮",
+    text: `村長熊熊一直努力照顧大家，聽故事、發星星、煮熱可可。有一陣子，牠忙到連自己也忘了休息。
 
-「熊熊，你知道嗎？  
-  有時候，只要想到『那裡還有一個村長熊熊在等我』，  
-  我就會比較不怕了。」
+那幾晚，星星雨突然變小了。山谷不像以前那麼亮，熊熊心裡開始偷偷擔心：「是不是我做得不夠好？是不是大家其實不需要我了？」
 
-熊熊聽完，眼睛也紅紅的。  
-他發現，原來自己也可以被安慰。`,
-      quote: "照顧別人的人，也可以有累的時候；敢說出『我也需要陪伴』，是一種新的勇敢。"
-    },
-    {
-      id: 9,
-      title: "第 9 集：孩子們寄來的信",
-      text: `後來，從很多地方寄來的信越來越多。
+有一晚，大家都睡著了，熊熊一個人坐在石頭上，抱著膝蓋，眼眶紅紅的。牠第一次很想躲起來，當一隻什麼都不用管的小熊。
 
-有的小朋友畫了一張自己變成小勇者的圖，  
-寫著：「我今天鼓起勇氣跟同學道歉了。」  
+沒想到，幾個孩子忽然爬起來，悄悄走到牠身邊。「村長，你怎麼還沒睡？」有人問。
 
-有的大人偷偷在信裡說：  
-「多虧有熊熊的遊戲和占卜，我才能好好跟孩子說話。」  
+熊熊有點慌張，想說「沒事」，但話還沒說出口，就先掉下眼淚。牠小聲說：「我也會怕啊。有時候也會覺得自己不夠好。」
 
-每一封信，熊熊都小心地折好，  
-放進一個叫作「勇氣星星盒」的木箱裡。
+孩子們互看一眼，沒有笑牠，反而輪流靠過去抱抱熊熊。有的把自己的小毯子蓋到熊熊腿上，有的拿出當天從星星雨裡撿到的小光點，放在熊熊手心。
 
-只要哪一天他又覺得有點不安，  
-就會打開盒子，看看那些真心的文字，  
-提醒自己：
+「換我們陪你一下，這樣可以嗎？」其中一個孩子說。
 
-「原來，我們都在一起練習變得更溫柔。」`,
-      quote: "每一顆願意說出真心的小星星，都讓世界亮一點點。"
-    },
-    {
-      id: 10,
-      title: "第 10 集：下一個故事，輪到你來寫",
-      text: `現在，你正在讀著這本熊熊故事書。
+那一刻，星星雨沒有變大，但熊熊心裡，好像又被點亮了一點點。`,
+    quote: "照顧別人的人，也需要被抱一抱，這不是軟弱，是誠實。"
+  },
+  {
+    id: 9,
+    title: "第 9 集：孩子們寄來的信",
+    text: `春去秋來，來過冒險者天堂的人越來越多。有一天，郵差鳥扛著一大袋信，跌跌撞撞地飛進山谷。
 
-也許你是孩子，也許你是家長，  
-也許你正經歷一點點小小的難過，  
-也許你只是剛好路過，想在睡前看一個溫柔的故事。
+「熊熊村長！這些都是寄給你的！」牠氣喘吁吁地說。
 
-不管你是誰，村長熊熊都想跟你說：
+熊熊小心地打開信封。裡面有歪歪斜斜的兒童字、也有認真工整的大人字。有的寫：「那天跟你說完話，我就比較不怕上學了。」有的寫：「謝謝你讓我知道，原來我可以慢慢來。」也有簡短只有一句：「我還活著喔，謝謝你那天的那句話。」
 
-「謝謝你願意走進這裡。  
-  從今天開始，  
-  你也可以是那個願意聽別人說話的人，  
-  也可以是那個願意抱抱自己的勇者。」
+熊熊一封一封地看，眼睛越來越亮，鼻子也越來越酸。牠突然發現：原來，自己曾經以為很小很小的一句話、一杯熱可可、一個安靜陪在旁邊的晚上，真的有被放進某個人心裡。
 
-冒險者天堂的故事，還沒有結束。  
-因為下一頁，  
-就輪到你，  
-慢慢地，一點一滴地，  
-把自己的故事寫進來。`,
-      quote: "世界上沒有完美的勇者，只有願意再試一次的你。"
-    }
-  ];
+那天晚上，星星雨又下得特別亮。孩子們抬頭看著天空，有人問：「村長，你以後會一直在這裡嗎？」
 
-  // 讀取上次看到第幾集（index）
-  function loadLastEpisodeIndex() {
-    try {
-      const raw = localStorage.getItem(STORY_EP_KEY);
-      if (!raw) return 0;
-      const idx = parseInt(raw, 10);
-      if (isNaN(idx)) return 0;
-      if (idx < 0 || idx >= episodes.length) return 0;
-      return idx;
-    } catch (e) {
-      return 0;
-    }
-  }
+熊熊笑了笑，拍拍自己的肚子：「只要你們還需要，我就會在。就算有一天你們長大、不再常來這裡，只要你一抬頭看到星星，就可以偷偷跟我打招呼。」`,
+    quote: "每一份真心的回信，都是在告訴自己：原來我有帶給世界一點點光。"
+  },
+  {
+    id: 10,
+    title: "第 10 集：下一個故事輪到你",
+    text: `現在，輪到你了。
 
-  // 儲存目前看到第幾集（index）
-  function saveLastEpisodeIndex(idx) {
-    try {
-      localStorage.setItem(STORY_EP_KEY, String(idx));
-    } catch (e) {
-      // 靜靜失敗沒關係
-    }
-  }
+也許你正躺在床上聽這個故事，也許你是在某個忙碌的日子裡，偷出一小段時間滑到這一頁。無論你在哪裡，熊熊想跟你說：
 
-  let currentIndex = loadLastEpisodeIndex();
+「謝謝你走到這裡。」
 
-  const episodeBar   = document.getElementById("episodeBar");
-  const titleEl      = document.getElementById("episodeTitle");
-  const textEl       = document.getElementById("episodeText");
-  const quoteEl      = document.getElementById("episodeQuote");
-  const illuEl       = document.getElementById("storyIllustration");
-  const prevBtn      = document.getElementById("prevEpBtn");
-  const nextBtn      = document.getElementById("nextEpBtn");
+你可能覺得自己還不夠勇敢，還常常害怕、猶豫、搞砸事情。但在熊熊眼裡，你已經是一位很了不起的冒險者——因為你沒有關掉自己的心，還願意繼續感受、繼續嘗試。
 
-  function renderEpisodeButtons() {
-    episodeBar.innerHTML = "";
-    episodes.forEach((ep, idx) => {
-      const btn = document.createElement("button");
-      btn.className = "episode-btn" + (idx === currentIndex ? " active" : "");
-      btn.textContent = ep.id + " 集";
-      btn.addEventListener("click", () => {
-        currentIndex = idx;
-        renderEpisode();
-      });
-      episodeBar.appendChild(btn);
-    });
-  }
+在故事書的最後一頁，熊熊畫了一幅想像中的畫：  
+畫裡，有一個長得很像你的身影，站在星星雨下，手裡拿著一顆柔軟發光的小星星。旁邊寫著一行字：
 
-  function renderEpisode() {
-    const ep = episodes[currentIndex];
-    titleEl.textContent = ep.title;
-    textEl.textContent  = ep.text;
-    quoteEl.textContent = ep.quote;
+「這個世界也許很吵，但你的存在，真的有讓某個角落變得不一樣。」
 
-    illuEl.textContent =
-      `未來插圖位置：第 ${ep.id} 集〈${ep.title.replace(/^第 \\d+ 集：/, "")}〉的圖片會放在這裡。`;
+當你哪一天覺得累了、覺得自己不那麼好時，可以回到這裡，再讀一次這幾集故事。或者，閉上眼睛，想像自己走進那個會下星星雨的山谷，看見遠方有一隻圓滾滾的小熊，正揮著手對你說：
 
-    // 🌙 每次切換集數就記住這一集
-    saveLastEpisodeIndex(currentIndex);
+「歡迎回家。」`,
+    quote: "沒有完美的勇者，只有願意再相信一次自己的你。"
+  },
+];
 
-    // 更新按鈕狀態
-    prevBtn.disabled = currentIndex === 0;
-    nextBtn.disabled = currentIndex === episodes.length - 1;
+/* -------- LocalStorage：讀取上次進度 -------- */
+function loadLastEpisodeIndex() {
+  const raw = localStorage.getItem(STORY_EP_KEY);
+  if (!raw) return 0;
+  const idx = parseInt(raw, 10);
+  return (!isNaN(idx) && idx >= 0 && idx < episodes.length) ? idx : 0;
+}
 
-    // 更新上方集數按鈕樣式
-    const buttons = episodeBar.querySelectorAll(".episode-btn");
-    buttons.forEach((b, idx) => {
-      if (idx === currentIndex) b.classList.add("active");
-      else b.classList.remove("active");
-    });
+function saveLastEpisodeIndex(idx) {
+  localStorage.setItem(STORY_EP_KEY, idx);
+}
 
-    // 捲動到頁面上方，方便床邊閱讀從頭開始看
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+let currentIndex = loadLastEpisodeIndex();
 
-  prevBtn.addEventListener("click", () => {
-    if (currentIndex > 0) {
-      currentIndex--;
+/* -------- DOM -------- */
+const episodeBar = document.getElementById("episodeBar");
+const episodeTitle = document.getElementById("episodeTitle");
+const episodeText = document.getElementById("episodeText");
+const episodeQuote = document.getElementById("episodeQuote");
+const illuBox = document.getElementById("storyIllustration");
+const prevBtn = document.getElementById("prevEpBtn");
+const nextBtn = document.getElementById("nextEpBtn");
+const continueTip = document.getElementById("continueTip");
+
+/* -------- 渲染集數按鈕 -------- */
+function renderEpisodeButtons() {
+  episodeBar.innerHTML = "";
+  episodes.forEach((ep, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "episode-btn" + (idx === currentIndex ? " active" : "");
+    btn.textContent = ep.id + " 集";
+    btn.addEventListener("click", () => {
+      currentIndex = idx;
       renderEpisode();
-    }
+    });
+    episodeBar.appendChild(btn);
   });
+}
 
-  nextBtn.addEventListener("click", () => {
-    if (currentIndex < episodes.length - 1) {
-      currentIndex++;
-      renderEpisode();
-    }
-  });
+/* -------- 渲染內容 -------- */
+function renderEpisode() {
+  const ep = episodes[currentIndex];
 
-  // 初始化
+  episodeTitle.textContent = ep.title;
+  episodeText.textContent = ep.text;
+  episodeQuote.textContent = ep.quote;
+
+  illuBox.textContent = `（未來插圖位置：第 ${ep.id} 集的故事插圖會放在這裡）`;
+
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.disabled = currentIndex === episodes.length - 1;
+
+  saveLastEpisodeIndex(currentIndex);
+
+  continueTip.textContent =
+    `上次看到第 ${currentIndex + 1} 集，已自動為你跳回～`;
+
   renderEpisodeButtons();
-  renderEpisode();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* -------- 按鈕事件 -------- */
+prevBtn.addEventListener("click", () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderEpisode();
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  if (currentIndex < episodes.length - 1) {
+    currentIndex++;
+    renderEpisode();
+  }
+});
+
+/* -------- 初始化 -------- */
+renderEpisode();
 </script>
+
+</body>
+</html>
