@@ -15,7 +15,6 @@
 
   <!-- 首頁專用小樣式 -->
   <style>
-    /* 外層排版 */
     body.page-wrap {
       margin: 0;
       background: #fde9d2;
@@ -89,12 +88,13 @@
 
     .intro-btn-row {
       display: flex;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 6px;
     }
 
     .intro-btn {
-      flex: 1;
+      flex: 1 1 calc(50% - 8px);
       padding: 9px 0;
       border-radius: 999px;
       border: 1px solid #f0cfa4;
@@ -120,13 +120,18 @@
       border-color: #f7cfa0;
     }
 
+    .intro-btn.ig {
+      background: #e9e5ff;
+      border-color: #c4b9ff;
+    }
+
     .intro-tip {
       font-size: 11px;
       color: #b0886a;
       margin: 4px 0 0;
     }
 
-    /* 六格入口選單 */
+    /* 四格入口選單 */
     .section-title {
       margin: 0 0 8px;
       font-size: 16px;
@@ -226,12 +231,12 @@
       }
     }
 
-    /* Splash（原本就有的可以沿用） */
+    /* Splash 改奶油色 */
     #splash {
       position: fixed;
       inset: 0;
-      background: #2d254a;
-      color: #fff;
+      background: #fde9d2;
+      color: #5a3844;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -260,7 +265,7 @@
 
   <div class="game-wrap">
 
-    <!-- 🐻 村長熊熊介紹 + 信箱 + 故事入口（最上面） -->
+    <!-- 🐻 村長熊熊介紹 + 信箱 + 故事屋 + IG -->
     <div class="card intro-card">
       <div class="intro-top">
         <!-- 點這顆熊熊頭像可以刷新下面的小語 -->
@@ -280,14 +285,17 @@
           ✉️ 寫信給村長熊熊
         </a>
         <a href="stories.html" class="intro-btn story">
-          📖 看更多熊熊的故事
+          📖 熊熊故事屋
+        </a>
+        <a href="https://instagram.com/luckygbear" target="_blank" class="intro-btn ig">
+          📷 在 IG 看熊熊日常
         </a>
       </div>
 
       <p class="intro-tip">貼心提醒：點一下村長熊熊的頭像，可以換一句今天的小語喔。</p>
     </div>
 
-    <!-- ✨ 入口選單 -->
+    <!-- ✨ 四格入口選單 -->
     <div class="card">
       <h3 class="section-title">從這裡選一個入口開始冒險：</h3>
 
@@ -313,25 +321,11 @@
           <div class="icon-desc">剪刀石頭布對戰｜安撫魔物與魔王</div>
         </a>
 
-        <!-- 📜 熊熊語錄小屋 -->
+        <!-- 📔 勇者日記（原語錄小屋） -->
         <a class="icon-btn" href="quotes.html">
-          <div class="icon-emoji">📜</div>
-          <div class="icon-title">熊熊語錄小屋</div>
-          <div class="icon-desc">今天需要哪一句勇氣小語呢？</div>
-        </a>
-
-        <!-- 📚 熊熊故事屋（stories.html） -->
-        <a class="icon-btn" href="stories.html">
-          <div class="icon-emoji">📚</div>
-          <div class="icon-title">熊熊故事屋</div>
-          <div class="icon-desc">十集床邊小故事｜下一晚繼續看</div>
-        </a>
-
-        <!-- 📷 在 IG 看熊熊日常 -->
-        <a class="icon-btn" href="https://instagram.com/luckygbear" target="_blank">
-          <div class="icon-emoji">📷</div>
-          <div class="icon-title">在 IG 看熊熊日常</div>
-          <div class="icon-desc">創作、魔物故事與生活小碎念</div>
+          <div class="icon-emoji">📔</div>
+          <div class="icon-title">勇者日記</div>
+          <div class="icon-desc">記下今天的小小心情與勇氣</div>
         </a>
       </div>
     </div>
@@ -348,7 +342,7 @@
 
   </div>
 
-  <!-- 共用 script（如果你原本有） -->
+  <!-- 共用 script -->
   <script src="script.js"></script>
 
   <!-- Splash + Service Worker -->
@@ -414,16 +408,14 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 進入頁面先抽一句
       pickRandomQuote();
 
       const avatar = document.getElementById('quoteBearAvatar');
       if (avatar) {
         avatar.addEventListener('click', () => {
           pickRandomQuote();
-          // 可愛晃動一下
           avatar.classList.remove('shake');
-          void avatar.offsetWidth; // 重新觸發動畫
+          void avatar.offsetWidth;
           avatar.classList.add('shake');
         });
       }
