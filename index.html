@@ -7,10 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2d254a" />
-<!-- iOS 主畫面圖示 -->
-<link rel="apple-touch-icon" href="icons/bear-192.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icons/bear-512.png">
-<link rel="apple-touch-icon" sizes="1024x1024" href="icons/bear-1024.png">
+
   <style>
     /* ── 冒險者天堂 Logo 標章 ── */
     .logo-badge {
@@ -105,6 +102,36 @@
     .ig-card a:hover {
       text-decoration: underline;
     }
+
+    /* 🐻 村長熊熊的故事卡片 */
+    .story-card {
+      margin-top: 12px;
+      background: #fff9f2;
+      border: 2px solid #f7d3b5;
+    }
+    .story-title {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: #7c5c88;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .story-title span.emoji {
+      font-size: 18px;
+    }
+    .story-text {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #5a3844;
+      white-space: pre-line;
+    }
+    .story-highlight {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #b15f8b;
+      font-weight: 600;
+    }
   </style>
 </head>
 
@@ -141,6 +168,40 @@
         <div style="font-size:11px;color:#a67b5b;margin-top:2px;">
           看更多小勇者、魔物、占卜創作與日常故事 ✨
         </div>
+      </div>
+    </div>
+
+    <!-- 🐻 村長熊熊的故事 -->
+    <div class="card story-card">
+      <h3 class="story-title">
+        <span class="emoji">🐻</span>
+        <span>村長熊熊的故事</span>
+      </h3>
+      <div class="story-text">
+很久以前，在星星落下的山谷裡，住著一隻毛茸茸的小熊。  
+他和其他熊不太一樣——只要他出現，周圍的心就會覺得暖暖的。
+
+小熊從小就喜歡聽故事、幫忙、安慰別人。  
+有人難過，他就安靜地坐在旁邊陪著；  
+有人害怕黑夜，他就把自己的小燈籠借給對方。
+
+大家都說：「熊熊出現的地方，就會開一盞小小的光。」
+
+慢慢地，小熊長大了。  
+他看見世界上有很多孩子、也有很多大人，  
+心裡藏著小小的煩惱、小小的疲憊。
+
+於是，小熊做了一個重要的決定 ——  
+要蓋一個安全、又有魔法的地方，  
+讓每一位路過的旅人，都可以在這裡休息一下、被好好擁抱。
+
+那一天，他戴上了村長的帽子，  
+建造了「冒險者天堂」，  
+也成為大家熟悉的 —— 村長熊熊。
+      </div>
+      <div class="story-highlight">
+        「你不是一個人。走累了就來這裡坐坐，  
+        準備好時，我會陪你一起往前走。」
       </div>
     </div>
 
